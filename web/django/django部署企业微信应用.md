@@ -32,7 +32,7 @@ https://work.weixin.qq.com/wework_admin/loginpage_wx。
 
 这里是为了让我们开发好的应用和企业微信的后台进行双向通讯。
 
-![](http://ojynuthay.bkt.clouddn.com/%E6%8E%A5%E5%8F%97%E6%B6%88%E6%81%AF.png)
+![](http://ojynuthay.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%8E%A5%E5%8F%97%E6%B6%88%E6%81%AF.jpg)
 
 * 第一个url 在我们保存的时候会触发，这里要填我们在服务器运行的django应用（已经配置好nginx和域名），要具体到触发我们django对微信写的验证函数上。
 * 第二个和第三个都可以随意填写（建议还是随机获取），只要在验证函数上一致就可，后面会说。
