@@ -62,9 +62,9 @@ from wechat.WXBizMsgCrypt import WXBizMsgCrypt
 # logger = logging.getLogger("EngEye")
 
 def wechat_validate(request):
-    sToken = "sbLsEHM"
-    sEncodingAESKey = "MAhmLuiOw1zG6iRK1AqYM4TWOLihVRJFohCCzdCO0OV"
-    sCorpID = "wxa2938475051e2e83"
+    sToken = "xxx"
+    sEncodingAESKey = "xxxxxx"
+    sCorpID = "xxxxx"
     wxcpt=WXBizMsgCrypt(sToken,sEncodingAESKey,sCorpID)
     sVerifyMsgSig = request.GET.get("msg_signature")
     sVerifyTimeStamp = request.GET.get("timestamp")
@@ -115,7 +115,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=CORPID&redirect_uri=RE
 一个完整的实例（调通可用）：
 
 ```
-https://open.weixin.qq.com/connect/oauth2/authorize?appid=xxxxxxx&redirect_uri=http://ts.engeye.nboss.nsfocus.com/phone/my_mission/&response_type=code&scope=snsapi_base&state=1#wechat_redirect
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=xxxxxxx&redirect_uri=http://xxx.com/phone/my_mission/&response_type=code&scope=snsapi_base&state=1#wechat_redirect
 ```
 
 
