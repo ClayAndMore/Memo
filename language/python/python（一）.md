@@ -1,12 +1,16 @@
 ---
 title: python基础整理
 date: 2017-01-30 08:08:55
+categories: python
+header-img:
+tags:  python
 ---
 
 python的哲学：
 
 `用一种方法，最好是只有一种方法来做一件事。`
 
+linux 命令行将以\$开始，比如\$ls,$python
 python命令行将以>>>开始 如：>>>print 'Hello World!'
 注释会以#开始
 文件后缀.py
@@ -92,7 +96,7 @@ else:
 在Python中，采用的格式化方式和C语言是一致的，用`%`实现，举例如下：
 
 ```
-'Hello, %s' % 'world'
+>>> 'Hello, %s' % 'world'
 'Hello, world'
 >>> 'Hi, %s, you have $%d.' % ('Michael', 1000000)
 'Hi, Michael, you have $1000000.'
@@ -294,17 +298,14 @@ all(s)         返回： True, 如果所有元素都为True的话
 any(s)         返回： True, 如果任一元素为True的话
 ```
 * 查询功能，适用于表和定值表：
-
 ```
 sum(s)         返回：序列中所有元素的和
 # x为元素值，i为下标(元素在序列中的位置)
 
 s.count(x)     返回： x在s中出现的次数
 s.index(x)     返回： x在s中第一次出现的下标
-
 ```
 * 只适用于表：
-
 ```
 # l为一个表, l2为另一个表
 
@@ -316,10 +317,8 @@ l.pop()             返回：表l的最后一个元素，并在表l中删除该�
 del l[i]            删除该元素
 
 (以上这些方法都是在原来的表的上进行操作，会对原来的表产生影响，而不是返回一个新表。)
-
 ```
 * 用于字符串的方法。尽管字符串是定值表的特殊的一种，但字符串(string)类有一些方法是改变字符串的。这些方法的本质不是对原有字符串进行操作，而是删除原有字符串，再建立一个新的字符串，所以并不与定值表的特点相矛盾。
-
 ```
 #str为一个字符串，sub为str的一个子字符串。s为一个序列，它的元素都是字符串。width为一个整数，用于说明新生成字符串的宽度。
 
@@ -403,6 +402,7 @@ str.ljust(width)           返回：长度为width的字符串，将原字符串
 
 str.rjust(width)           返回：长度为width的字符串，将原字符串右对齐放入该字符串，其它空余位置为空格。
 ```
+
 
 
 ### 不可变对象
@@ -1549,6 +1549,40 @@ NameError: name 'x' is not defined
 ##### global and nonlocal
 
 global关键字用来在函数或其他局部作用域中使用全局变量。但是如果不修改全局变量也可以不使用global关键字。
+
+正确eg:
+
+```python
+In [13]: b
+Out[13]: 1
+
+In [14]: def func1():
+    ...:     global b 
+    ...:     b = 3 
+    ...:     
+
+In [15]: func1()
+
+In [16]: b
+Out[16]: 3
+```
+
+错误eg:
+
+```
+In [10]: b=1
+
+In [11]: def func():
+    ...:     b = 2
+    ...:     
+
+In [12]: func()
+
+In [13]: b
+Out[13]: 1
+```
+
+
 
 nonlocal关键字用来在函数或其他作用域中使用外层(非全局)变量。python2 不支持
 
