@@ -20,6 +20,8 @@ tags: python
 
   `sudo apt-get install mysql-server`
 
+### mysql和python的中间件
+
 * 安装 python-dev
 
   `sudo apt-get install python3-dev`
@@ -42,6 +44,10 @@ tags: python
   `python 3`
 
   `>>>import MySQLdb`
+
+上述方法是一种，但是一直存在依赖等问题，在我用django 的时候，用`pip install mysqlclient `就解决了在我migration时需要安装中间件的问题。
+
+
 
 ### 进入mysql
 

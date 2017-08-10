@@ -770,6 +770,16 @@ datetime.datetime(2014, 9, 9, 6, 34, 29, 756000)
 
 ### dir() 和 help  
 dir()可以用来查询一个类或者对象的所有属性 dir(list)
+
+打印一个对象的所有属性和值：
+
+```python
+def prn_obj(obj): 
+  print '\n'.join(['%s:%s' % item for item in obj.__dict__.items()]) 
+```
+
+
+
 help() 来查询相应文档  help（list)
 
 ### 运算符是特殊方法
@@ -997,6 +1007,16 @@ from a import *           # 从模块a中引入所有对象。调用a中对象�
 引入this_dir文件夹中的module模块。
 
 该文件夹中必须包含一个 `__init__.py` 的文件，提醒Python，该文件夹为一个模块包。__init__.py 可以是一个空文件。
+
+#### 导入上级模块
+
+```python
+import sys
+sys.path.append("..")
+# 现在直接可以导入上级的包了
+```
+
+
 
 ### 包裹传递
 * 在传递函数的参数时，我们不知道有多少个参数，这时可以传递包裹

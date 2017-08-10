@@ -260,6 +260,10 @@ False
 True
 ```
 
+如果通过验证，我们通常这样验证表单：
+
+`form = MomentForm(request.POST)`
+
 
 
 #### 数据验证
@@ -275,6 +279,12 @@ False
 >>> print f.error
 {'content':['This field is required.']}
 ```
+
+
+
+#### cleaned_data
+
+通过数据验证的(is_valid())form的cleaned_data才有值，不然为{}，这个字典中只有通过验证的字段，没有通过验证的字段将不再这里出现。
 
 
 
@@ -334,7 +344,21 @@ if f.has_changed():
 
 
 
+#### save()，获取表单值并修改。
 
+当我们用ModelForm时，一般用`form=ContentForm(request.POST)`来获取表单值，通过form.save()来保存。
+
+但是当我们要根据用户填写的数据动态的来为模型赋值保存我们可以这样：
+
+```python
+form = ContentForm(request.POST)
+if form.is_valid():
+    form_temp = form.save(commit=False) # 这里form_temp 得到的是一个model对象，很方便吧。
+    form_temp.ip= '我想要的数'
+    form_temp.save()  # 这时才真正保存。
+```
+
+commit 默认是True，这里为False时，并不真正保存，会获得model对象，涉及到关系模型去官网看。
 
 
 
@@ -366,6 +390,29 @@ if f.has_changed():
 这是Django自己的模版语言。
 
 from.as_p是定义表单的输入字段。后续详细补充。
+
+http://python.usyiyi.cn/translate/django_182/ref/forms/api.html
+
+这里api能看出`from.as_p` 可替换的东西，这里他都用print来打印，但是我们在模版中不能用print，在模版中我们将其中的`form['subject']`变为`form.subject` ,
+
+从而：
+
+```
+lst = ['a', 'b', 'c']
+di = {'a': 'a'}
+class Foo:
+   def bar(self): pass
+```
+
+You can do:
+
+```
+{{ lst.0 }}
+{{ di.a }}
+{{ foo.bar }}
+```
+
+就是说语句中所有的形式在模版中都是点的形式，包括方法。
 
 
 
@@ -405,7 +452,7 @@ def moments_input(request):
         if form.is_valid():
             moment=form.save()
             moment.save()
-            return HttpResponseRedirect(reverse("app.views.welcome"))  #提交表单后重定向到欢迎页面。
+            return HttpResponseRedirect(reverse("app.views.welcome"))  #提交表单后重定向到欢迎页面。reverse这种用法在1.8中已经被弃用。最好用url文件中为函数分配的名字，直接reverse("name")
 
     else:
         form=MomentForm()
