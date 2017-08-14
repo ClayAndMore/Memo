@@ -167,6 +167,10 @@ DATABASES = {
 
 name 为mysql中的数据库名，要确保你先前已经建立好了一个名为‘djangodb’的数据库。
 
+时区配置：
+
+TIME_ZONE = 'Asia/Shanghai'
+
 
 
 url配置：

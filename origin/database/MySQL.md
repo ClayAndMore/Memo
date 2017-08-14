@@ -121,7 +121,7 @@ SET PASSWORD = PASSWORD('这里输入你要设置的新密码');
 
 - show databases;  显示有哪些数据库
 
-- create database fist;  创建一个数据库 ，first是我数据库的名字
+- create database fist charset=utf8;  创建一个数据库 ，first是我数据库的名字,并指定了字符集。
 
 - use first;       选择刚才创建的数据库
 

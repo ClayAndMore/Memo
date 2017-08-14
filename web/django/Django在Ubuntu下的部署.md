@@ -137,8 +137,85 @@ def application(env, start_response):
 
 `uwsgi --http :8000 --wsgi-file test.py`
 
-访问本地8000端口，可以看到输出hello world(可以起另一个终端，用curl访问)
+访问本地(不是本地也可以）8000端口，可以看到输出hello world(可以起另一个终端，用curl访问)
 
 
 
-具体：http://www.cnblogs.com/fnng/p/5268633.html
+退出：
+
+正常是按`ctrl+c`就能正常退出的，但是一旦控制台关闭就不好办了，查了很多资料这样杀进程才能停止掉：
+
+`kill -s QUIT 主进程id` 
+
+如果有supervisor 管理，最好先停止。不然上面的杀进程也杀不掉。
+
+
+
+我们可以用配置文件来启动配置更详细的uwsgi服务：
+
+在manage.py 同级新建uwsgi.ini文件：
+
+```ini
+[uwsgi]
+
+socket = :8000   # 端口
+chdir = /root/workspacePy/Django/Blog_Django_py3 # 项目路径，可以理解为manage.py所在路径
+module = Blog_Django_py3.wsgi # wsgi.py所在文件路径
+master = true  # 主线程
+processes = 4 # 线程数
+vacuum = true  #当服务器退出的时候自动清理环境，删除unix socket文件和pid文件
+daemonize = /var/log/uwsgi.log #配置日志，就是启动的时候不在控制台显示了都输出到日志去了。
+```
+
+配置好，我们用`uwsgi --ini uwsgi.py` 就能方便的启动了。
+
+
+
+最后配置nginx 端口到uwsgi端口，可能涉及到静态文件的配置。参考`python manage.py collectstatic` 的用法，在setting中配置一个文件目录static_root:`STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')`,
+
+用命令`python manage.py collectstatic` 就可以差生这个目录，这个目录要配置到nginx中的location中去。
+
+记得每次静态文件有变化时，记得再运行命令进行同步。
+
+
+
+### 遇到的坑
+
+在用uwsgi时 ：
+
+1. `invalid request block size`   , 这时要把配置文件的socket改为http。
+
+2. 我的django 是python3.6的 自带python是3.5的，在我用supervisor 的命令command单独测试时并不能在没有进虚拟环境时启动，提示类似`[ Python error: Py_Initialize: Unable to get the locale encoding`的错误，supervisor命令是通过脚本启动的，在command这填写source等命令并不能生效，于是我command填的是运行一个脚本：
+
+   ```
+   command = bash /root/workspacePy/Django/Blog_Django_py3/start_pro.sh
+   ```
+
+   相应目录start_pro.sh:
+
+   ```
+   source activate py3Django && /root/miniconda2/envs/py3Django/bin/uwsgi --ini /root/works    pacePy/Django/Blog_Django_py3/uwsgi.ini
+   ```
+
+   就是先进虚拟环境在运行，其实这两条命令可以分开两行写。
+
+3. 用uwsgi起的服务看时，不能渲染前端静态文件的问题。
+
+   在urls.py 文件中：
+
+   ```python
+   from django.conf.urls.static import static
+   from django.conf import settings
+    
+   urlpatterns = [
+        url(r'^admin/', admin.site.urls),
+        url(r'^$', views.index, name = 'index'),
+        url(r'^aboutme/$', views.about_me, name = 'aboutMe'),
+        url(r'^messages/$', views.message, name = 'messages'),
+        url(r'^p/', include('blog.urls')),
+    ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+   ```
+
+   这里就用把我们上面所说的那个配置文件给配置了.
+
+4. 用uwsgi时，如果视图函数文件里有随之改变的全局变量会失效，因为它是多进程处理的，你的操作在一个进程改变了变量，但是在另一个进程里并不能识别到。 

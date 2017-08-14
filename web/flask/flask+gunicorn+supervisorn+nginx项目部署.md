@@ -168,11 +168,14 @@ password=123               ; (default is no password (open server))
 ```
 supervisord -c supervisor.conf                             通过配置文件启动supervisor,注意它和其他命令不一样
 
-supervisorctl -c supervisor.conf status                    察看supervisor的状态
-supervisorctl -c supervisor.conf reload                    重新载入 配置文件
-supervisorctl -c supervisor.conf start [all]|[appname]     启动指定/所有 supervisor管理的程序进程
-supervisorctl -c supervisor.conf stop [all]|[appname]      关闭指定/所有 supervisor管理的程序进程
+supervisorctl (-c supervisor.conf) status                    察看supervisor的状态
+supervisorctl (-c supervisor.conf) reload                    重新载入 配置文件
+supervisorctl (-c supervisor.conf) start [all]|[appname]     启动指定/所有 supervisor管理的程序进程
+supervisorctl (-c supervisor.conf) stop [all]|[appname]      关闭指定/所有 supervisor管理的程序进程
+supervisorctl shutdown 		关掉其服务进程 
 ```
+
+括号内的命令可不写
 
 #### 配置开机就启动我们的项目
 
@@ -181,6 +184,12 @@ supervisorctl -c supervisor.conf stop [all]|[appname]      关闭指定/所有 s
 在最后添加
 
 `supervisord -c /home/flask/supervisord.conf`
+
+注意上述自启动方法在ubuntu16.04后不可用
+
+
+
+16.04以后的做法：
 
 
 
@@ -197,6 +206,8 @@ supervisorctl -c supervisor.conf stop [all]|[appname]      关闭指定/所有 s
   ，也是这个的错误：`Exited too quickly`  
 
   这个问题删掉配置文件中supervisor.conf中`directory =/root/bisheFlask/webapp`这行。
+
+* 还是有Exited too quickly或其他错的时候，我们可以单独运行配置文件中的command来验证命令是否错误。
 
 
 
