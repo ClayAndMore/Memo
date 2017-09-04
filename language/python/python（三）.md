@@ -140,6 +140,37 @@ print(Student(**di))  # Student(name='sucker', age=34, id='544554')
 
 #### struct
 
+python没有专门处理字节的类型，b'str'这样可以表示字节，也就是b'str'表示了str的二进制。
+
+struct 模块解决字节问题。
+
+* pack() 函数可以把任意数据类型变成bytes.
+
+  ```python
+  >>> import struct
+  >>> struct.pack('>I', 10240099)
+  b'\x00\x9c@c'
+  ```
+
+  `pack`的第一个参数是处理指令，`'>I'`的意思是：
+
+  `>`表示字节顺序是big-endian，也就是网络序，`I`表示4字节无符号整数。
+
+  后面的参数个数要和处理指令一致。
+
+* unpack() 可以把bytes变成相应的数据类型。
+
+  ```python
+  >>> struct.unpack('>IH', b'\xf0\xf0\xf0\xf0\x80\x80')
+  (4042322160, 32896)
+  ```
+
+  根据`>IH`的说明，后面的`bytes`依次变为`I`：4字节无符号整数和`H`：2字节无符号整数。
+
+  所以，尽管Python不适合编写底层操作字节流的代码，但在对性能要求不高的地方，利用`struct`就方便多了。
+
+
+
 #### hashlib
 
 #### itertools
@@ -151,6 +182,33 @@ print(Student(**di))  # Student(name='sucker', age=34, id='544554')
 #### HTMLParser
 
 #### urllib
+
+在3.x的版本中，urllib与urllib2已经合并为一个urllib库。
+
+在2.x的版本中，urllib与urllib2并不是可以代替的，只能说2是一个补充。
+
+urlopen方法是urllib2模块最常用也最简单的方法，它打开URL网址，url参数可以是一个字符串url或者是一个Request对象。
+
+　　对于可选的参数timeout，阻塞操作以秒为单位，如尝试连接（如果没有指定，将使用设置的全局默认timeout值）。实际上这仅适用于HTTP，HTTPS和FTP连接。
+
+　　先看只包含URL的请求例子：
+
+```
+import urllib2
+response = urllib2.urlopen('http://python.org/')
+html = response.read()
+```
+
+　　urlopen方法也可通过建立了一个Request对象来明确指明想要获取的url。调用urlopen函数对请求的url返回一个response对象。这个response类似于一个file对象，所以用.read()函数可以操作这个response对象
+
+```
+import urllib2
+req = urllib2.Request('http://python.org/')
+response = urllib2.urlopen(req)
+the_page = response.read()
+```
+
+这里用到了`urllib2.``Request`类，对于上例，我们只通过了URL实例化了Request类的对象，其实Request类还有其他的参数。
 
 
 
@@ -693,3 +751,4 @@ print(a is b)
 - read 读取整个文件
 - readline 读取下一行,使用生成器方法
 - readlines 读取整个文件到一个迭代器以供我们遍历
+
