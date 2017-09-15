@@ -4,6 +4,25 @@ date: 2017-08-31
 
 ### 内置
 
+#### sys
+
+* sys.argv  「argv」是「argument variable」参数变量的简写形式，一般在命令行调用的时候由系统传递给程序。
+
+  这个变量其实是一个List列表，argv[0] 一般是被调用的脚本文件名或全路径，和操作系统有关，argv[1]和以后就是传入的数据了。
+
+  test.py:
+
+  ```
+  import sys
+  print sys.argv
+  ```
+
+  运行：python test.py -aaa bbb ccc
+
+  输出：['test.py', '-aaa', 'bbb', 'ccc']
+
+
+
 #### os
 
 `os.chdir(paht) `方法用于改变当前工作目录到指定的路径。如果允许访问返回 True , 否则返回False。
@@ -18,6 +37,35 @@ date: 2017-08-31
   - **os.R_OK:** 包含在access()的mode参数中 ， 测试path是否可读。
   - **os.W_OK** 包含在access()的mode参数中 ， 测试path是否可写。
   - **os.X_OK** 包含在access()的mode参数中 ，测试path是否可执行。
+
+`os.path`
+
+* os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
+* os.path.abspath  去掉路径中多余的斜杠。
+
+`os.environ `
+
+获取环境变量的值，environ是一个字符串所对应环境的映像对象。如environ['HOME']就代表了当前这个用户的主目录。
+
+linux：
+
+os.environ['USER']:当前使用用户。
+
+os.environ['LC_COLLATE']:路径扩展的结果排序时的字母顺序。
+
+os.environ['SHELL']:使用shell的类型。
+
+os.environ['LAN']:使用的语言。
+
+os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
+
+
+
+`os.walk`遍历目录
+
+
+
+
 
 #### json
 
@@ -79,6 +127,127 @@ json向python类型转换：
 
 
 
+#### traceback
+
+输出异常位置和信息，如普通我们获取异常：
+
+```
+try:
+	1/0
+except Exception,e:
+	print e
+```
+
+out:
+
+root@Claymore:~# python test.py 
+integer division or modulo by zero
+
+用该模块
+
+```python
+import traceback
+try:
+    1/0 
+except Exception,e:
+    traceback.print_exc()
+```
+
+out:
+
+root@Claymore:~# python test.py 
+Traceback (most recent call last):
+  File "test.py", line 89, in <module>
+1/0
+
+ZeroDivisionError: integer division or modulo by zero
+
+会告诉异常位置和具体异常类信息。
+
+traceback.print_exc()跟traceback.format_exc()有什么区别呢？
+
+format_exc()返回字符串，print_exc()则直接给打印出来。
+
+即traceback.print_exc()与print traceback.format_exc()效果是一样的。
+
+print_exc()还可以接受file参数直接写入到一个文件。比如
+
+traceback.print_exc(file=open('tb.txt','w+'))
+
+写入到tb.txt文件去。
+
+
+
+#### collections
+
+##### defaultdict
+
+它是dict的内建子类，常用于为字典赋默认值。
+
+参数是int,set,list,dict ,str等，也可以是函数，lamda表达式。默认为None，
+
+为None时，和dict函数没有什么不同。
+
+demo:
+
+```python
+from collections import defaultdict
+s='abcd'
+d=defaultdict(int):
+for x in s:
+	 d[x]+=1
+print d
+```
+
+out: `defaultdict(<type 'int'>, {'a': 1, 'c': 1, 'b': 1, 'd': 1})`
+
+d[x]这样不会出错，会有默认值0.
+
+赋复杂的值：
+
+```
+>>> from collections import defaultdict
+>>> d = defaultdict(list)
+>>> for i in [1,2,3]:
+...     d['eric'].append(i)
+...
+>>> d
+defaultdict(<class 'list'>, {'eric': [1, 2, 3]})
+
+>>> d['amy'] = {}
+>>> d['amy']['a'] = 1
+>>> d
+defaultdict(<class 'list'>, {'eric': [1, 2, 3], 'amy': {'a': 1}}
+```
+
+赋值函数：
+
+```
+>>> from collections import defaultdict
+>>> def zero():
+...     return 0
+...
+>>> d = defaultdict(zero)
+>>> d['eric']
+0
+>>> d
+defaultdict(<function zero at 0x100662e18>, {'eric': 0})
+```
+
+吧上面变成lamba表达式：
+
+```python
+d=defaultdict(lambad:0)
+d['amy']
+0
+```
+
+
+
+
+
+
+
 #### subprocess
 
 subprocess最早是在2.4版本中引入的。
@@ -90,6 +259,94 @@ os.spawn*
 os.popen*
 popen2.*
 commands.*
+
+
+
+#### singnal
+
+Python 所用信号名和Linux一致，可通过`man 7 signal`查询。
+
+这个包的核心是使用singnal.signal()函数来预设(register)信号处理函数：
+
+`singnal.signal(signalnum, handler)`
+
+signalnum为某个信号，handler为该信号的处理函数。我们在信号基础里提到，进程可以无视信号，可以采取默认操作，还可以自定义操作。当handler为signal.SIG_IGN时，信号被无视(ignore)。当handler为singal.SIG_DFL，进程采取默认操作(default)。当handler为一个函数名时，进程采取函数中定义的操作。
+
+```python
+import signal
+# Define signal handler function
+def myHandler(signum, frame):
+    print('I received: ', signum)
+
+# register signal.SIGTSTP's handler 
+signal.signal(signal.SIGTSTP, myHandler)
+signal.pause()
+print('End of Signal Demo')
+```
+
+我们用signal.signal()函数来预设信号处理函数，当该进程接受到信号SIGTSTP时，会执行myHandler函数。
+
+运行该程序，当程序运行到signal.pause()的时候，进程暂停并等待信号。此时，通过按下CTRL+Z向该进程发送SIGTSTP信号。
+
+发信号：
+
+一个有用的函数是signal.alarm()，它被用于在一定时间之后，向进程自身发送`SIGALRM`信号:
+
+```python
+import signal
+# Define signal handler function
+def myHandler(signum, frame):
+    print("Now, it's the time")
+    exit()
+
+# register signal.SIGALRM's handler 
+signal.signal(signal.SIGALRM, myHandler)
+signal.alarm(5)
+while True:
+    print('not yet')
+```
+
+我们这里用了一个无限循环以便让进程持续运行。在signal.alarm()执行5秒之后，进程将向自己发出SIGALRM信号，随后，信号处理函数myHandler开始执行。
+
+signal包的核心是设置信号处理函数。除了signal.alarm()向自身发送信号之外，并没有其他发送信号的功能。但在os包中，有类似于linux的kill命令的函数，分别为
+
+os.kill(pid, sid)
+
+os.killpg(pgid, sid)
+
+分别向进程和进程组(见[Linux进程关系](http://www.cnblogs.com/vamei/archive/2012/10/07/2713023.html))发送信号。sid为信号所对应的整数或者singal.SIG*。
+
+
+
+#### shlex
+
+用来解析一些类似shell的语句，或者是解析带引号的语句，将单词分离出来，特点是带引号的也能分离。
+
+```python
+import  shlex
+a='This string has embedded "double quotes" and /"dj"'
+p=shlex.split(a)
+['This', 'string', 'has', 'embedded', 'double quotes', 'and', '/dj']
+```
+
+可以看到，如果字符旁有符号，也可以一起解析出来。那么这样用于解析shell语句相当方便：
+
+```python
+shlex.split("python -u a.py -a A    -b   B     -o test")
+['python', '-u', 'a.py', '-a', 'A', '-b', 'B', '-o', 'test']
+```
+
+
+
+#### timeit
+
+检测一段代码的运行时间
+
+
+
+#### ConfigParser
+
+读取配置文件的包
 
 
 
@@ -159,6 +416,10 @@ consumer:job的消费者
 简单来说流程就一句话：
 由 producer 产生一个任务 job ，并将 job 推进到一个 tube 中，
 然后由 consumer 从 tube 中取出 job 执行（当然了，这一切的操作的前提是beanstalk服务正在运行中）
+
+![](http://ojynuthay.bkt.clouddn.com/beanstalkd%E7%8A%B6%E6%80%81%E5%9B%BE.png)
+
+
 
 beanstalkd拥有的一些特性：
 

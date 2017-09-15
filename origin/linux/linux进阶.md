@@ -112,7 +112,7 @@ VBoxManage setextradata 'Linux Guest' 'VBoxInternal/Devices/pcnet/0/LUN#0/Config
 
 安装完VirtualBox2.2后，主机多了一个“VirtualBox Host-Only Network ”本地网卡。 
 
--------------------------------------------------------------------- 
+--------------------------------------------------------------------
 
 ### xshell连接ubuntu虚拟机
 
@@ -230,7 +230,9 @@ tar是打包文件，就是将很多文件合成一个文件，并没有压缩
 
 tar是打包格式，一般tar后面会有tar.xz等。
 
-压缩：`tar -czvf [desfile][sourcefile]`
+压缩：`tar -czvf [desfile][sourcefile]`  
+
+desfile 要带上压缩后缀，sourcefile 要全路径
 
 解压：`tar -xzvf [sourcefile]`
 
@@ -452,8 +454,8 @@ session:
 
 Linux中的session跟web的session有点类似，也是在一个用户登录到主机，那么就建立了一个session，但是它的维系是基于连接的，那么该对于这个会话存在两种的维持方法
 
- 1. 本地连接：就是说用户是在主机本机上进行的登录，直接通过键盘和屏幕和主机进行交互。
- 2. 远程连接：用户通过互联网进行连接，比如基于ssh，连接都是经过加密的。
+  1. 本地连接：就是说用户是在主机本机上进行的登录，直接通过键盘和屏幕和主机进行交互。
+  2. 远程连接：用户通过互联网进行连接，比如基于ssh，连接都是经过加密的。
 
 
 ![](http://ojynuthay.bkt.clouddn.com/session.png)
