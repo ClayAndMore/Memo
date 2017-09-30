@@ -159,7 +159,10 @@ filetype plugin indent on    " required
 
 ```
 
-begin和end里放入你要安装的插件。尽量手打，防止出现Not an editor command: z
+begin和end里放入你要安装的插件。
+
+这个插件一般github的 用户名/仓库名
+尽量手打，防止出现Not an editor command: z.
 
 and: ^M 你肯定复制人家配置了！而且从windows上传的！dos2unix咯....
 

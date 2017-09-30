@@ -165,13 +165,17 @@ Shutdown –r +10 系统十分钟后重启
 
 `sudo passwd root`
 
+
+
 ### 用户和用户组
 
 我们一般登录系统时都是以普通账户的身份登录的，要创建用户需要 root 权限，这里就要用到 `sudo` 这个命令了。不过使用这个命令有两个大前提，一是你要知道当前登录用户的密码，二是当前用户必须在 `sudo` 用户组。
 
 添加一个叫test的用户：
 
-`sudo adduser test`
+`sudo adduser -m test `
+
+一般会输入m参数这样会自动为我们在home下创建用户目录，和用户目录下的环境变量配置文件.bashrc。
 
 接下来会让你输入原本的用户密码，和新用户的密码和确认密码，还有一些设置，可按回车设置默认。
 
@@ -180,6 +184,24 @@ Shutdown –r +10 系统十分钟后重启
 删除用户(删除所有目录）：
 
 `sudo deluser claymore --remove-home`
+
+添加的用户在/etc/passwd文件中末尾有记录：
+
+`wy:x:1000:0::/home/wy:/bin/bash`
+
+用户名：密码： uid：gid ：备注： 家目录： shell
+
+为用户添加root权限：
+
+`usermod -g root wy`   这时gid会变为root的id,0
+
+去/etc/sudoers ：
+
+```
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+wy      ALL=(ALL:ALL) ALL
+```
 
 
 
@@ -192,6 +214,8 @@ Shutdown –r +10 系统十分钟后重启
 `groupadd name`  name 为组名
 
 `groupadd -g 200 name`  创建组号为200的name组
+
+
 
 删除组：
 
