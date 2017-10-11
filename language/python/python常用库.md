@@ -44,8 +44,9 @@ date: 2017-08-31
 
 `os.path`
 
-* os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
 * os.path.abspath  返回当前目录下文件的绝对路径。
+* os.path.basename() 
+* os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
 * os.path.realpath  返回真实地址，如软连接的真实地址。
 
 `os.environ `
