@@ -563,6 +563,78 @@ join（）的作用是，在子线程完成运行之前，这个子线程的父�
 
 
 #### lock
+threading 模块对象：
+
+| threading模块对象    | 解释                                       |
+| ---------------- | ---------------------------------------- |
+| Thread           | 创建一个可执行的线程对象                             |
+| Lock             | 锁原语对象                                    |
+| RLock            | 可重入锁对象，使单线程可以获得已经获得了的锁（递归锁定）             |
+| Condition        | 条件变量对象能让一个线程停下来，等待其他线程满足了某个条件            |
+| Event            | 通用的条件变量。多个线程可以等待某个事件的发生，在事件发生后所有的线程都会被激活 |
+| Semaphore        | 为等待锁的线程提供一个类似等待室的结构                      |
+| BoundedSemaphore | 与Semaphore类似，只是他不允许超过初始值                 |
+| Timer            | 与Thread类似，只是它等待一段时间后才开始运行                |
+| activeCount()    | 当前活动的线程数量                                |
+| currentThread()  | 返回当前线程对象                                 |
+| enumerate()      | 返回当前活动线程的列表                              |
+| settrace(func)   | 为所有线程设置一个跟踪函数                            |
+| setprofile(func) | 为所有线程设置一个profile函数 threading模块对象         |
+
+
+
+Thread参数：
+
+`Thread(group=None, target=None, name=None, args=(), kwargs={})`
+
+> group，预留参数，一直为None
+>
+> target，线程启动时执行的可调用对象，由run()方法调用
+>
+> name，线程名
+>
+> args，target处可调用对象（target）的参数，如果可调用对象没有参数，不用赋值
+>
+> kwargs，target处可调用对象的关键字参数
+
+
+
+Thread方法：
+
+1. start()
+
+   启动线程，这个方法**只能调用一次**，执行run()方法
+
+2. run()
+
+   线程启动时将调用此方法。默认情况下，它将调用target，还可以在Thread的子类中重新定义此方法
+
+3. join(timeout = None)
+
+   > timeout，超时时间(单位 = s) ，默认为无时间限制
+
+   等待线程终止或者出现超时为止，能多次使用该方法。就是说让主线程来等我这个join的线程
+
+4. getName(),name     返回线程名
+
+5. setName(name)      设置线程名
+
+6. isAlive(),is_alive()      线程正在运行返回True，否则返回False
+
+7. isDaemon()               返回线程的daemon状态
+
+8. setDaemon(daemonic),daemon设置线程的daemon状态，一定要在start之前调用
+
+   daemon = True,主线程结束，子线程结束
+
+   daemon = False,主线程结束，子线程不结束，继续执行
+
+   就是说将它设置为守护线程，守护线程自己执行完后，如果没有子线程自己就终结了。有父线程的子线程会在自己执行完后将自己挂起，如果父线程一直在，那么悬挂的子线程就会变的很多。
+
+
+
+
+##### lock
 
 两个线程同时一存一取，就可能导致余额不对，你肯定不希望你的银行存款莫名其妙地变成了负数，所以，我们必须确保一个线程在修改`balance`的时候，别的线程一定不能改。
 
@@ -584,6 +656,90 @@ def run_thread(n):
             lock.release()
 ```
 
+
+
+##### Event
+
+用于线程间通信，即程序中的其一个线程需要通过判断某个线程的状态来确定自己下一步的操作，就用到了event对象
+
+event对象默认为假（Flase），即遇到event对象在等待就阻塞线程的执行。
+
+* 主线程和子线程间通信，代码模拟连接服务器：
+
+```python
+import threading
+import time
+event=threading.Event()
+
+def foo():
+    print('wait server...')
+    event.wait()    #括号里可以带数字执行，数字表示等待的秒数，不带数字表示一直阻塞状态
+    print('connect to server')
+
+t=threading.Thread(target=foo,args=())  #子线程执行foo函数
+t.start()
+time.sleep(3)
+print('start server successful')
+time.sleep(3)
+event.set()     #默认为False，set一次表示True，所以子线程里的foo函数解除阻塞状态继续执行
+```
+
+* 子线程和子线程通信
+
+```python
+import threading
+import time
+event=threading.Event()
+
+def foo():
+    print('wait server...')
+    event.wait()   
+    print('connect to server')
+def start():
+    time.sleep(3)
+    print('start server successful')
+    time.sleep(3)
+    event.set()     
+t=threading.Thread(target=foo,args=())  #子线程执行foo函数
+t.start()
+t2=threading.Thread(target=start,args=())  #子线程执行start函数
+t2.start()
+```
+
+两个线程间只用一个Event，当start()中event.set执行时，就激活了foo()中的event.wait()让foo线程继续执行。
+
+* 多线程阻塞
+
+```python
+import threading
+import time
+
+event=threading.Event()
+def foo():
+    while not event.is_set():   #返回event的状态值，同isSet
+        print("wait server...")
+        event.wait(2)   #等待2秒，如果状态为False，打印一次提示继续等待
+    print("connect to server")
+    
+for i in range(5):  #5个子线程同时等待
+    t=threading.Thread(target=foo,args=())
+    t.start()
+
+print("start server successful")
+time.sleep(10)
+event.set()   # 设置标志位为True，event.clear()是回复event的状态值为False
+```
+
+起了五个进程，如果没有开启就一直循环打印等待服务器（wait server)，当set的那一刻，这个五个线程就要开始工作了。
+
+
+
+##### 队列
+
+我们先假设有很多个线程，n个消费者，一个生产者，生产者和消费者都不断的运行，那么我们的CUP岂不是在他们之间来回换，看看这个消费者要没要产品，看看生产者产没产出产品，这样太不科学了，我们一应该用队列来存储产品，如果有消费者要就去队列去取，如果没有则等待，可以这样讲队列线程在没有产品的时候设置为event.wait,当有数据的时候设置成event.set通知其他消费者。
+
+
+
 #### GIL锁
 
 因为Python的线程虽然是真正的线程，但解释器执行代码时，有一个GIL锁：Global Interpreter Lock，任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让别的线程有机会执行。这个GIL全局锁实际上把所有线程的执行代码都给上了锁，所以，多线程在Python中只能交替执行，即使100个线程跑在100核CPU上，也只能用到1个核。
@@ -594,3 +750,6 @@ GIL是Python解释器设计的历史遗留问题，通常我们用的解释器�
 
 不过，也不用过于担心，Python虽然不能利用多线程实现多核任务，但可以通过多进程实现多核任务。多个Python进程有各自独立的GIL锁，互不影响。
 
+
+
+划重点，无论你有几个cpu，python因为GIL锁的原因只能在一个CPU上工作，多线程也就是快速切换线程.

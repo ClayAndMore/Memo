@@ -79,6 +79,41 @@ git clone project.git project3 --recursive
 
 
 
+
+### fork
+
+情形： 从别人的库里fork为自己的库，但是别人的库更新了，自己如何更新？
+
+1. 首先要先确定一下是否建立了主repo的远程源：
+
+   ```
+   git remote -v
+   ```
+
+2. 如果里面只能看到你自己的两个源(fetch 和 push)，那就需要添加主repo的源：
+
+   ```
+   git remote add upstream 主源URL
+   git remote -v
+   ```
+
+   然后你就能看到upstream了。
+
+3. 如果想与主repo合并：
+
+   ```
+   git fetch upstream 
+   git merge upstream/分支 自己的分支
+   ```
+
+4. pull （和三步骤一样，只执行这两个中的一步）
+
+   ```
+   git pull <远程仓库名> <远程分支名>
+   ```
+
+   ​
+
 ### 版本回溯
 
 `git log`   查看历史版本，如果嫌输出信息太多可以试试加上`--pretty=oneline`参数：

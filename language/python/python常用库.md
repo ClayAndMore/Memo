@@ -21,6 +21,8 @@ date: 2017-08-31
 
   输出：['test.py', '-aaa', 'bbb', 'ccc']
 
+* sys.path.insert(0,path)   path是系统路径的一个列表，这条语句是将path路径插入到path的第一个位置，这样在import时候更容易被搜索到，提高效率。
+
 
 
 #### os
@@ -29,7 +31,9 @@ date: 2017-08-31
 
 `os.chmod(path, mode)` 更改文件或目录的权限，无返回值。
 
-`os.access(path, mode)` 用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。如果允许访问返回 True , 否则返回False。
+`os.makedirs(path,mode)`   递归创建目录
+
+ `os.access(path, mode)` 用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。如果允许访问返回 True , 否则返回False。
 
 - **path** -- 要用来检测是否有访问权限的路径。
 - **mode** -- mode为F_OK，测试存在的路径，或者它可以是包含R_OK, W_OK和X_OK或者R_OK, W_OK和X_OK其中之一或者更多。
@@ -40,8 +44,10 @@ date: 2017-08-31
 
 `os.path`
 
+* os.path.abspath  返回当前目录下文件的绝对路径。
+* os.path.basename() 
 * os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
-* os.path.abspath  去掉路径中多余的斜杠。
+* os.path.realpath  返回真实地址，如软连接的真实地址。
 
 `os.environ `
 
@@ -63,7 +69,7 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
 `os.walk`遍历目录
 
-
+`os.tmpnam` 创建一个临时文件夹并返回路径：`/tmp/文件夹`
 
 
 
@@ -246,8 +252,6 @@ d['amy']
 
 
 
-
-
 #### subprocess
 
 subprocess最早是在2.4版本中引入的。
@@ -259,6 +263,24 @@ os.spawn*
 os.popen*
 popen2.*
 commands.*
+
+
+
+subprocess 的目的就是启动一个新的进程并且与之通信。
+
+
+
+
+
+
+
+#### Queue
+
+py2: `import Queue`  ,  py3: `import queue`
+
+线程安全，可上锁，后续添加。
+
+
 
 
 
@@ -316,6 +338,93 @@ os.killpg(pgid, sid)
 
 分别向进程和进程组(见[Linux进程关系](http://www.cnblogs.com/vamei/archive/2012/10/07/2713023.html))发送信号。sid为信号所对应的整数或者singal.SIG*。
 
+
+
+#### socketserver
+
+py2:Socketserver,  py3: socketserver
+
+
+
+
+
+#### argparse
+
+是python的一个命令行解析包
+
+http://www.jianshu.com/p/fef2d215b91d
+
+1. 默认配置，也就是最单纯的写法：test.py
+
+  ```python
+  import argparse
+  parse = argparse.ArgumentParser()
+  parse.parse_args()
+  ```
+
+  这样只有自带的h参数生效： python test.py -h
+
+2. 带固定参数
+
+   ```python
+   parser = argparse.ArgumentParser()
+   parser.add_argument("echo")
+   args = parser.parse_args()
+   print args.echo
+   ```
+
+   不带参数`python test.py `会有错误提示，正确使用为：
+
+   `python test.py hahaha`   输出 hahaha
+
+3. 带可选参数
+
+   ```python
+   import argparse parser = argparse.ArgumentParser() 
+   parser.add_argument("-v", "--verbosity", help="increase output verbosity") 
+   args = parser.parse_args() 
+   if args.verbosity: 
+   	print "verbosity turned on"
+   ```
+
+    通过“-”，“--”来声明可选参数，调用形式：`python test.py --v 1`  1是v代表的参数，
+
+   参数通过解析后存在parser.parse_args()中，如果没有给定则会报错。
+
+   如果用那种不用给参数的，像-h,我们需要指定`action="store_true"`  eg:
+
+   `parser.add_argument("-v", "--verbose", help="increase output verbosity",action="store_true")`这时 parse_args()存的是True或False ，通过解析则为True
+
+4. 传递不同类型的的参数类型
+
+   ```python
+   import argparse parser = argparse.ArgumentParser() 
+   parser.add_argument('x', type=int, help="the base") 
+   args = parser.parse_args() 
+   answer = args.x ** 2
+   print answer
+   ```
+
+   传参时只能传int，eg:`python test.py 2`
+
+   如果需要参数默认值： `parser.add_argument('x', type=int, help="the base",default=1) `
+
+5. 为参数设立可选值
+
+   ```
+   parser.add_argument("-v", "--verbosity", type=int, choices=[0, 1, 2],
+                       help="increase output verbosity")
+   ```
+
+   这里可以和3中的对比，如果在0，1，2范围外的参数值将报错
+
+6. 提供帮说明
+
+   为整个文档提供帮助说明：
+
+   ``argparse.ArgumentParser(description="calculate X to the power of Y"``
+
+   这时在用帮助参数时会打印上述描述信息。
 
 
 #### shlex
@@ -429,5 +538,10 @@ beanstalkd拥有的一些特性：
 * 超时控制，为了防止某个consumer长时间占用任务但不能处理的情况， Beanstalkd为reserve操作设置了timeout时间，如果该consumer不能在指定时间内完成job，job将被迁移回READY状态，供其他consumer执行。
 
 
-
 beanstalkc 是beanstalkd的python 简单客户端。
+
+
+
+#### psutil
+
+ psutil是一个跨平台库，能够轻松实现获取系统运行的进程和系统利用率（包括CPU、内存、磁盘、网络等）信息。它主要应用于系统监控，分析和限制系统资源及进程的管理。

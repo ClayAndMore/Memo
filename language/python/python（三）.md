@@ -78,6 +78,17 @@ d3=datetime.datetime.strptime(date,'%Y-%m-%d %H:%M:%S')
 
 
 
+一个省力的技巧： 
+
+```
+str(datetime.date.today())
+'2017-09-30'
+```
+
+
+
+
+
 #### collections
 
 namedtuple:
