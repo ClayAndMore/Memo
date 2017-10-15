@@ -556,6 +556,12 @@ print('thread %s ended'%threading.current_thread().name)
 
 ![](http://ojynuthay.bkt.clouddn.com/pythonthread.png)
 
+
+
+join（）的作用是，在子线程完成运行之前，这个子线程的父线程将一直被阻塞,这里也就是说一直阻塞主线程，直到threading线程结束，我们该程序才可运行。
+
+
+
 #### lock
 
 两个线程同时一存一取，就可能导致余额不对，你肯定不希望你的银行存款莫名其妙地变成了负数，所以，我们必须确保一个线程在修改`balance`的时候，别的线程一定不能改。
