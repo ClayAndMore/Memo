@@ -131,3 +131,21 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 `git commit -'roll-back'`
 
 `git push -f origin master`   加入-f参数，强制提交
+
+
+
+
+
+### 一些问题
+
+* github设置密钥后push仍然需要密码：
+
+  原因是当时克隆用的https的方式
+
+  如果你已经用https方式克隆了仓库，就不必删除仓库重新克隆，只需将 .git/config文件中的 
+  url = <https://github.com/Name/project.git> 
+  一行改为 
+  url = git@github.com:Name/project.git 
+  即可。
+
+* 文件名在使用中文名时容易提交不上注意。
