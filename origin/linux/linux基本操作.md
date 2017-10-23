@@ -20,7 +20,11 @@ tags: linux
 
 Shell 是指“提供给使用者使用界面”的软件（命令解析器），类似于 DOS 下的 command（命令行）和后来的 cmd.exe。普通意义上的 Shell 就是可以接受用户输入命令的程序。它之所以被称作 Shell 是因为它隐藏了操作系统底层的细节。同样的 Unix/Linux 下的图形用户界面 GNOME 和 KDE，有时也被叫做“虚拟 shell”或“图形 shell”。
 
-在 UNIX/Linux 中比较流行的常见的 Shell 有 bash，zsh，ksh，csh 等等，Ubuntu 终端默认使用的是 bash，
+shell简而言之就是一个与系统内核交互的壳。
+
+在 UNIX/Linux 中比较流行的常见的 Shell 有 bash，zsh，ksh，csh 等等，Ubuntu 终端默认使用的是 bash，（我们可以去/bin/ 下看一下。）
+
+bash 兼容了sh，是它的加强版本。
 
 
 
@@ -46,7 +50,9 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 ### SSH
 
-SSH 为 [Secure Shell](http://baike.baidu.com/view/2118359.htm) 的缩写，由 IETF 的网络小组（Network Working Group）所制定；SSH 为建立在应用层基础上的安全协议。SSH 是目前较可靠，专为[远程登录](http://baike.baidu.com/view/59099.htm)会话和其他网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。SSH最初是UNIX系统上的一个程序，后来又迅速扩展到其他操作平台。SSH在正确使用时可弥补网络中的漏洞。SSH客户端适用于多种平台。几乎所有UNIX平台—包括[HP-UX](http://baike.baidu.com/view/58963.htm)、[Linux](http://baike.baidu.com/view/1634.htm)、[AIX](http://baike.baidu.com/view/349664.htm)、[Solaris](http://baike.baidu.com/subview/329359/5113665.htm)、[Digital](http://baike.baidu.com/view/428214.htm) [UNIX](http://baike.baidu.com/view/8095.htm)、[Irix](http://baike.baidu.com/view/3373083.htm)，以及其他平台，都可运行SSH。
+SSH 为 [Secure Shell](http://baike.baidu.com/view/2118359.htm) 的缩写，SSH 为建立在应用层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其他网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。SSH最初是UNIX系统上的一个程序，后来又迅速扩展到其他操作平台。SSH在正确使用时可弥补网络中的漏洞。SSH客户端适用于多种平台。几乎所有UNIX平台以及其他平台，都可运行SSH。
+
+
 
 ### yum和apt-get用法及区别
 
@@ -85,7 +91,7 @@ wget:
 
 tar 只是一种压缩文件格式，所以，它只是把文件压缩打包而已。
 
-rpm 相当于[windows](http://www.2cto.com/special/xtxz/)中的安装文件，它会自动处理软件包之间的依赖关系。
+rpm 相当于windows中的安装文件，它会自动处理软件包之间的依赖关系。
 
  
 
@@ -99,7 +105,7 @@ tar一般包括编译脚本，你可以在你的环境下编译，所以具有�
 
  
 
-tar一般都是[源码](http://www.2cto.com/ym)打包的软件，需要自己解包，然后进行安装三部曲，./configure, make, make install.　来安装软件。
+tar一般都是源码打包的软件，需要自己解包，然后进行安装三部曲，./configure, make, make install.　来安装软件。
 
  
 
@@ -140,6 +146,10 @@ Shutdown –h +10 十分钟后关机
 Shutdown –r now 系统立马重启
 Shutdown –r +10 系统十分钟后重启
 ```
+
+重启：
+
+reboot , init 6
 
 
 
@@ -189,7 +199,7 @@ Shutdown –r +10 系统十分钟后重启
 
 `wy:x:1000:0::/home/wy:/bin/bash`
 
-用户名：密码： uid：gid ：备注： 家目录： shell
+用户名：密码： uid：gid ：备注： 家目录： shell（默认使用的shell)
 
 为用户添加root权限：
 
@@ -607,11 +617,7 @@ source filename 与 sh filename 及./filename执行脚本的区别在那里呢�
 2.sh filename 重新建立一个子shell，在子shell中执行脚本里面的语句，该子shell继承父shell的环境变量，但子shell新建的、改变的变量不会被带回父shell，除非使用export。
 3.source filename：这个命令其实只是简单地读取脚本里面的语句依次在当前shell里面执行，没有建立新的子shell。那么脚本里面所有新建、改变变量的语句都会保存在当前shell里面。
 
-bash和sh
 
-sh跟bash的区别，实际上就是bash有没有开启posix模式的区别
-
-可以预想的是，如果第一行写成 #!/bin/bash --posix，那么脚本执行效果跟#!/bin/sh是一样的（遵循posix的特定规范，有可能就包括这样的规范：“当某行代码出错时，不继续往下解释”）
 
 
 
@@ -620,3 +626,4 @@ sh跟bash的区别，实际上就是bash有没有开启posix模式的区别
 * 敲命令时，`ctrl+r`  键入原来打过的命令关键字，自动找出，可以用来找那种很长的命令，但是忘记的。
 * `ctrl+u`  : 清空当前已经打下的命令
 * 有时候进入了一个很深的目录，但不小心会到了根目录或者其他目录，用`ctrl+-`即可回到原来的目录
+* 如果一行太长，可以用`\+enter`来敲打下一行
