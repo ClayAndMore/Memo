@@ -112,7 +112,7 @@ git clone project.git project3 --recursive
    git pull <远程仓库名> <远程分支名>
    ```
 
-   
+
 ### 解决冲突
 
 如果有冲突会提示，你只需要找到那个文件，文件中会标记冲突的地方，用编辑器打开，然后把冲突编辑掉，重新提交就好了 。
@@ -153,3 +153,18 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
   即可。
 
 * 文件名在使用中文名时容易提交不上注意。
+
+* Changes not staged for commit ,网上查说是没有git add .,但是我add过了，下面的命令解决了这个问题：
+
+  `git` 这里有点特殊。要先加入到 staging area 的改动才会被 `git commit` 提交。同一个文件也可以 `add` 多次。不想`add`可以：
+
+  ```
+  git commit -m 'msg' <file>
+  ```
+
+  或者
+
+  ```
+  git commit -m 'msg' -a
+  ```
+

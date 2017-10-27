@@ -60,6 +60,10 @@ UTF-8编码有一个额外的好处，就是ASCII编码实际上可以被看成�
 
 以Unicode表示的字符串用`u'...'`表示
 
+如果unicode +str 的话 会自动转化成unicode.
+
+
+
 #### python3
 
 字符串是以Unicode编码的.bytes是字节流bytes对象，字符串是字符串str对象。

@@ -211,9 +211,9 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
 如果容器在后台挂起，我们需要进入容器：
 
-* attach 命令
+* attach 命令 
 
-  这个命令在多窗口时会阻塞。
+  这个命令在多窗口同时attach同一个容器时会阻塞。
 
 * exec 命令 
 
@@ -289,7 +289,7 @@ EXPOSE 80
 
 其他命令：
 * CMD : 指定启动容器时的默认命令，写法和RUN一样（也是分shell环境和非shell环境）：
-  ```
+  ```yaml
   # 当调起container时,运行/bin/bash
   docker run  -t -i jimmy/ubuntu:latest /bin/bash
   # 等同于在dockerfile中指定CMD
@@ -426,11 +426,11 @@ echo $PATH
 * 多个容器间可以共享数据卷，传递数据高效方便
 * 对数据卷内的数据修改会马上生效，无论是容器还是本地操作
 * 数据卷解耦了数据和应用
- 
+
 两种方式： 
 1. 容器内创建一个数据卷：
-`docker run -d -p --name web -v /webapp training/webapp python app.py`
-使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的/webapp目录。
+  `docker run -d -p --name web -v /webapp training/webapp python app.py`
+  使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的/webapp目录。
 2. 系统内创建一个数据卷
 
 #### 数据卷容器

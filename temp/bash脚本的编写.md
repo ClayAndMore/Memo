@@ -468,15 +468,11 @@ $ ./test2.sh
 
 
 
-#### 其他或问题
-
-##### declare
-
-ubuntu系统可能出现declare:not found的问题，命令：`sudo dpkg-reconfigure dash` 选择NO.
+#### 通过脚本学习到的linux命令
 
 
 
-##### shift 
+##### shift
 
 通常用于参数左移，比如第一个参数左移，原本位于第二个位置的参数就变成了第一个参数
 
@@ -502,6 +498,31 @@ shopt -u 选项，关闭当前选项
 
 
 
-
-
 extglob  模糊匹配
+
+
+
+readlink -f 找到文件的真正链接文件，是不是链接文件都会返回一个真正能执行的目录：
+
+`readlink -f docker/build_image.sh`   
+
+输出：/home/wy/docker /build_image.sh
+
+
+
+dirname ： 会获得文件的目录路径：
+
+`dirname /home/wy/docker /build_image.sh`
+
+会输出：/home/wy/docker
+
+
+
+#### 其他或问题
+
+##### declare
+
+ubuntu系统可能出现declare:not found的问题，命令：`sudo dpkg-reconfigure dash` 选择NO.
+
+
+
