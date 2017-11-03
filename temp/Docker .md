@@ -217,7 +217,9 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
 * exec 命令 
 
-  `docker exec -it `
+  `docker exec -it 容器id bash ` 
+
+  这样就进入到了这个容器的bash 中。
 
 * nsenter 工具
 

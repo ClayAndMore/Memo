@@ -171,3 +171,9 @@ ok~
 
 ![](http://ojynuthay.bkt.clouddn.com/pip2andpip3.png)
 
+
+
+
+
+###　离线安装
+

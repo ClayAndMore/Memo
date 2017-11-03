@@ -46,6 +46,20 @@ WriteResult({ "nInserted" : 1 })
 
 
 
+#### 离线安装
+
+去官网下载相关包：https://www.mongodb.com/download-center?jmp=nav#community
+
+或者这里直接 wget 包下载路径(这里脱离了主题离线)
+
+tar 解压。进入bin目录,monogd是服务端，mongo是客户端要：`./mongo`运行。
+
+注意运行前要有/data/db路径，这里是默认存放数据的文件夹，如果自己要指定：
+
+```
+mongod --dbpath <path to data directory>
+```
+
 
 
 ### 使用和命令

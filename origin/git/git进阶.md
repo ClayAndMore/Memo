@@ -65,11 +65,11 @@ git clone project.git project3 --recursive
 
   `git push origin a:b`          本地a分支推送到远程分支b
 
-  `git checkout -b b rigin/a`    检出远程的分支a到本地b
+  `git checkout -b b origin/a`    检出远程的分支a到本地b
 
 * 删除分支
 
-  `git branch -b branchname `   删除本地分支
+  `git branch -d branchname `   删除本地分支
 
   `git branch -r -d origin/branch-name`    删除远程分支
 
@@ -138,6 +138,35 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 
 
 
+只撤销上次的commit ,并没有push:
+
+`git resest HEAD^`
+
+更改已经提交过的注释 :`git commit --amend`
+
+
+
+### 提交请求流程
+
+1. fork 源仓库 到自己仓库，
+2. 克隆自己仓库的相关分支
+3. 基于刚才的分支新建开发分支
+4. 更改开发分支并`git push origin 远程分支的名`
+5. 请求merge
+
+
+
+### 出部署包流程
+
+1. 到更改的submodel 中提交请求合并
+2. 合并后克隆主仓库到目录中，先不用递归克隆。
+3. 进入主仓库，到相关submodel中(比如src),`git checkout -b 分支名 origin/远程分支名` 
+4. git log 看是否是之前submodel的新提交。
+5. 到顶层目录，进入刚才的分支，`git dif`f看是否有内容改变 
+6. 如果有，add . ,commit ,push
+
+
+
 
 
 ### 一些问题
@@ -167,4 +196,6 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
   ```
   git commit -m 'msg' -a
   ```
+
+* ​
 

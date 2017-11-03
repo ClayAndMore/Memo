@@ -2,9 +2,9 @@ date: 2017-08-31
 
 
 
-### 内置
+## 内置
 
-#### sys
+### sys
 
 * sys.argv  「argv」是「argument variable」参数变量的简写形式，一般在命令行调用的时候由系统传递给程序。
 
@@ -21,17 +21,57 @@ date: 2017-08-31
 
   输出：['test.py', '-aaa', 'bbb', 'ccc']
 
+* sys.exc_info() 捕获异常信息，包括已异常类的名字和具体信息：
+
+  ```python
+  import sys
+  try:
+      raise ValueError
+  except:
+      print(sys.exc_info())
+  (<class 'ValueError'>, ValueError(), <traceback object at 0x0000000002CF1108>)
+  ```
+
 * sys.path.insert(0,path)   path是系统路径的一个列表，这条语句是将path路径插入到path的第一个位置，这样在import时候更容易被搜索到，提高效率。
 
 
 
-#### os
 
-`os.chdir(paht) `方法用于改变当前工作目录到指定的路径。如果允许访问返回 True , 否则返回False。
+### os
+
+`os.system(cmd)`   执行shell 命令。
+
+`os.getpid()`  获得当前python进程pid，当我们想要在代码中结束当前服务时，可以杀掉该进程。
+
+#### 路径操作
+
+`os.getcwd() `  获得父目录路径
+
+`os.makedirs(path,mode)`   递归创建目录 ,  如果其中有一个目录存在则异常，mode 默认 0777
+
+`os.mkdir(path,mode)`  创建目录，如果最后一个文件的父目录不存在则异常 ， mode 默认 0777
 
 `os.chmod(path, mode)` 更改文件或目录的权限，无返回值。
 
-`os.makedirs(path,mode)`   递归创建目录
+`os.chdir(paht) `方法用于改变当前工作目录到指定的路径。如果允许访问返回 True , 否则返回False。
+
+
+
+####　文件操作
+
+`os.mknod(“test.txt”)`  创建空文件 
+
+
+
+#### 判断目标
+
+`os.path.exists(“goal”)  `判断目标是否存在 
+`os.path.isdir(“goal”)`  判断目标是否目录 
+`os.path.isfile(“goal”) `  判断目标是否文件
+
+
+
+
 
  `os.access(path, mode)` 用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。如果允许访问返回 True , 否则返回False。
 
@@ -42,14 +82,18 @@ date: 2017-08-31
   - **os.W_OK** 包含在access()的mode参数中 ， 测试path是否可写。
   - **os.X_OK** 包含在access()的mode参数中 ，测试path是否可执行。
 
-`os.path`
+
+
+#### `os.path`
 
 * os.path.abspath  返回当前目录下文件的绝对路径。
 * os.path.basename() 
 * os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
 * os.path.realpath  返回真实地址，如软连接的真实地址。
 
-`os.environ `
+
+
+#### `os.environ `
 
 获取环境变量的值，environ是一个字符串所对应环境的映像对象。如environ['HOME']就代表了当前这个用户的主目录。
 
@@ -73,7 +117,7 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
 
 
-#### json
+### json
 
 * json.dumps 用于将 Python 对象编码成 JSON 字符串。
 
@@ -133,7 +177,7 @@ json向python类型转换：
 
 
 
-#### traceback
+### traceback
 
 输出异常位置和信息，如普通我们获取异常：
 
@@ -184,9 +228,9 @@ traceback.print_exc(file=open('tb.txt','w+'))
 
 
 
-#### collections
+### collections
 
-##### defaultdict
+#### defaultdict
 
 它是dict的内建子类，常用于为字典赋默认值。
 
@@ -252,7 +296,7 @@ d['amy']
 
 
 
-#### subprocess
+### subprocess
 
 subprocess最早是在2.4版本中引入的。
 用来生成子进程，并可以通过管道连接它们的输入/输出/错误，以及获得它们的返回值。
@@ -274,7 +318,7 @@ subprocess 的目的就是启动一个新的进程并且与之通信。
 
 
 
-#### Queue
+### Queue
 
 py2: `import Queue`  ,  py3: `import queue`
 
@@ -284,7 +328,7 @@ py2: `import Queue`  ,  py3: `import queue`
 
 
 
-#### singnal
+### singnal
 
 Python 所用信号名和Linux一致，可通过`man 7 signal`查询。
 
@@ -340,7 +384,7 @@ os.killpg(pgid, sid)
 
 
 
-#### socketserver
+### socketserver
 
 py2:Socketserver,  py3: socketserver
 
@@ -348,7 +392,7 @@ py2:Socketserver,  py3: socketserver
 
 
 
-#### argparse
+### argparse
 
 是python的一个命令行解析包
 
@@ -427,7 +471,7 @@ http://www.jianshu.com/p/fef2d215b91d
    这时在用帮助参数时会打印上述描述信息。
 
 
-#### shlex
+### shlex
 
 用来解析一些类似shell的语句，或者是解析带引号的语句，将单词分离出来，特点是带引号的也能分离。
 
@@ -447,33 +491,33 @@ shlex.split("python -u a.py -a A    -b   B     -o test")
 
 
 
-#### timeit
+### timeit
 
 检测一段代码的运行时间
 
 
 
-#### ConfigParser
+### ConfigParser
 
 读取配置文件的包
 
 
 
-#### binascii 
+### binascii 
 
 主要用于二进制和ASCII的互转，还有其他进制。
 
 
 
-#### shutil
+### shutil
 
 高层次的文件操作，对文件的复制和删除支持较好。
 
 
 
-### 非内置
+## 非内置
 
-#### docopt
+### docopt
 
 官方库：https://github.com/docopt/docopt
 
@@ -511,7 +555,7 @@ if __name__ == '__main__':
 
 
 
-#### beanstalkd
+### beanstalkd
 
 beanstalkd是一个快速的、通用目的的work queue。协议简单，是个轻量级的消息中间件。 
 
@@ -542,13 +586,13 @@ beanstalkc 是beanstalkd的python 简单客户端。
 
 
 
-#### psutil
+### psutil
 
  psutil是一个跨平台库，能够轻松实现获取系统运行的进程和系统利用率（包括CPU、内存、磁盘、网络等）信息。它主要应用于系统监控，分析和限制系统资源及进程的管理。
 
 
 
-#### chardet
+### chardet
 
 有时我们不知道某字符串是什么编码，我们可以用这个模块检测，带有概率的检测：
 

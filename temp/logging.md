@@ -24,6 +24,18 @@ logging.critical('critical message')
 
 级别则为demo中的五个级别。
 
+同时输出到屏幕和日志文件：
+
+```python
+import logging
+logging.basicConfig(filename='log_examp.log',level=logging.DEBUG)
+logging.debug('This message should go to the log file')
+logging.info('So should this')
+logging.warning('And this, too')
+```
+
+
+
 
 
 ### 几个概念
@@ -32,6 +44,8 @@ logging.critical('critical message')
 - Handler 处理器，将（记录器产生的）日志记录发送至合适的目的地。
 - Filter 过滤器，提供了更好的粒度控制，它可以决定输出哪些日志记录。
 - Formatter 格式化器，指明了最终输出中日志记录的布局。
+
+
 
 ####  Logger记录器
 
@@ -53,6 +67,8 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 * logger.addHandler(handler_name)  # 为Logger实例增加一个处理器
 * logger.removeHandler(handler_name)   # 为Logger实例删除一个处理器
 
+
+
 #### Handler处理器
 
 常用的两个StreamHandler,FileHandler
@@ -60,6 +76,8 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 `s_handler = logging.StreamHandler(stream=None)`
 
 `f_handler = logging.FileHandler(filename, mode='a',encoding=None,delay=False)`
+
+
 
 #### Filter过滤器
 

@@ -14,7 +14,17 @@ linux 命令行将以\$开始，比如\$ls,$python
 python命令行将以>>>开始 如：>>>print 'Hello World!'
 注释会以#开始
 文件后缀.py
-一行写不下可以用+\连接,或者用分号断开写多条语句。
+一行写不下可以用\连接,或者用括号：
+
+```python
+a= 'sdfaf' \
+     'test'
+if （xxxx is None and
+ xxx is None and
+ XXX)
+```
+
+一行太短用分号断开写多条语句。
 
 
 
@@ -967,8 +977,8 @@ key: set(['a','c'])
     * r+ 打开可读写的文件，该文件必须存在。
     * w 打开只写文件，若文件存在则文件长度清为0，即该文件内容会消失。若文件不存在则 建立该文件。
     * w+ 打开可读写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。
-    * a 以附加的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留。
-    * a+ 以附加方式打开可读写的文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾后，即文件原先的内容会被保留。
+    * a 以附加**写**的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留。
+    * a+ 以附加**读写**方式打开可读写的文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾后，即文件原先的内容会被保留。
 
       上述的形态字符串都可以再加一个b字符，如rb、w+b或ab＋等组合，加入b 字符用来告诉函数库打开的文件为二进制文件，而非纯文字文件。windows下文件是二进制，而linux不需要区分二进制和文件。
 * 读取 
@@ -979,8 +989,30 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
 ```
 * 写入
   `f.write('I like apple!\n')      # 将'I like apple'写入文件并换行`
+
 * 关闭文件
   `f.close()`
+
+* 输出重定向
+
+  ```python
+  import os
+  import sys
+
+  temp=sys.stdout # 记录当前输出指向，默认是consle
+
+  with open("outputlog.txt","a+") as f:
+      sys.stdout=f   # 输出指向txt文件
+      print("filepath:",__file__,
+      "\nfilename:",os.path.basename(__file__))
+      print("some other information")
+      print("some other")
+      print("information")
+      sys.stdout=temp # 输出重定向回consle
+      print(f.readlines()) # 将记录在文件中的结果输出到屏幕
+  ```
+
+  ​
 
 ### 作用域
 
@@ -1041,6 +1073,15 @@ from a import *           # 从模块a中引入所有对象。调用a中对象�
 import sys
 sys.path.append("..")
 # 现在直接可以导入上级的包了
+```
+
+#### 查看导入包的路径
+
+eg： 查看pymongo包的路径
+
+```python
+>>>import pymongo
+>>>pymongo.__file__
 ```
 
 
@@ -1937,6 +1978,10 @@ True
   ```
 
   缺少了`pass`，代码运行就会有语法错误。
+
+
+
+### 查看对象类型
 
 * 使用内建的`isinstance`函数可以判断一个变量是不是字符串：
 
