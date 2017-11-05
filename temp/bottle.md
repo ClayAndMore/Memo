@@ -27,7 +27,7 @@ run的其他两个参数：
 * @route('/name',method="POST")
 * @route('/name',method=["GET","POST"])
 * @get()/@post
-eg:
+  eg:
 ```python
 @get('/name')
 @post('/name')
@@ -55,8 +55,8 @@ email = request.forms.get('email')
 
 #### 动态路由
 1. 请求参数放入URL路径中
-`/user/<name>`
-`/user/<name>/<id>`
+  `/user/<name>`
+  `/user/<name>/<id>`
 2. 指定参数类型
     1. 获取整数参数： `/user/<id:int>`
     2. 获取浮点参数： `/user/<fid:float>`
@@ -116,6 +116,109 @@ bottle提供了对某些类型和编码的转换支持。
         return ['aa','cc','dd']
     ```
 
-视图函数中指定返回字符编码：
+视图函数中指定返回字符编码,两种方式：
 `Response.charset='utf-8'`
 `Response.content_type='text/html;charset=gbk'`
+
+
+
+#### cookie
+
+##### 添加cookie
+
+```python
+import response 
+response.set_cookie('name','value')
+```
+
+这时我们到浏览器去看，会看到相关cookie (name,value)
+
+set_cookie 有几个参数：
+
+* max_age = x (seconds)  设置会话过期时间
+* expires = datetime  
+* domain =  默认设置为当前域
+* path = '/'
+* secure = off/on , 限制必须为HTTPS连接
+* httponly = on/off 
+
+`response.get_cookie('name')`   得到cookie的值
+
+
+
+##### 加密cookie
+
+`response.set_cookie('name','value',secret='...')` 
+
+secret 是我们的密钥。
+
+`request.get_cookie('name',secret='...')`
+
+得到加密的cookie,密钥要和设置的相同。
+
+
+
+##### 中文cookie
+
+当cookie中有中文时，未加密
+
+可用urllib.parse.quote对其进行URL编码，
+
+用urllib.parse.unquote 对其进行URL解码。
+
+```python
+from urllib.parse import quote,unquote
+response.set_cookie('myname',quote('我'))
+```
+
+
+
+加密则直接使用，不用处理。
+
+
+
+#### 文件上传
+
+`f = request.files.get('name')`  
+
+这里的name是`<input type="file" name="fileupload"/>`  这样中的表单name.
+
+这里获取的是一个FileUpload对象：
+
+属性：
+
+* name:  上传文件表单名 就是上面提到的那个名字。
+* raw_filename:   是文件在客户端原始上传的名字。
+* filename : 是服务器端对上述名字进行过滤后的文件名。
+
+方法：
+
+* save(path,overwrite=False)    overwirte 是说是否覆盖以前的文件
+
+
+
+#### 内建模版引擎
+
+嵌入变量：
+
+```python
+from bottle import template
+template('Hello {{name}})',name='Bottle')
+template('Str with{{a}} many {{b}} values',**dict) #可以用字典传递参数。
+
+# 传递html代码
+link = '<a href="www.baidu.com">百度</a>'
+template('进入{{ !link }}',link=link)  #变量前加入！使模版停止对htnml转义成字符串。
+```
+
+陷入python代码：
+
+
+
+#### 部署
+
+run(server='gunicorn')
+
+pip install gunicorn 
+
+这样启动就是不用了bottle自带的服务器，而是用gunicorn服务器。
