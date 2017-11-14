@@ -32,7 +32,7 @@ date: 2017-08-19 12:45:34
 
 进入家目录 cd ~，一般是c盘用户文件。
 
-配置链接，用一个常用的邮箱：
+配置链接，用一个常用的邮箱（这个邮箱是你的github账号，我的是wXXXX@outlook.com）：
 
 `$ ssh-keygen -t rsa -C "your_email@youremail.com" `
 
@@ -65,6 +65,8 @@ date: 2017-08-19 12:45:34
 
   其中User为登录github的账号名称。 
   再次执行`ssh -T git@github.com`时，会出现提示，回车”yes”即可。 
+
+  还有可能出现`Permission denied (publickey).` 的问题，这很可能是你更改了密钥的命名或者路径，可以用ssh-add 等命令来解决，最好我们用默认的位置。
 
   ​
 
