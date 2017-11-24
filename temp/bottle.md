@@ -5,7 +5,10 @@
 安装，`pip install bottle` 特别简单。
 或者用yum或apt.
 
-基础demo：
+#### 启动
+
+基础demo.py：
+
 ```python
  from bottle import route,run
 
@@ -20,6 +23,18 @@ run(host='localhost',port='80')
 run的其他两个参数：
 * debug=True  用于调试时页面给我们具体的错误信息
 * reload=True 当我们修改代码时，服务会重新启动
+
+
+
+
+一种特别的启动方式，可方便用于启动多个bottle进程，
+
+`python bottle.py -b 127.0.0.1:8080 demo`
+
+demo是文件demo.py  这里不能写绝对路径
+
+
+
 
 #### 关于请求
 指定请求
@@ -222,3 +237,18 @@ run(server='gunicorn')
 pip install gunicorn 
 
 这样启动就是不用了bottle自带的服务器，而是用gunicorn服务器。
+
+
+
+### 实践出真知
+
+api多了 ，可以分文件划分，这样看起来整洁，
+
+在run.py: 
+
+```
+import other_api_file
+```
+
+
+

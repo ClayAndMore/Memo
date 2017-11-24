@@ -181,8 +181,6 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
   `docker run`   
 
-  这个命令会附加很多参数，再详谈。docker run = docker create + docker start
-
   这个命令的操作进程：
 
   * 检查本地镜像，如果没有就从官网下载
@@ -191,6 +189,14 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
   * 从主机的网桥接口中配置一个虚拟接口道容器中
   * 从网桥的地址池配置一个ip给容器。
   * 执行容器中用户指定的应用程序。
+
+  这个命令会附加很多参数。docker run = docker create + docker start
+
+  几个比较常用的参数：
+
+  * -i:
+  * -t:
+  * -d: 成功创建容器后，让容器在后台运行。
 
 
 * 查看本机上存在的所有容器
@@ -451,8 +457,11 @@ echo $PATH
 
 不管是BaaS、PaaS、SaaS都要建立在IaaS基础设施服务上。其中PaaS、SaaS是IaaS在应用层的延伸，大量SaaS及应用程序服务集中在平台上，打造而成的PaaS才拥有存在的价值。BaaS是针对特定领域（移动应用）提供边界增值服务的平台类型。与SaaS、PaaS互为补充，完善了整个生态格局。 
 
-
 ### 端口映射与容器互联
+
+
+
+
 
 
 ## 实战

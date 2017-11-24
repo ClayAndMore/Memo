@@ -31,7 +31,13 @@ modualA.py
  ....
  ```
 
-
  使用：
  `from pkgA import *`
 以上语句即执行了pkgA下的__init__.py，导入两个模块，和这两模块下的函数和类
+
+
+
+### 一些内置函数
+
+#### vars
+

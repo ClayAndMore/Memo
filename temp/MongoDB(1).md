@@ -62,6 +62,17 @@ mongod --dbpath <path to data directory>
 
 
 
+#### 后台运行
+
+后台运行需要指定日志文件,并携带--fork参数：
+
+```
+/home/mongodb-linux-x86_64-rhel62-3.4.10/bin/mongod \
+         --dbpath /data/db/ --fork --logpath /data/log/mongo.log
+```
+
+
+
 ### 使用和命令
 
 db（这是个命令，不是说它就是数据库）为默认数据库，默认数据库是test，存储在data目录中。
