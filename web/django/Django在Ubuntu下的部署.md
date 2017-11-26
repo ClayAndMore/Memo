@@ -62,6 +62,28 @@ server {
 
 
 
+#### 静态文件的处理
+
+```nginx
+location  /static {  
+    autoindex on;  
+    alias  /root/wechat_huoyun/static;  
+} 
+```
+
+注意 这里 alias 和 它相仿的另一个关键参数root的区别：
+
+* alias :  aslias /path  相当于访问/static时 访问/path/
+* root :   root  /path   相当于访问/static时 访问/path/static
+
+
+
+如果此时页面F12提示403错误，那么就是你的nginx配置对了，但是你的文件是拒绝访问的，因为我把项目放到了root下，一般用户什么权限都没有，这里需要读和执行的权限，所以让我移动到home下，更改文件所有用户具有读和执行的权限即可。
+
+
+
+
+
 
 ### 防火墙的开启
 

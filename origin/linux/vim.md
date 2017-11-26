@@ -321,3 +321,23 @@ UNIX@dos -kn file newfile
 k: 保留时间格式
 n: 保存源文件，将格式变换后的新文件输出。
 
+#### 4空格替换tab
+
+在配置文件/etc/vim/vimrc中：
+
+```
+set ts=4
+set expandtab
+```
+
+ts = tabstop。 
+
+重启vim可让配置生效
+
+如果是已经保存的文件：
+
+```
+:set ts=4
+:set expandtab
+:%retab!
+```

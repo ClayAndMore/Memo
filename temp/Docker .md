@@ -166,6 +166,16 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
 待补充： 创建镜像，存出和载入镜像，上传镜像。
 
+* 显示镜像各层信息：
+
+  `docker history image`
+
+  显示镜像在建立的时候各层的命令语句。
+
+* 导出镜像，`docker save`
+
+* 导入镜像，`docker load`
+
 
 
 #### 容器操作
@@ -173,7 +183,7 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
 * 创建容器
 
-  `docker create` 
+  `docker create`   create 的参数可以让run使用。
 
   创建的容器处于停止状态，要用`docker start` 
 
@@ -194,9 +204,9 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
   几个比较常用的参数：
 
-  * -i:
-  * -t:
-  * -d: 成功创建容器后，让容器在后台运行。
+  * -i:   保持标准输入打开
+  * -t:  分配一个伪终端接到容器的标准输入上。
+  * -d: 成功创建容器后，让容器在后台运行。已守护团进行。
 
 
 * 查看本机上存在的所有容器
