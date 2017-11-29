@@ -22,6 +22,10 @@ logging.critical('critical message')
 
 `warning : root : messages`   日志级别： logger实例名称，日志消息内容
 
+用logging直接输出会生成一个系统的root logger,
+
+**这个root log 最好不要设置，其他logger的输出root logger也会跟着输出。**
+
 级别则为demo中的五个级别。
 
 同时输出到屏幕和日志文件：
@@ -33,8 +37,6 @@ logging.debug('This message should go to the log file')
 logging.info('So should this')
 logging.warning('And this, too')
 ```
-
-
 
 
 
@@ -91,6 +93,25 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 
 ### 基础配置
 
+```python
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                datefmt='%a, %d %b %Y %H:%M:%S',
+                filename='myapp.log',
+                filemode='w')
+    
+logging.debug('This is debug message')
+logging.info('This is info message')
+logging.warning('This is warning message')
+ 
+./myapp.log文件中内容为:
+Sun, 24 May 2009 21:48:54 demo2.py[line:11] DEBUG This is debug message
+Sun, 24 May 2009 21:48:54 demo2.py[line:12] INFO This is info message
+Sun, 24 May 2009 21:48:54 demo2.py[line:13] WARNING This is warning message
+```
+
 
 
 `logging.basicConfig(filename='logger.log', level=logging.INFO)`
@@ -98,11 +119,32 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 日志输出到同级的logger.log文件，并设置INFO级别。
 
 * filename 创建一个FileHandler，使用指定的文件名，而不是使用StreamHandler。
+
 * filemode 如果指明了文件名，指明打开文件的模式（如果没有指明filemode，默认为'a'）。
+
 * format   handler使用指明的格式化字符串。
+
+  format 可以输出很多有用的信息：
+
+   %(levelno)s: 打印日志级别的数值
+   %(levelname)s: 打印日志级别名称
+   %(pathname)s: 打印当前执行程序的路径，其实就是sys.argv[0]
+   %(filename)s: 打印当前执行程序名
+   %(funcName)s: 打印日志的当前函数
+   %(lineno)d: 打印日志的当前行号
+   %(asctime)s: 打印日志的时间
+   %(thread)d: 打印线程ID
+   %(threadName)s: 打印线程名称
+   %(process)d: 打印进程ID
+   %(message)s: 打印日志信息
+
 * datefmt   使用指明的日期／时间格式。
+
 * level  知名根logger的级别。
+
 * stream   使用指明的流来初始化StreamHandler。该参数与'filename'不兼容，如果两个都有，'stream'被忽略。
+
+  指定输出到sys.stderr,sys.stdout或者文件，默认输出到sys.stderr。
 
 
 
