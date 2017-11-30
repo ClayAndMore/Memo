@@ -81,6 +81,7 @@ collection.do_something() = db.collection_name.do_something()
   `collection.find_one({'_id':id})`
 
 
+  旧版本不存在这个方法。
 
 * insert():
 
@@ -106,6 +107,8 @@ collection.do_something() = db.collection_name.do_something()
 
 update():
 
+返回值一直是空的。
+
 ```
 update(criteria, objNew, upsert, mult)
     criteria: 需要被更新的条件表达式
@@ -115,7 +118,6 @@ update(criteria, objNew, upsert, mult)
     
     student.users.update({'gid':last_gid, 'time':l_date}, {'$set':{'gid':last_gid}, '$set':{'time':l_date}, '$addToSet':{'categories':category_data}}, upsert=True)
    #上式表示添加'categories'字段到gid=last_gid,time=l_date的这条记录中。
-
 ```
 
 * `$set /$unset`设置/取消某个键的值：
@@ -282,6 +284,14 @@ update(criteria, objNew, upsert, mult)
 
   `db.users.find().where("this.age > 7 || this.age < 3")`
 
+* find_and_modify 
+
+  没有找到，返回None,
+
+  找到返回更改后的，待验证
+
+  `c.user.user.find_and_modify({'_id':uname},update={'$set':{'key':data['sn']}})`
+
   ​
 
 ##### 删除
@@ -296,3 +306,20 @@ update(criteria, objNew, upsert, mult)
 
 #### 索引
 
+
+
+
+
+#### 技巧
+
+* cursor conver to json
+
+  ```python
+  import pymongo
+  c = pymongo.MongoClient()
+  from bson.json_util import dumps
+  dumps(c.test.test.find())
+  '[{"_id": {"$oid": "555cb3a7fa5bd85b81d5a624"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a625"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a626"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a627"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a628"}}]'
+  ```
+
+  ​

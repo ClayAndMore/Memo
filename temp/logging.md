@@ -101,7 +101,7 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 * filemode 如果指明了文件名，指明打开文件的模式（如果没有指明filemode，默认为'a'）。
 * format   handler使用指明的格式化字符串。
 * datefmt   使用指明的日期／时间格式。
-* level  知名根logger的级别。
+* level 指明根logger的级别。
 * stream   使用指明的流来初始化StreamHandler。该参数与'filename'不兼容，如果两个都有，'stream'被忽略。
 
 
@@ -115,3 +115,32 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 * 通过网络进行配置，使用[listen()](http://python.usyiyi.cn/python_278/library/logging.config.html#logging.config.listen)函数进行网络配置。
 
 eg: `logging.config.fileConfig("./logging.conf")`
+
+
+
+
+
+#### 配置输出流
+
+```python
+ #!/usr/bin/python
+    import sys
+    import logging
+
+    class InfoFilter(logging.Filter):
+        def filter(self, rec):
+            return rec.levelno in (logging.DEBUG, logging.INFO)
+
+    logger = logging.getLogger('__name__')
+    logger.setLevel(logging.DEBUG)
+
+    h1 = logging.StreamHandler(sys.stdout)
+    h1.setLevel(logging.DEBUG)
+    h1.addFilter(InfoFilter())
+    h2 = logging.StreamHandler()
+    h2.setLevel(logging.WARNING)
+
+    logger.addHandler(h1)
+    logger.addHandler(h2)
+```
+

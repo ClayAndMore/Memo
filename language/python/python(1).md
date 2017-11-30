@@ -879,13 +879,17 @@ False
 
 ```
 >>>print dic.keys()           # 返回dic所有的键
->>>print dic.values()         # 返回dic所有的值
+>>>print dic.values()         # 返回dic所有的值, 返回类型为[]
 >>>print dic.items()          # 返回dic所有的元素（键值对）
 >>>dic.clear()                # 清空dic，dict变为{}
->>>del dic['tom']             # 删除 dic 的‘tom’元素
+>>>del dic['tom']             # 删除 dic 的‘tom’元素,
 del是Python中保留的关键字，用于删除对象。
 与表类似，你可以用len()查询词典中的元素总数。
 >>>print len(dic)
+
+my_dict.pop('key', None)   # 最好的删除方式，
+删除成功返回value, 如果key不存在返回None
+
 ```
 
 #### 集合set

@@ -68,7 +68,14 @@ tel = request.forms.get('tel')
 email = request.forms.get('email')
 ```
 
+如果或得所有参数： `all = json.loads(request.body.read())`
+
+
+
+
+
 #### 动态路由
+
 1. 请求参数放入URL路径中
   `/user/<name>`
   `/user/<name>/<id>`
