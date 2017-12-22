@@ -198,6 +198,10 @@ struct 模块解决字节问题。
 
 在2.x的版本中，urllib与urllib2并不是可以代替的，只能说2是一个补充。
 
+
+
+#### urllib2
+
 urlopen方法是urllib2模块最常用也最简单的方法，它打开URL网址，url参数可以是一个字符串url或者是一个Request对象。
 
 　　对于可选的参数timeout，阻塞操作以秒为单位，如尝试连接（如果没有指定，将使用设置的全局默认timeout值）。实际上这仅适用于HTTP，HTTPS和FTP连接。
@@ -221,9 +225,13 @@ the_page = response.read()
 
 这里用到了`urllib2.``Request`类，对于上例，我们只通过了URL实例化了Request类的对象，其实Request类还有其他的参数。
 
-#### urllib2
+post:
 
+`req = urllib2.urlopen(url, dumps(target))`
 
+设置超时时间：
+
+`socket.setdefaulttimeout(5); # 超时 5秒`
 
 
 

@@ -327,10 +327,13 @@ n: 保存源文件，将格式变换后的新文件输出。
 
 ```
 set ts=4
+set sw=4
 set expandtab
 ```
 
 ts = tabstop。 
+
+sw = shiftwidth
 
 重启vim可让配置生效
 

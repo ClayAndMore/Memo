@@ -495,6 +495,33 @@ shlex.split("python -u a.py -a A    -b   B     -o test")
 
 检测一段代码的运行时间
 
+```
+
+>>> importtimeit
+
+>>> timeit.timeit('"-".join(str(n) for n in range(100))', number=10000)
+
+0.8187260627746582
+
+>>> timeit.timeit('"-".join([str(n) for n in range(100)])', number=10000)
+
+0.7288308143615723
+
+>>> timeit.timeit('"-".join(map(str, range(100)))', number=10000)
+
+0.5858950614929199
+```
+
+
+
+在linux系统中使用time.time()获得的精度更高，
+
+在window系统中使用time.clock()获得的精度更高。
+
+timeit.default_tmer() 基于平台选择精度高的记录时间方法。
+
+
+
 
 
 ### ConfigParser

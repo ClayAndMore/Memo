@@ -298,3 +298,8 @@ eg:
 
 
 
+### Suprise Get
+
+#### state
+
+查看文件状态，eg: `state filename`
