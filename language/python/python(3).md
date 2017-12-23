@@ -221,6 +221,10 @@ the_page = response.read()
 
 这里用到了`urllib2.``Request`类，对于上例，我们只通过了URL实例化了Request类的对象，其实Request类还有其他的参数。
 
+#### urllib2
+
+
+
 
 
 ### 浅拷贝和深拷贝

@@ -139,9 +139,13 @@ Sun, 24 May 2009 21:48:54 demo2.py[line:13] WARNING This is warning message
    %(message)s: 打印日志信息
 
 * datefmt   使用指明的日期／时间格式。
+<<<<<<< HEAD
 
 * level  知名根logger的级别。
 
+=======
+* level 指明根logger的级别。
+>>>>>>> 4311e721b1e7241c2a2dcac45a7f4a834d173cab
 * stream   使用指明的流来初始化StreamHandler。该参数与'filename'不兼容，如果两个都有，'stream'被忽略。
 
   指定输出到sys.stderr,sys.stdout或者文件，默认输出到sys.stderr。
@@ -157,3 +161,32 @@ Sun, 24 May 2009 21:48:54 demo2.py[line:13] WARNING This is warning message
 * 通过网络进行配置，使用[listen()](http://python.usyiyi.cn/python_278/library/logging.config.html#logging.config.listen)函数进行网络配置。
 
 eg: `logging.config.fileConfig("./logging.conf")`
+
+
+
+
+
+#### 配置输出流
+
+```python
+ #!/usr/bin/python
+    import sys
+    import logging
+
+    class InfoFilter(logging.Filter):
+        def filter(self, rec):
+            return rec.levelno in (logging.DEBUG, logging.INFO)
+
+    logger = logging.getLogger('__name__')
+    logger.setLevel(logging.DEBUG)
+
+    h1 = logging.StreamHandler(sys.stdout)
+    h1.setLevel(logging.DEBUG)
+    h1.addFilter(InfoFilter())
+    h2 = logging.StreamHandler()
+    h2.setLevel(logging.WARNING)
+
+    logger.addHandler(h1)
+    logger.addHandler(h2)
+```
+
