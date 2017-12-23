@@ -1,5 +1,13 @@
 date: 2017-08-31 
 
+
+
+
+
+![](http://ovolonhm1.bkt.clouddn.com/git%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F.png)
+
+
+
 ### origin
 
 在clone完成之后，Git 会自动为你将此远程仓库命名为origin
@@ -29,6 +37,10 @@ cd ..
 ```
 git clone project.git project3 --recursive
 ```
+
+
+
+git submodoule foreach
 
 
 
@@ -138,11 +150,22 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 
 
 
-只撤销上次的commit ,并没有push:
 
-`git resest HEAD^`
 
-更改已经提交过的注释 :`git commit --amend`
+* 撤销没有add的，也就是所有本地修改。
+
+  git checkout .  (所有)
+
+  git checkout 文件名（具体文件）
+
+* 撤销add 的， `git reset HEAD filename` ,  回到上面的状态。
+
+
+* 只撤销上次的commit ,并没有push:
+
+  `git resest --hard HEAD^`
+
+* 更改已经提交过的注释 :`git commit --amend`
 
 
 
@@ -162,9 +185,25 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 2. 合并后克隆主仓库到目录中，先不用递归克隆。
 3. 进入主仓库，到相关submodel中(比如src),`git checkout -b 分支名 origin/远程分支名` 
 4. git log 看是否是之前submodel的新提交。
-5. 到顶层目录，进入刚才的分支，`git dif`f看是否有内容改变 
+5. 到顶层目录，进入刚才的分支，`git diff`看是否有内容改变 
 6. 如果有，add . ,commit ,push
 
+
+
+
+自己分支出包测试
+
+` git submodule foreach git checkout master`
+
+`git submodule foreach git pull origin master`
+
+`git status`
+
+`git add --`
+
+`git commit -m -`
+
+`git push origin 自己的分支名`
 
 
 

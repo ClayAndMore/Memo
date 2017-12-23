@@ -25,48 +25,30 @@ print str(y), type(y)
 #### dump
 
 ```python
-# coding:utf-8
-import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import yaml
 
-s = 'I have an apple'
-print yaml.dump(s)
+data = dict(
+    A = 'a',
+    B = dict(
+        C = 'c',
+        D = 'd',
+        E = 'e',
+    )
+)
 
-lists = ['zhangsan', 'lisi', 'wangwu', 'zhaoliu']
-print yaml.dump(lists)
-
-class Person(object):
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-p1 = Person('zhangsan', 19)
-p2 = Person('lisi', 20)
-p3 = Person('wangwu', 21)
-
-persons = [p1, p2, p3]
-
-print yaml.dump(persons)
+with open('data.yml', 'w') as outfile:
+    yaml.dump(data, outfile, default_flow_style=False)
 ```
 
 运行结果：
 
+```yaml
+A: a
+B:
+  C: c
+  D: d
+  E: e
 ```
-I have an apple
-...
-
-[zhangsan, lisi, wangwu, zhaoliu]
-
-- !!python/object:__main__.Person {age: 19, name: zhangsan}
-- !!python/object:__main__.Person {age: 20, name: lisi}
-- !!python/object:__main__.Person {age: 21, name: wangwu}
-```
-
-
 
 
 
@@ -74,4 +56,15 @@ I have an apple
 
 ### 中文
 
-在配置文件中有中的时候
+在配置文件中有中文的时候，我们像打印出来，由于字符编码的问题是有异常的，下面这样的代码可以正常打印：
+
+```python
+f=open('data.yaml',)
+data = yaml.load(f)
+print data
+print (repr(data).decode('unicode-escape'))
+```
+
+
+
+传输的时候不用decode，也没有问题。

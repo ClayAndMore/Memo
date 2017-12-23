@@ -288,7 +288,7 @@ update(criteria, objNew, upsert, mult)
 
   没有找到，返回None,
 
-  找到返回更改后的，待验证
+  找到返回更改前的
 
   `c.user.user.find_and_modify({'_id':uname},update={'$set':{'key':data['sn']}})`
 
