@@ -61,6 +61,8 @@ date: 2017-08-31
 
 `os.mknod(“test.txt”)`  创建空文件 
 
+`os.unlink('path/file')`  删除文件，如果是目录则返回一个错误。
+
 
 
 #### 判断目标

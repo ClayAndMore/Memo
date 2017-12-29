@@ -92,6 +92,19 @@ git submodoule foreach
 
 
 
+一个分支的修改同步到另一个分支
+
+branch A（01版本），在branch A（01版本）上开了分支branch B（01版本），这个时候我修改了branch A（01->02版本），请问我如何将修改的结果带到branch B？
+
+```
+git checkout B
+git merge A
+```
+
+
+
+
+
 ### fork
 
 情形： 从别人的库里fork为自己的库，但是别人的库更新了，自己如何更新？

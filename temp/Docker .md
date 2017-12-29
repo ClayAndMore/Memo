@@ -316,6 +316,7 @@ EXPOSE 80
   docker run -t -i jimmy/ubuntu:latest
   ```
   如果docker run时写运行命令，会覆盖掉CMD.
+
 * ENTRYPOINT: 是说强制执行的环境,有时可以和CMD相互代替，主要功能实际上是,指定了内部运行命令的解析器. 而使用docker   run添加的命令,会被当做参数添加给ENTRYPOINT.
   ```
   # 已经指定了ENTRYPOINT ["/bin/sh"]
@@ -333,6 +334,7 @@ EXPOSE 80
   docker run jimmy/demo sam.sh
   ```
   不过,CMD和ENTRYPOINT都只能在dockerfile里面出现一次.
+
 * WORKDIR 指定运行目录
   我们在RUN命令的时候想在不同目录下操作：
   ```
@@ -344,6 +346,7 @@ EXPOSE 80
   RUN touch data.conf
   ```
   并且当你在使用docker run时也会停留在workdir指定的目录中。
+
 * VOLUME 指定数据卷的位置：
   ```
   # 指定/opt/data为数据卷
@@ -351,6 +354,7 @@ EXPOSE 80
   # 指定多个目录为数据卷/opt/data, /opt/project
   VOLUME ["/opt/data","/opt/project"]
   ```
+
 * COPY和ADD ，为容器添加文件
   限制：你添加的文件或者目录,只能在docker build运行的目录下, 因为,这是docker在调起container的时候,只将该目录放进了daemon。
   ```
@@ -383,7 +387,9 @@ EXPOSE 80
 
   ADD 包含 COPY
 
-  COPY做的事情比不上ADD, 他比ADD少了解压缩和URL下载的功能. 不过,他耗费的性能比较少,他只做纯粹的添加和下载.他的结构和ADD一毛一样. 不过, 有一点,COPY的时候,如果遇到目录不存在的情况下,COPY会自动创建
+  COPY做的事情比不上ADD, 他比ADD少了解压缩和URL下载的功能. 不过,他耗费的性能比较少,他只做纯粹的添加和下载.他的结构和ADD一毛一样. 
+
+  不过, 有一点,COPY的时候,如果遇到目录不存在的情况下,COPY会自动创建
 
   `COPY file.js /opt/data/`
 
@@ -394,6 +400,7 @@ EXPOSE 80
   # 在运行时,进行手动替换
   docker build --build-arg user=sam -t jimmy/demo   
   ```
+
 * ONBUILD ,模板image,因为镜像的可写层数是有限制的，我们需要继承模板来在子dockerfile中使用。
 
 #### 运行
@@ -476,3 +483,11 @@ echo $PATH
 
 ## 实战
 ### 用Docker安装操作系统
+
+
+
+
+
+## 遇到的问题
+
+* workdir 的目录为挂载目录的子目录时 运行容器时会提示找不到文件。

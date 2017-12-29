@@ -158,6 +158,27 @@ update(criteria, objNew, upsert, mult)
 
 
 
+
+更新多条：
+
+在pymongo2.x中没有update_one(),update_many()等方法。而update()默认只更新一条记录。
+
+在更新多条数据时，可以将参数：multi=True
+
+`collection.update({'id':{'$gt':0}},{'$set':{'num':0}},multi=True)`
+
+在3.x中可以使用:
+
+`collection.update_many({'id':{'$gt':0}},{'$set':{'num':0}})`
+
+3.x同样支持2.x的方式，但已经不建议使用了
+
+
+
+更新所有： `collection.update({'id': {}, {'&set': {}}})`
+
+
+
 ##### 查询
 
 * find_one()
@@ -187,6 +208,7 @@ update(criteria, objNew, upsert, mult)
   {u'dd': u'ddd', u'_id': ObjectId('59eff58feccbcd470f19b597')}
   {u'aa': u'aaa', u'_id': ObjectId('59effa01eccbcd470f19b598')}
   ```
+  ObjectId -> str :   str(ObjectId)
 
 * `$gt,$lt`
 
@@ -322,4 +344,6 @@ update(criteria, objNew, upsert, mult)
   '[{"_id": {"$oid": "555cb3a7fa5bd85b81d5a624"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a625"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a626"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a627"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a628"}}]'
   ```
 
-  ​
+* ObjectId to str
+
+  `str(ObjectID)`
