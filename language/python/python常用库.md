@@ -499,7 +499,7 @@ shlex.split("python -u a.py -a A    -b   B     -o test")
 
 ```
 
->>> importtimeit
+>>> import timeit
 
 >>> timeit.timeit('"-".join(str(n) for n in range(100))', number=10000)
 

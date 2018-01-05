@@ -1,8 +1,62 @@
-`__future__`
+### 内置字段
+
+#### ` __doc__`
+
+提供py文件，模块，类，函数，的说明。
+
+eg:  doc_test.py:
+
+```python
+"""Module docstring."""
+
+class A():
+  """Class docstring"""
+  pass
+
+def f(x):
+    """Function docstring."""
+    return 2 * x
+
+if __name__ == '__main__':
+   print __doc__
+```
+
+输出： 
+
+```
+文件本身
+"""Module docstring."""
+
+模块
+import doc_test
+print doc_test.__doc__
+"""Module docstring."""
+
+类
+print A.__doc__
+  """Class docstring"""
+
+函数
+print f.__doc__
+ """Function docstring."""
+```
+
+细节：
+
+* 三引号和单引号都会输出
+
+
+* 只会输出相关内容的第一行，比如在文件中部的注释都不会输出。
 
 
 
-`__all__`
+
+
+#### `__future__`
+
+
+
+#### `__all__`
 
 一、
 
@@ -37,7 +91,21 @@ modualA.py
 
 
 
-### 一些内置函数
+### 内置函数
 
 #### vars
+
+
+
+
+
+#### locals() 获得函数参数k-v
+
+```
+>>> def func(a,b,c):
+...  print locals().items()
+... 
+>>> func(1,2,3)
+[('a', 1), ('c', 3), ('b', 2)]
+```
 
