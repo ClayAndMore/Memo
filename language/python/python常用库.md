@@ -392,87 +392,6 @@ py2:Socketserver,  py3: socketserver
 
 
 
-
-
-### argparse
-
-是python的一个命令行解析包
-
-http://www.jianshu.com/p/fef2d215b91d
-
-1. 默认配置，也就是最单纯的写法：test.py
-
-  ```python
-  import argparse
-  parse = argparse.ArgumentParser()
-  parse.parse_args()
-  ```
-
-  这样只有自带的h参数生效： python test.py -h
-
-2. 带固定参数
-
-   ```python
-   parser = argparse.ArgumentParser()
-   parser.add_argument("echo")
-   args = parser.parse_args()
-   print args.echo
-   ```
-
-   不带参数`python test.py `会有错误提示，正确使用为：
-
-   `python test.py hahaha`   输出 hahaha
-
-3. 带可选参数
-
-   ```python
-   import argparse parser = argparse.ArgumentParser() 
-   parser.add_argument("-v", "--verbosity", help="increase output verbosity") 
-   args = parser.parse_args() 
-   if args.verbosity: 
-   	print "verbosity turned on"
-   ```
-
-    通过“-”，“--”来声明可选参数，调用形式：`python test.py --v 1`  1是v代表的参数，
-
-   参数通过解析后存在parser.parse_args()中，如果没有给定则会报错。
-
-   如果用那种不用给参数的，像-h,我们需要指定`action="store_true"`  eg:
-
-   `parser.add_argument("-v", "--verbose", help="increase output verbosity",action="store_true")`这时 parse_args()存的是True或False ，通过解析则为True
-
-4. 传递不同类型的的参数类型
-
-   ```python
-   import argparse parser = argparse.ArgumentParser() 
-   parser.add_argument('x', type=int, help="the base") 
-   args = parser.parse_args() 
-   answer = args.x ** 2
-   print answer
-   ```
-
-   传参时只能传int，eg:`python test.py 2`
-
-   如果需要参数默认值： `parser.add_argument('x', type=int, help="the base",default=1) `
-
-5. 为参数设立可选值
-
-   ```
-   parser.add_argument("-v", "--verbosity", type=int, choices=[0, 1, 2],
-                       help="increase output verbosity")
-   ```
-
-   这里可以和3中的对比，如果在0，1，2范围外的参数值将报错
-
-6. 提供帮说明
-
-   为整个文档提供帮助说明：
-
-   ``argparse.ArgumentParser(description="calculate X to the power of Y"``
-
-   这时在用帮助参数时会打印上述描述信息。
-
-
 ### shlex
 
 用来解析一些类似shell的语句，或者是解析带引号的语句，将单词分离出来，特点是带引号的也能分离。
@@ -545,44 +464,6 @@ timeit.default_tmer() 基于平台选择精度高的记录时间方法。
 
 
 ## 非内置
-
-### docopt
-
-官方库：https://github.com/docopt/docopt
-
-参数解析的库，将py文件的`__doc__`解析出来：
-
-```python
-"""val Fate.
- 
-Usage:
-  naval_fate.py ship new <name>...
-  naval_fate.py ship <name> move <x> <y> [--speed=<kn>]
-  naval_fate.py ship shoot <x> <y>
-  naval_fate.py mine (set|remove) <x> <y> [--moored | --drifting]
-  naval_fate.py (-h | --help)
-  naval_fate.py --version
- 
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-  --speed=<kn>  Speed in knots [default: 10].
-  --moored      Moored (anchored) mine.
-  --drifting    Drifting mine.
- 
-"""
-from docopt import docopt
- 
-if __name__ == '__main__':
-    arguments = docopt(__doc__, version='Naval Fate 2.0')
-    print arguments
-```
-
-
-
-这里只有vesion参数被指定。
-
-
 
 ### beanstalkd
 
