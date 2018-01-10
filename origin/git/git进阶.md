@@ -176,7 +176,7 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 
 * 只撤销上次的commit ,并没有push:
 
-  `git resest --hard HEAD^`
+  `git reset --hard HEAD^`
 
 * 更改已经提交过的注释 :`git commit --amend`
 
@@ -249,5 +249,9 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
   git commit -m 'msg' -a
   ```
 
-* ​
+* fatal: unable to access `'https://github.com/VundleVim/Vundle.vim.git/'`: GnuTLS recv error (-54): Error in the pull function.
 
+
+  需要取消git的代理： `git config --global --unset http.proxy`
+
+  ​
