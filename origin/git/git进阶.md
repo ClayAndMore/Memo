@@ -138,9 +138,28 @@ git merge A
    ```
 
 
+
+
+### Merge
+
+git 合并远端master分支：
+
+```git
+git checkout slef_branch
+-- 保持无更改 --
+git merge master
+
+```
+
+
+
+
+
 ### 解决冲突
 
-如果有冲突会提示，你只需要找到那个文件，文件中会标记冲突的地方，用编辑器打开，然后把冲突编辑掉，重新提交就好了 。
+如果有冲突会提示，你只需要找到那个文件，文件中会标记冲突的地方，用编辑器打开，然后把冲突编辑掉，重新提交就好了 。看后文问题
+
+
 
 
 ### 版本回溯
@@ -163,7 +182,7 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 
 
 
-
+### 本地撤销和版本回退
 
 * 撤销没有add的，也就是所有本地修改。
 
@@ -179,6 +198,20 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
   `git reset --hard HEAD^`
 
 * 更改已经提交过的注释 :`git commit --amend`
+
+
+
+
+本地git操作版本回退
+
+git reflog 可以看到本地的git操作
+
+`git reset --hard Obfafd`
+
+后面为操作记录id
+
+然后可以强制推至远程分支`git push -f`
+
 
 
 
@@ -254,4 +287,6 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 
   需要取消git的代理： `git config --global --unset http.proxy`
 
-  ​
+  
+
+* merge后版本冲突

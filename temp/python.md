@@ -109,3 +109,14 @@ modualA.py
 [('a', 1), ('c', 3), ('b', 2)]
 ```
 
+
+
+
+
+#### help()
+
+查看模块具体用法：eg :
+
+`help(shutil)` 
+
+`help(shutil.copy)`

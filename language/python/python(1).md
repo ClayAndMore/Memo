@@ -663,6 +663,18 @@ C
 
 
 
+其实enumerate还可以接受第二个参数：
+
+```
+>>> list(enumerate('abc')) 
+[(0, 'a'), (1, 'b'), (2, 'c')] 
+ 
+>>> list(enumerate('abc', 1)) 
+[(1, 'a'), (2, 'b'), (3, 'c')]
+```
+
+
+
 ### 函数
 ```
 def square_sum(a,b):
