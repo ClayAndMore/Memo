@@ -154,12 +154,11 @@ call vundle#begin()
 
 Plugin 'git://github.com/Yggdroot/indentLine.git'
 
-call vundle#end()            " required
+call vundle#end()            " require
 filetype plugin indent on    " required
-
 ```
 
-begin和end里放入你要安装的插件。
+begin和end里放入你要安装的插件。注意这里不是注释，要带上#begin()和#end()
 
 这个插件一般github的 用户名/仓库名
 尽量手打，防止出现Not an editor command: z.
