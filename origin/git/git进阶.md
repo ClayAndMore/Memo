@@ -173,11 +173,26 @@ Merge made by the 'recursive' strategy.
 
 合并后是一次新的提交，所有-m参数。
 
+eg:  master 的 新分支 dev， dev做了修改并commit , 得到一个commit id A，此时合并dev, git merge dev, master的分支id也是A, 这是没有加参数的时候，如果加了参数，git master会有一个新的commit ，一个新的id，
+
+这样容易分辨merge.
+
 
 
 ### git log
 
 `git log --graph`命令可以看到分支合并图。
+
+
+
+### git stash
+
+git stash将当前工作区缓存起来，这样切换到其他分支工作区的内容就不会影响，当在其他分支建立新分支时，比如修复bug，我们当前的工作并不会影响，当提交bug分支后，我们再将缓存内容提取出来。
+
+* git stash list 当前stash 列表
+* git stash appy , 然后用git stash drop 删除缓存
+* git stash pop , 会同时删除缓存内容。
+* 可加具体stash:` $ git stash apply stash@{0}`
 
 
 
