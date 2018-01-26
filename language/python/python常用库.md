@@ -154,6 +154,22 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
   注意： json的str转会python变成了unicode而不是str
 
+* json.dump(f), 
+
+* json.load(f),
+
+  f为从文件读取出来的文件流，注意该文件内的josn格式 只能用双引号：
+
+  ```
+  {
+      "a": "aaaa",
+      "b": "bbbbbbb"
+  }
+
+  ```
+
+  ​
+
   ​
 
 
@@ -311,18 +327,73 @@ d['amy']
 subprocess最早是在2.4版本中引入的。
 用来生成子进程，并可以通过管道连接它们的输入/输出/错误，以及获得它们的返回值。
 
-它用来代替多个旧模块和函数:
-os.system
-os.spawn*
-os.popen*
-popen2.*
-commands.*
+它用来代替多个旧模块和函数: `os.system os.spawn os.popen popen2  commands`
 
+用法：
 
+* `subprocess.call(args*, stdin=None, stdout=None, stderr=None, shell=False)`
+
+  起子进程调用命令行，父进程等待子进程完成。
+
+  返回值成功时一般为0。
+
+  两种用法，eg：
+
+  `a=subprocess.call(['ls', '-l'])`
+
+  `b=subprocess.call('ls -l', shell=True)`
+
+  此时a,b返回为零.
+
+  **子进程的PID存储在a.pid**
 
 subprocess 的目的就是启动一个新的进程并且与之通信。
 
+* subprocess.Popen()
 
+  subprocess的函数都是封装在Popen类中，调用方式和上方call函数一样
+
+  注意，这时父进程不会等待子进程
+
+  等待：
+
+  ```
+  >>> child = subprocess.Popen('ping -c4 blog.linuxeye.com',shell=True)
+  >>> child.wait()
+  >>> print 'parent process'
+  ```
+
+  其他方法：
+
+  child.returncode() #获取进程的返回值。如果进程还没有结束，返回None。
+
+  child.poll() # 检查子进程状态
+  child.kill() # 终止子进程
+  child.send_signal() # 向子进程发送信号
+  child.terminate() # 终止子进程
+
+* 文本流控制
+
+  可以在Popen()建立子进程的时候改变标准输入、标准输出和标准错误，并可以利用`subprocess.PIPE`将多个子进程的输入和输出连接在一起，构成管道(pipe)，如下2个例子：
+
+  复制代码 代码如下:
+
+  **subprocess.PIPE实际上为文本流提供一个缓存区**。
+
+  child1的stdout将文本输出到缓存区，随后child2的stdin从该PIPE中将文本读取走。child2的输出文本也被存放在PIPE中，直到communicate()方法从PIPE中读取出PIPE中的文本。
+
+  ```
+  >>> import subprocess
+  >>> child1 = subprocess.Popen(["ls","-l"], stdout=subprocess.PIPE)
+  >>> print child1.stdout.read(),
+  #或者child1.communicate()
+  >>> import subprocess
+  >>> child1 = subprocess.Popen(["cat","/etc/passwd"], stdout=subprocess.PIPE)
+  >>> child2 = subprocess.Popen(["grep","0:0"],stdin=child1.stdout, stdout=subprocess.PIPE)
+  >>> out = child2.communicate()
+  ```
+
+  注意：communicate()是Popen对象的一个方法，该方法会阻塞父进程，直到子进程完成
 
 
 

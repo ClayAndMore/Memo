@@ -68,3 +68,10 @@ print (repr(data).decode('unicode-escape'))
 
 
 传输的时候不用decode，也没有问题。
+
+
+
+### True | False
+
+设置成： 字段值on 或 off 会识别为Ture 或 False
+
