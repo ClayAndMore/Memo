@@ -44,6 +44,18 @@ git submodoule foreach
 
 
 
+### remote
+
+查看源：`git remote -v`
+
+增加源： `git remote add <origin/upstream> url`
+
+重命名源： `git remote rename old_name new_name`
+
+删掉源： `git remote remove xxx`
+
+
+
 ### 分支
 
 * 查看分支
@@ -140,7 +152,32 @@ git merge A
 
 
 
-### Merge
+### checkout
+
+将远端代码检出到本地：
+
+`git checkout upstream/dev-3.7.0`
+
+此时你所在分支会变成一个未命名的分支：
+
+```
+AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/upstream_dist_xxx ((dailybuild))
+$ git branch
+* (HEAD detached at upstream/dev-3.7.0)
+  master
+```
+
+将其命名： `git checkout -b new_branch `
+
+
+
+### fetch
+
+
+
+
+
+### merge
 
 git 合并远端master分支：
 
@@ -193,6 +230,7 @@ git stash将当前工作区缓存起来，这样切换到其他分支工作区�
 * git stash appy , 然后用git stash drop 删除缓存
 * git stash pop , 会同时删除缓存内容。
 * 可加具体stash:` $ git stash apply stash@{0}`
+
 
 
 
@@ -255,6 +293,13 @@ git reflog 可以看到本地的git操作
 
 
 
+### 忽略跟踪
+
+   `$ git update-index  --assume-unchanged  /path/to/file`           #忽略跟踪
+   `$ git update-index --no-assume-unchanged  /path/to/file `     #恢复跟踪
+
+
+
 
 ### 提交请求流程
 
@@ -294,40 +339,55 @@ git reflog 可以看到本地的git操作
 
 
 
-
 ### 一些问题
 
-* github设置密钥后push仍然需要密码：
+#### windows更改文件权限
 
-  原因是当时克隆用的https的方式
+`git update-index --chmod=+x path/to/the/file`
 
-  如果你已经用https方式克隆了仓库，就不必删除仓库重新克隆，只需将 .git/config文件中的 
-  url = <https://github.com/Name/project.git> 
-  一行改为 
-  url = git@github.com:Name/project.git 
-  即可。
 
-* 文件名在使用中文名时容易提交不上注意。
 
-* Changes not staged for commit ,网上查说是没有git add .,但是我add过了，下面的命令解决了这个问题：
+#### 查看当前git分支是基于哪个分支建立的
 
-  `git` 这里有点特殊。要先加入到 staging area 的改动才会被 `git commit` 提交。同一个文件也可以 `add` 多次。不想`add`可以：
+`git reflog --date=local | grep <branchname>`
 
-  ```
-  git commit -m 'msg' <file>
-  ```
 
-  或者
 
-  ```
-  git commit -m 'msg' -a
-  ```
+#### github设置密钥后push仍然需要密码：
 
-* fatal: unable to access `'https://github.com/VundleVim/Vundle.vim.git/'`: GnuTLS recv error (-54): Error in the pull function.
+原因是当时克隆用的https的方式
 
+如果你已经用https方式克隆了仓库，就不必删除仓库重新克隆，只需将 .git/config文件中的 
+url = <https://github.com/Name/project.git> 
+一行改为 
+url = git@github.com:Name/project.git 
+即可。
+
+#### 
+
+#### Changes not staged for commit ,
+
+网上查说是没有git add .,但是我add过了，下面的命令解决了这个问题：
+
+`git` 这里有点特殊。要先加入到 staging area 的改动才会被 `git commit` 提交。同一个文件也可以 `add` 多次。不想`add`可以：
+
+```
+git commit -m 'msg' <file>
+```
+
+或者
+
+```
+git commit -m 'msg' -a
+```
+#### fatal: unable to access
+
+ `'https://github.com/VundleVim/Vundle.vim.git/'`: GnuTLS recv error (-54): Error in the pull function.
 
   需要取消git的代理： `git config --global --unset http.proxy`
 
-  
 
-* merge后版本冲突
+
+### 注意
+
+文件名在使用中文名时容易提交不上。

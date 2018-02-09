@@ -120,3 +120,45 @@ modualA.py
 `help(shutil)` 
 
 `help(shutil.copy)`
+
+
+
+
+
+### 路径问题
+
+
+
+
+
+### 其他
+
+#### 获取某函数的print到变量
+
+```python
+from cStringIO import StringIO
+import sys
+
+class Capturing(list):
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        del self._stringio    # free up some memory
+        sys.stdout = self._stdout
+```
+
+Usage:
+
+```
+with Capturing() as output:
+    do_something(my_object)
+```
+
+
+
+这时do_something函数中的print不会真正的输出，它的输出都会存放在output中，
+
+获得输出我们只需要其output变量就好。

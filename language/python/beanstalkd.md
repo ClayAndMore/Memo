@@ -72,8 +72,14 @@ pip: `pip install pyyaml`
 还有个可选参数`connect_timeout`  默认为1
 
 * put 为入队操作，这里入队的为工作体，必须为string
-* reserve() ,请求当前保留的任务
+
+* reserve() ,请求当前保留的任务, 
+
+  reserve(10) , 超时时间为十秒，貌似为延时10秒
+
 * delete  ,标记当前任务已经做完
+
+* touch  , 重新记录当前超时时间， 
 
 
 

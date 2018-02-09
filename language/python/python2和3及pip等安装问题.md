@@ -173,7 +173,118 @@ ok~
 
 
 
+### 各个安装组件的关系
+
+#### distutils（setup.py 相关）
+
+`distutils` 是 python标准库的一部分，2000年发布，使用它能够进行python模块的安装和发布。
+
+setup.py 是`distutils` 写成，安装一个模块到当前的python环境中，可以使用这个模块提供的setup.py文件。
+
+eg： `python setup.py install`
+
+发布一个模块：
+
+*  `python setup.py sdist`  将其打包成tar.gz或者zip包。
+*  `python setup.py bdist_rpm`  将其打包成rpm包
+*  `python setup.py bdist_wininst` 将其打包成exe安装包。
+
+
+
+#### setuptools（easy_install相关) 和 distribute
+
+setuptools 是为了增强distutils而开发的集合。2004年发布，它包含了 `easy_install` 这个工具。
+
+简单的说，setuptools 是一个项目的名称，是基础组件。而 `easy_install` 是这个项目中提供的工具，它依赖基础组件工作。
+
+例如，从 PyPI 上安装一个包：
+
+
+`easy_install SQLObject`
+
+
+下载一个包文件，然后安装它：
+
+
+`easy_install http://example.com/path/to/MyPackage-1.2.3.tgz`
+
+
+从一个 .egg 格式安装：
+
+
+`easy_install /my_downloads/OtherPackage-3.2.1-py2.3.egg`
+
+格式是 setuptools 引入的一种文件格式，它使用 .egg 扩展名，用于 Python 模块的安装。
+
+distribute是 setuptools 的一个分支版本。分支的原因可能是有一部分开发者认为 setuptools 开发太慢了。但现在，distribute 又合并回了 setuptools 中。因此，我们可以认为它们是同一个东西。事实上，如果你查看一下 `easy_install` 的版本，会发现它本质上就是 distribute 。
+
+```
+# easy_install --version
+distribute 0.6.28
+```
+
+
+
+#### pip
+
+2008年发布，它被用作 `easy_install` 的替代品，但是它仍有大量的功能建立在 setuptools 组件之上。
+
+pip 希望不再使用 Eggs 格式（虽然它支持 Eggs），而更希望采用“源码发行版”（使用 `python setup.py sdist` 创建）。这可以充分利用 [Requirements File Format](https://pip.pypa.io/en/latest/reference/pip_install.html#requirements-file-format) 提供的方便功能。
+
+
+
+#### wheel
+
+wheel 本质上是一个 zip 包格式，它使用 .whl 扩展名，用于 python 模块的安装，它的出现是为了替代 Eggs。
+
+pip 提供了一个 wheel 子命令来安装 wheel 包。当然，需要先安装 wheel 模块。
+
 
 
 ###　离线安装
 
+#### 安装python
+
+地址：http://www.python.org/download/
+
+下载source python 源码包：
+
+`tar -zxf  Python-``3.5``.``0``.tar.tg`
+
+##### 指定安装目录，脱离系统环境
+
+上述解压包完，进入目录： 指定了make时的目录。
+
+`./configure --prefix=/usr/local/python3`
+
+make,刚才目录就好:
+
+`make && make install`
+
+完成，如有需求配置软链。
+
+
+
+#### 安装setuptools
+
+地址：<https://pypi.python.org/pypi/setuptools> 
+
+下载源码包XXX.tar.gz
+
+拷贝到linux机器，解压，执行：
+
+`python setup.py install`
+
+
+
+##### 指定python版本
+
+注意这个python用全路径，这样也就指定了你要安装setuptools的那个python的版本。
+
+
+
+#### 安装pip
+
+地址：<https://pypi.python.org/pypi/pip>
+
+跟上面一样。

@@ -1,4 +1,4 @@
-## Linux 磁盘和内存
+## Linux 硬件信息
 
 ### 磁盘
 
@@ -21,6 +21,16 @@
 `sudo fdisk l` 可看磁盘情况
 
 `sudo fdisk sdb`对sdb进行分区，接下来会提示你按下m获得详细帮助
+
+
+
+#### fdisk
+
+fdisk -l 
+
+可以查看硬盘和分区的详细信息
+
+
 
 #### 格式化（创建文件系统）
 
@@ -102,6 +112,39 @@ t指格式化的类型type为ext3,后面为指定分区
 
 当前内存的使用情况
 
+-b 　以Byte为单位显示内存使用情况。 
+
+-k 　以KB为单位显示内存使用情况。 
+
+-m 　以MB为单位显示内存使用情况。
+
+-g   以GB为单位显示内存使用情况。 
+
+-o 　不显示缓冲区调节列。 
+
+-s<间隔秒数> 　持续观察内存使用状况。 
+
+-t 　显示内存总和列。 
+
+-V 　显示版本信息
+
+
+
+#### /proc/meminfo
+
+查看内存详细使用：
+
+```
+cat /proc/meminfo
+MemTotal:        4020868 kB
+MemFree:          230884 kB
+Buffers:            7600 kB
+Cached:           454772 kB
+SwapCached:          836 kB
+```
+
+
+
 #### buffer和cache
 
 对于操作系统来说：
@@ -117,3 +160,145 @@ buffers与cached都是内存操作，用来保存系统曾经打开过的文件�
 　　buffers是用来缓冲块设备做的，它只记录文件系统的元数据（metadata）以及 tracking in-flight pages，而cached是用来给文件做缓冲。更通俗一点说：buffers主要用来存放目录里面有什么内容，文件的属性以及权限等等。而cached直接用来记忆我们打开过的文件和程序。
 
 所以一般cache会比较大。
+
+
+
+#### 硬件信息
+
+```
+dmidecode -t memory
+SMBIOS 2.7 present.
+Handle 0x0008, DMI type 16, 23 bytes
+Physical Memory Array
+    Location: System Board Or Motherboard
+....
+    Maximum Capacity: 32 GB
+....
+Handle 0x000A, DMI type 17, 34 bytes
+....
+Memory Device
+    Array Handle: 0x0008
+    Error Information Handle: Not Provided
+    Total Width: 64 bits
+    Data Width: 64 bits
+    Size: 4096 MB
+.....
+我的主板有4个槽位，只用了一个槽位，上面插了一条4096MB的内存。
+```
+
+
+
+
+
+### CPU
+
+#### lscpu
+
+lscpu命令，查看的是cpu的统计信息.
+
+```
+blue@blue-pc:~$ lscpu
+Architecture:          i686          #cpu架构
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian   #小尾序
+CPU(s):                4            #总共有4核
+On-line CPU(s) list:   0-3
+Thread(s) per core:    1              #每个cpu核，只能支持一个线程，即不支持超线程
+Core(s) per socket:    4               #每个cpu，有4个核
+Socket(s):             1              #总共有1一个cpu
+Vendor ID:             GenuineIntel    #cpu产商 intel
+CPU family:            6
+Model:                 42
+Stepping:              7
+CPU MHz:               1600.000
+BogoMIPS:              5986.12
+Virtualization:        VT-x             #支持cpu虚拟化技术
+L1d cache:             32K
+L1i cache:             32K
+L2 cache:              256K
+L3 cache:              6144K
+```
+
+#### /proc/cpuinfo
+
+查看/proc/cpuinfo,可以知道每个cpu信息，如每个CPU的型号，主频等。
+
+```
+cat /proc/cpuinfo
+processor    : 0
+vendor_id    : GenuineIntel
+cpu family    : 6
+model        : 42
+model name    : Intel(R) Core(TM) i5-2320 CPU @ 3.00GHz
+.....
+上面输出的是个cpu部分信息，还有3个cpu信息省略了。
+```
+
+
+### 网卡
+
+网卡配置文件：`/etc/sysconfig/network-scripts`
+
+
+
+#### ifconfig 
+
+查看所有网卡： ifconfig -a .
+
+查看某个网卡： ifconfig eth1
+
+
+
+#### ip link show
+
+
+
+#### 查看某网卡的口是否有线连接：
+
+1. `ethtool eth1` 
+
+   最后一行： Link detected: yes为正常no为失败 
+
+2. 或 `mii-tool` 用的少，有的驱动不支持。
+
+3. ```
+   /mnt/wifi$ cat /proc/net/dev
+
+   Inter-|  Receive                                                | Transmit
+
+   face |bytes  packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carriercompressed
+
+   lo:      0      0    0  0    0    0        0        0        0      0    0    0  0    0      0        0
+
+   eth0:    3439    15  0  0    0    0        0        0        0      0    0    0  0    0      0          0
+
+   在开发板上/proc/net目录下，还有很多关于网络的信息的文件，我试了不少，觉得这个还算准确，但并非100%哦，如果启动开发板后，eth0中bytes、packets 不为0，那它一定插了网线，但此种方法只适合开机启动时判断，之后的话，就很麻烦了。
+   ```
+
+   ​
+
+确定某网卡的具体物理口， 用：
+
+`ethtool -p eth2`  时，对应网卡会闪烁， 注意此时是未插网线。
+
+
+
+关闭 / 开启 / 重启 某块网卡：
+
+`ifdown eth0 && ifup eth0       # 一定要连在一起使用！！切记啊  `
+
+重启所有网卡服务：
+
+`/etc/init.d/network restart`
+
+
+
+
+
+#### 创建虚拟网卡
+
+```
+cd /etc/sysconfig/network-scripts
+mv 
+```
+

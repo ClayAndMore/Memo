@@ -1108,6 +1108,15 @@ eg： 查看pymongo包的路径
 >>>pymongo.__file__
 ```
 
+#### 导入其他目录的包
+
+```python
+import sys
+sys.path.insert(0, '/path/to/application/app/folder')
+
+import file
+```
+
 
 
 ### 包裹传递

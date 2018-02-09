@@ -135,7 +135,9 @@ $:ps -ef |grep ssh 
 
 $：/etc/init.d/ssh start 
 
-####  传送文件
+
+
+###  lrzsz
 
 * 先下载rz和sz的工具包
 
@@ -157,4 +159,28 @@ $：/etc/init.d/ssh start 
 
 ### ftp
 
+linux中安装ftp server,  这样可以使用另一台安装了ftp的client程序来进行文件拷贝，如软件xftp.
 
+
+
+### scp
+
+ scp是有Security的文件copy，基于ssh登录.
+
+格式： 
+
+从本地复制到远程：
+
+`scp local_file username@ip:file_path`
+
+从远程复制到本地： 
+
+`scp username@ip:file_path local_file`
+
+几个有用的参数：
+
+-v 和大多数 linux 命令中的 -v 意思一样 , 用来显示进度 . 可以用来查看连接 , 认证 , 或是配置错误 
+
+-P 选择端口 ，大写
+
+-r： 递归复制整个目录。
