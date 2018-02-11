@@ -51,6 +51,12 @@ print f.__doc__
 
 
 
+#### `__file__`
+
+
+
+
+
 
 #### `__future__`
 
@@ -111,6 +117,22 @@ modualA.py
 
 
 
+#### globals()
+
+python的全局名字空间存储在一个叫globals()的dict对象中
+
+
+
+#### eval()
+
+
+
+#### getattr()
+
+
+
+#### dir()
+
 
 
 #### help()
@@ -127,7 +149,7 @@ modualA.py
 
 ### 路径问题
 
-
+python 获取变量路径问题
 
 
 
