@@ -65,6 +65,12 @@ desfile 要带上压缩后缀，sourcefile 要全路径，全路径压缩的包�
 	-j 支持bzip2解压文件
 ```
 
+注意：
+
+.tar.gz     格式解压为   `tar   -zxvf   xx.tar.gz`
+
+.tar.bz2   格式解压为    `tar   -jxvf    xx.tar.bz2`
+
 
 
 - 删除tar包中的文件

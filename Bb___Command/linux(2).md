@@ -44,6 +44,47 @@ root用户的环境变量：~/.bashrc文件
 
 
 
+#### 修改环境变量
+
+- 当前终端
+
+  在当前终端中输入：`export PATH=$PATH:<你的要加入的路径>`
+
+  不过上面的方法只适用于当前终端，一旦当前终端关闭或在另一个终端中，则无效。
+
+   **注意**这个方法会让其他环境变量无效，尽量不要用这样的方式。
+
+- 当前用户
+
+  在用户主目录下有一个 .bashrc 隐藏文件，可以在此文件中加入 PATH 的设置如下：
+
+  `vi ~/.bashrc`
+
+  加入：
+
+  `export PATH=<你的要加入的路径>:$PATH`
+
+  如果要加入多个路径，只要：
+
+  `export PATH=<你要加入的路径1>:<你要加入的路径2>: ...... :$PATH`
+
+  当中每个路径要以冒号分隔。
+
+  这样每次登录都会生效
+
+- 所有用户
+
+  `sudo vi /etc/profile `
+
+  加入：
+  export PATH=<你要加入的路径>:$PATH
+
+  就可以了。
+
+  终端输入：echo $PATH 可以查看环境变量
+
+
+
 ### 进程
 
 #### 进程的分类
@@ -281,44 +322,5 @@ CPU 利用率，是对一个时间段内 CPU 使用状况的统计，通过这�
 * `ps －afxo user,ppid,pid,pgid,command`自定义显示参数
 * `pstree`可以很直接的看到相同的进程数量，最主要的还是我们可以看到所有进程的之间的相关性。
 
-### 网络
 
-* netstat 当前网络状态
-* ping 
-* ifconfig
-* ssh
-* ftp
-* telnet
-
-
-#### 查看端口
-
-查看80端口的占用情况：
-
-lsof -i:80  
-
-或者：
-
-netstat -apn | grep 80
-
-上面的命令执行之后可以显示进程号，找到进程号以后，再使用以下命令查看详细信息：
-
-ps -aux | grep <进程号>
-
-
-### 遇到的问题
-
-* tab自动补全失灵
-
-编辑etc/bash bashrc文件（管理员权限），找到以下几行：
-
-```
-# enable bash completion in interactive shells
-# if{-f etc/bash_conmpletion} $$ ! shopt -oq posix:then
-# ./etc/bash_completion
-# fi
-```
-
-取消注释即可
-
-**bashrc文件讲讲rc的含义**：run command ,一般rc后缀文件就是启动脚本文件
+### 

@@ -642,3 +642,19 @@ ubuntu系统可能出现declare:not found的问题，命令：`sudo dpkg-reconfi
 有可能是把if 的结尾 fi 写反。
 
 或者不是set ff = unxi
+
+
+
+##### linux命令执行返回值
+
+上一条命令的返回值： `echo $？`
+
+返回值为零代表执行成功，其他则失败： 
+
+那么如果返回的值不是 0，我们要怎么知道是那里出错了呢？ 大多数的程序出错都会给出提示，如果没有提示的话，可以用 **perror** 这个程序来查看错误的信息，比如返回值是 2，我们可以运行：
+
+```
+$ perror 2
+OS error code   2:  No such file or directory
+```
+

@@ -334,16 +334,32 @@ update(criteria, objNew, upsert, mult)
 
 #### 技巧
 
-* cursor conver to json
+##### cursor conver to json
 
-  ```python
-  import pymongo
-  c = pymongo.MongoClient()
-  from bson.json_util import dumps
-  dumps(c.test.test.find())
-  '[{"_id": {"$oid": "555cb3a7fa5bd85b81d5a624"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a625"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a626"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a627"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a628"}}]'
-  ```
+```python
+import pymongo
+c = pymongo.MongoClient()
+from bson.json_util import dumps
+dumps(c.test.test.find())
+'[{"_id": {"$oid": "555cb3a7fa5bd85b81d5a624"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a625"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a626"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a627"}}, {"_id": {"$oid": "555cb3a7fa5bd85b81d5a628"}}]'
+```
 
-* ObjectId to str
 
-  `str(ObjectID)`
+##### ObjectId to str
+
+`str(ObjectID)`
+
+
+
+##### find时只返回特定字段
+
+`.find({搜索条件}, {设置字段显示})`
+
+eg: 
+
+`c.user.info.find_one( {'name':'abc'} ,{"_id": 0, "username": 1, "foo": 1}) ` 
+
+0为不显示该字段，1为显示该字段，设置字段显示时，其他字段默认为零。
+
+
+

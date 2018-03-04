@@ -259,3 +259,8 @@ import other_api_file
 
 
 
+### 问题
+
+#### Broken pip
+
+在` /usr/lib/python2.7/wsgiref/handlers.py"` 中有时有  `[[Errno 32\] Broken pipe]` 的异常，可能是api请求过于频繁导致的。

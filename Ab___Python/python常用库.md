@@ -558,6 +558,54 @@ timeit.default_tmer() 基于平台选择精度高的记录时间方法。
 
 
 
+### StringIO 和 cStringIO
+
+StringIO的行为与file对象非常像，但它不是磁盘上文件，而是一个内存里的“文件”，我们可以将操作磁盘文件那样来操作StringIO。
+
+```python
+from StringIO import StringIO  
+  
+# 生成一个StringIO对象，当前缓冲区内容为ABCDEF    
+s = StringIO('ABCDEF')  
+# 从开头写入，将会覆盖ABC  
+s.write('abc')  
+# 每次使用read()读取前，必须seek()  
+# 定位到开头  
+s.seek(0)  
+# 将输出abcDEF  
+print s.read()  
+# 定位到第二个字符c  
+s.seek(2)  
+# 从当前位置一直读取到结束，将输出cDEF  
+print s.read()  
+s.seek(3)  
+# 从第三个位置读取两个字符，将输出DE  
+print s.read(2)  
+s.seek(6)  
+# 从指定位置写入  
+s.write('GH')  
+s.seek(0)  
+# 将输出abcDEFGH  
+print s.read()  
+# 如果读取所有内容，可以直接使用getvalue()  
+# 将输出abcDEFGH  
+print s.getvalue()  
+```
+
+
+
+Python标准模块中还提供了一个cStringIO模块，它的行为与StringIO基本一致，但运行效率方面比StringIO更好。
+
+
+
+### webbrowser
+
+用python调用浏览器打开一个网址： 
+
+`webbrowser.open(url)`
+
+
+
 ## 非内置
 
 ### beanstalkd

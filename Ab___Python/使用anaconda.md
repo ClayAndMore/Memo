@@ -176,3 +176,19 @@ settings-project-project-interpreter
 最后，最好关掉终端重启，不然还是有原来的文件。
 
 
+
+### 自带包
+
+ipython
+
+numpy
+
+scipy
+
+matplotlib
+
+pandas
+
+scikit-learn
+
+可在Anaconda\Lib\site-packages里查看
