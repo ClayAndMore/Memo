@@ -12,9 +12,13 @@
 
 `$ du -h`
 
-`$ du -h -d 0` 只看一级目录的信息
+`$ du -h --max-depth 0` 只看一级目录的信息
 
-`$ du -h -d 1`只看二级目录的信息
+`$ du -h --max-depth 1`只看二级目录的信息
+
+`du -h --max-depth=0 ./log`  看某个文件夹的大小
+
+
 
 #### 分区
 
@@ -142,24 +146,6 @@ Buffers:            7600 kB
 Cached:           454772 kB
 SwapCached:          836 kB
 ```
-
-
-
-#### buffer和cache
-
-对于操作系统来说：
-
-```
-buffer（缓冲）是为了提高内存和硬盘（或其他I/O设备）之间的数据交换的速度而设计的。 cache（缓存）是为了提高cpu和内存之间的数据交换速度而设计的，也就是平常见到的一级缓存、二级缓存
-```
-
-对于linux系统来说：free命令会显示buffers和cached
-
-buffers与cached都是内存操作，用来保存系统曾经打开过的文件以及文件属性信息，这样当操作系统需要读取某些文件时，会首先在buffers 与cached内存区查找。
-
-　　buffers是用来缓冲块设备做的，它只记录文件系统的元数据（metadata）以及 tracking in-flight pages，而cached是用来给文件做缓冲。更通俗一点说：buffers主要用来存放目录里面有什么内容，文件的属性以及权限等等。而cached直接用来记忆我们打开过的文件和程序。
-
-所以一般cache会比较大。
 
 
 

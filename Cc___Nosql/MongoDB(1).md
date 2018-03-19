@@ -102,7 +102,7 @@ MongoDB的单个实例可以容纳多个独立的数据库，每一个都有自�
 
 还有一些常用的命令： 
 
-* db.collection.count() 看集合的数据条数
+* db.collection.count() 看集合的数据条数, 注意：**当和limit一起用的时候count是返回符合条件的数。**
 * db.collection.find().explain()  在语句后加explain可以看到执行时发生的过程。
 
 

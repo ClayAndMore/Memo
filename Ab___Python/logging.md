@@ -28,6 +28,14 @@ logging.critical('critical message')
 
 级别则为demo中的五个级别。
 
+DEBUG：详细的信息,通常只出现在诊断问题上
+INFO：确认一切按预期运行
+WARNING：一个迹象表明,一些意想不到的事情发生了,或表明一些问题在不久的将来(例如。磁盘空间低”)。这个软件还能按预期工作。
+ERROR：更严重的问题,软件没能执行一些功能
+CRITICAL：一个严重的错误,这表明程序本身可能无法继续运行
+
+
+
 同时输出到屏幕和日志文件：
 
 ```python
@@ -53,7 +61,27 @@ logging.warning('And this, too')
 
 Logger是一个树形层级结构，在使用接口debug，info，warn，error，critical之前必须创建Logger实例，即创建一个记录器.
 
+在调用getLogger时要提供Logger的名称（注：多次使用相同名称 来调用getLogger，返回的是同一个对象的引用。）
+
 `logger = logging.getLogger(logger_name)`
+
+
+
+logger记录;
+
+```python
+import logging
+log = logging.getLogger()
+log.debug('debug message')
+log.info('info message')
+log.warn('warn message')
+log.error('error message')
+log.critical('critical message')
+```
+
+
+
+
 
 如果没有显式的进行创建，
 
@@ -81,11 +109,90 @@ Logger是一个树形层级结构，在使用接口debug，info，warn，error�
 
 
 
+```python
+import logging
+ 
+FORMAT = "%(asctime)s %(thread)d %(message)s"
+logging.basicConfig(level=logging.INFO,format=FORMAT,datefmt="[%Y-%m-%d %H:%M:%S]")
+ 
+root = logging.getLogger()
+print(1,root.getEffectiveLevel()) #RootLogger,根Logger
+ 
+log1 = logging.getLogger('s')
+print(2,log1.getEffectiveLevel())
+ 
+h1 = logging.FileHandler('test.log')
+h1.setLevel(logging.WARNING)
+log1.addHandler(h1)
+print(3,log1.getEffectiveLevel())
+
+log1.warning('log info---')
+```
+
+输出：
+
+```
+1 20
+2 20
+3 20
+[2017-12-17 19:02:53] 7956 log info---
+```
+
+在根root输出log info 的同时，test.log中也会记录一份log info--, 
+
+
+
 #### Filter过滤器
 
 完成比级别更复杂的过滤，
 
 `filer = logging.filter(name='')`
+
+andler也可以设置使用logging.Formatter()设置格式和Logging.Filter()设置过滤器：
+
+```python
+import logging
+ 
+FORMAT = "%(asctime)s %(thread)d %(message)s"
+logging.basicConfig(level=logging.INFO,format=FORMAT,datefmt="[%Y-%m-%d %H:%M:%S]")
+ 
+root = logging.getLogger()
+print(1,root.getEffectiveLevel()) #RootLogger,根Logger
+ 
+log1 = logging.getLogger('s')#模块化用__module__，函数化用__name__作为Logger名，Logger同名内存中也只有一个
+print(2,log1.getEffectiveLevel())
+ 
+h1 = logging.FileHandler('test.log')
+h1.setLevel(logging.WARNING)
+fmt1 = logging.Formatter('[%(asctime)s] %(thread)s %(threadName)s log1-handler1 %(message)s')
+h1.setFormatter(fmt1) #重新个性化定义记录的格式化字符串
+log1.addHandler(h1)
+filter1 = logging.Filter('s') #过滤器 会记录s, s.s2的信息
+log1.addFilter(filter1)
+print(3,log1.getEffectiveLevel())
+ 
+log2 = logging.getLogger('s.s2')
+print(4,log2.getEffectiveLevel())
+ 
+h2 = logging.FileHandler('test1.log')
+h2.setLevel(logging.WARNING)
+log1.addHandler(h2)
+filter1 = logging.Filter('s.s2') #过滤器不会记录s.s2的消息，只会记录自己的消息
+log1.addFilter(filter1)
+print(3,log1.getEffectiveLevel())
+ 
+log1.warning('log1 warning===')
+log2.warning('log2 warning---')
+ 
+运行结果：
+test.log: #handler1记录了到了log1和log2的信息
+[2017-12-17 19:43:12,654] 5872 MainThread log1-handler1 log1 warning===
+[2017-12-17 19:43:12,654] 5872 MainThread log1-handler1 log2 warning---
+ 
+ 
+test1.log:    #handler2只记录了它自己的信息
+log2 warning---
+```
 
 
 
@@ -98,7 +205,7 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                datefmt='%a, %d %b %Y %H:%M:%S',
+                datefmt='%a, %d %b %Y %H:%M:%S', # 月份%m
                 filename='myapp.log',
                 filemode='w')
     
@@ -122,6 +229,9 @@ Sun, 24 May 2009 21:48:54 demo2.py[line:13] WARNING This is warning message
 
 * filemode 如果指明了文件名，指明打开文件的模式（如果没有指明filemode，默认为'a'）。
 
+  * a 为追加
+  * w 为重写， 每次写入会把上次写入的清除掉。
+
 * format   handler使用指明的格式化字符串。
 
   format 可以输出很多有用的信息：
@@ -139,17 +249,10 @@ Sun, 24 May 2009 21:48:54 demo2.py[line:13] WARNING This is warning message
    %(message)s: 打印日志信息
 
 * datefmt   使用指明的日期／时间格式。
-<<<<<<< HEAD
 
-* level  知名根logger的级别。
 
-=======
 * level 指明根logger的级别。
->>>>>>> 4311e721b1e7241c2a2dcac45a7f4a834d173cab
-* stream   使用指明的流来初始化StreamHandler。该参数与'filename'不兼容，如果两个都有，'stream'被忽略。
-
-  指定输出到sys.stderr,sys.stdout或者文件，默认输出到sys.stderr。
-
+* **stream** ：设置特定的流用于初始化StreamHandler；
 
 
 #### 配置方式
@@ -161,6 +264,74 @@ Sun, 24 May 2009 21:48:54 demo2.py[line:13] WARNING This is warning message
 * 通过网络进行配置，使用[listen()](http://python.usyiyi.cn/python_278/library/logging.config.html#logging.config.listen)函数进行网络配置。
 
 eg: `logging.config.fileConfig("./logging.conf")`
+
+
+
+#### 继承方式
+
+##### logging的继承
+
+main.py:
+
+```python
+# main.py  
+# coding=utf-8   
+import logging  
+import util  
+  
+logging.basicConfig(level=logging.INFO,  
+                    filename='./log/log.txt',  
+                    filemode='w',  
+                    format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')  
+def main():  
+    logging.info('main module start')  
+    util.fun()  
+    logging.info('main module stop')  
+  
+if __name__ == '__main__':  
+    main()  
+```
+
+uitl.py:
+
+```python
+# util.py  
+__author__ = 'liu.chunming'  
+import logging  
+  
+def fun():  
+    logging.info('this is a log in util module')  
+```
+
+输出:
+
+```
+运行后打开log.txt，结果如下：
+2015-05-21 18:10:34,684 - main.py[line:11] - INFO: main module start
+2015-05-21 18:10:34,684 - util.py[line:5] - INFO: this is a log in util module
+2015-05-21 18:10:34,684 - main.py[line:13] - INFO: main module stop
+```
+
+**注意** :子模块会跟着上级的logging走
+
+
+
+##### logger的继承
+
+```python
+p = logging.getLogger("root")
+
+c1 = logging.getLogger("root.c1")
+
+c2 = logging.getLogger("root.c2")
+
+例子中，p是父logger, c1,c2分别是p的子logger。c1, c2将继承p的设置。
+p.setLevel(logging.INFO)
+c1.setLevel(logging.WARNING)
+c1级别在INFO时不会输出
+```
+
+
 
 
 
@@ -189,4 +360,94 @@ eg: `logging.config.fileConfig("./logging.conf")`
     logger.addHandler(h1)
     logger.addHandler(h2)
 ```
+
+
+
+
+
+### 进阶
+
+#### 格式输出：
+
+如果有这样的错误：`[not all arguments converted during string formatting]`
+
+改输出格式为标准如下两种： 
+
+```
+logging.info('date=%s', date)
+logging.info('date={}'.format(date))
+```
+
+logger:
+
+```python
+
+```
+
+
+
+
+
+#### 异常处理
+
+logging.execption() 会和traceback 那样自动处理异常的详细信息：
+
+```
+except:
+    logging.exception('Got exception on main handler')
+    raise
+```
+
+输出：
+
+```
+ERROR:root:Got exception on main handler
+Traceback (most recent call last):
+  File "/tmp/teste.py", line 9, in <module>
+    run_my_stuff()
+NameError: name 'run_my_stuff' is not defined
+```
+
+
+
+
+
+#### 输出到控制台并输出到文件
+
+```python
+# coding=utf-8  
+__author__ = 'liu.chunming'  
+import logging  
+  
+# 第一步，创建一个logger  
+logger = logging.getLogger()  
+logger.setLevel(logging.INFO)    # Log等级总开关  
+  
+# 第二步，创建一个handler，用于写入日志文件  
+logfile = './log/logger.txt'  
+fh = logging.FileHandler(logfile, mode='w')  
+fh.setLevel(logging.DEBUG)   # 输出到file的log等级的开关  
+  
+# 第三步，再创建一个handler，用于输出到控制台  
+ch = logging.StreamHandler()  
+ch.setLevel(logging.WARNING)   # 输出到console的log等级的开关  
+  
+# 第四步，定义handler的输出格式  
+formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")  
+fh.setFormatter(formatter)  
+ch.setFormatter(formatter)  
+  
+# 第五步，将logger添加到handler里面  
+logger.addHandler(fh)  
+logger.addHandler(ch)  
+  
+# 日志  
+logger.debug('this is a logger debug message')  
+logger.info('this is a logger info message')  
+logger.warning('this is a logger warning message')  
+logger.error('this is a logger error message')  
+logger.critical('this is a logger critical message')  
+```
+
+
 

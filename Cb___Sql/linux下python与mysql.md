@@ -1,5 +1,5 @@
 ---
-title: linux下python与mysql
+ title: linux下python与mysql
 date: 2017-03-14 18:21:17
 categories:
 header-img: python

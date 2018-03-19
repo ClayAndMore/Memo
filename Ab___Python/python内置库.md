@@ -606,81 +606,228 @@ Python标准模块中还提供了一个cStringIO模块，它的行为与StringIO
 
 
 
-## 非内置
+### 常用内建模块
 
-### beanstalkd
+#### datetime
 
-beanstalkd是一个快速的、通用目的的work queue。协议简单，是个轻量级的消息中间件。 
+经常听到的Unix时间戳，UTC时间，格林威治时间等，从表示上来讲他们基本属于同一个东西，因为他们的时间表示都是从1970年.1月.1日开始到现在的秒数。
 
-beanstalk核心概念：
+为什么是这个日期呢，因为这天是unix诞生的时间。
 
-job:一个需要异步处理的任务，需要放在一个tube中。
-tube:一个有名的任务队列，用来存储统一类型的job
-producer:job的生产者
-consumer:job的消费者
+python有两个时间模块，time和datetime.
 
-简单来说流程就一句话：
-由 producer 产生一个任务 job ，并将 job 推进到一个 tube 中，
-然后由 consumer 从 tube 中取出 job 执行（当然了，这一切的操作的前提是beanstalk服务正在运行中）
-
-![](http://ojynuthay.bkt.clouddn.com/beanstalkd%E7%8A%B6%E6%80%81%E5%9B%BE.png)
+time时间戳只支持到了2038年，我们还是用封装了time模块的datetime模块。
 
 
 
-beanstalkd拥有的一些特性：
+datetime.date：表示日期的类。
 
-* producer产生的任务可以给他分配一个优先级，支持0到2**32的优先级，值越小，优先级越高，默认优先级为1024。优先级高的会被消费者首先执行
-* 持久化，可以通过binlog将job及其状态记录到文件里面，在Beanstalkd下次启动时可以通过读取binlog来恢复之前的job及状态。
-* 分布式容错，分布式设计和Memcached类似，beanstalkd各个server之间并不知道彼此的存在，都是通过client来实现分布式以及根据tube名称去特定server获取job。
-* 超时控制，为了防止某个consumer长时间占用任务但不能处理的情况， Beanstalkd为reserve操作设置了timeout时间，如果该consumer不能在指定时间内完成job，job将被迁移回READY状态，供其他consumer执行。
+ 常用的属性有year, month, day；
 
+datetime.time：表示时间的类。
 
-beanstalkc 是beanstalkd的python 简单客户端。
+ 常用的属性有hour, minute, second, microsecond；
 
+datetime.datetime：表示日期时间。
 
+datetime.timedelta：表示时间间隔，即两个时间点之间的长度。
 
-### psutil
-
- psutil是一个跨平台库，能够轻松实现获取系统运行的进程和系统利用率（包括CPU、内存、磁盘、网络等）信息。它主要应用于系统监控，分析和限制系统资源及进程的管理。
+datetime.tzinfo：与时区有关的相关信息。
 
 
 
-### chardet
+创建一个时间：
 
-有时我们不知道某字符串是什么编码，我们可以用这个模块检测，带有概率的检测：
+`d=datetime.datetime(2017,05,11,20,30,08)`
+
+注意在python2中不要以0开头来创建一些数据。尽量把开头的零去掉，在python3中不会这样。
+
+
+
+获取当前时间：
 
 ```python
-import chardet  
-import urllib  
-  
-#可根据需要，选择不同的数据  
-TestData = urllib.urlopen('http://www.baidu.com/').read()  
-print chardet.detect(TestData)  
-  
-运行结果：  
-{'confidence': 0.99, 'encoding': 'GB2312'}  
+import datetime
+d1= datetime.datetime.now()
+#转为字符串
+d2=d1.strftime('%Y-%m-%d %H:%M:%S')
+#字符串转为时间类型
+date='2017-05-11 11:11:11'
+d3=datetime.datetime.strptime(date,'%Y-%m-%d %H:%M:%S')
 ```
 
-运行结果表示有99%的概率认为这段代码是GB2312编码方式。
+日期符号：
 
-```python 
-import urllib  
-from chardet.universaldetector import UniversalDetector  
-usock = urllib.urlopen('http://www.baidu.com/')  
-#创建一个检测对象  
-detector = UniversalDetector()  
-for line in usock.readlines():  
-    #分块进行测试，直到达到阈值  
-    detector.feed(line)  
-    if detector.done: break  
-#关闭检测对象  
-detector.close()  
-usock.close()  
-#输出检测结果  
-print detector.result  
-  
-运行结果：  
-{'confidence': 0.99, 'encoding': 'GB2312'}  
+```
+%y 两位数的年份表示（00-99）
+%Y 四位数的年份表示（000-9999）
+%m 月份（01-12）
+%d 月内中的一天（0-31）
+%H 24小时制小时数（0-23）
+%I 12小时制小时数（01-12） 
+%M 分钟数（00=59）
+%S 秒（00-59
 ```
 
-应用背景，如果要对一个大文件进行编码识别，使用这种高级的方法，可以只读一部，去判别编码方式从而提高检测速度。
+日期和时间的比较
+
+```
+<= datetime.time #时间
+>= datetime.date #日期
+```
+
+
+
+一个省力的技巧： 
+
+```
+str(datetime.date.today())
+'2017-09-30'
+```
+
+
+
+
+
+#### collections
+
+namedtuple:
+
+Python有一个类似tuple的容器namedtuples（命名元组），位于collection模块中。namedtuple是继承自tuple的子类，可创建一个和tuple类似的对象，而且对象拥有可访问的属性。
+
+示例1：
+
+```
+import collections
+ 
+# 创建namedtuple
+Student = collections.namedtuple('Student',['name','age','id'])
+ 
+# 初始化
+S = Student('snail','23','14335')
+ 
+# 使用下标访问
+print(S[1])    # 23
+# 使用名字访问
+print(S.name)  # snail
+# 使用getattr()访问
+print(getattr(S,'id'))  # 14335
+
+```
+
+示例2：
+
+```
+import collections
+ 
+# 创建namedtuple
+Student = collections.namedtuple('Student',['name','age','id'])
+ 
+# 初始化
+S = Student('snail','23','14335')
+ 
+# 获得字段名
+print(S._fields)  # ('name', 'age', 'id')
+# 更改值
+print(S._replace(name = 'test'))  # Student(name='test', age='23', id='14335')
+ 
+# namedtuple转为OrderedDict
+print(S._asdict())  # OrderedDict([('name', 'snail'), ('age', '23'), ('id', '14335')])
+ 
+# 使用list构造namedtuple
+li = ['panda', '12', '32343' ]
+print(Student._make(li))  # Student(name='panda', age='12', id='32343')
+ 
+# 使用dict构造namedtuple
+di = { 'name' : "sucker", 'age' : 34 , 'id' : '544554' }
+print(Student(**di))  # Student(name='sucker', age=34, id='544554')
+```
+
+
+
+
+
+#### base64
+
+#### struct
+
+python没有专门处理字节的类型，b'str'这样可以表示字节，也就是b'str'表示了str的二进制。
+
+struct 模块解决字节问题。
+
+- pack() 函数可以把任意数据类型变成bytes.
+
+  ```python
+  >>> import struct
+  >>> struct.pack('>I', 10240099)
+  b'\x00\x9c@c'
+  ```
+
+  `pack`的第一个参数是处理指令，`'>I'`的意思是：
+
+  `>`表示字节顺序是big-endian，也就是网络序，`I`表示4字节无符号整数。
+
+  后面的参数个数要和处理指令一致。
+
+- unpack() 可以把bytes变成相应的数据类型。
+
+  ```python
+  >>> struct.unpack('>IH', b'\xf0\xf0\xf0\xf0\x80\x80')
+  (4042322160, 32896)
+  ```
+
+  根据`>IH`的说明，后面的`bytes`依次变为`I`：4字节无符号整数和`H`：2字节无符号整数。
+
+  所以，尽管Python不适合编写底层操作字节流的代码，但在对性能要求不高的地方，利用`struct`就方便多了。
+
+#### hashlib
+
+#### itertools
+
+#### contextlib
+
+#### XML
+
+#### HTMLParser
+
+#### urllib
+
+在3.x的版本中，urllib与urllib2已经合并为一个urllib库。
+
+在2.x的版本中，urllib与urllib2并不是可以代替的，只能说2是一个补充。
+
+
+
+#### urllib2
+
+urlopen方法是urllib2模块最常用也最简单的方法，它打开URL网址，url参数可以是一个字符串url或者是一个Request对象。
+
+　　对于可选的参数timeout，阻塞操作以秒为单位，如尝试连接（如果没有指定，将使用设置的全局默认timeout值）。实际上这仅适用于HTTP，HTTPS和FTP连接。
+
+　　先看只包含URL的请求例子：
+
+```
+import urllib2
+response = urllib2.urlopen('http://python.org/')
+html = response.read()
+```
+
+　　urlopen方法也可通过建立了一个Request对象来明确指明想要获取的url。调用urlopen函数对请求的url返回一个response对象。这个response类似于一个file对象，所以用.read()函数可以操作这个response对象
+
+```
+import urllib2
+req = urllib2.Request('http://python.org/')
+response = urllib2.urlopen(req)
+the_page = response.read()
+```
+
+这里用到了`urllib2.``Request`类，对于上例，我们只通过了URL实例化了Request类的对象，其实Request类还有其他的参数。
+
+post:
+
+`req = urllib2.urlopen(url, dumps(target))`
+
+设置超时时间：
+
+`socket.setdefaulttimeout(5); # 超时 5秒`
+
