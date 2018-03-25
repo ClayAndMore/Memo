@@ -16,34 +16,6 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
 
 
-### submodoule
-
-https://www.cnblogs.com/nicksheng/p/6201711.html
-
-#### 克隆带子模块的版本库
-
-方法一，先clone父项目，再初始化submodule，最后更新submodule，初始化只需要做一次，之后每次只需要直接update就可以了，需要注意submodule默认是不在任何分支上的，它指向父项目存储的submodule commit id。
-
-```
-git clone project.git project2
-cd project2
-git submodule init
-git submodule update
-cd ..
-```
-
-方法二，采用递归参数`--recursive`，需要注意同样submodule默认是不在任何分支上的，它指向父项目存储的submodule commit id。
-
-```
-git clone project.git project3 --recursive
-```
-
-
-
-git submodoule foreach
-
-
-
 ### remote
 
 查看源：`git remote -v`
@@ -126,7 +98,7 @@ git submodoule foreach
 3. 如果想与主repo合并：
 
    ```
-   git fetch upstream 
+   git fetch upstream / 拉取了远端所有的分支到本地
    git merge upstream/分支 自己的分支
    ```
 
@@ -140,6 +112,13 @@ git submodoule foreach
 
 
 ### checkout
+
+checkout的作用就是将本地远程代码版本替换你工作区里的版本，不论你的工作区是做了如何更改，比如删除等。
+
+所以用它有两种所用：
+
+* 撤销你的更改，还未提交。
+* 切换分支
 
 将远端代码检出到本地：
 
@@ -160,7 +139,21 @@ $ git branch
 
 ### fetch
 
+从远端取回本地的操作为fetch, 比如远端库有了更新：
 
+`git branch -r `, 查看远程分支
+
+我们拉回到本地，就用到了 `git fetch`
+
+默认取回所有分支的更新，如果执行取回特定的分支如：
+
+`git fetch origin master`
+
+取回分支后我们一般用`git checkout -b newBranch origin/master` 
+
+基于刚才新拉取的分支新建分支。
+
+或者用`git merge` 或`git rebase`   在本地分支上合并远程分支。
 
 
 
@@ -257,6 +250,8 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
   git checkout 文件名（具体文件）
 
 * 撤销add 的， `git reset HEAD filename` ,  回到上面的状态。
+
+  如果新建的文件，已add，删掉的话用`git rm -f filename`
 
 
 * 只撤销上次的commit ,并没有push:
