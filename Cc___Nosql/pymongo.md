@@ -4,7 +4,7 @@ pymongo是mongo数据库和python中间的连接件，我们可以通过pip来�
 
 `pip install pymongo`
 
-使用mongo版本：2.6.10
+使用mongo版本：2.4.1： https://api.mongodb.com/python/2.4.1/tutorial.html
 
 
 

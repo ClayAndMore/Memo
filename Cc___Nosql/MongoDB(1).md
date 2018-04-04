@@ -473,38 +473,6 @@ KEY是字段名称。
 
 当查询时同时使用sort,skip,limit，无论位置先后，最先执行顺序 sort再skip再limit。
 
-#### aggregate（聚合）
-
-用于数据处理，返回计算后的数据结果。有点类似sql中的count。
-
-`db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)`
-
-
-
-```
-db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
-```
-
-以上实例类似sql语句：
-
-```
-select by_user as _id, count(*) as num_tutorial from mycol group by by_user
-```
-
-| $sum      | 计算总和。                   | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : "$likes"}}}]) |
-| ---------------------------------------- |
-| $avg      | 计算平均值                   | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$avg : "$likes"}}}]) |
-| $min      | 获取集合中所有文档对应值得最小值。       | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$min : "$likes"}}}]) |
-| $max      | 获取集合中所有文档对应值得最大值。       | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$max : "$likes"}}}]) |
-| $push     | 在结果文档中插入值到一个数组中。        | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$push: "$url"}}}]) |
-| $addToSet | 在结果文档中插入值到一个数组中，但不创建副本。 | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$addToSet : "$url"}}}]) |
-| $first    | 根据资源文档的排序获取第一个文档数据。     | db.mycol.aggregate([{$group : {_id : "$by_user", first_url : {$first : "$url"}}}]) |
-| $last     | 根据资源文档的排序获取最后一个文档数据     | db.mycol.aggregate([{$group : {_id : "$by_user", last_url : {$last : "$url"}}}]) |
-
-
-
-在聚合函数中是可以管道操作的：http://www.runoob.com/mongodb/mongodb-aggregate.html
-
 
 
 ### 索引

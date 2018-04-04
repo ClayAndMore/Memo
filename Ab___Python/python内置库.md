@@ -156,6 +156,13 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
 * json.dump(f), 
 
+  ```python
+  >>> with open('test.conf', 'w') as f:
+  ...  json.dump({'b':'bb','c':'cc'},f)
+  ```
+
+  ​
+
 * json.load(f),
 
   f为从文件读取出来的文件流，注意该文件内的josn格式 只能用双引号：
@@ -394,6 +401,21 @@ subprocess 的目的就是启动一个新的进程并且与之通信。
   ```
 
   注意：communicate()是Popen对象的一个方法，该方法会阻塞父进程，直到子进程完成
+
+
+  获取错误的输出：
+
+  ```python
+  import subprocess
+  a=subprocess.Popen('ntpdate pool.ntp.org',shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  (out,err)=a.communicate()
+
+  print 'err:' + str(err)
+  print 'out:' + str(out)
+  ```
+
+  ​
+
 
 
 
@@ -684,6 +706,107 @@ d3=datetime.datetime.strptime(date,'%Y-%m-%d %H:%M:%S')
 str(datetime.date.today())
 '2017-09-30'
 ```
+
+
+
+时间戳转时间：
+
+```python
+import datetime
+a = datetime.datetime.fromtimestamp(int("1172969203.1"))
+>>> datetime.datetime(2007, 3, 4, 0, 46, 43, 100000)
+a.strftime('%Y-%m-%d %H:%M:%S')
+```
+
+
+
+
+
+#### time
+
+UTC: 协调世界时。世界不同时区的⼀个基准，⽐如中国为 UTC+8。
+
+* epoch: 基准点。1970-01-01 00:00:00 UTC。
+
+    ```python
+    >>> from time import *
+    >>> t = time()
+    >>> t
+    1357761634.903692
+    >>> gmtime(t)! ! ! # epoch -> UTC 
+    time.struct_time(tm_year=2013, tm_mon=1, tm_mday=9, tm_hour=20, tm_min=0, tm_sec=34,
+    tm_wday=2, tm_yday=9, tm_isdst=0)
+    >>> localtime(t)! ! ! # epoch -> Local (UTC+8)
+    time.struct_time(tm_year=2013, tm_mon=1, tm_mday=10, tm_hour=4, tm_min=0, tm_sec=34,
+    tm_wday=3, tm_yday=10, tm_isdst=0)
+    ```
+
+     time() 返回⾃ epoch 以来的秒数，gmtime()、localtime() 将其转换为 struct_time 结构体, 但是其中差别看注释。
+
+* 将 struct_time 转回 epoch：
+
+    ```python
+    >>> from calendar import timegm
+    >>> t = time()
+    >>> t
+    1357762219.162796
+    >>> utc = gmtime(t)!! ! # epoch -> UTC
+    >>> timegm(utc)! ! ! # UTC -> epoch
+    1357762219
+    >>> local = localtime(t)! ! # epoch -> local
+    >>> mktime(local)! ! ! # local -> epoch
+    1357762219
+    ```
+
+* time 于datetime 互转
+
+    ```python
+    >>> from datetime import datetime
+    >>> from time import time
+    >>> t = time()
+    >>> d = datetime.fromtimestamp(t)! ! # localtime 时间
+    >>> d
+    datetime.datetime(2013, 1, 10, 4, 20, 27, 301148)
+    --- 转回去 time - datetime ---
+    >>> d.timetuple()
+    time.struct_time(tm_year=2013, tm_mon=1, tm_mday=10, tm_hour=4, tm_min=20, tm_sec=27,
+    tm_wday=3, tm_yday=10, tm_isdst=-1)
+    ```
+
+* struct_time和字符串格式化互转
+
+    ```python
+    >>> t = time()
+    >>> s = strftime("%Y-%m-%d %H:%M:%S", localtime(t))
+    >>> s
+    '2013-01-10 04:27:39'
+    >>> strptime(s, "%Y-%m-%d %H:%M:%S")
+    time.struct_time(tm_year=2013, tm_mon=1, tm_mday=10, tm_hour=4, tm_min=27, tm_sec=39,
+    tm_wday=3, tm_yday=10, tm_isdst=-1)
+    ```
+
+* 其他
+
+    clock: 返回当前进程消耗的CPU时间 (秒)。可以用来记录程序运行时间。
+    sleep: 暂停进程 (秒，可以是⼩数，以便设置毫秒、微秒级暂停)。
+
+    ```python
+    >>> clock()
+    0.56022400000000006
+    >>> sleep(0.1)
+    ```
+
+    timezone: 与 UTC 的时差。
+    tzname: 当前时区名称。
+
+    ```python
+    >>> timezone/3600
+    -8
+    >>> tzname
+    ('CST', 'CST') # 北京时间，China Standard Time
+    ```
+
+    ​
 
 
 

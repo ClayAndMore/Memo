@@ -82,3 +82,135 @@ address:
 >var addresses = db.address.find({"_id":{"$in":result["address_ids"]}})
 ```
 
+
+
+
+
+### aggregate（聚合）
+
+#### aa
+
+用于数据处理，返回计算后的数据结果。有点类似sql中的count。
+
+`db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)`
+
+
+
+```
+db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
+```
+
+以上实例类似sql语句：
+
+```
+select by_user as _id, count(*) as num_tutorial from mycol group by by_user
+```
+
+| $sum      | 计算总和。                   | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : "$likes"}}}]) |
+| ------------------------------------------------------------ |
+| $avg      | 计算平均值                   | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$avg : "$likes"}}}]) |
+| $min      | 获取集合中所有文档对应值得最小值。       | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$min : "$likes"}}}]) |
+| $max      | 获取集合中所有文档对应值得最大值。       | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$max : "$likes"}}}]) |
+| $push     | 在结果文档中插入值到一个数组中。        | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$push: "$url"}}}]) |
+| $addToSet | 在结果文档中插入值到一个数组中，但不创建副本。 | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$addToSet : "$url"}}}]) |
+| $first    | 根据资源文档的排序获取第一个文档数据。     | db.mycol.aggregate([{$group : {_id : "$by_user", first_url : {$first : "$url"}}}]) |
+| $last     | 根据资源文档的排序获取最后一个文档数据     | db.mycol.aggregate([{$group : {_id : "$by_user", last_url : {$last : "$url"}}}]) |
+
+
+
+在聚合函数中是可以管道操作的：http://www.runoob.com/mongodb/mongodb-aggregate.html
+
+
+
+#### 聚合方式
+
+##### Aggregation Pipelines
+
+
+
+
+
+
+
+##### Map-Reduce
+
+
+
+
+
+
+
+##### Single Purpose Aggregation Operations
+
+
+
+* count()
+
+  * cousor.count()  这个我们熟知
+  * db.collection.count({a:1})  会返回a字段为1的样本
+
+* distinct()
+
+  返回一个字段先存在的可能情况：
+
+  ```
+  { a: 1, b: 0 }
+  { a: 1, b: 1 }
+  { a: 1, b: 1 }
+  { a: 1, b: 4 }
+  { a: 2, b: 2 }
+  { a: 2, b: 2 }
+
+  db.records.distinct( "b" )
+
+  [ 0, 1, 4, 2 ]
+  ```
+
+  ​
+
+* group()
+
+  和sql的GROUP BY相似， 用法： db.col.group():
+
+  ```
+  {
+    group:
+     {
+       ns: <namespace>,
+       key: <key>,
+       $reduce: <reduce function>,
+       $keyf: <key function>,
+       cond: <query>,
+       finalize: <finalize function>
+     }
+  }
+  ```
+
+  ​
+
+  ```
+  eg：
+  { a: 1, count: 4 }
+  { a: 1, count: 2 }
+  { a: 1, count: 4 }
+  { a: 2, count: 3 }
+  { a: 2, count: 1 }
+  { a: 1, count: 5 }
+  { a: 4, count: 4 }
+
+  db.records.group( {
+     key: { a: 1 },
+     cond: { a: { $lt: 3 } },
+     reduce: function(cur, result) { result.count += cur.count },
+     initial: { count: 0 }
+  } )
+
+  [
+    { a: 1, count: 15 },
+    { a: 2, count: 4 }
+  ]
+  ```
+
+  ​
+
+  ​

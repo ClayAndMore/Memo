@@ -118,3 +118,5 @@ server 203.135.184.123, stratum 1, offset 0.029970, delay 0.39737
 #### 服务端 ntpd
 
 服务端和客户端不能同时开启，用ntpd也能同步时间，不过是平滑处理，有间隔的一点点更改时间，而ntpdate是一下子更新成远端的时间。
+
+安装： https://gist.github.com/AntonioPaternina/23e6fe53142e4489e6cb7924fb1457fc

@@ -237,6 +237,29 @@ dir()函数以列表形式返回一个特定的模块,类,对象或它类型的�
 
 
 
+### python 自带命令解析
+
+#### -c
+
+```
+def hello():
+    return 'Hi :)'
+```
+
+命令行输出：`python -c 'import foo; print foo.hello()'`
+
+类似于:
+
+`echo print\(\"hi:\)\"\) | python`
+
+`echo 'print("hi:)")' | python`
+
+`python < test.py` 或 `python > test.py`
+
+#### -m
+
+
+
 ### 路径问题
 
 python 获取变量路径问题
