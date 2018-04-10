@@ -142,6 +142,10 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
   [{"a": 1, "c": 3, "b": 2, "e": 5, "d": 4}]
   ```
 
+  注： 会将中文编译成uniconde，并其他字段也会变成unicode,
+
+  如果想将中文变成ascii 的str， 可使用 `encode('utf-8')`
+
 * json.loads 解码 JSON 数据。该函数返回 Python 字段的数据类型。
 
   ```python
@@ -177,7 +181,9 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
   ​
 
-  ​
+
+
+
 
 
 
@@ -323,6 +329,31 @@ defaultdict(<function zero at 0x100662e18>, {'eric': 0})
 d=defaultdict(lambad:0)
 d['amy']
 0
+```
+
+
+
+
+
+### pprint
+
+格式化输出字典(或其他可遍历对象)，用于json转dict时做的输出：
+
+```
+import pprint
+pprint.pprint(dict)
+```
+
+输出到标准错误， 并层级间间隔为四：
+
+`pprint.pprint(dict, indent=4, stream=sys.stderr)`
+
+输出为字符串，而不是字典：
+
+```
+>>> import pprint
+>>> pprint.pformat({'key1':'val1', 'key2':[1,2]})
+"{'key1': 'val1', 'key2': [1, 2]}"
 ```
 
 

@@ -20,18 +20,35 @@
 
 `/etc/sysconfig/iptables`
 
-- service iptables start
+```
+# 查看防火墙状态
+service iptables status
+ 
+# 停止防火墙
+service iptables stop
+ 
+# 启动防火墙
+service iptables start
+ 
+# 重启防火墙
+service iptables restart
+ 
+# 永久关闭防火墙
+chkconfig iptables off
+ 
+# 永久关闭后重启
+chkconfig iptables on
+```
 
-- service iptablse save
 
-  ```
-  保存规则：shell>iptables-save > /etc/iptables-script
 
-  恢复规则：shell>iptables-restore > /etc/iptables-script
+```
+保存规则：shell>iptables-save > /etc/iptables-script
 
-  保存和恢复的位置只要是两者一致就可以了，如果iptables-script没有则需要创建。
-  ```
+恢复规则：shell>iptables-restore > /etc/iptables-script
 
+保存和恢复的位置只要是两者一致就可以了，如果iptables-script没有则需要创建。
+```
 `/etc/security/limits.conf`
 
 /etc/security/limits.conf 是 Linux 资源使用配置文件，用来限制用户对系统资源的使用

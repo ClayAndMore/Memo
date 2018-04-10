@@ -207,7 +207,7 @@ eg:  master 的 新分支 dev， dev做了修改并commit , 得到一个commit i
 git stash将当前工作区缓存起来，这样切换到其他分支工作区的内容就不会影响，当在其他分支建立新分支时，比如修复bug，我们当前的工作并不会影响，当提交bug分支后，我们再将缓存内容提取出来。
 
 * git stash list 当前stash 列表
-* git stash appy , 然后用git stash drop 删除缓存
+* git stash apply , 然后用git stash drop 删除缓存
 * git stash pop , 会同时删除缓存内容。
 * 可加具体stash:` $ git stash apply stash@{0}`
 

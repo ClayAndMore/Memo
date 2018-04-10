@@ -1913,6 +1913,10 @@ finally:
 StopIteration是一个类。抛出异常时，会自动有一个中间环节，就是生成StopIteration的一个对象。Python实际上抛出的，是这个对象。当然，也可以自行生成对象:
 `raise StopIteration()`
 
+自定义异常
+
+
+
 ### 相等比较
 
 ```
