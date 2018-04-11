@@ -117,13 +117,59 @@ kk_summary.RklMRVBPUy5UQUlM         0ms         0ms         0ms
 
 
 
+### 1.5 mongo存储结构
+
+#### 基础
+
+##### Data files
+
+每个mongo 有命名空间文件，日志文件和数据文件，数据文件是所有数据和索引所居住的地方。
+
+每个数据文件(data files)有BSON文档，索引和mongo存储结构关系（被成为extents）.
+
+每个data files 都 由很多复杂的extens组成。
+
+##### Extents
+
+由上提及， extens是在data files内存储文档和索引的。
+
+![](http://ovolonhm1.bkt.clouddn.com/mongo_datafile.png)
+
+* 一个extent 只能包含一个集合或一个集合内的索引
+* 一个新的exten创建将会用剩余的data files，如果没有将会创建新的data files
+
+#### db.stats()之前
+
+这里我们理解下： db.stats的dataSize, storageSize 和 fileSize
+
+![](http://ovolonhm1.bkt.clouddn.com/db_stats.png)
+
+* dataSize 图中黄色部分，当你删除文档时会使dataSize减少，但是当你减少你文档中的内容并不会减少， 因为原文档的空间已经被分配出去了，不能提供给其他文档使用。
+
+  或者你更新一个文档用更多的数据，它的dataSize仍然不变，只要这些数据在padding范围内。
+
+* storageSize
+
+  这个大小其实等于所有data extents(不包括index)大小, 它要比dataSize大， 其中有data删除的，移动的，没有设置的空间。
+
+  storageSize不会减少，当你删掉文档或者减少文档中的数据
+
+* fileSize
+
+  fielSize 是所有data extents,index extents 和 没有配置的空间，这表示数据库在你硬盘的存储空间。
+
+  只有你删掉一个库会减少，删掉集合或文档都不会减少。
+
+
+
+
 ### 2
 
 下方方法都是进入到 mongo里执行：
 
 #### stats()
 
-显示当前数据库状态，包含数据库名称，集合个数，当前数据库大小
+显示当前数据库状态，包含数据库名称，集合个数，当前数据库大小, 单位为byte
 
 ```json
 >db.stats()

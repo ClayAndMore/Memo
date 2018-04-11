@@ -126,13 +126,29 @@ select by_user as _id, count(*) as num_tutorial from mycol group by by_user
 
 ##### Aggregation Pipelines
 
+```
+db.col.aggregate(
+				{ $match: { status: "A"} },
+				{ $group: { _id: "$cust_id", total: { $sum: "$amount"}}},
+				{ $sort: { total: -1 } }
+)
 
+[{ _id: "A123", total: 750}, {_id: "B212", total:200}]
+```
+
+或可用`$skip $match, $limit`
 
 
 
 
 
 ##### Map-Reduce
+
+```
+db.col.mapReduce(
+				fucn
+)
+```
 
 
 

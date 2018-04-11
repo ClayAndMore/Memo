@@ -326,6 +326,14 @@ update(criteria, objNew, upsert, mult)
 
 
 
+#### sort,skip, limit
+
+`a=c.file.info.find_one({},sort=[("firstquery",pymongo.ASCENDING)],limit=1)` 正序
+
+`b=c.file.info.find_one({},sort=[("firstquery",pymongo.DESCENDING)],limit=1)` 倒叙
+
+
+
 #### 索引
 
 
@@ -360,6 +368,5 @@ eg:
 `c.user.info.find_one( {'name':'abc'} ,{"_id": 0, "username": 1, "foo": 1}) ` 
 
 0为不显示该字段，1为显示该字段，设置字段显示时，其他字段默认为零。
-
 
 
