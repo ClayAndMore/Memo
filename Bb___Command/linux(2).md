@@ -217,7 +217,6 @@ Linux中的session跟web的session有点类似，也是在一个用户登录到�
     1. 本地连接：就是说用户是在主机本机上进行的登录，直接通过键盘和屏幕和主机进行交互。
     2. 远程连接：用户通过互联网进行连接，比如基于ssh，连接都是经过加密的。
 
-
 ![](http://ojynuthay.bkt.clouddn.com/session.png)
 
 session是一个或多个进程组的集合。
@@ -394,3 +393,24 @@ CPU 利用率，是对一个时间段内 CPU 使用状况的统计，通过这�
 
 
 ### 
+
+
+
+### Mount
+
+ `mount [-t 文件系统][-L label名][-o 额外选项]] 设备名称名 挂载点`
+
+* 单纯输mount 会显示当前的挂载信息， 加上`-l `会显示label名
+* -t 欲挂载的文件系统类型： ext2,ext3 等。
+* -L 除了利用设备文件名（如/dev/hdc6）, 还可以用它的卷标名称（Label)来进行挂载。
+* -o 可以跟上额外选项，如账号，密码， 读写权限等。
+
+eg: 
+
+将`/dev/hdc6`挂载到`/mnt/hdc6` 上：
+
+`mkdir /mnt/hdc6`
+
+`mount /dev/hdc6 /mnt/hdc6`
+
+仅仅这样我们就可以进行方便的挂载，可以通过df查看， 为什么如此方便，因为该命令会自动匹配我们的super block 
