@@ -90,14 +90,16 @@ root用户的环境变量：~/.bashrc文件
 
 ​      查看内存：`free `   
 
-      ```
-[root@bogon img]# free -g
-             total       used       free     shared    buffers     cached
-Mem:            31         19         11          1          0         10
--/+ buffers/cache:          9         22
-Swap:            0          0          0
-
-      ```
+      [root@bogon img]# free -g
+    
+                 total       used       free     shared    buffers     cached
+    
+    Mem:            31         19         11          1          0         10
+    
+    -/+ buffers/cache:          9         22
+    
+    Swap:            0          0          0
+    
 
 解释下内存的组成：
 

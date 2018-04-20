@@ -188,9 +188,25 @@ python的全局名字空间存储在一个叫globals()的dict对象中
 
 
 
-#### eval()
+#### eval() 和 exec()
 
+For statements, use [`exec(string)`](https://docs.python.org/library/functions.html#exec) (Python 2/3) or [`exec string`](https://docs.python.org/2/reference/simple_stmts.html#grammar-token-exec_stmt) (Python 2):
 
+```
+>>> mycode = 'print "hello world"'
+>>> exec(mycode)
+Hello world
+```
+
+When you need the value of an expression, use [`eval(string)`](http://docs.python.org/library/functions.html#eval):
+
+```
+>>> x = eval("2+2")
+>>> x
+4
+```
+
+一般不推荐这种做法，效率低。
 
 
 
@@ -233,7 +249,7 @@ dir()函数以列表形式返回一个特定的模块,类,对象或它类型的�
 
 `help(shutil.copy)`
 
-
+其实就是输出其doc
 
 
 

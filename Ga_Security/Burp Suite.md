@@ -20,15 +20,31 @@ Burp Suite 是用于攻击web 应用程序的集成平台。它包含了许多�
 
 ### 运行
 
+用的免安装版，要求有：java 1.8
 
+进入解压目录 ：`java -jar BurpHelper.jar`
 
 
 
 ### Proxy
 
-浏览器开启代理配置相应的IP与端口
+浏览器开启代理配置相应的IP与端口, 本地ip, 8080端口， options下可更改，还可以添加多个端口。
 
 Scanner的Live scanning子选项卡，在Live Active Scanning控制块中，选择Use suite scope，这样，Burp Scanner将自动扫描经过Burp Proxy的交互信息。 
+
+
+
+我们可以拦截post请求，更改post数据， 点击Forward发送修改后的请求，不想发送点击Drop, 
+
+http history 标签页里有曾修改前的和修改后的
+
+
+
+### Spider
+
+爬虫
+
+http://www.kali.org.cn/thread-21482-1-1.html
 
 
 
@@ -50,3 +66,9 @@ Scanner的Live scanning子选项卡，在Live Active Scanning控制块中，选�
   * Live Passive Scanning：被动扫描。只分析流量不发送任何请求。
 
 * Issue Definitions 漏洞列表，列出了burp可以扫描到的漏洞详情
+
+
+
+### intruder
+
+闯入者，Intruder是获取Web应用信息的工具。它可以用来爆破，枚举，漏洞测试等任何你想要用的测试手段，然后从结果中获取数据。

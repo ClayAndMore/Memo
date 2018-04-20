@@ -2050,7 +2050,6 @@ True
   >>> isinstance(y, str)
   False
   ```
-
   使用`isinstance()`判断一个对象是否是`Iterable`对象：
 
   ```
@@ -2065,6 +2064,15 @@ True
   True
   >>> isinstance(100, Iterable)
   False
+  # 确认是声明的类
+  >>> type(type)
+  <type 'type'>
+  >>> class A:
+  ...  pass
+  >>> isinstance(A, type)
+  True
+  >>> type(A)
+  <type 'type'>
   ```
 
 * 一般使用type()函数来看数据的类型：

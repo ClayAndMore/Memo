@@ -288,3 +288,29 @@ make,刚才目录就好:
 地址：<https://pypi.python.org/pypi/pip>
 
 跟上面一样。
+
+
+
+
+
+### 总结
+
+#### pip
+
+安装pip： 
+
+先下载官方脚本：`curl -O https://bootstrap.pypa.io/get-pip.py`
+
+希望哪个python版本下载就用哪个版本的`./bin/python( pypy 也可以)` ,:
+
+`./bin/python get-pip.py ` 
+
+`./bin/pypy install  三方库`
+
+
+
+指定安装库的版本：
+
+`./pip install pymongo==2.5.2`
+
+显示版本： `pip show pymongo`

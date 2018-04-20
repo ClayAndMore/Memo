@@ -142,7 +142,7 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
   [{"a": 1, "c": 3, "b": 2, "e": 5, "d": 4}]
   ```
 
-  注： 会将中文编译成uniconde，并其他字段也会变成unicode,
+  注： 会将中文编译成unicode，并其他字段也会变成unicode,
 
   如果想将中文变成ascii 的str， 可使用 `encode('utf-8')`
 
