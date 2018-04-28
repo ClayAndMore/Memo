@@ -81,7 +81,7 @@ collection.do_something() = db.collection_name.do_something()
   `collection.find_one({'_id':id})`
 
 
-  旧版本不存在这个方法。
+  **旧版本不存在这个方法。**
 
 * insert():
 
@@ -107,14 +107,14 @@ collection.do_something() = db.collection_name.do_something()
 
 update():
 
-返回值一直是空的。
+返回值一直是空的
 
 ```
 update(criteria, objNew, upsert, mult)
     criteria: 需要被更新的条件表达式
     objNew: 更新表达式
     upsert: 如目标记录不存在，是否插入新文档。
-    multi: 是否更新多个文档。
+    multi: 是否更新多个文档。注意默认为false, 它只更新一个文档
     
     student.users.update({'gid':last_gid, 'time':l_date}, {'$set':{'gid':last_gid}, '$set':{'time':l_date}, '$addToSet':{'categories':category_data}}, upsert=True)
    #上式表示添加'categories'字段到gid=last_gid,time=l_date的这条记录中。
@@ -176,6 +176,8 @@ update(criteria, objNew, upsert, mult)
 
 
 更新所有： `collection.update({'id': {}, {'&set': {}}})`
+
+或 ``collection.update({}, {'&set': {}})``
 
 
 
@@ -369,4 +371,7 @@ eg:
 
 0为不显示该字段，1为显示该字段，设置字段显示时，其他字段默认为零。
 
+
+
+##### 只匹配一个字段中数组的数
 

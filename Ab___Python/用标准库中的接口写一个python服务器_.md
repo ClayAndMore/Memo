@@ -18,13 +18,16 @@ socket接口是实际上是**操作系统**提供的**系统调用**。socket的
 import socket
 
 # 地址
-HOST=''
+HOST='127.0.0.1'
 PORT=8000
 
 reply='Yes'
 
 #socket.socket()创建一个socket对象，并说明socket使用的是IPv4(AF_INET，IP version 4)和TCP协议(SOCK_STREAM)。
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+# 绑定ip和端口 
+s.bind((HOST, PORT))
 
 # 被动监听，连接队列中最大有三个连接数
 s.listen(3)
