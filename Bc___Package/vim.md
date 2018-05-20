@@ -376,3 +376,11 @@ sw = shiftwidth
 
 `set ff=unix`
 
+
+
+#### 去掉M
+
+基于 DOS/Windows 的文本文件在每一行末尾有一个 CR（回车）和 LF（换行），而 UNIX 文本只有一个换行,即**win每行结尾为\r\n，而linux只有一个\n**
+如果win下的文档上传到linux，每行的结尾都会出现一个^M，(^M是ctrl+v,ctrl+m) 
+如果是**单个文档的话，可以用vi打开，执行 :`%s/^M//g`　来去掉^M,**
+

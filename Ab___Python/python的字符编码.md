@@ -48,11 +48,100 @@ UTF-8编码有一个额外的好处，就是ASCII编码实际上可以被看成�
 
 ![](http://www.liaoxuefeng.com/files/attachments/001387245979827634fd6204f9346a1ae6358d9ed051666000/0)
 
+
+
+### 了解编程环境编码
+
+```python
+print sys.getdefaultencoding()    #系统默认编码
+print sys.getfilesystemencoding() #文件系统编码
+print locale.getdefaultlocale()   #系统当前编码
+print sys.stdin.encoding          #终端输入编码
+print sys.stdout.encoding         #终端输出编码
+```
+
+设置系统编码：
+
+```python
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+```
+
+源代码编码：
+
+源代码编码指的是python程序本身的编码，默认为ascii。
+
+在程序开头可指定编码格式。
+
+
+
 ### python2和python3的编码区别
 
 #### python2
 
 在python2中主要有str和unicode两种字符串类型，
+
+`str`类似于C中的字符数组或者Java中的byte数组，事实上你可以将它理解为一个存储二进制内容的容器，`str`不存储编码信息，如果对`str`类型的字符串迭代的话，则会按照其在内存中的字节序依次迭代，意味着如果这个字符串存储的是多字节字符（Unicode/GBK等），则会截断这个字符：
+
+```python
+>>> str1 = "这是一个str"
+>>> for ch in str1:
+...  print ch,
+... 
+栿  䠘 ¯ ⠸  ⠸ ª s t r
+```
+
+而对于`unicode`类型，Python在内存中存储和使用的时候是按照UTF-8格式，在代码中的表示为字符串前加`u`，如：
+
+```python
+>>> str2 = "这是一个str"
+>>> str2 = u"这是一个str"
+>>> for ch in str2:
+...  print ch,
+... 
+这 是 一 个 s t r
+```
+
+
+
+**str 和 unicode的转换：**
+
+str 通过 decode 解码 为 unicode.
+
+unicode 通过 encode 编码为 str. 
+
+str 是一种被编码的方式，更难读。
+
+```
+>>> '天王盖地虎'.decode('utf-8')
+u'\u5929\u738b\u76d6\u5730\u864e'
+>>> u'天王盖地虎'.encode('utf-8')
+'\xe5\xa4\xa9\xe7\x8e\x8b\xe7\x9b\x96\xe5\x9c\xb0\xe8\x99\x8e'
+```
+
+上述是我在linux命令终端里尝试的， 因为终端输入编码为utf-8, 所以用它decode('utf-8')不会有异常，同理在windows cmd默认输入中文为gbk， 我们用utf8 decode 就会有异常：
+
+```python
+>>> a.decode("utf-8")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "F:\Anaconda\envs\python27\lib\encodings\utf_8.py", line 16, in decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xcc in position 0: invalid continuation byte
+>>> a.decode("gbk")   # 用gbk则不会。
+u'\u5929\u738b\u76d6\u5730\u864e'
+```
+
+
+
+
+
+
+
+**b前缀：python2.x里, b前缀没什么具体意义， 只是为了兼容python3.x的这种写法**
+
+
 
 **如果字符串是ascii码的话**，str和unicode是可以直接进行连接和比较，
 
@@ -66,7 +155,10 @@ UTF-8编码有一个额外的好处，就是ASCII编码实际上可以被看成�
 
 #### python3
 
-字符串是以Unicode编码的.bytes是字节流bytes对象，字符串是字符串str对象。
+也分两种：
+
+* str 字符串：是以Unicode编码的，字符串是字符串str对象。 相当于python2的unicode/
+* bytes是字节流bytes对象, 是一个byte数组，相当于python2中的str。
 
 **u'a'和‘a'**是等价的都是str字符串
 
@@ -74,9 +166,11 @@ UTF-8编码有一个额外的好处，就是ASCII编码实际上可以被看成�
 
 **bytes和str是两个独立的类型**。**python3中如果是写或者读bytes类型就必需带上’b’**.直接用b'字符串'表示bytes对象
 
+所以在python3里u前缀也是兼容写法。
 
+**str和byte的转换**
 
-### str和byte的转换
+和python 相反。
 
 字符串可以通过encode转化为bytes，bytes可以通过decode转化为字符串，
 

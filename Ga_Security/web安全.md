@@ -109,6 +109,12 @@ Django使用专门的中间件（CsrfMiddleware）来进行CSRF防护。具体�
 
 
 
+### DOS 攻击
+
+
+
+
+
 ### MIME Type
 
 浏览器中的内容有HTML，XML，GIF,Flash等，浏览器是如何区分的呢，是Mime type  是媒体类型。
@@ -124,7 +130,9 @@ Django使用专门的中间件（CsrfMiddleware）来进行CSRF防护。具体�
 有些浏览器会做默认处理，如和系统中的配置文件有关，操作系统中可以给文件配置Mime Type 信息，在windos下HKEY_LOCAL_MACHINESOFTWAREClassesMIMEDatabaseContent Type”主键，你可以看到所有 MIME Type 的配置信息。
 
 
-### C&C服务器
+
+
+### C&C服务器（C2）
 被攻击者（已经感染了木马）---vps(c&c服务器)--- 控制端（攻击者）
 被攻击者和攻击者都在内网中（路由），攻击者购买vps（为了获得一个固定的公网ip）通过ppp协议来监听被攻击者的流量，从而获得信息。
 比较出名的是15年俄罗斯黑客通过twitter 作为C&C服务器。

@@ -69,6 +69,26 @@ date: 2017-08-31
 
 `os.rmdir()` 删除一个空目录， 不是空返回异常
 
+`os.walk()` 遍历文件和子文件：
+
+​	`os.walk(top, topdown=True, onerror=None, followlinks=False)` 
+
+返回一个3个元素的元祖，(dirpath, dirnames, filenames), 
+
+```
+- dirpath：要列出指定目录的路径
+- dirnames：目录下的所有文件夹
+- filenames：目录下的所有文件
+
+参数一：top – 根目录下的每一个文件夹(包含它自己), 产生3-元组 (dirpath, dirnames, filenames)【文件夹路径, 文件夹名字, 文件名】。
+
+参数二：topdown –可选，为True或者没有指定, 一个目录的的3-元组将比它的任何子文件夹的3-元组先产生 (目录自上而下)。如果topdown为 False, 一个目录的3-元组将比它的任何子文件夹的3-元组后产生 (目录自下而上)。
+
+参数三：onerror – 可选，是一个函数; 它调用时有一个参数, 一个OSError实例。报告这错误后，继续walk,或者抛出exception终止walk。
+
+参数四：followlinks – 设置为 true，则通过软链接访问目录。
+```
+
 
 
 
@@ -146,6 +166,47 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
   如果想将中文变成ascii 的str， 可使用 `encode('utf-8')`
 
+
+  一些参数：
+
+  ensure_ascii：默认值True，只做两件事：
+
+  		1. 如果有非ASII的字符， 用utf-8解码。
+  		2. 确保dumps后的数据为 str 字符数组。
+
+如果dict内含有non-ASCII的字符，则会解码成utf-8的数据，去掉了u, 双斜杠转义单斜杠
+
+  设置成False后，
+
+  ```python
+  >>> a={'a':'aa', 'b':'彻底'}
+  >>> import json
+  >>> json.dumps(a)
+  '{"a": "aa", "b": "\\u5f7b\\u5e95"}'
+  >>> '彻底'.decode('utf-8')
+  u'\u5f7b\u5e95
+  >>> '彻底'
+  '\xe5\xbd\xbb\xe5\xba\x95'
+  >>> json.dumps(a, ensure_ascii=False)
+  '{"a": "aa", "b": "\xe5\xbd\xbb\xe5\xba\x95"}'
+  ```
+
+  ​
+
+indent：应该是一个非负的整型，如果是0，或者为空，则一行显示数据，否则会换行且按照indent的数量显示前面的空白，这样打印出来的json数据也叫pretty-printed json
+
+*encoding*：默认是UTF-8，设置json数据的编码方式。
+
+```python
+
+```
+
+
+
+
+
+
+
 * json.loads 解码 JSON 数据。该函数返回 Python 字段的数据类型。
 
   ```python
@@ -158,12 +219,27 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
   注意： json的str转会python变成了unicode而不是str
 
+  ​	     如果里面用单引号，外面用双引号也会解析失败，规定里面只能用双引号，如果想load里面是单引号的：
+
+  ```
+  >>> import ast
+  >>> s = "{'username':'dfdsfdsf'}"
+  >>> ast.literal_eval(s)
+  {'username': 'dfdsfdsf'}
+  >>> type(s)
+  <dict>
+  ```
+
+  ​
+
 * json.dump(f), 
 
   ```python
   >>> with open('test.conf', 'w') as f:
   ...  json.dump({'b':'bb','c':'cc'},f)
   ```
+
+  生成文件流​
 
   ​
 
@@ -181,6 +257,58 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
 
   ​
 
+对象的转换：
+
+对python对象的转换： 
+
+```python
+import json
+
+class Student(object):
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
+
+s = Student('Bob', 20, 88)
+print(json.dumps(s))
+```
+
+这样会毫不留情的得到一个TypeError.可选参数`default`就是把任意一个对象变成一个可序列为JSON的对象，我们只需要为`Student`专门写一个转换函数，再把函数传进去即可：
+
+```python
+def student2dict(std):
+    return {
+        'name': std.name,
+        'age': std.age,
+        'score': std.score
+    }
+
+print(json.dumps(s, default=student2dict))
+```
+
+
+
+现在我们可以偷个懒，把任意`class`的实例变为`dict`：
+
+```
+print(json.dumps(s, default=lambda obj: obj.__dict__))
+```
+
+
+
+同样的道理，如果我们要把JSON反序列化为一个`Student`对象实例，`loads()`方法首先转换出一个`dict`对象，然后，可选参数object_hook`函数负责把`dict`转换为`Student实例：
+
+```python
+def dict2student(d):
+    return Student(d['name'], d['age'], d['score'])
+
+json_str = '{"age": 20, "score": 88, "name": "Bob"}'
+print(json.loads(json_str, object_hook=dict2student))
+
+<__main__.Student object at 0x10cd3c190>
+打印出的是反序列化的Student实例对象。
+```
 
 
 

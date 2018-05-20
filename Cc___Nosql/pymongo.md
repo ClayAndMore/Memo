@@ -318,9 +318,28 @@ update(criteria, objNew, upsert, mult)
 
   ​
 
+#### Cursor
+
+Cursor类中实现了`__getitem__`, 源码文档中也说明了对Cursor对象的操作方式：
+
+* `db.test.find()[50]`   返回第五十的元素信息，返回的是一条
+
+* `db.test.find()[20:25]`  返回的还是一个Cursor, 其中有五个元素，分别是第21，22，23，24，25。 跳过了20。
+
+
+for 循环的方式，注意上面两种方式和for循环的方式不能同时用，否则会有：
+
+`InvalidOperation("cannot set options after executing query")` 异常。
+
+最好的使用Cursor的办法是每次查出来的Cursor存起来:`list(cursor)`， 而不是每次去调用Cursor
+
+
+
+
+
 ##### 删除
 
-`collection.remove()`  删除改集合中的所有文档。
+`collection.remove()`  删除该集合中的所有文档。
 
 `collection.remove( dict )`   
 
@@ -374,4 +393,30 @@ eg:
 
 
 ##### 只匹配一个字段中数组的数
+
+只去查它就好：
+
+```
+>>> c.test.test.insert({'a':[1,2,3]})
+ObjectId('5af1475ec3666e22533e72dd')
+>>> c.test.test.find_one()
+{u'a': [1, 2, 3], u'_id': ObjectId('5af1475ec3666e22533e72dd')}
+>>> c.test.test.find_one({'a': 3})
+{u'a': [1, 2, 3], u'_id': ObjectId('5af1475ec3666e22533e72dd')}
+>>> 
+```
+
+
+
+##### 在不存在时才更新
+
+`db.foo.update({'title.de': {$exists : false}}, {$set: {'title.de': ''}})`
+
+
+
+` c.test.test.update({'a': 1}, {'$setOnInsert': {'b': 11}, '$set': {'c':22}}, upsert: true)`
+
+当存在a为1 这样的字段时， 不会增加b, 而是会增加c.
+
+当不存在a为1这样的字段， 会增加b和c.
 

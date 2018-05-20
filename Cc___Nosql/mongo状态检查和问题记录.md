@@ -353,3 +353,10 @@ connection to 127.0.0.1
 #### MongoDB释放内存的命令
 
 `mongo> db.runCommand({closeAllDatabases:1})`
+
+
+
+#### com.mongodb.MongoException: Lock not granted. Try restarting the transaction 
+
+1. 内存不够
+2. qurey响应的条件没有建立索引
