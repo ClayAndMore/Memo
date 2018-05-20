@@ -166,7 +166,7 @@ cmd.SysProcAttr.Credential = &syscall.Credential{
 
 上面说的是隔离，但是怎么限制每个每个隔离的空间大小，保证他们之间不会互相争抢呢。
 
-Linux Cgroups(Control Groups)  ， 可以方便的限制某个进程的资源占用，并且可以实时的监控进程和统计信息。
+Linu x Cgroups(Control Groups)  ， 可以方便的限制某个进程的资源占用，并且可以实时的监控进程和统计信息。
 
 #### Cgroups 中的三个组件：
 
@@ -188,9 +188,68 @@ Linux Cgroups(Control Groups)  ， 可以方便的限制某个进程的资源占
 
 三个组件的关系：
 
+ 一个hierarchy 可以有很多subsystem, 一个subsystem只能附加到一个hierarchy上，
 
+ 
 
 ####  kernel 接口
 
+Kernel 怎样才能配置Cgroups?
+
+1. 创建一个hierarchy(cgroup树)， 如下：
+
+   ```
+   mkdir cgroup-test # 创建一个hierarchy挂载点
+   mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy
+   ls ./cgroup-test/
+   cgroup.clone_children  cgroup.procs          notify_on_release  tasks
+   cgroup.event_control   cgroup.sane_behavior  release_agent
+
+   ```
+
+   各个文件含义待补充
+
+2. 创建子文件
+
+   ```
+   mkdir cgroup-1
+   tree
+   [root@q cgroup-test]# tree
+   .
+   |-- cgroup-1
+   |   |-- cgroup.clone_children
+   |   |-- cgroup.event_control
+   |   |-- cgroup.procs
+   |   |-- notify_on_release
+   |   `-- tasks
+   |-- cgroup.clone_children
+   |-- cgroup.event_control
+   |-- cgroup.procs
+   |-- cgroup.sane_behavior
+   |-- notify_on_release
+   |-- release_agent
+   `-- tasks
+   ```
+
+   在一个cgroup的目录下创建文件夹时， Kernel会把文件夹标记为这个cgroup的子crgroup, 并继承父的属性。
+
+3. 添加和移动进程
+
+4. 通过subsystem 限制cgroup中进程的资源。
 
 
+####  Docker 如何使用Cgroups
+
+```
+cd /sys/fs/cgroup/memory/docker/<id> 
+cat memory.limit_in_bytes  # 看cgroup的内存限制
+cat memory.usage_in_bytes  # 查看cgroup中进程所使用的内存大小
+```
+
+可以看到， Docker通过为每个容器创建cgroup配置资源限制和资源控制。
+
+
+
+### Union File System
+
+ 
