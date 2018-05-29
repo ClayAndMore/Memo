@@ -172,7 +172,7 @@ Linu x Cgroups(Control Groups)  ， 可以方便的限制某个进程的资源�
 
 * cgroup 
 
-  是进程分组管理的一种机制，一个cgroup包含一组进程，并且可以在其增加linux subsystem 的各种参数配置。
+  是进程分组管理的一种机制，一个cgroup包含一组**进程**，并且可以在其增加linux subsystem 的各种参数配置。
 
 * subsystem 
 
@@ -188,7 +188,11 @@ Linu x Cgroups(Control Groups)  ， 可以方便的限制某个进程的资源�
 
 三个组件的关系：
 
- 一个hierarchy 可以有很多subsystem, 一个subsystem只能附加到一个hierarchy上，
+ 一个hierarchy 可以有很多subsystem, 一个subsystem只能附加到一个hierarchy上。
+
+一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy上。
+
+一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以移动到其他cgroups。
 
  
 
@@ -250,6 +254,12 @@ cat memory.usage_in_bytes  # 查看cgroup中进程所使用的内存大小
 
 
 
+#### Go实现对cgroup限制容器的资源
+
+
+
+
+
 ### Union File System
 
- 
+ 为linux 等系统设计的，把其他文件系统联合到一个联合挂载点的文件服务系统。
