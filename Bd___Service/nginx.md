@@ -63,3 +63,14 @@
 
 
 
+### 其他
+
+#### 跨域
+
+```
+location / {
+     add_header Access-Control-Allow-Origin https://192.168.18.58;
+}
+```
+
+允许192.168.18.58 向本机访问。

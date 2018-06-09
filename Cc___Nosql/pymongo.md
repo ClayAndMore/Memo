@@ -347,6 +347,22 @@ for 循环的方式，注意上面两种方式和for循环的方式不能同时�
 
 
 
+删除数据库：
+
+```python
+from pymongo import MongoClient
+client = MongoClient('<HOST>', <PORT>)
+client.drop_database('<DBNAME>')
+
+from pymongo import Connection
+connection = Connection('<HOST>', <PORT>)
+connection.drop_database('<DBNAME>')
+```
+
+
+
+
+
 #### sort,skip, limit
 
 `a=c.file.info.find_one({},sort=[("firstquery",pymongo.ASCENDING)],limit=1)` 正序

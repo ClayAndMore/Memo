@@ -116,7 +116,7 @@ date: 2017-08-31
 
 #### `os.path`
 
-* os.path.abspath  返回当前目录下文件的绝对路径。
+* os.path.abspath(a)  返回当前目录下文件的绝对路径, 不管a是什么， 返回/../../../a
 * os.path.basename() 
 * os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
 * os.path.realpath  返回真实地址，如软连接的真实地址。
@@ -392,6 +392,10 @@ print_exc()还可以接受file参数直接写入到一个文件。比如
 traceback.print_exc(file=open('tb.txt','w+'))
 
 写入到tb.txt文件去。
+
+默认输出到stderr.
+
+
 
 
 

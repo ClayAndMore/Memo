@@ -111,7 +111,7 @@ Django使用专门的中间件（CsrfMiddleware）来进行CSRF防护。具体�
 
 ### DOS 攻击
 
-
+ DOS是denial of service，也就是拒绝服务攻击 , 不是命令行窗口那个dos。
 
 
 
