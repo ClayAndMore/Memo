@@ -4,7 +4,7 @@
 
 ### 关键字
 
-就25个：
+就25个，为了简洁和高效：
 
 ```
 break    default      func    interface    select
