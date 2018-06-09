@@ -114,3 +114,56 @@ git clone project.git project3 --recursive
 
 git submodoule foreach
 
+
+
+
+
+### linux 下的配置
+
+#### 终端显示git 当前所在分支
+
+vi .bashrc:
+
+```bash
+function git_branch {
+  branch="`git branch 2>/dev/null | grep "^\*" | sed -e "s/^\*\ //"`"
+  if [ "${branch}" != "" ];then
+      if [ "${branch}" = "(no branch)" ];then
+          branch="(`git rev-parse --short HEAD`...)"
+      fi
+      echo " ($branch)"
+  fi
+}
+
+export PS1='\u@\h \[\033[01;36m\]\W\[\033[01;32m\]$(git_branch)\[\033[00m\] \$ '
+```
+
+添加到文件中。
+
+`source ./.bashrc`
+
+
+
+#### linux git自动补全
+
+`https://github.com/git/git/blob/master/contrib/completion/git-completion.bash `
+
+将上方git官网库中的bash脚本放到~.bashrc 同级， 在~.bashrc中加入：
+
+`source ~/git-completion.bash`
+
+
+
+一个插件： yum install bash-completion  
+
+
+
+#### git的命令行的颜色配置
+
+```
+git config --global color.status auto 
+git config --global color.diff auto 
+git config --global color.branch auto 
+git config --global color.interactive auto
+```
+

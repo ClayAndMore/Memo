@@ -10,6 +10,8 @@
 
 ### chardet
 
+只支持python2.7 和 python3+
+
 有时我们不知道某字符串是什么编码，我们可以用这个模块检测，带有概率的检测：
 
 ```python
@@ -73,7 +75,7 @@ chardet.detect() 参数只接受  type 字节数组，否侧：
 
 
 
-而python3中默认字符类型是str, 需要转换成字节数组：
+而python3中默认字符类型是str(unicode), 需要转换成字节数组：
 
 ```python
 >>> chardet.detect('hello')

@@ -68,7 +68,7 @@ Debian系列（ubuntu基于此系列）
 * 常见的安装包格式 deb包,安装deb包的命令是“dpkg -参数”
 * 包管理工具 apt-get
 
- 
+
 
 wget:
 一个下载工具，和操作系统无关。
@@ -316,6 +316,41 @@ out:`claymore:claymore`
 复制目录：
 
 `cp -r father dirFolder` 要带参数-r才能将father及整个子目录复制到dirFolder
+
+不让出现“overwrite”： 
+
+`cp -r -f sourcefile targetdir`
+-r  递归复制，也就是复制文件夹及其下所有文件。
+-f 遇到同名的文件时不提示，直接覆盖。
+
+但是为什么加上-f了，还出现“overwrite”的提示呢？
+
+这是因为系统为防止我们误操作，覆盖了不该覆盖的文件，而使用了命令的别名。使用alias命令查看一下：
+
+```
+ # alias
+alias cp='cp -i'
+alias l.='ls -d .* --color=tty'
+alias ll='ls -l --color=tty'
+alias ls='ls --color=tty'
+alias mv='mv -i'
+alias rm='rm -i'
+```
+
+我们输入的cp命令，其实是“cp -i”命令。
+
+解决办法：
+
+```
+在cp前加上一个"\"符号就不使用别名运行了，如下：
+# \cp -f sourcefile targetdir 
+第二种解决办法：
+编辑文件，注释掉别名。
+# vi ~/.bashrc
+在alias cp='cp -i'前加上“#”注释掉这行，wq!保存推出，然后重新登陆就可以了。
+```
+
+
 
 #### 删除（rm)
 

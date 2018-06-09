@@ -73,6 +73,71 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
   `git brach -m oldname newname`
 
+* 批量删分支
+
+  * 删掉本地除master之外的所有分支：
+
+    ```bash
+    AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_ng8wbuild_master (master)
+    $ git branch | grep -v master
+      add_bin_pypy_devWY
+      release-3.6.17-送检
+      wy_dev_build
+      wy_release-3.6.16
+
+    AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_ng8wbuild_master (master)
+    $ git branch | grep -v master | xargs git branch -D
+    Deleted branch add_bin_pypy_devWY (was 56bd947).
+    Deleted branch release-3.6.17-送检 (was 98bc3d4).
+    Deleted branch wy_dev_build (was 1910c98).
+    Deleted branch wy_release-3.6.16 (was 98bc3d4).
+
+    ```
+
+    ​
+
+  *  删掉本地仓库的所有分支：
+
+    ```bash
+    AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_ng8w_dist_master (master)
+    $ git branch -a | grep origin
+      remotes/origin/add_tag_info
+      remotes/origin/add_user_email_com
+      remotes/origin/add_users_email_com
+      remotes/origin/del_audit_cron
+      remotes/origin/master
+      remotes/origin/modify_api_run
+      remotes/origin/repair_web_security
+
+    $ git branch -a | grep origin |grep -v "master"
+      remotes/origin/add_tag_info
+      remotes/origin/add_user_email_com
+      remotes/origin/add_users_email_com
+      remotes/origin/del_audit_cron
+      remotes/origin/modify_api_run
+      remotes/origin/repair_web_security
+      
+      # 切掉remotes
+     $ git branch -a | grep origin |grep -v "master" | cut -d / -f 2-3 
+       origin/add_tag_info
+       origin/add_user_email_com
+       origin/add_users_email_com
+       origin/del_audit_cron
+       origin/modify_api_run
+       origin/repair_web_security
+
+    $ git branch -a | grep origin |grep -v "master" | cut -d / -f 2-3 | xargs git branch -r -D
+        Deleted remote-tracking branch origin/add_tag_info (was 3762763e).
+        Deleted remote-tracking branch origin/add_user_email_com (was c7255e52).
+        Deleted remote-tracking branch origin/add_users_email_com (was a3913bd8).
+        Deleted remote-tracking branch origin/del_audit_cron (was 9b698d9e).
+        Deleted remote-tracking branch origin/modify_api_run (was 68fbbb77).
+        Deleted remote-tracking branch origin/repair_web_security (was 7650ea5e).
+
+    ```
+
+    ​
+
 
 
 
@@ -282,6 +347,10 @@ git reflog 可以看到本地的git操作
    `$ git update-index  --assume-unchanged  /path/to/file`           #忽略跟踪
    `$ git update-index --no-assume-unchanged  /path/to/file `     #恢复跟踪
 
+最直接的方式是编辑 `.gitignore`  将自己要忽略的文件夹或文件添加进去
+
+
+
 
 
 
@@ -388,6 +457,29 @@ git commit -m 'msg' -a
  `'https://github.com/VundleVim/Vundle.vim.git/'`: GnuTLS recv error (-54): Error in the pull function.
 
   需要取消git的代理： `git config --global --unset http.proxy`
+
+
+
+#### Git checkout: updating paths is incompatible with switching branches
+
+I believe this occurs when you are trying to checkout a remote branch that your local git repo is not aware of yet. Try:
+
+```
+git remote show origin
+```
+
+If the remote branch you want to checkout is under "New remote branches" and not "Tracked remote branches" then you need to fetch them first:
+
+```
+git remote update
+git fetch
+```
+
+Now it should work:
+
+```
+git checkout -b local-name origin/remote-name
+```
 
 
 
