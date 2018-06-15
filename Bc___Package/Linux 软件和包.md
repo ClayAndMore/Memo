@@ -33,15 +33,25 @@ tar是打包文件，就是将很多文件合成一个文件，并没有压缩
 
 tar是打包格式，一般tar后面会有tar.xz等。
 
-压缩：`tar -czvf [desfile] [sourcefile]`  
+
+
+打包：`tar -czvf [desfile] [sourcefile]`  
 
 desfile 要带上压缩后缀，sourcefile 要全路径，全路径压缩的包内容中也是全路径
 
-当前文件夹内容打包到test.tar：
+* 当前文件夹内容打包到test.tar：
 
-`tar cvf test.tar *`
+  `tar cvf test.tar *`
 
-解压：`tar -xzvf [sourcefile]`  
+* 当前目录打包到test.tar:
+
+  `tar cvf test.tar test`
+
+  这样test.tar里就包含一个test目录
+
+
+
+解包：`tar -xzvf [sourcefile]`  
 
 解压到指定文件夹：`tar -xzvf [sourcefile] -C filepath`
 

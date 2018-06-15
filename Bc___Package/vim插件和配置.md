@@ -220,6 +220,46 @@ m 显示文件系统菜单（添加、删除、移动操作）
 
 
 
+
+
+### TagList
+
+跳转到类或函数定义区
+
+安装方式：
+
+1. 下载CTAGS: http://ctags.sourceforge.net/
+
+2. 解压安装， configure, make
+
+3. 下载Taglist: http://vim-taglist.sourceforge.net/installation.html
+
+4. 解压得到两个文件： 
+
+   ```
+   plugin/taglist.vim - main taglist plugin file
+   doc/taglist.txt    - documentation (help) file
+   ```
+
+5. 放入~/.vim下，：
+
+   ```
+   vim/plugin/taglist.vim 
+   vim/doc/taglist.txt   
+   ```
+
+6. 在vimrc( 一般是在/etc下)中配置环境变量：
+
+   `let Tlist_Ctags_Cmd='/home/wangyu/vim_plugin/ctags-5.8/ctags'`
+
+7. 重启vim
+
+8. 在vim中`:Tlista`  开启/关闭
+
+9. 开启后ctrl + w 移动到list窗口，回车进入定义处。
+
+
+
 ### python-mode
 
 命令一般都在vim下的命令模式下执行`:命令`
