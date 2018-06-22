@@ -652,7 +652,7 @@ def run_thread(n):
 
 用于线程间通信，即程序中的其一个线程需要通过判断某个线程的状态来确定自己下一步的操作，就用到了event对象
 
-event对象默认为假（Flase），即遇到event对象在等待就阻塞线程的执行。
+event对象默认为假（内置标志服为Flase），即遇到event对象在等待就阻塞线程的执行。
 
 - 主线程和子线程间通信，代码模拟连接服务器：
 
@@ -871,6 +871,16 @@ event.set()   # 设置标志位为True，event.clear()是回复event的状态值
 ```
 
 起了五个进程，如果没有开启就一直循环打印等待服务器（wait server)，当set的那一刻，这个五个线程就要开始工作了。
+
+几个方法：
+
+Event.set(), 将标识符设为Ture.
+
+Event.clear(), 将标识符设为False.
+
+Event.isSet(),  判断标识位是否为Ture.
+
+
 
 #### 队列
 

@@ -88,7 +88,7 @@ while True:
     t.start()
 ```
 
-* `accept()`会等待并返回一个客户端的连接
+* `accept()`会等待并返回一个客户端的连接,返回（ip, port）
 * 每个连接都必须创建新线程（或进程）来处理，否则，单线程在处理连接的过程中，无法接受其他客户端的连接：
 
 新起一个客户端：
@@ -155,5 +155,108 @@ while True:
 
 
 
+### socket对象 其他API
+
+#### accpet()
+
+调用前必须绑定端口并监听。
+
+返回值是新的socket对象(这个对象不能收发数据)和绑定连接的地址：
+
+`(new_socket, (ip, port))`
 
 
+
+#### setblocking()
+
+设置是否阻塞， setblocking(0)为非阻塞， setblocking(1)为阻塞， 默认为阻塞。
+
+```
+>>> import socket
+>>> a=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+>>> a.bind(('127.0.0.1', 8080))
+>>> a.listen(5)
+>>> c,s = a.accept()
+```
+
+这里accept会一直等待消息的传入， 会阻塞本进程。
+
+```
+>>> a.setblocking(0)
+>>> c,s = a.accept()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib64/python2.6/socket.py", line 197, in accept
+    sock, addr = self._sock.accept()
+socket.error: [Errno 11] Resource temporarily unavailable
+```
+
+设置为非阻塞模式， 会立马获得结果，如果读入缓冲区为空则异常。
+
+这个函数和select结合会有很好的效果。
+
+
+
+#### fileno()
+
+返回socket的文件描述符。只在unix系统下可用。
+
+```
+>>> import socket
+>>> s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+>>> s.fileno()
+4
+```
+
+这里可以用于select.select() ，Python文档如是说。
+
+
+
+#### makefile([mode[, bufsize]])
+
+返回一个和socket相关的文件对象，这个文件对象在调用close()时不会被显示的关闭， 但会移走对这个文件对象的引用，如果没有被其他地方引用这个，以便更好的关闭socket.
+
+文件对象File Objects 是 open(), os.popen()等打开的对象。
+
+
+
+可选参数 mode , bufsize， 也是内置open()方法的参数， 
+
+mode打开模式， wb, rb 等。
+
+bufsize设置缓冲区：
+
+* -1 **全缓冲：**同系统及磁盘块大小有关，n个字节后执行一次写入操作，缓冲大小为系统默认 
+* 1**行缓冲：**遇到换行符执行一次写操作
+* `>1`  字节数为buffering的全缓冲 
+* 0 **无缓冲：**立刻执行写操作
+
+没有指定则用系统默认。
+
+
+
+#### shutdown(how)
+
+当你使用完工 socket对象时，你应调用close()方法显式的关闭socket以尽快释放资源（尽管socket被垃圾回收器回收时将自动被关闭）。
+
+你也可以使用shutdown(how)方法来关闭连接一边或两边。
+
+参数0阻止socket接收数据， socket.SHUT_RD 
+
+1阻止发送，              socket.SHUT_WR
+
+2阻止接收和发送。  socket.SHUT_RDWR 
+
+然后再用socket释放。
+
+
+
+shutdown 和 socket 的区别，
+
+对于系统来说，socket是一种资源， 所以有句柄handle来管理， 
+
+close方法会让handle对该socket的引用减一， 如果引用为0，则该socket被释放。
+
+如果减后引用不为零，说明还有其他进程在引用。
+
+shutdown 方法会 对这个根的读写开关， 如果一个进程中关掉相关，其他进程也不能使用相关功能， 但是shutdown方法不会释放掉socket。
