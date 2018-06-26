@@ -1,5 +1,40 @@
 ### 流程
 
+#### bottle.py
+
+在导入botlle时， 就执行了bottle中代码：
+
+```python
+__author__ = 'Marcel Hellkamp'
+__version__ = '0.12.13'
+__license__ = 'MIT'
+
+def make_default_app_wrapper(name):
+    ''' Return a callable that relays calls to the current default app. '''
+    @functools.wraps(getattr(Bottle, name))
+    def wrapper(*a, **ka):
+        return getattr(app(), name)(*a, **ka)
+    return wrapper
+
+route     = make_default_app_wrapper('route')
+get       = make_default_app_wrapper('get')
+post      = make_default_app_wrapper('post')
+put       = make_default_app_wrapper('put')
+delete    = make_default_app_wrapper('delete')
+error     = make_default_app_wrapper('error')
+mount     = make_default_app_wrapper('mount')
+hook      = make_default_app_wrapper('hook')
+install   = make_default_app_wrapper('install')
+uninstall = make_default_app_wrapper('uninstall')
+url       = make_default_app_wrapper('get_url')
+```
+
+
+
+
+
+
+
 #### Server
 1. bottle 中通过:
    ```
@@ -24,7 +59,7 @@
     'bjoern' : BjoernServer,
     'auto': AutoServer,
     }
-    ```
+   ```
     默认值wsgiref找到 WSGIRefServer
     执行WSGIRefServer.run()  (bottle.run的直接转化)
 
@@ -67,7 +102,7 @@
     初始化完成
 
 5.  WSGIServer.serve_forever()
-    
+  
     ```python
         self.__is_shut_down.clear() #threading.Event().clear()
         try:
@@ -130,7 +165,7 @@
     ```
 
 3. handle()
-    
+  
     WSGIRequestHandler - handler():
     ```
     self.raw_requestline = self.rfile.readline(65537) #GET / HTTP/1.1
@@ -196,8 +231,8 @@
         env[HTTP_ + headers[headers][key]] = value
     ```
 
-4.  handler 实例
-    ```
+4. handler 实例
+    ```python
      handler = ServerHandler(
             self.rfile, self.wfile, sys.stderr, self.get_environ()
         )
@@ -215,14 +250,35 @@
     self.wsgi_multithread = True
     self.wsgi_multiprocess = True
     ```
-    run:
-    ```
+    (BaseHandler) run(self, application):
+    ```python
+    env = self.environ = self.os_environ.copy() # dict(os.environ.items())
+    self.environ.update(env)
+    
     env['wsgi.input']        = self.get_stdin()
     env['wsgi.errors']       = self.get_stderr()
-    env['wsgi.version']      = self.wsgi_version
-    env['wsgi.run_once']     = self.wsgi_run_once
-    env['wsgi.url_scheme']   = self.get_scheme()
+    env['wsgi.version']      = self.wsgi_version # (1, 0)
+    env['wsgi.run_once']     = self.wsgi_run_once # False
+    env['wsgi.url_scheme']   = self.get_scheme() # https or http
     env['wsgi.multithread']  = self.wsgi_multithread
     env['wsgi.multiprocess'] = self.wsgi_multiprocess
-
+    env['wsgi.file_wrapper'] = util.FileWrapper
+    env['SERVER_SOFTWARE']   = "WSGIServer/" + __version__ + "Python/" + sys.version.split()[0]
+    
+    self.result = default_app = AppStack(self.environ,  self.start_response())
+       
+    class AppStack(list):
+        """ A stack-like list. Calling it returns the head of the stack. """
+    
+        def __call__(self):
+            """ Return the current default application. """
+            return self[-1]
+    
+        def push(self, value=None):
+            """ Add a new :class:`Bottle` instance to the stack """
+            if not isinstance(value, Bottle):
+                value = Bottle()
+            self.append(value)
+            return value
+    default.push
     ```
