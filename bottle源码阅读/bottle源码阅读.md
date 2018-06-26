@@ -29,8 +29,6 @@ uninstall = make_default_app_wrapper('uninstall')
 url       = make_default_app_wrapper('get_url')
 ```
 
-
-
 全局变量：
 
 ```python
@@ -49,10 +47,6 @@ HTTP_CODES[431] = "Request Header Fields Too Large"
 HTTP_CODES[511] = "Network Authentication Required"
 _HTTP_STATUS_LINES = dict((k, '%d %s'%(k,v)) for (k,v) in HTTP_CODES.items())
 ```
-
-
-
-
 
 #### Server
 1. bottle 中通过:
