@@ -7,18 +7,10 @@
 linux操作系统提供 一个`fork()`系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是`fork()`调用一次，**返回两次**，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。
 
 ```
-
-```
-
-```
 import os
-```
 
-```
 os.fork()
-```
 
-```
 print 1
 ```
 
@@ -30,59 +22,23 @@ Python的`os`模块封装了常见的系统调用，其中就包括`fork`，可�
 
 ```
 
-```
-
-```
 import os
-```
-
-```
-
-```
-
-```
 print('Process (%s) start...' % os.getpid())
-```
-
-```
 # Only works on Unix/Linux/Mac:
-```
-
-```
 pid = os.fork()
-```
-
-```
 if pid == 0:
-```
-
-```
     print('I am child process (%s) and my parent is %s.' % (os.getpid(), os.getppid()))
-```
 
-```
 else:
-```
-
-```
     print('I (%s) just created a child process (%s).' % (os.getpid(), pid))
 ```
 
 运行结果如下：
 
 ```
-
-```
-
-```
 Process (876) start...
-```
 
-```
 I (876) just created a child process (877).
-```
-
-```
 I am child process (877) and my parent is 876.
 ```
 
@@ -95,58 +51,24 @@ I am child process (877) and my parent is 876.
 `multiprocessing`模块提供了一个`Process`类来代表一个进程对象，下面的例子演示了启动一个子进程并等待其结束：
 
 ```
-
-```
-
-```
 from multiprocessing import Process
-```
 
-```
 import os
-```
 
-```
-
-```
-
-```
 def run(name):
-```
 
-```
     print('跑的这个子进程是%s(%s)'%(name,os.getpid()))
-```
 
-```
-
-```
-
-```
 if __name__=='__main__':
-```
 
-```
     print('父进程是%s.'%os.getpid())
-```
 
-```
     p=Process(target=run,args=('test',))
-```
 
-```
     print('子进程要启动了')
-```
 
-```
     p.start()
-```
-
-```
     p.join()
-```
-
-```
     print('子进程结束了它的生命')
 ```
 
@@ -162,81 +84,25 @@ start()`方法启动，这样创建进程比`fork()`还要简单。
 
 ```
 
-```
-
-```
 from multiprocessing import Pool
-```
-
-```
 import os,time,random
-```
 
-```
-
-```
-
-```
 def task(name):
-```
-
-```
     print('运行任务%s(%s)'%(name,os.getpid()))
-```
-
-```
     start=time.time()
-```
-
-```
     time.sleep(random.random()*3)
-```
-
-```
     end=time.time()
-```
-
-```
     print('任务%s运行了%0.2f 秒'%(name,(end-start)))
-```
 
-```
-
-```
-
-```
 if __name__=='__main__':
-```
-
-```
     print('父进程%s'%os.getpid())
-```
-
-```
     p=Pool(4)
-```
-
-```
     for i in range(5):
-```
-
-```
         p.apply_async(task,args=(i,))
-```
 
-```
     print('等待所有子进程运行完')
-```
-
-```
     p.close()
-```
-
-```
     p.join()
-```
-
-```
     print('所有进程运行完')
 ```
 
@@ -245,15 +111,7 @@ if __name__=='__main__':
 请注意输出的结果，task `0`，`1`，`2`，`3`是立刻执行的，而task `4`要等待前面某个task完成后才执行，这是因为`Pool`的默认大小在我的电脑上是4，因此，最多同时执行4个进程。这是`Pool`有意设计的限制，并不是操作系统的限制。如果改成：
 
 ```
-
-```
-
-```
 p = Pool(5)
-```
-
-```
-
 ```
 
 就可以同时跑5个进程。
@@ -449,70 +307,22 @@ Python的标准库提供了两个模块：`_thread`和`threading`，`_thread`是
 启动一个线程就是把一个函数传入并创建`Thread`实例，然后调用`start()`开始执行：
 
 ```
-
-```
-
-```
 import time,threading
-```
-
-```
-
-```
-
-```
 def loop():
-```
 
-```
     print('线程 %s 正在跑'%threading.current_thread().name)
-```
-
-```
     n = 0
-```
-
-```
     while n < 5:
-```
-
-```
         n = n+1
-```
-
-```
         print('线程 %s >>> %s'%(threading.current_thread().name,n))
-```
-
-```
         time.sleep(1)
-```
-
-```
     print('线程 %s 结束'%threading.current_thread().name)
-```
-
-```
-
-```
-
-```
 print('线程 %s 正在跑跑'%threading.current_thread().name)
-```
 
-```
 t=threading.Thread(target=loop,name='LoopTread')
-```
-
-```
 t.start()
-```
-
-```
 t.join()
-```
 
-```
 print('thread %s ended'%threading.current_thread().name)
 ```
 
@@ -520,7 +330,7 @@ print('thread %s ended'%threading.current_thread().name)
 
 join（）的作用是，在子线程完成运行之前，这个子线程的父线程将一直被阻塞,这里也就是说一直阻塞主线程，直到threading线程结束，我们该程序才可运行。
 
-#### lock
+#### threading
 
 threading 模块对象：
 
@@ -593,58 +403,19 @@ Thread方法：
 如果我们要确保`balance`计算正确，就要给`change_it()`上一把锁，当某个线程开始执行`change_it()`时，我们说，该线程因为获得了锁，因此其他线程不能同时执行`change_it()`，只能等待，直到锁被释放后，获得该锁以后才能改。由于锁只有一个，无论多少线程，同一时刻最多只有一个线程持有该锁，所以，不会造成修改的冲突。创建一个锁就是通过`threading.Lock()`来实现：
 
 ```
-
-```
-
-```
 balance = 0
-```
-
-```
 lock = threading.Lock()
-```
 
-```
-
-```
-
-```
 def run_thread(n):
-```
 
-```
     for i in range(100000):
-```
-
-```
         # 先要获取锁:
-```
-
-```
         lock.acquire()
-```
-
-```
         try:
-```
-
-```
             # 放心地改吧:
-```
-
-```
             change_it(n)
-```
-
-```
         finally:
-```
-
-```
             # 改完了一定要释放锁:
-```
-
-```
             lock.release()
 ```
 
@@ -652,71 +423,31 @@ def run_thread(n):
 
 用于线程间通信，即程序中的其一个线程需要通过判断某个线程的状态来确定自己下一步的操作，就用到了event对象
 
-event对象默认为假（内置标志服为Flase），即遇到event对象在等待就阻塞线程的执行。
+event对象默认为假（内置标志服为Flase），即遇到event对象在等待就阻塞线程的执行, 那么当程序执行 event.wait 方法时就会阻塞，如果“Flag”值为True，那么event.wait 方法时便不再阻塞。 
 
 - 主线程和子线程间通信，代码模拟连接服务器：
 
 ```
-
-```
-
-```
 import threading
-```
-
-```
 import time
-```
-
-```
 event=threading.Event()
-```
 
-```
-
-```
-
-```
 def foo():
-```
-
-```
     print('wait server...')
-```
 
-```
     event.wait()    #括号里可以带数字执行，数字表示等待的秒数，不带数字表示一直阻塞状态
-```
-
-```
     print('connect to server')
-```
 
-```
-
-```
-
-```
 t=threading.Thread(target=foo,args=())  #子线程执行foo函数
-```
 
-```
 t.start()
-```
 
-```
 time.sleep(3)
-```
 
-```
 print('start server successful')
-```
 
-```
 time.sleep(3)
-```
 
-```
 event.set()     #默认为False，set一次表示True，所以子线程里的foo函数解除阻塞状态继续执行
 ```
 
@@ -724,73 +455,27 @@ event.set()     #默认为False，set一次表示True，所以子线程里的foo
 
 ```
 
-```
-
-```
 import threading
-```
 
-```
 import time
-```
 
-```
 event=threading.Event()
-```
 
-```
-
-```
-
-```
 def foo():
-```
 
-```
     print('wait server...')
-```
-
-```
     event.wait()   
-```
 
-```
     print('connect to server')
-```
 
-```
 def start():
-```
-
-```
     time.sleep(3)
-```
-
-```
     print('start server successful')
-```
-
-```
     time.sleep(3)
-```
-
-```
     event.set()     
-```
-
-```
 t=threading.Thread(target=foo,args=())  #子线程执行foo函数
-```
-
-```
 t.start()
-```
-
-```
 t2=threading.Thread(target=start,args=())  #子线程执行start函数
-```
-
-```
 t2.start()
 ```
 
@@ -799,74 +484,24 @@ t2.start()
 - 多线程阻塞
 
 ```
-
-```
-
-```
 import threading
-```
-
-```
 import time
-```
 
-```
-
-```
-
-```
 event=threading.Event()
-```
 
-```
 def foo():
-```
-
-```
     while not event.is_set():   #返回event的状态值，同isSet
-```
 
-```
         print("wait server...")
-```
-
-```
         event.wait(2)   #等待2秒，如果状态为False，打印一次提示继续等待
-```
-
-```
     print("connect to server")
-```
 
-```
-    
-```
-
-```
 for i in range(5):  #5个子线程同时等待
-```
-
-```
     t=threading.Thread(target=foo,args=())
-```
-
-```
     t.start()
-```
-
-```
-
-```
-
-```
 print("start server successful")
-```
-
-```
 time.sleep(10)
-```
 
-```
 event.set()   # 设置标志位为True，event.clear()是回复event的状态值为False
 ```
 
@@ -885,6 +520,90 @@ Event.isSet(),  判断标识位是否为Ture.
 #### 队列
 
 我们先假设有很多个线程，n个消费者，一个生产者，生产者和消费者都不断的运行，那么我们的CUP岂不是在他们之间来回换，看看这个消费者要没要产品，看看生产者产没产出产品，这样太不科学了，我们一应该用队列来存储产品，如果有消费者要就去队列去取，如果没有则等待，可以这样讲队列线程在没有产品的时候设置为event.wait,当有数据的时候设置成event.set通知其他消费者。
+
+
+
+#### local
+
+先看代码：
+
+```python
+from threading import local, enumerate, Thread, currentThread
+
+local_data = local()
+local_data.name = 'local_data'
+
+class TestThread(Thread):
+        def run(self):
+                print currentThread()
+                print local_data.__dict__
+                local_data.name = self.getName()
+                local_data.add_by_sub_thread = self.getName()
+                print local_data.__dict__
+
+if __name__ == '__main__':
+        print currentThread()
+        print local_data.__dict__
+        
+        t1 = TestThread()
+        t1.start()
+        t1.join()
+        
+        t2 = TestThread()
+        t2.start()
+        t2.join()
+        
+        print currentThread()
+        print local_data.__dict__
+```
+
+output:
+
+```python
+<_MainThread(MainThread, started)>
+{'name': 'local_data'}
+<TestThread(Thread-1, started)>
+{}
+{'add_by_sub_thread': 'Thread-1', 'name': 'Thread-1'}
+<TestThread(Thread-2, started)>
+{}
+{'add_by_sub_thread': 'Thread-2', 'name': 'Thread-2'}
+<_MainThread(MainThread, started)>
+{'name': 'local_data'}
+```
+
+主线程中的local_data并没有被改变，而子线程中的local_data各自都不相同。 
+
+local_data具有全局访问权，主线程，子线程都能访问它，但是它的值却是各当前线程有关。
+
+查看了一下local的源代码，发现就神奇在_path()方法中:
+
+```
+def _patch(self):
+    key = object.__getattribute__(self, '_local__key')
+    d = currentThread().__dict__.get(key)
+    if d is None:
+        d = {}
+        currentThread().__dict__[key] = d
+        object.__setattr__(self, '__dict__', d)
+
+        # we have a new instance dict, so call out __init__ if we have
+        # one
+        cls = type(self)
+        if cls.__init__ is not object.__init__:
+            args, kw = object.__getattribute__(self, '_local__args')
+            cls.__init__(self, *args, **kw)
+    else:
+        object.__setattr__(self, '__dict__', d)
+```
+
+每次调用local实例的属性前，local都会调用这个方法，找到它保存值的地方.
+
+d = currentThread().__dict__.get(key)  就是这个地方，确定了local_data值的保存位置。所以子线程访问local_data时，并不是获取主线程的local_data的值，在子线程第一次访问它是，它是一个空白的字典对象，所以local_data.__dict__为 {}，就像我们的输出结果一样。
+
+如果想在当前线程保存一个全局值，并且各自线程互不干扰，使用local类吧。
+
+
 
 #### GIL锁
 

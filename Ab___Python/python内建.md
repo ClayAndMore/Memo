@@ -145,6 +145,30 @@ modualA.py
 
 
 
+#### `__call__`
+
+python中所有都为对象，包括函数， 函数本身是一个类，实现了`__call__`。
+
+类实例被调用前的触发方法：
+
+```python
+class A:
+   def __init__(self, s):
+       print s
+   def __call__(self):
+       print 'cccccc'
+
+a=A('ssss')
+a()  # 触发__call__， a就可以理解为一个对象。
+```
+
+out:
+
+ssss
+cccccc
+
+
+
 ### 内置函数
 
 #### vars
@@ -212,6 +236,37 @@ When you need the value of an expression, use [`eval(string)`](http://docs.pytho
 
 #### getattr()
 
+```python
+def getattr(object, name, default=None): # known special case of getattr
+    """
+    getattr(object, name[, default]) -> value
+    
+    Get a named attribute from an object; getattr(x, 'y') is equivalent to x.y.
+    When a default argument is given, it is returned when the attribute doesn't
+    exist; without it, an exception is raised in that case.
+    """
+    pass
+```
+
+`getattr(x, y, z) = x.y`  如果y不存在则返回z, 没有z则抛出异常。
+
+
+
+#### setattr()
+
+```python
+def setattr(p_object, name, value): # real signature unknown; restored from __doc__
+    """
+    setattr(object, name, value)
+    
+    Set a named attribute on an object; setattr(x, 'y', v) is equivalent to
+    ``x.y = v''.
+    """
+    pass
+```
+
+嗯 说的很明白： `setattr(x, 'y', v) = x.y = v`
+
 
 
 #### dir()
@@ -250,6 +305,40 @@ dir()函数以列表形式返回一个特定的模块,类,对象或它类型的�
 `help(shutil.copy)`
 
 其实就是输出其doc
+
+
+
+#### property()
+
+```python
+def __init__(self, fget=None, fset=None, fdel=None, doc=None):
+    pass
+```
+
+- fget -- 获取属性值的函数
+- fset -- 设置属性值的函数
+- fdel -- 删除属性值函数
+- doc -- 属性描述信息
+- 返回新式类属性
+
+```python
+class C(object):
+    def __init__(self):
+        self._x = None
+ 
+    def getx(self):
+        return self._x
+ 
+    def setx(self, value):
+        self._x = value
+ 
+    def delx(self):
+        del self._x
+ 
+    x = property(getx, setx, delx, "I'm the 'x' property.")
+```
+
+**如果 *c* 是 *C* 的实例化, c.x 将触发 getter,c.x = value 将触发 setter ， del c.x 触发 deleter。 **
 
 
 
