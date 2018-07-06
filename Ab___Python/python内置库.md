@@ -1031,9 +1031,64 @@ print(Student(**di))  # Student(name='sucker', age=34, id='544554')
 
 
 
-
-
 #### base64
+
+Base64是一种用64（2的6次方）个字符来表示任意二进制数据的方法。 
+
+处理乱码的时候很好用。
+
+将原字节8bit的字符串每6bit对应一个字符：
+
+`['A', 'B', 'C', ... 'a', 'b', 'c', ... '0', '1', ... '+', '/']`
+
+26 + 26 + 10 +2
+
+因为不一定是6的倍数，再在编码的末尾加上1个或2个`=`号，表示补了多少字节。
+
+```python
+>>> import base64
+>>> base64.b64encode('binary\x00string')
+'YmluYXJ5AHN0cmluZw=='
+>>> base64.b64decode('YmluYXJ5AHN0cmluZw==')
+'binary\x00string'
+```
+
+由于标准的Base64编码后可能出现字符`+`和`/`，在URL中就不能直接作为参数，所以又有一种"url safe"的base64编码，其实就是把字符`+`和`/`分别变成`-`和`_`：
+
+```python
+>>> base64.b64encode('i\xb7\x1d\xfb\xef\xff')
+'abcd++//'
+>>> base64.urlsafe_b64encode('i\xb7\x1d\xfb\xef\xff')
+'abcd--__'
+>>> base64.urlsafe_b64decode('abcd--__')
+'i\xb7\x1d\xfb\xef\xff'
+```
+
+由于`=`字符也可能出现在Base64编码中，但`=`用在URL、Cookie里面会造成歧义，所以，很多Base64编码后会把`=`去掉：
+
+```
+# 标准Base64:
+'abcd' -> 'YWJjZA=='
+# 自动去掉=:
+'abcd' -> 'YWJjZA'
+```
+
+去掉`=`后怎么解码呢？因为Base64是把3个字节变为4个字节，所以，Base64编码的长度永远是4的倍数，因此，需要加上`=`把Base64字符串的长度变为4的倍数，就可以正常解码了。
+
+请写一个能处理去掉`=`的base64解码函数：
+
+```python
+>>> base64.b64decode('YWJjZA==')
+'abcd'
+>>> base64.b64decode('YWJjZA')
+Traceback (most recent call last):
+  ...
+TypeError: Incorrect padding
+>>> safe_b64decode('YWJjZA')
+'abcd'
+```
+
+
 
 #### struct
 
