@@ -1,5 +1,66 @@
 ## 非内置
 
+### rsa
+
+git: `https://github.com/sybrenstuvel/python-rsa`
+
+说明：`https://stuvel.eu/python-rsa-doc/usage.html`
+
+#### 生成秘钥
+
+rsa.newkeys()
+
+```python
+>>> import rsa
+>>> (pubkey, privkey) = rsa.newkeys(512)
+>> pubkey
+PublicKey(114015180291009189880751287724398507755979872951682778251118140252600017917610469, 65537)
+```
+
+返回值是公私钥对象。
+
+512 必传参数， 指定位数， 位数多安全，但生成时间会变慢。
+
+（512，0.11s),  (1024, 0.79s), (20148, 6s) ， 该时间是在单核单线程下。
+
+可选参数：poolsize
+
+加速密钥生成过程的另一种方法是并行使用多个进程来加速密钥生成。使用不超过机器可以并行运行的进程数; 双核机器应该使用`poolsize=2`; 一个四核超线程机器可以在每个核心上运行两个线程，因此可以使用`poolsize=8`。 
+
+`(pubkey, privkey) = rsa.newkeys(512, poolsize=8)`
+
+
+
+#### 加密和解密
+
+```python
+>>> import rsa
+>>> message = 'hello Bob!'.encode('utf8') 
+>>> crypto = rsa.encrypt(message, bob_pub) # 加密， crypre字符也要处理，一般base64
+>>> message = rsa.decrypt(crypto, privkey)
+>>> message.decode('utf8')
+hello Bob!
+```
+
+这里用了enconde, 一般我们爱用base64, 防止非法字符的扰乱。
+
+
+
+#### 签证和确认
+
+ ```python
+signature = rsa.sign(message, privkey, 'SHA-1') # 这里signature也是字符，也要处理
+算法可选：  ‘MD5’, ‘SHA-1’, ‘SHA-256’, ‘SHA-384’ or ‘SHA-512’.
+rsa.verify(message, signature, pubkey)
+True
+如果message被串改， 则报：
+rsa.pkcs1.VerificationError: Verification failed
+ ```
+
+
+
+
+
 
 
 ### psutil
