@@ -31,6 +31,21 @@ PublicKey(1140151802910091898807512877243985077559798729516827782511181402526000
 
 
 
+#### 导入秘钥
+
+ `rsa.PrivateKey.load_pkcs1()`and `rsa.PublicKey.load_pkcs1()` 从文件中导入公私钥：
+
+```
+>>> import rsa
+>>> with open('private.pem', mode='rb') as privatefile:
+...     keydata = privatefile.read()
+>>> privkey = rsa.PrivateKey.load_pkcs1(keydata)
+```
+
+或者可以直接从写死在程序里导入字符串变量。
+
+
+
 #### 加密和解密
 
 ```python
