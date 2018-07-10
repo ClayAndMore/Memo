@@ -355,7 +355,7 @@ n: 保存源文件，将格式变换后的新文件输出。
 
 #### 4空格替换tab
 
-在配置文件/etc/vim/vimrc中：
+在配置文件/etc/vim/vimrc中：(centos /ect/vimrc)
 
 ```
 set ts=4
