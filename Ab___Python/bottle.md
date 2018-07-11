@@ -81,9 +81,18 @@ email = request.forms.get('email')
   `/user/<name>/<id>`
 2. 指定参数类型
     1. 获取整数参数： `/user/<id:int>`
+
     2. 获取浮点参数： `/user/<fid:float>`
+
     3. 获取路径参数： `/user/<mypath:path>`
+
     4. 指定正则表达： `/user/<ret:re:[a=z]*>`
+
+    5. 另一种表达方式：
+
+       `@route(’/hello/:name’) `
+
+       ` @route('/object/:id#[0-9]+#') `
 3. 自定义过滤函数
 
 
@@ -141,6 +150,25 @@ bottle提供了对某些类型和编码的转换支持。
 视图函数中指定返回字符编码,两种方式：
 `Response.charset='utf-8'`
 `Response.content_type='text/html;charset=gbk'`
+
+
+
+#### header
+
+响应的头文件如 `Cache-Control` 或者 `Location` 等都是通过 @Response.set_header() 函数定义的，该函数接受两个参数：一个头文件名称和一个值，名称部分是区分大小写的：
+
+```python
+@route('/wiki/page')
+def wiki(page):
+    response.set_header('Content-Language', 'en')
+```
+
+绝大多数头文件都仅仅只能定义一次，但是有一些特别的头文件却可以多次定义，这个时候我们在第一次定义时使用`Response.set_header()` ，但是第二次定义时，就需要使用 `Response.add_header()` 了：
+
+```
+response.set_header('Set-Cookie','name=value')
+response.add_header('Set-Cookie','name1=value1')
+```
 
 
 
