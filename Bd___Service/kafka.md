@@ -212,3 +212,52 @@ kafka借鉴AMQP协议进行开发
 * 流处理
 
   许多用户将处理消息分成了多个阶段性的处理过程：原始数据被消费出来并聚合产生成一些新主题的流，被用作进一步的处理。举个例子，一个文章推荐处理的系统通常先是会将文章内容通过RSS抓取下来，发布到一个叫"article"的主题里；后续的处理会将内容进行规范，去重和清洗；最终的阶段会将内容和用户关联匹配上。
+
+
+
+#### Quick Start
+
+`https://benjamin-lee.gitbooks.io/kafka-document-chinese/content/chapter1.html`
+
+
+
+
+
+#### Question
+
+##### 安装java
+
+https://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/
+
+
+
+#### `bogon: bogon: Name or service not known`
+
+客户端启动时会获取本地地址：
+
+1. 在报错机器上执行查看主机名命令：
+
+  ```
+  root@iZ231wxgt6mZ ~]# hostname
+  bogon
+  ```
+
+  如果执行命令报错，请检查是否给hostname定义了别名，比如在.bash_profile或者.bashrc中 alias xxx=‘hostname’； 或者命令路径不在$PATH下面。
+
+2. ping主机：
+
+    ```
+    [root@iZ231wxgt6mZ ~]# ping iZ231wxgt6mZ
+    ```
+
+		如果无法正常ping通主机名，则需要将本机地址绑定到 /etc/hosts文件中。
+
+    `127.0.0.1 主机名 localhost.localdomain localhos`
+
+    或是再添加一条
+
+    `127.0.0.1 主机名`
+
+3. 检查/etc/sysconfig/network 中的记录的hostname是否和/etc/hosts中的主机名绑定一致，如果不一致请确保一致。 如果需要修改/etc/sysconfig/network中的内容，修改后需要重启机器才能生效。
+
+以上三部确认ok后，客户端启动就不在会报 UnknownHostException 的异常了。
