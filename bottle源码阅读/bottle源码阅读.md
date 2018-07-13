@@ -261,7 +261,6 @@ bottle.run():
    app = Bottle() #上方初始化 default_app() -> __call__ -> Bottle()
    ```
 
-   
 
 1. bottle 中通过:
    ```
@@ -370,10 +369,10 @@ bottle.run():
     request, client_address = self.socket.accept() # request: socket._socketobject client_address: ('127.0.0.1', 38419) 本地windows平台浏览器设置
     # finish_request-> 初始化HandlerClass, 接受一个请求初始一个Handler
     RequestHandlerClass(request, client_address, self)
-    
+
     # TCPServer
     self.shutdown_request(request):
-    
+
     request.shutdown(socket.SHUT_WR) # 连接方 阻止发送数据
     request.close() # 释放socket
     ```
@@ -388,12 +387,12 @@ bottle.run():
     self.connection = self.request
     self.rfile = self.connection.makefile('rb', self.rbufsize) # rbufsize: -1, 全缓冲
     self.wfile = self.connection.makefile('wb', self.wbufsize) # wbufsize: 0  无缓冲
-    
+
     protocol_version = "HTTP/1.0" # 1.1 可以自动keepalive
-    
+
     # The Message-like class used to parse headers
     MessageClass = mimetools.Message(rfc822.Message)
-    
+
     self.handle()
     self.finish()
     ```
@@ -403,7 +402,7 @@ bottle.run():
     WSGIRequestHandler - handler():
     ```python
     self.raw_requestline = self.rfile.readline(65537) #GET / HTTP/1.1
-    
+
     # 检查有收入块没有错误代码的函数
     parse_request:
         self.command = None
@@ -448,9 +447,9 @@ bottle.run():
             'seekable': 0, 
             'unixfrom': '', 'plisttext': '', 'plist': []
         }
-    
+
     	因为keep-alive, 使得elf.close_connection = 0
-    
+
     get_environ:
         env = self.server.base_environ.copy()
         #{'CONTENT_LENGTH': '',
@@ -483,7 +482,7 @@ bottle.run():
         env['REMOTE_HOST'] = 'localhost.localdomain' # socket.getfqdn('127.0.0.1')
         env['REMOTE_ADDR'] = self.client_address[0] # 127.0.0.1
         env['CONTENT_TYPE'] = 'text/plain'
-    
+
         env[HTTP_ + headers[headers][key]] = value
     ```
 
@@ -510,7 +509,7 @@ bottle.run():
     ```python
     env = self.environ = self.os_environ.copy() # dict(os.environ.items())
     self.environ.update(env)
-    
+
     env['wsgi.input']        = self.get_stdin()
     env['wsgi.errors']       = self.get_stderr()
     env['wsgi.version']      = self.wsgi_version # (1, 0)
@@ -520,7 +519,7 @@ bottle.run():
     env['wsgi.multiprocess'] = self.wsgi_multiprocess # False
     env['wsgi.file_wrapper'] = util.FileWrapper
     env['SERVER_SOFTWARE']   = "WSGIServer/" + __version__ + "Python/" + sys.version.split()[0]
-    
+
     self.result = application(self.environ, self.start_response) # BaseHandler的start_response 方法, 注意application 是Bottle实例, 此时这里执行的就是Bottle()(self.environ, self.start_response), 这会触发Bottle的__call__方法。
        
     ```
@@ -531,7 +530,7 @@ bottle.run():
 
     ```python
     out = self._cast(slef.__handle(environ))
-    
+
     def __handle(environ):
         path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
         environ['bottle.app'] = self # Bottle
@@ -541,16 +540,44 @@ bottle.run():
 
     这里都执行了intit但是不知道赋值给了谁， request 和 response 早已经实例化过了。
 
+    下一步是执行了trigger_hook, 我们有必要看一看
+
+     ```python
+    self.trigger_hook('before_request')
+
+    def trigger_hook(self, __name, *args, **kwargs):
+      ''' Trigger a hook and return a list of results. '''
+        return [hook(*args, **kwargs) for hook in self._hooks[__name][:]]
+
+    def _hooks(self):
+        return dict((name, []) for name in self.__hook_names)
+
+
+     __hook_names = 'before_request', 'after_request', 'app_reset', 'config'
+        
+     def hook(self, name):
+     """ Return a decorator that attaches a callback to a hook. See
+                    :meth:`add_hook` for details."""
+          def decorator(func):
+              self.add_hook(name, func)
+                  return func
+           return decorator
+
+    def add_hook(self, name, func):
+        if name in self.__hook_reversed:
+             self._hooks[name].insert(0, func)
+        else:
+             self._hooks[name].append(func)
+     ```
+
+    有一个hook列表， 在请求前的hook，一般没有加func就为[], 其他也是，如果有则执行func(*args, **kwargs)
+
+​    
+
+        
     
-
-    
-
-    
-
-    ​    
-
     看下BaseHandler的start_response 方法：
-
+    
     ```python
         def start_response(self, status, headers,exc_info=None):
             """'start_response()' callable as specified by PEP 333"""
@@ -578,7 +605,6 @@ bottle.run():
             self.headers = self.headers_class(headers)
             return self.write
     ```
-
 
 ​    
 
