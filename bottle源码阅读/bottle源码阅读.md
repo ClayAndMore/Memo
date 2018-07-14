@@ -369,10 +369,10 @@ bottle.run():
     request, client_address = self.socket.accept() # request: socket._socketobject client_address: ('127.0.0.1', 38419) 本地windows平台浏览器设置
     # finish_request-> 初始化HandlerClass, 接受一个请求初始一个Handler
     RequestHandlerClass(request, client_address, self)
-
+    
     # TCPServer
     self.shutdown_request(request):
-
+    
     request.shutdown(socket.SHUT_WR) # 连接方 阻止发送数据
     request.close() # 释放socket
     ```
@@ -387,12 +387,12 @@ bottle.run():
     self.connection = self.request
     self.rfile = self.connection.makefile('rb', self.rbufsize) # rbufsize: -1, 全缓冲
     self.wfile = self.connection.makefile('wb', self.wbufsize) # wbufsize: 0  无缓冲
-
+    
     protocol_version = "HTTP/1.0" # 1.1 可以自动keepalive
-
+    
     # The Message-like class used to parse headers
     MessageClass = mimetools.Message(rfc822.Message)
-
+    
     self.handle()
     self.finish()
     ```
@@ -402,7 +402,7 @@ bottle.run():
     WSGIRequestHandler - handler():
     ```python
     self.raw_requestline = self.rfile.readline(65537) #GET / HTTP/1.1
-
+    
     # 检查有收入块没有错误代码的函数
     parse_request:
         self.command = None
@@ -447,9 +447,9 @@ bottle.run():
             'seekable': 0, 
             'unixfrom': '', 'plisttext': '', 'plist': []
         }
-
+    
     	因为keep-alive, 使得elf.close_connection = 0
-
+    
     get_environ:
         env = self.server.base_environ.copy()
         #{'CONTENT_LENGTH': '',
@@ -482,7 +482,7 @@ bottle.run():
         env['REMOTE_HOST'] = 'localhost.localdomain' # socket.getfqdn('127.0.0.1')
         env['REMOTE_ADDR'] = self.client_address[0] # 127.0.0.1
         env['CONTENT_TYPE'] = 'text/plain'
-
+    
         env[HTTP_ + headers[headers][key]] = value
     ```
 
@@ -509,7 +509,7 @@ bottle.run():
     ```python
     env = self.environ = self.os_environ.copy() # dict(os.environ.items())
     self.environ.update(env)
-
+    
     env['wsgi.input']        = self.get_stdin()
     env['wsgi.errors']       = self.get_stderr()
     env['wsgi.version']      = self.wsgi_version # (1, 0)
@@ -519,7 +519,7 @@ bottle.run():
     env['wsgi.multiprocess'] = self.wsgi_multiprocess # False
     env['wsgi.file_wrapper'] = util.FileWrapper
     env['SERVER_SOFTWARE']   = "WSGIServer/" + __version__ + "Python/" + sys.version.split()[0]
-
+    
     self.result = application(self.environ, self.start_response) # BaseHandler的start_response 方法, 注意application 是Bottle实例, 此时这里执行的就是Bottle()(self.environ, self.start_response), 这会触发Bottle的__call__方法。
        
     ```
@@ -530,7 +530,7 @@ bottle.run():
 
     ```python
     out = self._cast(slef.__handle(environ))
-
+    
     def __handle(environ):
         path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
         environ['bottle.app'] = self # Bottle
@@ -544,13 +544,16 @@ bottle.run():
 
      ```python
     self.trigger_hook('before_request')
-
+    
     def trigger_hook(self, __name, *args, **kwargs):
       ''' Trigger a hook and return a list of results. '''
         return [hook(*args, **kwargs) for hook in self._hooks[__name][:]]
-
+    
     def _hooks(self):
         return dict((name, []) for name in self.__hook_names)
+     ```
+
+    
 
 
      __hook_names = 'before_request', 'after_request', 'app_reset', 'config'
@@ -562,20 +565,107 @@ bottle.run():
               self.add_hook(name, func)
                   return func
            return decorator
-
+    
     def add_hook(self, name, func):
         if name in self.__hook_reversed:
              self._hooks[name].insert(0, func)
         else:
              self._hooks[name].append(func)
      ```
-
+    
     有一个hook列表， 在请求前的hook，一般没有加func就为[], 其他也是，如果有则执行func(*args, **kwargs)
 
 ​    
 
-        
-    
+####  装饰器路由的初始化 
+
+@get为例：
+
+```python
+from bottle import get
+@get('/index')
+def home():
+    return 'hhhh'
+
+## bottle 文件中
+get = make_default_app_wrapper('get')
+
+def make_default_app_wrapper(name):
+    ''' Return a callable that relays calls to the current default app. '''
+    @functools.wraps(getattr(Bottle, name))
+    def wrapper(*a, **ka):
+        return getattr(app(), name)(*a, **ka)
+    return wrapper
+
+## 最后：
+app() 是第一个Bottle()， 就是上方的AppStack.push()
+getattr(app(), 'get') ==> Bottle.get
+
+def get(self, path=None, method='GET', **options):
+     """ Equals :meth:`route`. """
+     return self.route(path, method, **options)
+
+get(path='/index', method='GET', **options)
+# 走的route(), 基本所有方法都会走route()
+# 那是不是直接用route会快那么一点点。。
+```
+
+
+
+#### route()   
+
+```python
+	def route(self, path=None, method='GET', callback=None, name=None,
+              apply=None, skip=None, **config):
+        """ A decorator to bind a function to a request URL. Example::
+
+                @app.route('/hello/:name')
+                def hello(name):
+                    return 'Hello %s' % name
+
+            The ``:name`` part is a wildcard. See :class:`Router` for syntax
+            details.
+
+            :param path: Request path or a list of paths to listen to. If no
+              path is specified, it is automatically generated from the
+              signature of the function.
+            :param method: HTTP method (`GET`, `POST`, `PUT`, ...) or a list of
+              methods to listen to. (default: `GET`)
+            :param callback: An optional shortcut to avoid the decorator
+              syntax. ``route(..., callback=func)`` equals ``route(...)(func)``
+            :param name: The name for this route. (default: None)
+            :param apply: A decorator or plugin or a list of plugins. These are
+              applied to the route callback in addition to installed plugins.
+            :param skip: A list of plugins, plugin classes or names. Matching
+              plugins are not installed to this route. ``True`` skips all.
+
+            Any additional keyword arguments are stored as route-specific
+            configuration and passed to plugins (see :meth:`Plugin.apply`).
+        """
+        if callable(path): path, callback = None, path
+        plugins = makelist(apply)
+        skiplist = makelist(skip)
+        def decorator(callback):
+            # TODO: Documentation and tests
+            if isinstance(callback, basestring): callback = load(callback)
+            for rule in makelist(path) or yieldroutes(callback):
+                for verb in makelist(method):
+                    verb = verb.upper()
+                    route = Route(self, rule, verb, callback, name=name,
+                                  plugins=plugins, skiplist=skiplist, **config)
+                    self.add_route(route)
+            return callback
+        return decorator(callback) if callback else decorator
+```
+
+
+
+
+
+
+
+
+
     看下BaseHandler的start_response 方法：
     
     ```python
