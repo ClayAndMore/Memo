@@ -575,7 +575,7 @@ bottle.run():
 
 #### router.match(environ)
 
-​```python
+```python
     router = Router() #
     def match(self, environ):
         ''' Return a (target, url_agrs) tuple or raise HTTPError(400/404/405). '''
@@ -597,7 +597,7 @@ bottle.run():
                     if match:
                         target, getargs = rules[match.lastindex - 1]
                         return target, getargs(path) if getargs else {}
-
+    
         # No matching route found. Collect alternative methods for 405 response
         allowed = set([])
         nocheck = set(methods)
@@ -612,10 +612,11 @@ bottle.run():
         if allowed:
             allow_header = ",".join(sorted(allowed))
             raise HTTPError(405, "Method not allowed.", Allow=allow_header)
-
+    
         # No matching route and no alternative method found. We give up
         raise HTTPError(404, "Not found: " + repr(path))
 ```
+
 
 
 ####  装饰器路由的初始化 
@@ -649,6 +650,9 @@ def get(self, path=None, method='GET', **options):
 get(path='/index', method='GET', **options)
 # 走的route(), 基本所有方法都会走route()
 # 那是不是直接用route会快那么一点点。。
+```
+
+
 
 #### route()   
 
@@ -660,10 +664,10 @@ get(path='/index', method='GET', **options)
                 @app.route('/hello/:name')
                 def hello(name):
                     return 'Hello %s' % name
-
+    
             The ``:name`` part is a wildcard. See :class:`Router` for syntax
             details.
-
+    
             :param path: Request path or a list of paths to listen to. If no
               path is specified, it is automatically generated from the
               signature of the function.
@@ -676,7 +680,7 @@ get(path='/index', method='GET', **options)
               applied to the route callback in addition to installed plugins.
             :param skip: A list of plugins, plugin classes or names. Matching
               plugins are not installed to this route. ``True`` skips all.
-
+    
             Any additional keyword arguments are stored as route-specific
             configuration and passed to plugins (see :meth:`Plugin.apply`).
         """
@@ -706,7 +710,7 @@ get(path='/index', method='GET', **options)
 
 
     看下BaseHandler的start_response 方法：
-
+    
     ```python
         def start_response(self, status, headers,exc_info=None):
             """'start_response()' callable as specified by PEP 333"""
@@ -733,8 +737,3 @@ get(path='/index', method='GET', **options)
             self.status = status
             self.headers = self.headers_class(headers)
             return self.write
-    ```
-
-​    
-
-
