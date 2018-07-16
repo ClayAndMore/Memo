@@ -1,4 +1,4 @@
-### 流程
+###  流程
 
 #### bottle.py
 
@@ -551,13 +551,9 @@ bottle.run():
     
     def _hooks(self):
         return dict((name, []) for name in self.__hook_names)
-     ```
-
-    
-
 
      __hook_names = 'before_request', 'after_request', 'app_reset', 'config'
-        
+
      def hook(self, name):
      """ Return a decorator that attaches a callback to a hook. See
                     :meth:`add_hook` for details."""
@@ -574,8 +570,53 @@ bottle.run():
      ```
     
     有一个hook列表， 在请求前的hook，一般没有加func就为[], 其他也是，如果有则执行func(*args, **kwargs)
+    
+    ​ 下一步走到了router.match (environ)
 
-​    
+#### router.match(environ)
+
+​```python
+    router = Router() #
+    def match(self, environ):
+        ''' Return a (target, url_agrs) tuple or raise HTTPError(400/404/405). '''
+        verb = environ['REQUEST_METHOD'].upper()
+        path = environ['PATH_INFO'] or '/'
+        target = None
+        if verb == 'HEAD':
+            methods = ['PROXY', verb, 'GET', 'ANY']
+        else:
+            methods = ['PROXY', verb, 'ANY']
+
+        for method in methods:
+            if method in self.static and path in self.static[method]:
+                target, getargs = self.static[method][path]
+                return target, getargs(path) if getargs else {}
+            elif method in self.dyna_regexes:
+                for combined, rules in self.dyna_regexes[method]:
+                    match = combined(path)
+                    if match:
+                        target, getargs = rules[match.lastindex - 1]
+                        return target, getargs(path) if getargs else {}
+
+        # No matching route found. Collect alternative methods for 405 response
+        allowed = set([])
+        nocheck = set(methods)
+        for method in set(self.static) - nocheck:
+            if path in self.static[method]:
+                allowed.add(verb)
+        for method in set(self.dyna_regexes) - allowed - nocheck:
+            for combined, rules in self.dyna_regexes[method]:
+                match = combined(path)
+                if match:
+                    allowed.add(method)
+        if allowed:
+            allow_header = ",".join(sorted(allowed))
+            raise HTTPError(405, "Method not allowed.", Allow=allow_header)
+
+        # No matching route and no alternative method found. We give up
+        raise HTTPError(404, "Not found: " + repr(path))
+```
+
 
 ####  装饰器路由的初始化 
 
@@ -608,9 +649,6 @@ def get(self, path=None, method='GET', **options):
 get(path='/index', method='GET', **options)
 # 走的route(), 基本所有方法都会走route()
 # 那是不是直接用route会快那么一点点。。
-```
-
-
 
 #### route()   
 
@@ -666,8 +704,9 @@ get(path='/index', method='GET', **options)
 
 
 
+
     看下BaseHandler的start_response 方法：
-    
+
     ```python
         def start_response(self, status, headers,exc_info=None):
             """'start_response()' callable as specified by PEP 333"""
