@@ -670,7 +670,7 @@ get(path='/index', method='GET', **options)
     
             :param path: Request path or a list of paths to listen to. If no
               path is specified, it is automatically generated from the
-              signature of the function.
+              signature of the function. 
             :param method: HTTP method (`GET`, `POST`, `PUT`, ...) or a list of
               methods to listen to. (default: `GET`)
             :param callback: An optional shortcut to avoid the decorator
@@ -698,6 +698,23 @@ get(path='/index', method='GET', **options)
                     self.add_route(route)
             return callback
         return decorator(callback) if callback else decorator
+```
+
+一些理解：
+
+```python
+参数：
+1. path, 可以没有，那么就映射成函数的名字。 还可以传入list: @get(['/index1', '/index2'])
+2. method 也可以传入多个， 当然人本身是个list, 只是我们一直用的一个方法。
+3. callback 不用转装饰器。eg;
+	def func():
+    	print 'this is a func'
+	route('/index', callback=func)
+    这在组织代码的时候比较方便
+4. name, 默认没有为none, 我想这个是为管理route打tag而用的。
+5. apply,
+6. skip,
+7. addition keyword
 ```
 
 
