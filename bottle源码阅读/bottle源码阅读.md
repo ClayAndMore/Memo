@@ -529,18 +529,27 @@ bottle.run():
     `return self.wsgi(environ, start_response)`  每个实例都是一个a WSGI application, wsgi:
 
     ```python
-    out = self._cast(slef.__handle(environ))
+    out = self._cast(self.__handle(environ))
     
     def __handle(environ):
         path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
         environ['bottle.app'] = self # Bottle
         request.bind(environ) # BaseRequest.__init__(environ) 
         response.bind() # BaseRespones.__init__() 
+        # 这里都执行了intit但是不知道赋值给了谁， request 和 response 早已经实例化过了。
+        # 下一步是执行了trigger_hook, 我们有必要看一看
+         try:
+                    self.trigger_hook('before_request')
+                    route, args = self.router.match(environ) #在后面
+                    environ['route.handle'] = route
+                    environ['bottle.route'] = route
+                    environ['route.url_args'] = args
+                    return route.call(**args) # 这里直接调用被装饰的函数。把返回值给上层的out
+                finally:
+                    self.trigger_hook('after_request')
     ```
 
-    这里都执行了intit但是不知道赋值给了谁， request 和 response 早已经实例化过了。
-
-    下一步是执行了trigger_hook, 我们有必要看一看
+    hook:
 
      ```python
     self.trigger_hook('before_request')
@@ -551,9 +560,9 @@ bottle.run():
     
     def _hooks(self):
         return dict((name, []) for name in self.__hook_names)
-
+    
      __hook_names = 'before_request', 'after_request', 'app_reset', 'config'
-
+    
      def hook(self, name):
      """ Return a decorator that attaches a callback to a hook. See
                     :meth:`add_hook` for details."""
@@ -568,15 +577,15 @@ bottle.run():
         else:
              self._hooks[name].append(func)
      ```
-    
+
     有一个hook列表， 在请求前的hook，一般没有加func就为[], 其他也是，如果有则执行func(*args, **kwargs)
-    
-    ​ 下一步走到了router.match (environ)
+
+    ​ 下一步走到了router.match (environ)， 在下步之前， 建议先看下装饰器路由的初始化
 
 #### router.match(environ)
 
 ```python
-    router = Router() #
+    router = Router() # 之前在
     def match(self, environ):
         ''' Return a (target, url_agrs) tuple or raise HTTPError(400/404/405). '''
         verb = environ['REQUEST_METHOD'].upper()
@@ -589,7 +598,7 @@ bottle.run():
 
         for method in methods:
             if method in self.static and path in self.static[method]:
-                target, getargs = self.static[method][path]
+                target, getargs = self.static[method][path]  #  (<GET '/set' <function set at 0x00000000041A7128>>, None)，  这里把被装饰的函数反回去了
                 return target, getargs(path) if getargs else {}
             elif method in self.dyna_regexes:
                 for combined, rules in self.dyna_regexes[method]:
@@ -715,11 +724,113 @@ get(path='/index', method='GET', **options)
 5. apply,
 6. skip,
 7. addition keyword
+逻辑：
+decorator(callback)的callback是指被装饰的函数。
+获取路径和method 执行Route()
+self.add_route()
+
+def add_route(self, route):
+    ''' Add a route object, but do not change the :data:`Route.app`
+            attribute.'''
+    self.routes.append(route)
+    self.router.add(route.rule, route.method, route, name=route.name)
+```
+
+
+
+#### Route
+
+```python
+class Route(object):
+    ''' This class wraps a route callback along with route specific metadata and
+        configuration and applies Plugins on demand. It is also responsible for
+        turing an URL path rule into a regular expression usable by the Router.
+    '''
+
+    def __init__(self, app, rule, method, callback, name=None,
+                 plugins=None, skiplist=None, **config):
+        #: The application this route is installed to.
+        self.app = app
+        #: The path-rule string (e.g. ``/wiki/:page``).
+        self.rule = rule
+        #: The HTTP method as a string (e.g. ``GET``).
+        self.method = method
+        #: The original callback with no plugins applied. Useful for introspection.
+        self.callback = callback
+        #: The name of the route (if specified) or ``None``.
+        self.name = name or None
+        #: A list of route-specific plugins (see :meth:`Bottle.route`).
+        self.plugins = plugins or []
+        #: A list of plugins to not apply to this route (see :meth:`Bottle.route`).
+        self.skiplist = skiplist or []
+        #: Additional keyword arguments passed to the :meth:`Bottle.route`
+        #: decorator are stored in this dictionary. Used for route-specific
+        #: plugin configuration and meta-data.
+        self.config = ConfigDict().load_dict(config, make_namespaces=True)
+
+    def __call__(self, *a, **ka):
+        depr("Some APIs changed to return Route() instances instead of"\
+             " callables. Make sure to use the Route.call method and not to"\
+             " call Route instances directly.") #0.12
+        return self.call(*a, **ka)
 ```
 
 
 
 
+
+#### Router.add
+
+接上：
+
+```
+self.routes.append(route)
+self.router.add(route.rule, route.method, route, name=route.name)
+```
+
+routes 是个[], route 是个Route实例。
+
+router 是个Router(),  Router实例， 这里执行Router.add()  #add('/index', 'GET', router, None)
+
+```python
+ def add(self, rule, method, target, name=None):
+        ''' Add a new rule or replace the target for an existing rule. '''
+        anons     = 0    # Number of anonymous wildcards found
+        keys      = []   # Names of keys
+        pattern   = ''   # Regular expression pattern with named groups
+        filters   = []   # Lists of wildcard input filters
+        builder   = []   # Data structure for the URL builder
+        is_static = True
+
+        for key, mode, conf in self._itertokens(rule): # 这里一个很恶心的正则， 
+            #我们知道这里只返回 '/index', None, None
+            if mode:
+                is_static = False
+                if mode == 'default': mode = self.default_filter
+                mask, in_filter, out_filter = self.filters[mode](conf)
+                if not key:
+                    pattern += '(?:%s)' % mask
+                    key = 'anon%d' % anons
+                    anons += 1
+                else:
+                    pattern += '(?P<%s>%s)' % (key, mask)
+                    keys.append(key)
+                if in_filter: filters.append((key, in_filter))
+                builder.append((key, out_filter or str))
+            elif key:                     # 走这里
+                pattern += re.escape(key) # 转义： \/index
+                builder.append((None, key)) # [(None, ('/index')]
+
+        self.builder[rule] = builder # builer['/index'] = [(None, ('/index')]
+        if name: self.builder[name] = builder
+
+        if is_static and not self.strict_order: # 会走这里的
+            self.static.setdefault(method, {})  # self.static={'GET': {}}
+            self.static[method][self.build(rule)] = (target, None) # {'GET': {'/set': (<GET '/set' <function set at 0x00000000041A7128>>, None)}}
+            return
+```
+
+到这里一个@get 就完成了， 就可以注册执行下一个@get
 
 
 
@@ -754,3 +865,28 @@ get(path='/index', method='GET', **options)
             self.status = status
             self.headers = self.headers_class(headers)
             return self.write
+
+
+
+
+### other get
+
+```python
+from Bottle import app
+pprint.pprint(app().__dict__)
+
+out:
+ {'_hooks': {'after_request': [],
+            'app_reset': [],
+            'before_request': [],
+            'config': []},
+ 'config': {'autojson': True, 'catchall': True},
+ 'error_handler': {},
+ 'plugins': [<bottle.JSONPlugin object at 0x000000000345AFD0>,
+             <bottle.TemplatePlugin object at 0x000000000346C048>],
+ 'resources': <bottle.ResourceManager object at 0x000000000345AF28>,
+ 'router': <bottle.Router object at 0x000000000345AF60>,
+ 'routes': [<GET '/set' <function set at 0x0000000003464668>>,
+            <GET '/get' <function get at 0x0000000003464748>>]}
+```
+
