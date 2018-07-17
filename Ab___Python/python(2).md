@@ -363,6 +363,64 @@ for i in range(3):
 
 <hr>
 
+#### 几个simple demo 深刻理解
+
+1. 默认无参数
+    ```python
+    def a(s,**k):
+        print s
+        print '------'
+        print k
+        return s 
+    
+    @a
+    def aa():
+        print 'aa'
+    
+        aa()
+    ```
+    out:
+    ```
+    <function aa at 0x7fa206df67d0>
+    ------
+    {}
+    aa
+    ```
+
+    * 在@时a的内容就执行了
+    * 如果@a没有带参数，那么默认传递aa, 此时s=aa
+    * 记得return出s, 不然aa()会报错，因为没有返回 aa为NoneType
+
+2. 有参数
+
+    ```python
+    def a(s,**k):
+        print s
+        print '------'
+        print k
+        def b(f):
+            print 'fff',f.__name__
+            return f
+        return b
+    
+    @a('index')
+    def aa():
+        print 'aa'
+    ```
+
+    out:
+
+    ```
+    index
+    ------
+    {}
+    fff aa
+    ```
+
+    * 这里并没有执行，b(f)也会执行， 而且f是aa本身，和上面的例子就很像了。
+
+
+
 ### 内存管理
 为了探索对象在内存的存储，我们可以求助于Python的内置函数id()。它用于返回对象的身份(identity)。其实，这里所谓的身份，就是该对象的内存地址。
 `a=1
