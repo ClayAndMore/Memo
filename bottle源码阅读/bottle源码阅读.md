@@ -790,7 +790,7 @@ self.router.add(route.rule, route.method, route, name=route.name)
 
 routes 是个[], route 是个Route实例。
 
-router 是个Router(),  Router实例， 这里执行Router.add()  #add('/index', 'GET', router, None)
+router 是个Router(),  Router实例， 这里执行Router.add()  #add('/index', 'GET', router, None)， 注意这个route,让我丢了好久， touter 是个类，虽然看起来是废话， 由于调试器的异样异样输出，我一直以为他是个function,往下看就清楚了。
 
 ```python
  def add(self, rule, method, target, name=None):
@@ -832,7 +832,7 @@ router 是个Router(),  Router实例， 这里执行Router.add()  #add('/index',
 
 到这里一个@get 就完成了， 就可以注册执行下一个@get
 
-
+注意这里的target 是Route类初始化返回 的route类，注意是个类，不要看debugger 出` (<GET '/set' <function set at 0x00000000041A7128>>, None)` 这里元祖第一个，也就是:` <GET '/set' <function set at 0x00000000041A7128>>`  是个route类，这些多都是传递的参数。不要被这个fucntion弄乱了。
 
 
 
