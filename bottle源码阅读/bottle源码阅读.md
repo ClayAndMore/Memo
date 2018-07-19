@@ -544,7 +544,7 @@ bottle.run():
                     environ['route.handle'] = route
                     environ['bottle.route'] = route
                     environ['route.url_args'] = args
-                    return route.call(**args) # 这里直接调用被装饰的函数。把返回值给上层的out
+                    return route.call(**args) # 这里route.call直接调用被装饰的函数。把返回值给上层的out, 当然还要经过一些pugins.
                 finally:
                     self.trigger_hook('after_request')
     ```
@@ -598,7 +598,7 @@ bottle.run():
 
         for method in methods:
             if method in self.static and path in self.static[method]:
-                target, getargs = self.static[method][path]  #  (<GET '/set' <function set at 0x00000000041A7128>>, None)，  这里把被装饰的函数反回去了
+                target, getargs = self.static[method][path]  #  (<GET '/set' <function set at 0x00000000041A7128>>, None)，  这里target是个有被装饰函数的Route对象， 这里返回去了
                 return target, getargs(path) if getargs else {}
             elif method in self.dyna_regexes:
                 for combined, rules in self.dyna_regexes[method]:
