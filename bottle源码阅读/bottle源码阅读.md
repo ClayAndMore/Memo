@@ -507,6 +507,7 @@ bottle.run():
     ```
     (BaseHandler) run(self, application):
     ```python
+    # =====  self.setup_environ() ==
     env = self.environ = self.os_environ.copy() # dict(os.environ.items())
     self.environ.update(env)
     
@@ -521,66 +522,77 @@ bottle.run():
     env['SERVER_SOFTWARE']   = "WSGIServer/" + __version__ + "Python/" + sys.version.split()[0]
     
     self.result = application(self.environ, self.start_response) # BaseHandler的start_response 方法, 注意application 是Bottle实例, 此时这里执行的就是Bottle()(self.environ, self.start_response), 这会触发Bottle的__call__方法。
-       
+    
+    self.finish_response()
     ```
 
-5. 触发了Bottle的`__call__` 
 
-    `return self.wsgi(environ, start_response)`  每个实例都是一个a WSGI application, wsgi:
 
-    ```python
-    out = self._cast(self.__handle(environ))
-    
-    def __handle(environ):
-        path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
-        environ['bottle.app'] = self # Bottle
-        request.bind(environ) # BaseRequest.__init__(environ) 
-        response.bind() # BaseRespones.__init__() 
-        # 这里都执行了intit但是不知道赋值给了谁， request 和 response 早已经实例化过了。
-        # 下一步是执行了trigger_hook, 我们有必要看一看
-         try:
-                    self.trigger_hook('before_request')
-                    route, args = self.router.match(environ) #在后面
-                    environ['route.handle'] = route
-                    environ['bottle.route'] = route
-                    environ['route.url_args'] = args
-                    return route.call(**args) # 这里route.call直接调用被装饰的函数。把返回值给上层的out, 当然还要经过一些pugins.
-                finally:
-                    self.trigger_hook('after_request')
-    ```
+#### `Bottle.__call__ ,__handle, __cast, `
 
-    hook:
+触发了Bottle的`__call__` 
 
-     ```python
-    self.trigger_hook('before_request')
-    
-    def trigger_hook(self, __name, *args, **kwargs):
-      ''' Trigger a hook and return a list of results. '''
-        return [hook(*args, **kwargs) for hook in self._hooks[__name][:]]
-    
-    def _hooks(self):
-        return dict((name, []) for name in self.__hook_names)
-    
-     __hook_names = 'before_request', 'after_request', 'app_reset', 'config'
-    
-     def hook(self, name):
-     """ Return a decorator that attaches a callback to a hook. See
-                    :meth:`add_hook` for details."""
-          def decorator(func):
-              self.add_hook(name, func)
-                  return func
-           return decorator
-    
-    def add_hook(self, name, func):
-        if name in self.__hook_reversed:
-             self._hooks[name].insert(0, func)
-        else:
-             self._hooks[name].append(func)
-     ```
+`return self.wsgi(environ, start_response)`  每个实例都是一个a WSGI application, wsgi:
 
-    有一个hook列表， 在请求前的hook，一般没有加func就为[], 其他也是，如果有则执行func(*args, **kwargs)
+```python
+out = self._cast(self.__handle(environ))
 
-    ​ 下一步走到了router.match (environ)， 在下步之前， 建议先看下装饰器路由的初始化
+def __handle(environ):
+    path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
+    environ['bottle.app'] = self # Bottle
+    request.bind(environ) # BaseRequest.__init__(environ) 
+    response.bind() # BaseRespones.__init__() 
+    # 这里都执行了intit但是不知道赋值给了谁， request 和 response 早已经实例化过了。
+    # 下一步是执行了trigger_hook, 我们有必要看一看
+     try:
+                self.trigger_hook('before_request')
+                route, args = self.router.match(environ) #在后面
+                environ['route.handle'] = route
+                environ['bottle.route'] = route
+                environ['route.url_args'] = args
+                return route.call(**args) # 这里注意：这里很特殊
+            	# 去Route里看它的call方法， 
+                # route.call 是被装饰的函数
+                # route.call(**args) 这里就将这个被装饰的函数执行了。
+                # 返回了执行的return.
+            finally:
+                self.trigger_hook('after_request')
+```
+
+hook:
+
+```python
+self.trigger_hook('before_request')
+
+def trigger_hook(self, __name, *args, **kwargs):
+  ''' Trigger a hook and return a list of results. '''
+    return [hook(*args, **kwargs) for hook in self._hooks[__name][:]]
+
+def _hooks(self):
+    return dict((name, []) for name in self.__hook_names)
+
+ __hook_names = 'before_request', 'after_request', 'app_reset', 'config'
+
+ def hook(self, name):
+ """ Return a decorator that attaches a callback to a hook. See
+                :meth:`add_hook` for details."""
+      def decorator(func):
+          self.add_hook(name, func)
+              return func
+       return decorator
+
+def add_hook(self, name, func):
+    if name in self.__hook_reversed:
+         self._hooks[name].insert(0, func)
+    else:
+         self._hooks[name].append(func)
+```
+
+有一个hook列表， 在请求前的hook，一般没有加func就为[], 其他也是，如果有则执行func(*args, **kwargs)
+
+下一步走到了router.match (environ)， 在下步之前， 建议先看下装饰器路由的初始化
+
+
 
 #### router.match(environ)
 
@@ -625,6 +637,90 @@ bottle.run():
         # No matching route and no alternative method found. We give up
         raise HTTPError(404, "Not found: " + repr(path))
 ```
+
+
+
+在`__handle` 返回的`route.call(**args)` ，拿到被装饰的函数的返回值后， 传递给`__cast`: 
+
+```python
+    def _cast(self, out, peek=None): # out是返回值， '假定为个字符串'
+       
+        """ Try to convert the parameter into something WSGI compatible and set
+        correct HTTP headers when possible.
+        Support: False, str, unicode, dict, HTTPResponse, HTTPError, file-like,
+        iterable of strings and iterable of unicodes
+        """
+        # Empty output is done here
+        if not out:
+            if 'Content-Length' not in response:
+                response['Content-Length'] = 0
+            return [] #呵，如果返回None,''等，它直接给赋成[]
+        # Join lists of byte or unicode strings. Mixed lists are NOT supported
+        if isinstance(out, (tuple, list))\
+        and isinstance(out[0], (bytes, unicode)):
+            out = out[0][0:0].join(out) # b'abc'[0:0] -> b''
+        # Encode unicode strings
+        if isinstance(out, unicode):
+            out = out.encode(response.charset)
+        # Byte Strings are just returned
+        if isinstance(out, bytes):
+            if 'Content-Length' not in response:
+                response['Content-Length'] = len(out)
+            return [out]   # 如是字符串的话： 'yyy', 这里就返回了[yyy]
+        # HTTPError or HTTPException (recursive, because they may wrap anything)
+        # TODO: Handle these explicitly in handle() or make them iterable.
+        if isinstance(out, HTTPError):
+            out.apply(response)
+            out = self.error_handler.get(out.status_code, self.default_error_handler)(out)
+            return self._cast(out)
+        if isinstance(out, HTTPResponse):
+            out.apply(response)
+            return self._cast(out.body)
+
+        # File-like objects.
+        if hasattr(out, 'read'):
+            if 'wsgi.file_wrapper' in request.environ:
+                return request.environ['wsgi.file_wrapper'](out)
+            elif hasattr(out, 'close') or not hasattr(out, '__iter__'):
+                return WSGIFileWrapper(out)
+
+        # Handle Iterables. We peek into them to detect their inner type.
+        try:
+            iout = iter(out)
+            first = next(iout)
+            while not first:
+                first = next(iout)
+        except StopIteration:
+            return self._cast('')
+        except HTTPResponse:
+            first = _e()
+        except (KeyboardInterrupt, SystemExit, MemoryError):
+            raise
+        except Exception:
+            if not self.catchall: raise
+            first = HTTPError(500, 'Unhandled exception', _e(), format_exc())
+
+        # These are the inner types allowed in iterator or generator objects.
+        if isinstance(first, HTTPResponse):
+            return self._cast(first)
+        elif isinstance(first, bytes):
+            new_iter = itertools.chain([first], iout)
+        elif isinstance(first, unicode):
+            encoder = lambda x: x.encode(response.charset)
+            new_iter = imap(encoder, itertools.chain([first], iout))
+        else:
+            msg = 'Unsupported response type: %s' % type(first)
+            return self._cast(HTTPError(500, msg))
+        if hasattr(out, 'close'):
+            new_iter = _closeiter(new_iter, out.close)
+        return new_iter
+```
+
+
+
+
+
+====   分割线 ===
 
 
 
@@ -773,6 +869,53 @@ class Route(object):
              " callables. Make sure to use the Route.call method and not to"\
              " call Route instances directly.") #0.12
         return self.call(*a, **ka)
+    
+    @cached_property
+    def call(self):
+        ''' The route callback with all plugins applied. This property is
+            created on demand and then cached to speed up subsequent requests.'''
+        return self._make_callback()
+    
+    def _make_callback(self):
+        callback = self.callback
+        for plugin in self.all_plugins():
+            try:
+                if hasattr(plugin, 'apply'):
+                    api = getattr(plugin, 'api', 1)
+                    context = self if api > 1 else self._context
+                    callback = plugin.apply(callback, context)
+                else:
+                    callback = plugin(callback)
+
+            except RouteReset: # Try again with changed configuration.
+                return self._make_callback()
+            if not callback is self.callback:
+                update_wrapper(callback, self.callback)
+        return callback
+```
+
+call那里添加了@cached_property, 我们可以认为在调用Router.call时会触发, cached_property 的`__get__` 方法， 注意：Router.call和Router.call()是不一样的。
+
+在handle的第五点中 `return route.call(**args）`中， route.call 返回的是被装饰的函数， 那么route.call(**args)则是这个被装饰函数的调用。
+
+
+
+cached_property:
+
+```python
+class cached_property(object):
+    ''' A property that is only computed once per instance and then replaces
+        itself with an ordinary attribute. Deleting the attribute resets the
+        property. '''
+
+    def __init__(self, func):
+        self.__doc__ = getattr(func, '__doc__')
+        self.func = func
+
+    def __get__(self, obj, cls):
+        if obj is None: return self
+        value = obj.__dict__[self.func.__name__] = self.func(obj)
+        return value
 ```
 
 
