@@ -8,6 +8,28 @@
 
 
 
+####  assert：断言
+
+判断 语句后面是否True，否者抛出AssertionError异常
+
+```python
+>>> assert 1>2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError
+```
+
+可自定义具体错误信息：
+
+```python
+>>> assert isinstance(a,(unicode)), 'hhhhhhhh'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError: hhhhhhhh
+```
+
+
+
 
 
 ### 内置测试模块
@@ -20,13 +42,15 @@
 
 
 
+
+
+
+
 ### 三方测试工具
 
 #### py.test
 
 ##### TestCase
-
-先来熟悉一个单词： assert：断言
 
 ```python
 import unittest

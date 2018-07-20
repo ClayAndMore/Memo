@@ -2073,6 +2073,12 @@ True
   True
   >>> type(A)
   <type 'type'>
+  
+  # 多选
+  >>> a='yyy'
+  >>> isinstance(a,(bytes,unicode))
+  True
+  满足其中一个就可。
   ```
 
 * 一般使用type()函数来看数据的类型：
