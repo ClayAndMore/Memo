@@ -528,7 +528,7 @@ bottle.run():
 
 
 
-#### `Bottle.__call__ ,__handle, __cast, `
+#### `Bottle.__call__ ,__handle, __cast, wsgi`
 
 触发了Bottle的`__call__` 
 
@@ -536,6 +536,14 @@ bottle.run():
 
 ```python
 out = self._cast(self.__handle(environ))
+if response._status_code in (100, 101, 204, 304)\
+or environ['REQUEST_METHOD'] == 'HEAD':
+     if hasattr(out, 'close'): out.close()
+         out = []
+     # start_response 是handlers.py 中的BaseHandler中的start_reponse方法
+     # 主要是赋值status,和header
+     start_response(response._status_line, response.headerlist)
+     return out # ['yyy']
 
 def __handle(environ):
     path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
@@ -669,54 +677,44 @@ def add_hook(self, name, func):
             return [out]   # 如是字符串的话： 'yyy', 这里就返回了[yyy]
         # HTTPError or HTTPException (recursive, because they may wrap anything)
         # TODO: Handle these explicitly in handle() or make them iterable.
-        if isinstance(out, HTTPError):
-            out.apply(response)
-            out = self.error_handler.get(out.status_code, self.default_error_handler)(out)
-            return self._cast(out)
-        if isinstance(out, HTTPResponse):
-            out.apply(response)
-            return self._cast(out.body)
-
-        # File-like objects.
-        if hasattr(out, 'read'):
-            if 'wsgi.file_wrapper' in request.environ:
-                return request.environ['wsgi.file_wrapper'](out)
-            elif hasattr(out, 'close') or not hasattr(out, '__iter__'):
-                return WSGIFileWrapper(out)
-
-        # Handle Iterables. We peek into them to detect their inner type.
-        try:
-            iout = iter(out)
-            first = next(iout)
-            while not first:
-                first = next(iout)
-        except StopIteration:
-            return self._cast('')
-        except HTTPResponse:
-            first = _e()
-        except (KeyboardInterrupt, SystemExit, MemoryError):
-            raise
-        except Exception:
-            if not self.catchall: raise
-            first = HTTPError(500, 'Unhandled exception', _e(), format_exc())
-
-        # These are the inner types allowed in iterator or generator objects.
-        if isinstance(first, HTTPResponse):
-            return self._cast(first)
-        elif isinstance(first, bytes):
-            new_iter = itertools.chain([first], iout)
-        elif isinstance(first, unicode):
-            encoder = lambda x: x.encode(response.charset)
-            new_iter = imap(encoder, itertools.chain([first], iout))
-        else:
-            msg = 'Unsupported response type: %s' % type(first)
-            return self._cast(HTTPError(500, msg))
-        if hasattr(out, 'close'):
-            new_iter = _closeiter(new_iter, out.close)
-        return new_iter
+	   # 后面是错误处理， 略
 ```
 
 
+
+#### handlers.py BaseHandler.start_response
+
+调用处: `Bottle.wsgi: start_response(response._status_line, response.headerlist)`
+
+```python
+    def start_response(self, status, headers,exc_info=None):
+        """'start_response()' callable as specified by PEP 333"""
+
+        if exc_info:
+            try:
+                if self.headers_sent:
+                    # Re-raise original exception if headers sent
+                    raise exc_info[0], exc_info[1], exc_info[2]
+            finally:
+                exc_info = None        # avoid dangling circular ref
+        elif self.headers is not None:
+            raise AssertionError("Headers already set!")
+
+        assert type(status) is StringType,"Status must be a string"
+        assert len(status)>=4,"Status must be at least 4 characters"
+        assert int(status[:3]),"Status message must begin w/3-digit code"
+        assert status[3]==" ", "Status message must have a space after code"
+        if __debug__:
+            for name,val in headers:
+                assert type(name) is StringType,"Header names must be strings"
+                assert type(val) is StringType,"Header values must be strings"
+                assert not is_hop_by_hop(name),"Hop-by-hop headers not allowed"
+        self.status = status
+        self.headers = self.headers_class(headers)
+        return self.write
+```
+
+这个函数主要是赋值了status 和 header.
 
 
 
