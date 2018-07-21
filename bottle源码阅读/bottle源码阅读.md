@@ -393,7 +393,8 @@ bottle.run():
     # The Message-like class used to parse headers
     MessageClass = mimetools.Message(rfc822.Message)
     
-    self.handle()
+    # 就这两步完成一个请求相应
+    self.handle()  
     self.finish()
     ```
 
@@ -401,7 +402,7 @@ bottle.run():
 
     WSGIRequestHandler - handler():
     ```python
-    self.raw_requestline = self.rfile.readline(65537) #GET / HTTP/1.1
+    self.raw_requestline = self.rfile.readline(65537) #GET / HTTP/1.1    读取第一行
     
     # 检查有收入块没有错误代码的函数
     parse_request:
@@ -414,7 +415,7 @@ bottle.run():
         self.command = 'GET'
         self.path = '/'
         self.request_version = 'HTTP/1.1'
-        self.headers = self.MessageClass(self.rfile, 0) 
+        self.headers = self.MessageClass(self.rfile, 0) # 从self.rfile中读取头信息
     	
         self.headers 如下， 每次都是read line最后存在MessageClass里。
         headers:
@@ -448,7 +449,7 @@ bottle.run():
             'unixfrom': '', 'plisttext': '', 'plist': []
         }
     
-    	因为keep-alive, 使得elf.close_connection = 0
+    	因为keep-alive, 使得self.close_connection = 0
     
     get_environ:
         env = self.server.base_environ.copy()
@@ -484,6 +485,7 @@ bottle.run():
         env['CONTENT_TYPE'] = 'text/plain'
     
         env[HTTP_ + headers[headers][key]] = value
+        return env
     ```
 
 4. handler 实例
@@ -491,9 +493,9 @@ bottle.run():
      handler = ServerHandler(
             self.rfile, self.wfile, sys.stderr, self.get_environ()
         ) 
-    handler.run
+    
     handler.request_handler = self      # backpointer for logging
-    handler.run(self.server.get_app())
+    handler.run(self.server.get_app()) # self.appication
     ```
 
     初始化：
@@ -522,8 +524,14 @@ bottle.run():
     env['SERVER_SOFTWARE']   = "WSGIServer/" + __version__ + "Python/" + sys.version.split()[0]
     
     self.result = application(self.environ, self.start_response) # BaseHandler的start_response 方法, 注意application 是Bottle实例, 此时这里执行的就是Bottle()(self.environ, self.start_response), 这会触发Bottle的__call__方法。
+    # self.result 返回 ['yyy']
     
-    self.finish_response()
+    self.finish_response()# 遍历self.result 然后写到self.stdout, 就是wfile(socket的写区域)，写完flush一下。
+    # 每遍历一次write and flush 
+    
+    最后self.close()， 置空：
+    	 self.result = self.headers = self.status = self.environ = None
+         self.bytes_sent = 0; self.headers_sent = False
     ```
 
 
@@ -543,7 +551,7 @@ or environ['REQUEST_METHOD'] == 'HEAD':
      # start_response 是handlers.py 中的BaseHandler中的start_reponse方法
      # 主要是赋值status,和header
      start_response(response._status_line, response.headerlist)
-     return out # ['yyy']
+     return out # ['yyy'] 这里就返回了
 
 def __handle(environ):
     path = environ['bottle.raw_path'] = environ['PATH_INFO'] #/
