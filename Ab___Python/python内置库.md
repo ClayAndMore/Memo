@@ -36,12 +36,38 @@ date: 2017-08-31
 
 
 
-
 ### os
+
+#### 系统操作
 
 `os.system(cmd)`   执行shell 命令。
 
 `os.getpid()`  获得当前python进程pid，当我们想要在代码中结束当前服务时，可以杀掉该进程。
+
+`os.fork()`
+
+fork 调用将生成一个子进程，所以这个函数会同时属于两个进程，父进程和子进程。也会返回两个值
+
+在父进程的返回结果是一个整数值，这个值是子进程的进程号，父进程可以使用该进程号来控制子进程的运行。fork 在子进程的返回结果是零。
+
+如果 fork 返回值小于零，一般意味着操作系统资源不足，无法创建进程。 
+
+我们可以通过 fork 调用的返回值来区分当前的进程是父进程还是子进程。
+
+```pytthon
+if pid > 0:
+    # in parent process
+if pid == 0:
+    # in child process
+if pid < 0:
+    # fork error
+```
+
+子进程创建后，父进程拥有的很多操作系统资源，子进程也会持有。比如套接字和文件描述符，它们本质上都是对操作系统内核对象的一个引用。如果子进程不需要某些引用，一定要即时关闭它，避免操作系统资源得不到释放导致资源泄露。 
+
+
+
+
 
 #### 路径操作
 
@@ -747,6 +773,10 @@ timeit.default_tmer() 基于平台选择精度高的记录时间方法。
 
 StringIO的行为与file对象非常像，但它不是磁盘上文件，而是一个内存里的“文件”，我们可以将操作磁盘文件那样来操作StringIO。
 
+将字符串当成一个文件一样使用，具备和文件一样的 read 和 write 操作。
+
+Python 提供了两个实现，一个是纯 Python 实现 StringIO，一个是底层 C 的实现 cStringIO。 
+
 ```python
 from StringIO import StringIO  
   
@@ -776,10 +806,6 @@ print s.read()
 # 将输出abcDEFGH  
 print s.getvalue()  
 ```
-
-
-
-Python标准模块中还提供了一个cStringIO模块，它的行为与StringIO基本一致，但运行效率方面比StringIO更好。
 
 
 
@@ -1092,9 +1118,9 @@ TypeError: Incorrect padding
 
 #### struct
 
-python没有专门处理字节的类型，b'str'这样可以表示字节，也就是b'str'表示了str的二进制。
+python没有专门处理字节的类型，b'str'这样可以表示字节，也就是b'str'表示了str的二进制。但是一个数字在传输的时候如何变成网络传输的字节流呢？
 
-struct 模块解决字节问题。
+struct 模块解决了这个字节问题。
 
 - pack() 函数可以把任意数据类型变成bytes.
 
@@ -1120,6 +1146,18 @@ struct 模块解决字节问题。
   根据`>IH`的说明，后面的`bytes`依次变为`I`：4字节无符号整数和`H`：2字节无符号整数。
 
   所以，尽管Python不适合编写底层操作字节流的代码，但在对性能要求不高的地方，利用`struct`就方便多了。
+
+- demo:
+
+  ```python
+  value_in_bytes = struct.pack("I", 1024)  # 将一个整数编码成 4 个字节的字符串
+  value, = struct.unpack("I", value_in_bytes)  # 将一个 4 字节的字符串解码成一个整数
+  # 注意等号前面有个逗号，这个非常重要，它不是笔误。
+  # 因为 unpack 返回的是一个列表，它可以将一个很长的字节串解码成一系列的元祖。...
+  
+  ```
+
+  
 
 #### 
 
