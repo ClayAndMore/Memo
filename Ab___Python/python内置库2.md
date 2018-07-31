@@ -165,3 +165,83 @@ if __name__ == "__main__":
   print(md5_02)
 ```
 
+
+
+
+
+### asyncore
+
+异步socket 包装，我们操作网络的时候可以直接使用socket等底层的库，但是asyncore使得我们可以更加方便的操作网络，避免直接使用socket，select，poll等工具时需要面对的复杂。 
+
+这个库只要了解两点： 
+
+* loop函数
+
+  oop()函数负责检测一个dict，dict中保存dispatcher的实例，这个字典被称为channel。每次创建一个dispatcher对象，都会把自己加入到一个默认的dict里面去（当然也可以自己指定channel）。当对象被加入到channel中的时候，socket的行为都已经被定义好，程序只需要调用loop()，一切功能就实现了。 
+
+* dispatcher 基类
+
+  每一个从dispatcher继承的类的对象，都可以看作我们需要处理的一个socket，可以是TCP连接或者UDP，甚至是其它不常用的。使用容易，我们需要定义一个类，它继承dispatcher，然后我们重写（覆盖）一些方法就可以了。 
+
+
+
+在python的标准文档中，有一个asyncore的例子
+
+```python
+import asyncore， socket
+class http_client(asyncore.dispatcher):
+  def __init__(self， host， path):
+    asyncore.dispatcher.__init__(self)
+    self.create_socket(socket.AF_INET， socket.SOCK_STREAM)
+    self.connect( (host， 80) )
+    self.buffer = 'GET %s HTTP/1.0\r\n\r\n' % path
+  def handle_connect(self):
+    pass
+  def handle_close(self):
+    self.close()
+  def handle_read(self):
+    print self.recv(8192)
+  def writable(self):
+    return (len(self.buffer) > 0)
+  def handle_write(self):
+    sent = self.send(self.buffer)
+    self.buffer = self.buffer[sent:]
+c = http_client('www.python.org'， '/')
+asyncore.loop()
+```
+
+运行这个函数，发现python.org的首页被下载下来了，也就是说我们实现了一个http层的协议。但是我们用的仅仅是socket级别的API…那么来看看这几行代码的奥妙吧。
+
+writable和readable在检测到一个socket可以写入或者检测到数据到达的时候，被调用，并返回一个bool来决定是否handle_read或者handle_write
+
+打开asyncore.py可以看到，dispatcher类中定义的方法writable和readable的定义相当的简单：
+
+```
+def readable(self):
+  return True
+def writable(self):
+  return True
+```
+
+就是说，一旦检测到可读或可写，就直接调用handle_read/handle_write，但是在上面的例子中，我们却看到了一个重载（看上去像C++的虚函数，不是吗。）
+
+```
+def writable(self):
+  return (len(self.buffer) > 0)
+```
+
+很明显，当我们有数据需要发送的时候，我们才给writable的调用者返回一个True，这样就不需要在handle_write中再做判断了，逻辑很明确，代码很清晰，美中不足的是理解需要一点时间，但是不算困难吧。
+
+其余的代码看起来就很清晰了，有一种兵来将挡的感觉。当一个http服务器发送处理完成你的请求，close socket的时候，我们的handle_close()也相应完成自己的使命。close()将对象自身从channel中删除，并且负责销毁socket对象。
+
+```
+def close(self):
+  self.del_channel()
+  self.socket.close()
+```
+
+loop()函数检测到一个空的channel，将退出循环，程序完成任务，exit。
+
+
+
+封装了select的一些异步函数。

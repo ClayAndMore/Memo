@@ -789,7 +789,7 @@ s.write('abc')
 s.seek(0)  
 # 将输出abcDEF  
 print s.read()  
-# 定位到第二个字符c  
+# 定位到第三个字符c  
 s.seek(2)  
 # 从当前位置一直读取到结束，将输出cDEF  
 print s.read()  
