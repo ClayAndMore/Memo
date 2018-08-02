@@ -314,3 +314,21 @@ make,刚才目录就好:
 `./pip install pymongo==2.5.2`
 
 显示版本： `pip show pymongo`
+
+
+
+超时设置：
+
+`sudo pip install --default-timeout=100 future`
+
+这样就不会出现：
+
+```
+How to solve ReadTimeoutError: HTTPSConnectionPool(host='pypi.python.org', port=443) with pip
+```
+
+最好的办法是改国内镜像源：
+
+`pip  install --index https://pypi.mirrors.ustc.edu.cn/simple/ pandas `
+
+`http://mirrors.sohu.com/python/ `

@@ -1,0 +1,58 @@
+### Profile / cProfile
+
+usga:
+
+```
+import cProfile
+cProfile.run('foo()')
+
+python -m cProfile myscript.py
+```
+
+
+
+
+
+### line_profiler
+
+
+
+
+
+
+
+### gprof2dot
+
+centos isntall :
+
+```
+yum install 'graphviz*'
+yum install python_graphviz
+
+```
+
+
+
+`./bin/python2.7 ./bin/gprof2dot.py -f pstats output.log | dot -Tpng -o output.png`
+
+
+
+
+
+### vprof
+
+
+
+
+
+`./bin/vprof -c cpmh mongo2csv.py -H 0.0.0.0 -p 8000`
+
+
+
+
+
+## 系统监控
+
+### glances
+
+https://github.com/nicolargo/glances
