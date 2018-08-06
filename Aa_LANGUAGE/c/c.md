@@ -54,6 +54,25 @@ gcc hello.c -o hello.exe
 
 
 
+### 函数声明
+
+```
+int add_together(int x, int y) {
+  int result = x + y;
+  return result;
+}
+```
+
+调用函数时，首先写上函数名，然后函数参数紧跟其后，包裹在一对圆括号里，参数之间用逗号分开。比如说，我们调用上面的函数，并将计算结果保存到 `added` 变量中：
+
+```
+int added = add_together(10, 18);
+```
+
+
+
+
+
 ### 结构体声明
 
 结构体用来声明一个新的类型。它可以将多个变量捆绑在一起。
@@ -118,4 +137,66 @@ for (int i = 0; i < 10; i++) {
   puts("Loop Iteration");
 }
 ```
+
+
+
+#### switch
+
+```python
+int main ()
+{
+   /* 局部变量定义 */
+   char grade = 'B';
+ 
+   switch(grade)
+   {
+   case 'A' :
+      printf("很棒！\n" );
+      break;
+   case 'B' :              #注意这里 如是BC 输出内容一样， 或写成这样case 'B':case 'C':
+   case 'C' :
+      printf("做得好\n" );
+      break;
+   case 'D' :
+      printf("您通过了\n" );
+      break;
+   case 'F' :
+      printf("最好再试一下\n" );
+      break;
+   default :
+      printf("无效的成绩\n" );
+   }
+   printf("您的成绩是 %c\n", grade );
+ 
+   return 0;
+}
+```
+
+
+
+### 枚举
+
+
+
+
+
+### typedef
+
+https://www.jianshu.com/p/740f87e97be1
+
+
+
+### 交互
+
+https://ksco.gitbooks.io/build-your-own-lisp/Interactive.html
+
+
+
+#### 预处理器（preprocessor ）
+
+
+
+
+
+
 
