@@ -56,3 +56,5 @@ yum install python_graphviz
 ### glances
 
 https://github.com/nicolargo/glances
+
+https://www.tecmint.com/glances-monitor-remote-linux-in-web-server-mode/
