@@ -397,46 +397,7 @@ str.center(width)          返回：长度为width的字符串，将原字符串
 str.ljust(width)           返回：长度为width的字符串，将原字符串左对齐放入该字符串，其它空余位置为空格。
 
 str.rjust(width)           返回：长度为width的字符串，将原字符串右对齐放入该字符串，其它空余位置为空格。
-#str为一个字符串，sub为str的一个子字符串。s为一个序列，它的元素都是字符串。width为一个整数，用于说明新生成字符串的宽度。
 
-str.count(sub)       返回：sub在str中出现的次数
-str.find(sub)        返回：从左开始，查找sub在str中第一次出现的位置。如果str中不包含sub，返回 -1
-
-str.index(sub)       返回：从左开始，查找sub在str中第一次出现的位置。如果str中不包含sub，举出错误
-
-str.rfind(sub)       返回：从右开始，查找sub在str中第一次出现的位置。如果str中不包含sub，返回 -1
-
-str.rindex(sub)      返回：从右开始，查找sub在str中第一次出现的位置。如果str中不包含sub，举出错误
-
-
-str.isalnum()        返回：True， 如果所有的字符都是字母或数字
-str.isalpha()        返回：True，如果所有的字符都是字母
-str.isdigit()        返回：True，如果所有的字符都是数字
-str.istitle()        返回：True，如果所有的词的首字母都是大写
-str.isspace()        返回：True，如果所有的字符都是空格
-str.islower()        返回：True，如果所有的字符都是小写字母
-str.isupper()        返回：True，如果所有的字符都是大写字母
-
-str.split([sep, [max]])    返回：从左开始，以空格为分割符(separator)，将str分割为多个子字符串，总共分割max次。将所得的子字符串放在一个表中返回。可以str.split(',')的方式使用逗号或者其它分割符
-
-str.rsplit([sep, [max]])   返回：从右开始，以空格为分割符(separator)，将str分割为多个子字符串，总共分割max次。将所得的子字符串放在一个表中返回。可以str.rsplit(',')的方式使用逗号或者其它分割符
-
-str.join(s)                返回：将s中的元素，以str为分割符，合并成为一个字符串。
-
-str.strip([sub])           返回：去掉字符串开头和结尾的空格。也可以提供参数sub，去掉位于字符串开头和结尾的sub  
-
-str.replace(sub, new_sub)  返回：用一个新的字符串new_sub替换str中的sub
-str.capitalize()           返回：将str第一个字母大写
-str.lower()                返回：将str全部字母改为小写
-str.upper()                返回：将str全部字母改为大写
-str.swapcase()             返回：将str大写字母改为小写，小写改为大写
-str.title()                返回：将str的每个词(以空格分隔)的首字母大写
-
-str.center(width)          返回：长度为width的字符串，将原字符串放入该字符串中心，其它空余位置为空格。
-
-str.ljust(width)           返回：长度为width的字符串，将原字符串左对齐放入该字符串，其它空余位置为空格。
-
-str.rjust(width)           返回：长度为width的字符串，将原字符串右对齐放入该字符串，其它空余位置为空格。
 ```
 
 
@@ -913,6 +874,20 @@ set和dict类似，也是一组key的集合，但不存储value。由于key不�
 set ( 集 合 ) 。 集 合 是 一 个 无 序 不 重 复 元素 的 集 。 基 本 功 能 包 括 关 系 测 试 和 消 除 重 复 元 素 。 集 合 对 象 还 支 持 union( 联
 合),intersection(交),difference(差)和 sysmmetric difference(对称差集)等数学运算。
 大括号或 set() 函数可以用来创建集合。
+
+```python
+>>> a = set('abc')
+>>> b = set('cdef')
+>>> a & b    # 交集
+set(['c'])
+>>> a | b    # 合集
+set(['a', 'c', 'b', 'e', 'd', 'f'])
+>>> a - b    # 相对补集， 差集
+set(['a', 'b'])
+>>> 
+```
+
+
 
 python中的set基于哈希表实现，存取时间可看做O(1)，但是没有办法高效的完成顺序相关的操作(比如找前驱后继，最大最小值等等)，所以认为是“无序”的。
 
