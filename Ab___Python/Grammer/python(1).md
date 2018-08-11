@@ -745,6 +745,8 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
 * 写入
   `f.write('I like apple!\n')      # 将'I like apple'写入文件并换行`
 
+  `f.writeline(['a\n', 'b\n', 'c\n'])`   注意一定要加换行，不然只写了一行  
+
 * 关闭文件
   `f.close()`
 
@@ -753,9 +755,9 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
   ```python
   import os
   import sys
-
+  
   temp=sys.stdout # 记录当前输出指向，默认是consle
-
+  
   with open("outputlog.txt","a+") as f:
       sys.stdout=f   # 输出指向txt文件
       print("filepath:",__file__,
