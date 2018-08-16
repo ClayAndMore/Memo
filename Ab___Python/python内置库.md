@@ -431,24 +431,35 @@ traceback.print_exc(file=open('tb.txt','w+'))
 
 它是dict的内建子类，常用于为字典赋默认值。
 
-参数是int,set,list,dict ,str等，也可以是函数，lamda表达式。默认为None，
+参数是int,set,list,dict ,str等，也可以是函数，lamda表达式。
 
-为None时，和dict函数没有什么不同。
+参数默认为None，为None时，和dict函数没有什么不同。
 
 demo:
 
 ```python
 from collections import defaultdict
 s='abcd'
-d=defaultdict(int):
+d=defaultdict(int)
 for x in s:
-	 d[x]+=1
+	 d[x]=1
 print d
 ```
 
 out: `defaultdict(<type 'int'>, {'a': 1, 'c': 1, 'b': 1, 'd': 1})`
 
-d[x]这样不会出错，会有默认值0.
+d[x]这样也不会出错，会有默认值0.
+
+默认值没给就是所赋值类型的默认值:
+
+```python
+from collections import defaultdict
+a = defaultdic(dict)
+>>>a['a']
+>>>{}
+```
+
+
 
 赋复杂的值：
 
@@ -487,9 +498,54 @@ defaultdict(<function zero at 0x100662e18>, {'eric': 0})
 d=defaultdict(lambad:0)
 d['amy']
 0
+
+s=defaultdict(lambad:[0])  # 注意这里我们可以赋值带类型有初始值的值
+s['ss']
+[0]
 ```
 
 
+
+#### OderedDict
+
+创建有序字典：
+
+```python
+import collections
+
+dic = collections.OrderedDict()
+dic['k1'] = 'v1'
+dic['k2'] = 'v2'
+dic['k3'] = 'v3'
+print(dic)
+
+#输出：OrderedDict([('k1', 'v1'), ('k2', 'v2'), ('k3', 'v3')])
+```
+
+
+
+
+
+#### namedtuple 具名元组
+
+它是一个工厂函数，它可以用来构建一个**带字段名的元祖**和一个右名字的类
+
+```python
+from collections import namedtuple
+# 接受两个参数，类名，和各个字段的名字，可以是由数个字符串组成的可迭代对象，或者像下面这样由空格组成的可迭代对象
+City = namedtuple("City", 'name country population') 
+tokyo = City('Tokyo', 'JP', 36993)
+tokyo
+City(name='Tokyo', country='JP', population=36993)
+tokyo.country  #通过名字获得信息
+'JP'
+tokey[0] # 通过位置获得信息
+'Tokyo'
+City._fields # 这个属性可以获得所有类属性的元祖
+('name', 'country', 'population')
+```
+
+**用namedtuple构建等类等实例所消耗等内存和元祖是一样的**
 
 
 

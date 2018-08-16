@@ -100,16 +100,7 @@ python中有一些特殊方法，特殊方法的特点是名字前后有两个�
 
 通常用来判断有没有这个类的实例。
 
-#### `__repr__()`方法
 
-这个函数，对应repr(object)这个功能。意思是当需要显示一个对象在屏幕上时，将这个对象的属性或者是方法整理成一个可以打印输出的格式。
-
-这个功能与eval也可以对应。打印出的结果直接放到eval里，通常可以获得原来的对象。
-比如：
-t1=datetime.datetime.now()
-print repr(t1)
-结果是
-datetime.datetime(2014, 9, 9, 6, 34, 29, 756000)
 
 
 
@@ -151,7 +142,7 @@ print(summer.__dict__)
 
 可以看到，Python中的属性是分层定义的，比如这里分为object/bird/chicken/summer这四层。当我们需要调用某个属性的时候，Python会一层层向上遍历，直到找到那个属性。(某个属性可能出现再不同的层被重复定义，Python向上的过程中，会选取先遇到的那一个，也就是比较低层的属性定义)。
 
-#### 特性
+#### 特性(property)
 
 同一个对象的不同属性之间可能存在依赖关系。当某个属性被修改时，我们希望依赖于该属性的其他属性也同时变化。这时，我们不能通过`__dict__`的方式来静态的储存属性。Python提供了多种即时生成属性的方法。其中一种称为特性(property)。特性是特殊的属性。比如我们为chicken类增加一个特性adult。当对象的age超过1时，adult为True；否则为False：
 
@@ -296,3 +287,94 @@ python是多范式语言，既可以面向对象，也可以函数式，依赖�
 格式：`_特殊方法名_()`
 运算符（如+）、内置函数（如len()）、表元素（如list[3]），有特殊方法的函数可以被认为对象等。
 
+#### `__len__`
+
+如下，对应内置函数len
+
+另： 如果x是一个**内置类型**的实例，那么len(x)的速度会非常快，原因是CPython会从一个C结构体里读取对象的长度。
+
+
+
+#### `__getitem__`
+
+```python
+class Weekday:
+    day = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Satur', 'Sun']
+
+    def __init__(self):
+        self._day = self.day
+    def __len__(self):
+        print '__len__'
+        return len(self._day)
+    def __getitem__(self, position):
+        print '__getitem__'
+        return self._day[position]
+
+w = Weekday()
+
+print len(w)
+
+print w[2]
+
+out:
+__len__
+7
+__getitem__
+Wed
+```
+
+**[] 会触发getitem方法，** 所以这个类还支持切片，迭代等。
+
+
+
+
+
+#### `__contains__`
+
+In 方法
+
+
+
+#### `__repr__`
+
+对应内置函数repr,  字符串描述对象。
+
+```python
+    def __repr__(self):
+        return 'Weekday : %s'%self._day
+    
+    print w
+    out:
+        Weekday : ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Satur', 'Sun']
+```
+
+这个功能与eval也可以对应。打印出的结果直接放到eval里，通常可以获得原来的对象。
+比如：
+t1=datetime.datetime.now()
+print repr(t1)
+结果是
+datetime.datetime(2014, 9, 9, 6, 34, 29, 756000)
+
+
+
+#### `__str__`
+
+对于内置函数str().
+
+print 先找str,后repr
+
+
+
+#### `__bool__`
+
+bool(x)的背后是调用`x.__bool__()` 的结果，如果不存在`__bool__` 方法，
+
+那么bool(x)会尝试`x.__len()` 方法， 若返回0，则False, 否则则True.
+
+
+
+#### 如何使用特殊方法
+
+通常你的代码无需直接使用特殊方法，除非有大量等元编程存在。
+
+通过内置等函数（len, iter, str,）等来使用特殊方法是最好的选择。
