@@ -1,4 +1,4 @@
-date: 2017-08-31 
+Ï=ate: 2017-08-31 
 
 
 
@@ -546,6 +546,25 @@ City._fields # 这个属性可以获得所有类属性的元祖
 ```
 
 **用namedtuple构建等类等实例所消耗等内存和元祖是一样的**
+
+
+
+#### deque类
+
+我们可以用append和pop方法来把列表当做栈来用，但是这类操作比较费时，因为会移动所有的元素。
+
+connections.deque类(双向队列)是一个线程安全，可以快速从两端添加或删除的数据类型。
+
+```python
+from collections import deque
+dq = deque(range(10), maxlen=10) # maxlen可选，指明最大长度，一旦指明不能修改
+dq.appendleft(-1) # 头部添加-1, 尾部的9会被删除。
+dq.extend([11,22]) # 尾部添加，头部的2个元素会被挤掉
+dp.popleft() #头部移除一个
+dp.rotate(3) # 旋转操作，尾部3个到头部
+```
+
+Appendleft 和 popleft 都是原子操作，也就是说可以在多线程中安全使用。
 
 
 

@@ -1,3 +1,40 @@
+### bisect
+
+Bisect 是利用二分法来实现有序数组的查询和插入的。
+
+`Bisect(haystack, needle)`
+
+在haystack(这是一个有序数列)里搜索needle的位置
+
+该位置满足把needle插入这个位置后，haystack还能保持升序(如果原来是降序，可以先resersed()一下。
+
+```python
+>>> import bisect
+>>> a=[2,4,6,8]
+>>> bisect.bisect(a, 5) #5会在a[2]的位置
+2
+>>> bisect.bisect(a, 4) #4也在a[2]的位置
+2
+>>>>>> bisect.insort(a, 5) # 直接插入并排序
+>>> a
+[2, 4, 5, 6, 8]
+```
+
+一个实用的demo：
+
+```python
+# 根据成绩来判断成绩评级
+def grade(score, breakpoints=[60,70,80,90], grades='FDCBA'):
+    i = bisect.bisect(breakpoints, score)
+    return grades[i]
+[grade(score) for in [33,99,77,70,89,90,100]]
+['F', 'A', 'C', 'C', 'B', 'A', 'A']
+```
+
+
+
+
+
 ### csv
 
 
