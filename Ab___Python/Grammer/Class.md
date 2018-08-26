@@ -287,11 +287,19 @@ python是多范式语言，既可以面向对象，也可以函数式，依赖�
 格式：`_特殊方法名_()`
 运算符（如+）、内置函数（如len()）、表元素（如list[3]），有特殊方法的函数可以被认为对象等。
 
+这些方法不光是类有，函数也有，这可能是废话。
+
 #### `__len__`
 
 如下，对应内置函数len
 
 另： 如果x是一个**内置类型**的实例，那么len(x)的速度会非常快，原因是CPython会从一个C结构体里读取对象的长度。
+
+
+
+#### `__dict__`
+
+用它存储用户属性，对于方法dir()，可以列出所有其属性。
 
 
 
@@ -370,6 +378,53 @@ print 先找str,后repr
 bool(x)的背后是调用`x.__bool__()` 的结果，如果不存在`__bool__` 方法，
 
 那么bool(x)会尝试`x.__len()` 方法， 若返回0，则False, 否则则True.
+
+
+
+#### `__call__`
+
+如果类定义了这个方法，那么它的实例可以作为函数调用。
+
+对应是`callable(obj)` 函数，检查对象是否可以调用。
+
+```python
+class BingoCage:
+    def __init__(self, items):
+        self._items = list(items)
+        random.shuffle(self._items) # 让一个list内部随机排列
+    def pick(self):
+        try:
+            return self._items.pop()
+     	except IndexError:
+            raise LookupError('pick from empty BingoCage')
+            
+    def __call__(self):
+        return self.pick()
+    
+bingo = BingoCage(range(3))
+bingo.pick()
+1
+bingo()
+0
+callable(bingo)
+True   
+```
+
+
+
+#### `__defaults__`
+
+它的值是一个元组，里面保存着定位参数和关键字参数等默认值。
+
+#### `__kwdefaults__`
+
+仅限关键字的默认值在这里。
+
+#### `__code__`
+
+参数名称在这里。
+
+
 
 
 

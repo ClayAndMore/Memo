@@ -33,6 +33,29 @@ def grade(score, breakpoints=[60,70,80,90], grades='FDCBA'):
 
 
 
+### inspect
+
+#### signatrue
+
+提取函数签名
+
+```python
+def clip(text, max_len=80):
+    ...
+     
+from inspect import signature
+sig = signature(clip)
+str(sige)
+'(text, max_len=80)'
+for name, param in sig.parameters.items():
+    print name, param.kind, param.default
+ 
+text POSITIONAL_OR_KEYWORD <class 'inspect._empty'
+max_len POSITIONAL_OR_KEYWORD 80
+```
+
+
+
 
 
 ### csv
