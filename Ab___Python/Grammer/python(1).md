@@ -349,7 +349,11 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
 
   ​
 
+* 
+
 ### 作用域
+
+#### 非公开
 
 在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用。在Python中，是通过`_`前缀来实现的。
 
@@ -383,6 +387,37 @@ def greeting(name):
 
 
 
+#### 作用域规则
+
+先看一个例子：
+
+```python
+>>> b=6
+>>> def a():
+...  print b
+... 
+>>> a()
+6
+>>> def a():
+...  print b
+...  b=8
+... 
+>>> a()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in a
+UnboundLocalError: local variable 'b' referenced before assignment
+>>> 
+```
+
+一定会很奇怪第二个例子为毛会出错。
+
+* Python编译到def a()时，因为在函数内部b被赋值，所以判断b是局部变量。
+* 所以字节码执行print b时会尝试从局部本地环境中找b，但会发现b没有绑定值。
+* 这不是缺陷，而是设计选择，因为在Python中，不要求声明变量，但是假定在函数体中赋值等变量是局部变量。
+
+
+
 ### 模块和模块包
 
 #### 模块
@@ -407,6 +442,12 @@ from a import *           # 从模块a中引入所有对象。调用a中对象�
 引入this_dir文件夹中的module模块。
 
 该文件夹中必须包含一个 `__init__.py` 的文件，提醒Python，该文件夹为一个模块包。__init__.py 可以是一个空文件。
+
+#### 导入
+
+导入的包要先执行其中 的语句，无论是from X import XX,  还是直接import X
+
+
 
 #### 导入上级模块
 
