@@ -129,11 +129,9 @@ c =  [1, 2, 3, 4, ['a', 'b', 'c']]
 d =  [1, 2, 3, 4, ['a', 'b']]
 ```
 
+可以看出	 **浅复制副本会共享内部引用**
 
-
-- **hasattr(object, name)**
-
-说明：判断对象object是否包含名为name的特性（hasattr是通过调用getattr(ojbect, name)是否抛出异常来实现的）。
+防止浅复制会出现意外的值，我们需要深复制。
 
 
 
@@ -144,6 +142,12 @@ d =  [1, 2, 3, 4, ['a', 'b']]
 自省就是面向对象的语言所写的程序在运行时,所能知道对象的类型.简单一句就是运行时能够获得对象的类型.比如type(),dir(),getattr(),hasattr(),isinstance().
 
 #### getattr()
+
+
+
+#### hasattr(object, name)
+
+说明：判断对象object是否包含名为name的特性（hasattr是通过调用getattr(ojbect, name)是否抛出异常来实现的）。
 
 
 

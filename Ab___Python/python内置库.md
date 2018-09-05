@@ -1,4 +1,4 @@
-date: 2017-08-31 
+Ï=ate: 2017-08-31 
 
 
 
@@ -431,24 +431,35 @@ traceback.print_exc(file=open('tb.txt','w+'))
 
 它是dict的内建子类，常用于为字典赋默认值。
 
-参数是int,set,list,dict ,str等，也可以是函数，lamda表达式。默认为None，
+参数是int,set,list,dict ,str等，也可以是函数，lamda表达式。
 
-为None时，和dict函数没有什么不同。
+参数默认为None，为None时，和dict函数没有什么不同。
 
 demo:
 
 ```python
 from collections import defaultdict
 s='abcd'
-d=defaultdict(int):
+d=defaultdict(int)
 for x in s:
-	 d[x]+=1
+	 d[x]=1
 print d
 ```
 
 out: `defaultdict(<type 'int'>, {'a': 1, 'c': 1, 'b': 1, 'd': 1})`
 
-d[x]这样不会出错，会有默认值0.
+d[x]这样也不会出错，会有默认值0.
+
+默认值没给就是所赋值类型的默认值:
+
+```python
+from collections import defaultdict
+a = defaultdic(dict)
+>>>a['a']
+>>>{}
+```
+
+
 
 赋复杂的值：
 
@@ -487,9 +498,73 @@ defaultdict(<function zero at 0x100662e18>, {'eric': 0})
 d=defaultdict(lambad:0)
 d['amy']
 0
+
+s=defaultdict(lambad:[0])  # 注意这里我们可以赋值带类型有初始值的值
+s['ss']
+[0]
 ```
 
 
+
+#### OderedDict
+
+创建有序字典：
+
+```python
+import collections
+
+dic = collections.OrderedDict()
+dic['k1'] = 'v1'
+dic['k2'] = 'v2'
+dic['k3'] = 'v3'
+print(dic)
+
+#输出：OrderedDict([('k1', 'v1'), ('k2', 'v2'), ('k3', 'v3')])
+```
+
+
+
+
+
+#### namedtuple 具名元组
+
+它是一个工厂函数，它可以用来构建一个**带字段名的元祖**和一个右名字的类
+
+```python
+from collections import namedtuple
+# 接受两个参数，类名，和各个字段的名字，可以是由数个字符串组成的可迭代对象，或者像下面这样由空格组成的可迭代对象
+City = namedtuple("City", 'name country population') 
+tokyo = City('Tokyo', 'JP', 36993)
+tokyo
+City(name='Tokyo', country='JP', population=36993)
+tokyo.country  #通过名字获得信息
+'JP'
+tokey[0] # 通过位置获得信息
+'Tokyo'
+City._fields # 这个属性可以获得所有类属性的元祖
+('name', 'country', 'population')
+```
+
+**用namedtuple构建等类等实例所消耗等内存和元祖是一样的**
+
+
+
+#### deque类
+
+我们可以用append和pop方法来把列表当做栈来用，但是这类操作比较费时，因为会移动所有的元素。
+
+connections.deque类(双向队列)是一个线程安全，可以快速从两端添加或删除的数据类型。
+
+```python
+from collections import deque
+dq = deque(range(10), maxlen=10) # maxlen可选，指明最大长度，一旦指明不能修改
+dq.appendleft(-1) # 头部添加-1, 尾部的9会被删除。
+dq.extend([11,22]) # 尾部添加，头部的2个元素会被挤掉
+dp.popleft() #头部移除一个
+dp.rotate(3) # 旋转操作，尾部3个到头部
+```
+
+Appendleft 和 popleft 都是原子操作，也就是说可以在多线程中安全使用。
 
 
 
