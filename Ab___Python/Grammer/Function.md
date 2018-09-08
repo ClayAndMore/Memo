@@ -40,6 +40,87 @@ def print_args(a,b,*args)
 
 
 
+#### 函数的参数为引用时
+
+Python 唯一支持的参数传递模式是共享传参，指函数等各个形参获得实参引用的副本，函数内部的形参是实参的别名。
+
+这样的害处是可能会修改作为参数**传入的可变对象**
+
+```python
+def f(a, b):
+    a+=b
+    return a
+x = 1
+y = 2
+f(x, y)
+3
+a=[1,2]
+b=[3,4]
+f(a, b)
+[1,2,3,4]
+a, b
+([1,2,3,4], [3,4]) #注意这里
+t = (10, 20)
+u = (30, 40)
+f(t, u)
+(10,20,30,40)
+t, u
+((10,20), (30, 40))
+```
+
+结论，可变对象会被修改
+
+
+
+#### 可变类型作为参数默认值
+
+```python
+>>> def func(numbers=[], num=1):
+...     numbers.append(num)
+...     return numbers
+
+>>> func()
+[1]
+>>> func()
+[1, 1]
+>>> func()
+[1, 1, 1]
+```
+
+numbers 第一次生成时在内存中地址不变，后期调用实际在改变的是地址的值。
+
+**在使用默认参数为可变类型时一定要注意。**
+
+这样也可以用做缓存：
+
+```python
+def factorial(num, cache={}):
+    if num == 0:
+        return 1
+    if num not in cache:
+        print('xxx')
+        cache[num] = factorial(num - 1) * num
+    return cache[num]
+
+
+print(factorial(4))
+print("-------")
+print(factorial(4))
+
+---第一次调用---
+xxx
+xxx
+xxx
+xxx
+24
+---第二次调用---
+24
+```
+
+
+
+
+
 ### 包裹传递
 
 - 在传递函数的参数时，我们不知道有多少个参数，这时可以传递包裹
