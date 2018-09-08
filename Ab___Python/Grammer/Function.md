@@ -125,28 +125,30 @@ xxx
 
 - 在传递函数的参数时，我们不知道有多少个参数，这时可以传递包裹
 
-```
+```python
 def func(*name):
     print type(name)
     print name
 
-func(1,4,6)
+func(1,4,6)  # <type 'tuple'> (1, 4, 6)
 func(5,6,7,1,2,3)
-
+#<type 'tuple'>
+#(5, 6, 7, 1, 2, 3)
 ```
 
 所有的参数被name收集，根据位置合并成一个元组(tuple)，这就是包裹位置传递。
 
 - 包裹关键字传递：
 
-```
+```python
 def func(**dict):
     print type(dict)
     print dict
 
-func(a=1,b=9)
-func(m=2,n=1,c=11)
-
+func(a=1,b=9) # <type 'dict'> {'a': 1, 'b': 9}
+func(m=2,n=1,c=11) 
+# <type 'dict'>
+# {'c': 11, 'm': 2, 'n': 1}
 ```
 
 与上面一个例子类似，dict是一个字典，收集所有的关键字，传递给函数func。为了提醒Python，参数dict是包裹关键字传递所用的字典，在dict前加 * *

@@ -54,19 +54,33 @@ i 显示头信息(-I只显示头信息):
 
 
 
+#### 添加请求头
+
+```python
+curl -H 'Host: 1,1,1,1' -H 'Accept-Language：es' -H 'Cookie ID=1234'
+```
+
+
+
+
+
 H发送post信息(-H是添加请求头， -d是请求体):
 
 ```
 curl -H "Content-Type:application/soap+xml; charset=UTF-8" -d@/tmp/feiren http://113.105.64.226/v1/NorthBoundAPIService.asmx
 ```
 
-添加User Agent
+
+
+#### 添加User Agent
 
 ```
 curl --user-agent "[User Agent]"  www.javaranger.com
 ```
 
-添加cookie
+
+
+#### 添加cookie
 
 ```
 curl --cookie "name=xxx" www.javaranger.com
