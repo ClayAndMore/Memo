@@ -1,4 +1,4 @@
-## 线程进程协程
+## 线程进程
 
 ### 多线程
 
@@ -123,7 +123,7 @@ def run_thread(n):
 
 用于线程间通信，即程序中的其一个线程需要通过判断某个线程的状态来确定自己下一步的操作，就用到了event对象
 
-event对象默认为假（内置标志服为Flase），即遇到event对象在等待就阻塞线程的执行, 那么当程序执行 event.wait 方法时就会阻塞，如果“Flag”值为True，那么event.wait 方法时便不再阻塞。 
+event对象默认为假（内置标志服为Flase），即遇到event对象在等待就阻塞线程的执行, 那么当程序执行 event.wait 方法时就会阻塞，如果“Flag”值为True，那么event.wait 方法时便不再阻塞。
 
 - 主线程和子线程间通信，代码模拟连接服务器：
 
@@ -244,15 +244,15 @@ class TestThread(Thread):
 if __name__ == '__main__':
         print currentThread()
         print local_data.__dict__
-        
+
         t1 = TestThread()
         t1.start()
         t1.join()
-        
+
         t2 = TestThread()
         t2.start()
         t2.join()
-        
+
         print currentThread()
         print local_data.__dict__
 ```
@@ -272,7 +272,7 @@ output:
 {'name': 'local_data'}
 ```
 
-主线程中的local_data并没有被改变，而子线程中的local_data各自都不相同。 
+主线程中的local_data并没有被改变，而子线程中的local_data各自都不相同。
 
 local_data具有全局访问权，主线程，子线程都能访问它，但是它的值却是各当前线程有关。
 
@@ -448,7 +448,7 @@ from multiprocessing import Process
 
 def worker(num):
     print "this is a worker id:%s"%num
-    return 
+    return
 p = Process(target=worker, args=(1,))
 p.start()
 ```
@@ -504,7 +504,7 @@ if __name__ == '__main__':
 ```python
 import sys
 import time
-from multiprocessing import Process 
+from multiprocessing import Process
 
 def exit_error():
     sys.exit(1)
@@ -526,7 +526,7 @@ if __name__ == '__main__':
     b = Process(target=exit_ok)
     c = Process(target=return_value)
     d = Process(target=raises)
-    
+
     a.start(); b.start(); c.start(); d.start()
 
     print '========'
@@ -563,13 +563,13 @@ def wait_for_event_timeout(e, t):
 
 if __name__ == '__main__':
     e = multiprocessing.Event()
-    w1 = multiprocessing.Process(name='block', 
+    w1 = multiprocessing.Process(name='block',
                                  target=wait_for_event,
                                  args=(e,))
     w1.start()
 
-    w2 = multiprocessing.Process(name='nonblock', 
-                                 target=wait_for_event_timeout, 
+    w2 = multiprocessing.Process(name='nonblock',
+                                 target=wait_for_event_timeout,
                                  args=(e, 2))
     w2.start()
 
@@ -614,6 +614,3 @@ if __name__=='__main__':
     # pr进程里是死循环，无法等待其结束，只能强行终止:
     pr.terminate()
 ```
-
-
-
