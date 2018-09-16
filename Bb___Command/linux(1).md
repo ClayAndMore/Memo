@@ -61,8 +61,6 @@ RHEL (Redhat Enterprise linux)  商业版，大型企业核心服务器首选
 * 常见的安装包格式 rpm包,安装rpm包的命令是“rpm -参数” 
 * 包管理工具  yum 
 
-
-
 Debian系列（ubuntu基于此系列）
 
 * 常见的安装包格式 deb包,安装deb包的命令是“dpkg -参数”
@@ -70,64 +68,11 @@ Debian系列（ubuntu基于此系列）
 
 
 
-wget:
-一个下载工具，和操作系统无关。
-
-基本的语法是：`wget [参数列表] URL。`
-
-1 支持断点下传功能
-2 同时支持FTP和HTTP下载方式
-3 支持代理服务器
-4 设置方便简单
-5 程序小，完全免费
-
-
-
-tar 只是一种压缩文件格式，所以，它只是把文件压缩打包而已。
-
-rpm 相当于windows中的安装文件，它会自动处理软件包之间的依赖关系。
-
-优缺点来说，rpm一般都是预先编译好的文件，它可能已经绑定到某种CPU或者发行版上面了。
-
-tar一般包括编译脚本，你可以在你的环境下编译，所以具有通用性。
-
-如果你的包不想开放源代码，你可以制作成rpm，如果开源，用tar更方便了。
-
- 
-
-tar一般都是源码打包的软件，需要自己解包，然后进行安装三部曲，./configure, make, make install.　来安装软件。
-
- 
-
-rpm是redhat公司的一种软件包管理机制，直接通过rpm命令进行安装删除等操作，最大的优点是自己内部自动处理了各种软件包可能的依赖关系。
-
-| 説明            | [Redhat](http://d.hatena.ne.jp/keyword/Redhat)系 | [Debian](http://d.hatena.ne.jp/keyword/Debian)系 |
-| ------------- | ---------------------------------------- | ---------------------------------------- |
-| 更新缓存          | yum makecache                            | [apt](http://d.hatena.ne.jp/keyword/apt)-get update |
-| 更新包           | [yum](http://d.hatena.ne.jp/keyword/yum) update | [apt](http://d.hatena.ne.jp/keyword/apt)-get upgrade |
-| 检索包           | [yum](http://d.hatena.ne.jp/keyword/yum) search | [apt](http://d.hatena.ne.jp/keyword/apt)-[cache](http://d.hatena.ne.jp/keyword/cache) search |
-| 检索包内文件        | [yum](http://d.hatena.ne.jp/keyword/yum) provides | [apt](http://d.hatena.ne.jp/keyword/apt)-file search |
-| 安装指定的包        | [yum](http://d.hatena.ne.jp/keyword/yum) install | [apt](http://d.hatena.ne.jp/keyword/apt)-get install |
-| 删除指定的包        | [yum](http://d.hatena.ne.jp/keyword/yum) remove | [apt](http://d.hatena.ne.jp/keyword/apt)-get remove |
-| 显示指定包的信息      | [yum](http://d.hatena.ne.jp/keyword/yum) info | [apt](http://d.hatena.ne.jp/keyword/apt)-[cache](http://d.hatena.ne.jp/keyword/cache) show |
-| 显示包所在组的一览     | [yum](http://d.hatena.ne.jp/keyword/yum) grouplist | -                                        |
-| 显示指定包所在组的信息   | [yum](http://d.hatena.ne.jp/keyword/yum) groupinfo | -                                        |
-| 安装指定的包组       | [yum](http://d.hatena.ne.jp/keyword/yum) groupinstall | -                                        |
-| 删除指定的包组       | [yum](http://d.hatena.ne.jp/keyword/yum) groupremove | -                                        |
-| 参考库的设定文件      | /etc/[yum](http://d.hatena.ne.jp/keyword/yum).repos.d/* | /etc/[apt](http://d.hatena.ne.jp/keyword/apt)/sources.list |
-| 安装完的包的列表      | [rpm](http://d.hatena.ne.jp/keyword/rpm) -qa | dpkg-query -l                            |
-| 显示安装完的指定包的信息  | [rpm](http://d.hatena.ne.jp/keyword/rpm) -qi | [apt](http://d.hatena.ne.jp/keyword/apt)-[cache](http://d.hatena.ne.jp/keyword/cache) show |
-| 安装完的指定包内的文件列表 | [rpm](http://d.hatena.ne.jp/keyword/rpm) -ql | dpkg-query -L                            |
-| 安装完的包的信赖包的列表  | [rpm](http://d.hatena.ne.jp/keyword/rpm) -[qR](http://d.hatena.ne.jp/keyword/qR) | [apt](http://d.hatena.ne.jp/keyword/apt)-[cache](http://d.hatena.ne.jp/keyword/cache) depends |
-| 安装完的文件信赖的包    | [rpm](http://d.hatena.ne.jp/keyword/rpm) -[q](http://d.hatena.ne.jp/keyword/qR)f | dpkg -S                                  |
-
-
-
 ### 关机
 
 先将内存中的数据同步到银盘：`sync`
 
-关机和重启：h =halt 
+关机和重启：h =halt
 
 ```
 Shutdown –h now 立马关机
@@ -279,7 +224,7 @@ out:`claymore:claymore`
 
 --/bin
 
---/sbin 
+--/sbin
 
 /var: 系统变量
 
@@ -317,7 +262,7 @@ out:`claymore:claymore`
 
 `cp -r father dirFolder` 要带参数-r才能将father及整个子目录复制到dirFolder
 
-不让出现“overwrite”： 
+不让出现“overwrite”：
 
 `cp -r -f sourcefile targetdir`
 -r  递归复制，也就是复制文件夹及其下所有文件。
@@ -343,7 +288,7 @@ alias rm='rm -i'
 
 ```
 在cp前加上一个"\"符号就不使用别名运行了，如下：
-# \cp -f sourcefile targetdir 
+# \cp -f sourcefile targetdir
 第二种解决办法：
 编辑文件，注释掉别名。
 # vi ~/.bashrc
@@ -404,7 +349,7 @@ nl 添加行号并打印
 
 正常删除
 
-​	
+​
 
 
 ### 文件权限
@@ -459,7 +404,7 @@ u (用户user) 文件或目录的所有者
 
 g (组 group)  同组用户具有的权限
 
-o (其他用户 other) 
+o (其他用户 other)
 
 a （所有用户，系统默认值）
 
@@ -469,7 +414,7 @@ a （所有用户，系统默认值）
 
 `+` 添加某个权限
 
-`-`减少某个权限 
+`-`减少某个权限
 
 `=` 赋予给定权限，并取消其他权限如果有的话。
 
