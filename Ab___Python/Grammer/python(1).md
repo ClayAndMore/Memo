@@ -32,7 +32,18 @@ if （xxxx is None and
 
 用 `python xxoo.py` 来运行，那么写不写都没关系，如果要用 `./xxoo.py` 那么就必须加这行，这行被称为 shebang, 用来为脚本语言指定解释器.
 
+*在Python中，等号`=`是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量，例如：
 
+  ```
+  a = 123 # a是整数
+  print(a)
+  a = 'ABC' # a变为字符串
+  print(a)
+
+  ```
+
+  这种变量本身类型不固定的语言称之为动态语言，与之对应的是静态语言。
+  静态语言在定义变量时必须指定变量类型，
 
 ### 解释器
 
@@ -172,8 +183,6 @@ print('hello,%s!'%a) #%a前不要有逗号
 
 
 
-
-
 ### 条件判断
 
 ```
@@ -224,6 +233,9 @@ if 后判断真值，
 | None | None           | 非None对象                   |
 
 
+空值是Python里一个特殊的值，用`None`表示。
+`None`不能理解为`0`，因为`0`是有意义的，而`None`是一个特殊的空值。
+
 
 #### 相等比较
 == 和 is的差别，==比较的是内容，is比较的是引用。
@@ -247,6 +259,17 @@ print(foo is None)
 # False
 ```
 
+#### not
+* `not`运算是非运算，它是一个单目运算符，把`True`变成`False`，`False`变成`True`：
+
+```
+>>> not True
+False
+>>> not False
+True
+>>> not 1 > 2
+True
+```
 
 
 #### 三目运算符
@@ -263,8 +286,6 @@ pythonic:
 ```python
 text='男' if gender=='male' else '女'
 ```
-
-
 
 
 
@@ -308,7 +329,7 @@ print superList([1,2,3]) - superList([3,4])
     * a+ 以附加**读写**方式打开可读写的文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾后，即文件原先的内容会被保留。
 
       上述的形态字符串都可以再加一个b字符，如rb、w+b或ab＋等组合，加入b 字符用来告诉函数库打开的文件为二进制文件，而非纯文字文件。windows下文件是二进制，而linux不需要区分二进制和文件。
-* 读取 
+* 读取
 ```
 content = f.read(N)          # 读取N bytes的数据
 content = f.readline()       # 读取一行
@@ -317,7 +338,7 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
 * 写入
   `f.write('I like apple!\n')      # 将'I like apple'写入文件并换行`
 
-  `f.writeline(['a\n', 'b\n', 'c\n'])`   注意一定要加换行，不然只写了一行  
+  `f.writelines(['a\n', 'b\n', 'c\n'])`   注意一定要加换行，不然只写了一行  
 
 * 关闭文件
   `f.close()`
@@ -328,16 +349,16 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
   open('cafe.txt', 'w', encoding='utf-8').write()  
   ```
 
-  
+
 
 * 输出重定向
 
   ```python
   import os
   import sys
-  
+
   temp=sys.stdout # 记录当前输出指向，默认是consle
-  
+
   with open("outputlog.txt","a+") as f:
       sys.stdout=f   # 输出指向txt文件
       print("filepath:",__file__,
@@ -349,9 +370,7 @@ content = f.readlines()      # 读取所有行，储存在列表中，每个元�
       print(f.readlines()) # 将记录在文件中的结果输出到屏幕
   ```
 
-  ​
 
-* 
 
 ### 作用域
 
@@ -397,19 +416,19 @@ def greeting(name):
 >>> b=6
 >>> def a():
 ...  print b
-... 
+...
 >>> a()
 6
 >>> def a():
 ...  print b
 ...  b=8
-... 
+...
 >>> a()
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "<stdin>", line 2, in a
 UnboundLocalError: local variable 'b' referenced before assignment
->>> 
+>>>
 ```
 
 一定会很奇怪第二个例子为毛会出错。
@@ -526,30 +545,8 @@ StopIteration是一个类。抛出异常时，会自动有一个中间环节，�
 ### 注意
 
 * 不要用windows自带的笔记本写py,它会自动加utf-8 bom。导致莫名的错误。
-* `not`运算是非运算，它是一个单目运算符，把`True`变成`False`，`False`变成`True`：
 
-```
->>> not True
-False
->>> not False
-True
->>> not 1 > 2
-True
-```
 
-* 空值是Python里一个特殊的值，用`None`表示。`None`不能理解为`0`，因为`0`是有意义的，而`None`是一个特殊的空值。
-
-* 在Python中，等号`=`是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量，例如：
-
-  ```
-  a = 123 # a是整数
-  print(a)
-  a = 'ABC' # a变为字符串
-  print(a)
-
-  ```
-
-  这种变量本身类型不固定的语言称之为动态语言，与之对应的是静态语言。静态语言在定义变量时必须指定变量类型，
 
 * 解释一下整数的除法为什么也是精确的。在Python中，有两种除法，一种除法是`/`：
 
