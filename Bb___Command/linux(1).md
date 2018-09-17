@@ -10,37 +10,6 @@ tags: linux
 
 通电一个默认的物理地址->bios->找到磁盘第一个扇区->引导程序->内核->挂载文件系统->系统服务->应用程序
 
-### shell
-
-Shell 是指“提供给使用者使用界面”的软件（命令解析器），类似于 DOS 下的 command（命令行）和后来的 cmd.exe。普通意义上的 Shell 就是可以接受用户输入命令的程序。它之所以被称作 Shell 是因为它隐藏了操作系统底层的细节。同样的 Unix/Linux 下的图形用户界面 GNOME 和 KDE，有时也被叫做“虚拟 shell”或“图形 shell”。
-
-shell简而言之就是一个与系统内核交互的壳。
-
-在 UNIX/Linux 中比较流行的常见的 Shell 有 bash，zsh，ksh，csh 等等，Ubuntu 终端默认使用的是 bash，（我们可以去/bin/ 下看一下。）
-
-bash 兼容了sh，是它的加强版本。
-
-
-
-### 文件系统
-
-文件系统是一种存储和组织计算机文件和资料的方法，linux中一切皆文件，无扩展名。
-
-文件格式，正如window系统的FAT32,NTFS格式。
-
-linux有EXT3（主文件系统）和SWAP（交换文件系统）
-
-文件系统数据结构:引导块，超级块（定义数据单元大小）,
-
-data(文件数据)，inode (索引)
-
-
-
-ext3基于日志记录的文件系统，所有操作会记录日志，所以重新开机会发现关机前的东西还在。同mac
-
-swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内存。
-
-
 
 ### SSH
 
@@ -191,263 +160,38 @@ out:`claymore:claymore`
 你看到上面的 password 字段为一个 'x' 并不是说密码就是它，只是表示密码不可见而已。
 
 
+### w
 
-### 目录结构
-
-以往的 Windows 一直是以存储介质为主的，主要以盘符（C 盘，D 盘...）及分区的来实现文件管理，然后之下才是目录，目录就显得不是那么重要，除系统文件之外的用户文件放在任何地方任何目录也是没有多大关系。所以通常 Windows 在使用一段时间后，磁盘上面的文件目录会显得杂乱无章（少数善于整理的用户除外吧）。然而 UNIX/Linux 恰好相反，UNIX 是以目录为主的，Linux 也继承了这一优良特性。 Linux 是以树形目录结构的形式来构建整个系统的，可以理解为一个用户可操作系统的骨架。虽然本质上无论是目录结构还是操作系统内核都是存储在磁盘上的，但从逻辑上来说 Linux 的磁盘是“挂在”（挂载在）目录上的，每一个目录不仅能使用本地磁盘分区的文件系统，也可以使用网络上的文件系统。举例来说，可以利用网络文件系统（Network File System，NFS）服务器载入某特定目录等。
-
-![](http://ojynuthay.bkt.clouddn.com/linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png)
-
-/bin: 存放系统可执行文件
-
-/sbin: super bin 存放管理员可用的执行文件
-
-/etc: 系统配置文件
-
-/lib: 共享的类库
-
-/dev: 外设，设备
-
-/tmp: 临时文件
-
-/boot:  启动文件
-
-/root: root用户目录
-
-/home :  相当与win的users ，比如你的用户a,会有home/a
-
-/mnt: 设备挂载
-
-/opt: 优化目录，临时装一下的东西
-
-/usr: 用户程序目录，
-
---/bin
-
---/sbin
-
-/var: 系统变量
-
-/proc: 虚拟文件系统，vfs
-
-/lost and found 找回文件
-
-
-
-### 目录颜色
-
-![](http://ojynuthay.bkt.clouddn.com/linuxColor.png)
-
-
-
-### 目录和文件操作
-
-#### 新建目录（mkdir）
-
-`mkdir mydir`  创建一个名为mydir的空目录
-
-`mkdir -p father/son/grandson`  -p创建一个多级目录
-
-#### 新建文件（touch)
-
-`touch test`创建一个空白文件test
-
-#### 复制(cp)
-
-复制文件：
-
-`cp test father/son/grandson`
-
-复制目录：
-
-`cp -r father dirFolder` 要带参数-r才能将father及整个子目录复制到dirFolder
-
-不让出现“overwrite”：
-
-`cp -r -f sourcefile targetdir`
--r  递归复制，也就是复制文件夹及其下所有文件。
--f 遇到同名的文件时不提示，直接覆盖。
-
-但是为什么加上-f了，还出现“overwrite”的提示呢？
-
-这是因为系统为防止我们误操作，覆盖了不该覆盖的文件，而使用了命令的别名。使用alias命令查看一下：
+用于显示已经登陆系统的用户列表，并显示用户正在执行的指令。执行这个命令可得知目前登入系统的用户有那些人，以及他们正在执行的程序。单独执行w命令会显示所有的用户，您也可指定用户名称，仅显示某位用户的相关信息。
 
 ```
- # alias
-alias cp='cp -i'
-alias l.='ls -d .* --color=tty'
-alias ll='ls -l --color=tty'
-alias ls='ls --color=tty'
-alias mv='mv -i'
-alias rm='rm -i'
+[root@bogon ~]# w
+ 17:30:33 up 9 days,  1:43,  4 users,  load average: 4.09, 3.19, 2.92
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/1    192.168.19.39    09:34    7:40m  0.41s  0.24s python kk_count.py
+root     pts/2    192.168.19.39    09:38    7:34m  0.01s  0.00s tail -f server_sample.log
+root     pts/3    192.168.19.39    09:57   17:05   0.04s  0.04s -bash
+root     pts/4    192.168.19.20    17:30    1.00s  0.00s  0.00s w
 ```
 
-我们输入的cp命令，其实是“cp -i”命令。
+User：登录用户名
+TTY：登录后系统分配的终端号
+From：远程主机名，即从哪登录的
+login@：何时登录
+IDLE：用户空闲时间。这是个计时器，一旦用户执行任何操作，改计时器就会被重置。
+JCPU：和终端连接的所有进程占用时间。包括当前正在运行的后台作业占用时间
+PCPU：当前进程所占用时间
+WHAT：当前正在运行进程的命令行
 
-解决办法：
+
+
+还可以向某人发消息：
 
 ```
-在cp前加上一个"\"符号就不使用别名运行了，如下：
-# \cp -f sourcefile targetdir
-第二种解决办法：
-编辑文件，注释掉别名。
-# vi ~/.bashrc
-在alias cp='cp -i'前加上“#”注释掉这行，wq!保存推出，然后重新登陆就可以了。
+[root@bogon ~]# write root pts/1
+
+hhh
 ```
-
-
-
-#### 删除（rm)
-
-`rm test` 可删除文件，若有保护的文件 可加参数-f强制删除
-
-删除目录一定要加上-r
-
-`rm -r father`
-
-#### 移动/重命名（mv)
-
-`mv 源目录文件 目的目录`
-
-`mv 旧的文件名 新的文件名`
-
-#### 查看文件
-
-* 使用cat,tac和nl查看文件
-
-cat为正序显示，tac倒序显示
-
-nl 添加行号并打印
-
-* more 和 less命令分页查看，他俩功能基本一致 ，用man命令看细节
-
-`more test`
-
-* 用head和tail命令查看文件，一个只看头10行（默认）,一个只看尾10行
-* 使用file查看文件类型
-
-
-
-
-### 软链接和硬链接
-
-软连接，也叫符号链接（Symbolic Link），可以理解为window上的快捷方式
-
-`sudo ln -s 源文件 目标文件`
-
-**ln -s a b **中的 a 就是源文件，b是链接文件名,其作用是当进入b目录，实际上是链接进入了a目录。 这时的b 是不存在的。
-
-删除软链接：
-
-`rm -rf  b`  注意不是`rm -rf  b/`
-
-
-
-硬连接，源文件名和链接文件名都指向相同的物理地址，目录不能够有硬连接，文件在磁盘中只有一个复制，可以节省硬盘空间，由于删除文件要在同一个索引节点属于唯一的连接时才能成功，因此可以防止不必要的误删。
-
-**ln  a b **是建立硬链接
-
-正常删除
-
-​
-
-
-### 文件权限
-
-#### 查看文件权限
-
-`ls -l`使用较长文件格式列出文件
-
-会看到一些排列
-
-解释：![](http://ojynuthay.bkt.clouddn.com/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png)
-
-![](http://ojynuthay.bkt.clouddn.com/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%902.png)
-
-* linux的文件类型：
-
-`·`一般文件
-
-d 目录文件
-
-l 链接文件（link)，如windows下的快捷方式
-
-b 块设备（block），以块为单位存储的文件
-
-c 字符设备 ，charactor,串口通信时用
-
-s 网络通信设备，socket
-
-p 管道，把一个文件的出口写入一个文件的入口
-
-* 权限设定
-
-r  read 设置为1
-
-w write 设置为2
-
-x 设置为4  ，x 对于文件夹来说是可进入，对于文件来说是可执行。
-
-这样可以简化文件的写法，如7（1+2+4）代表就有rwx的权限
-
-
-
-#### 修改文件权限
-
-`chmod [who][+-=][mode] 文件名`
-
-eg:  `chmod u+x myflie`
-
-who 为参数，可选：
-
-u (用户user) 文件或目录的所有者
-
-g (组 group)  同组用户具有的权限
-
-o (其他用户 other)
-
-a （所有用户，系统默认值）
-
-
-
-操作参数：
-
-`+` 添加某个权限
-
-`-`减少某个权限
-
-`=` 赋予给定权限，并取消其他权限如果有的话。
-
-
-
-mode 参数：
-
-​	r 可读。
-
-　　w 可写。
-
-　　x 可执行。
-
-　　X 只有目标文件对某些用户是可执行的或该目标文件是目录时才追加x 属性。
-
-　　s 在文件执行时把进程的属主或组ID置为该文件的文件属主。方式“u＋s”设置文件的用户ID位，“g＋s”设置组ID位。
-
-　　t 保存程序的文本到交换设备上。
-
-　　u 与文件属主拥有一样的权限。
-
-　　g 与和文件属主同组的用户拥有一样的权限。
-
-　　o 与其他用户拥有一样的权限。
-
-
-
-文件名：以空格分开的要改变权限的文件列表，支持通配符。
-
-
-
-数字修改： `chmod  664 myfile`    数字对应的权限范围是： u,g,o
-
 
 
 ### 一些技巧
@@ -523,12 +267,6 @@ man 手册的内容很多，涉及了 Linux 使用过程中的方方面面，为
 
 `ls --help`
 
-#### top
-
-可看系统的任务和进程。PR ，RI进程优先级(数字越小优先级越高)，最后优先级看PR+RI的值，也是越小越高。
-
-
-
 #### who 命令
 
 `who am i`
@@ -552,37 +290,6 @@ out:`claymore tty2 2017-02-16 10:29`
 
 `whereis name`可看name文件所在的位置
 
-#### ~目录
-
-cd ~ 进入家目录，这个目录在/home/username里,可用`pwd`，来看当前目录
-
-
-
-#### source和.
-
-先介绍下sh命令：
-
-```
-。当然，linux中sh是链接到bash上的，所以sh与bash在功能上是没有区别的。
-还有就是在执行脚本的时候是用sh + 脚本名的方式来执行，
-大部分的时候，简单脚本只要权限设置正确，可以直接执行，不需要sh命令的
-```
-
-source命令：
-source命令也称为“[点命令](http://www.51testing.com/?uid-225738-action-viewspace-itemid-206878)”，也就是一个点符号（.）,是bash的内部命令。
-功能：使[Shell](http://www.51testing.com/?uid-225738-action-viewspace-itemid-206878)读入指定的Shell程序文件并依次执行文件中的所有语句
-source命令通常用于重新执行刚修改的初始化文件，使之立即生效，而不必注销并重新登录。
-用法：
-`source filename 或 . filename`
-source命令(从 C Shell 而来)是bash shell的内置命令;点命令(.)，就是个点符号(从Bourne Shell而来)是source的另一名称。
-
-source filename 与 sh filename 及./filename执行脚本的区别在那里呢？
-1.当shell脚本具有可执行权限时，用sh filename与./filename执行脚本是没有区别得。./filename是因为当前目录没有在PATH中，所有"."是用来表示当前目录的。
-2.sh filename 重新建立一个子shell，在子shell中执行脚本里面的语句，该子shell继承父shell的环境变量，但子shell新建的、改变的变量不会被带回父shell，除非使用export。
-3.source filename：这个命令其实只是简单地读取脚本里面的语句依次在当前shell里面执行，没有建立新的子shell。那么脚本里面所有新建、改变变量的语句都会保存在当前shell里面。
-
-
-
 
 
 #### 小技巧
@@ -591,3 +298,182 @@ source filename 与 sh filename 及./filename执行脚本的区别在那里呢�
 * `ctrl+u`  : 清空当前已经打下的命令
 * 有时候进入了一个很深的目录，但不小心会到了根目录或者其他目录，用`ctrl+-`即可回到原来的目录
 * 如果一行太长，可以用`\+enter`来敲打下一行
+
+---
+title: linux 进阶（二）
+date: 2017-03-09 15:31:23
+categories:
+header-img:
+tags:
+---
+
+
+
+### Watchdog 看门狗
+
+Linux 自带了一个 watchdog 的实现，用于监视系统的运行，包括一个内核 watchdog module 和一个用户空间的 watchdog 程序。内核 watchdog 模块通过 /dev/watchdog 这个字符设备与用户空间通信。用户空间程序一旦打开 /dev/watchdog 设备（俗称“开门放狗”），就会导致在内核中启动一个1分钟的定时器（系统默认时间），此后，用户空间程序需要保证在1分钟之内向这个设备写入数据（俗称“定期喂狗”），每次写操作会导致重新设定定时器。如果用户空间程序在1分钟之内没有写操作，定时器到期会导致一次系统 reboot 操作（“狗咬人了”呵呵）。通过这种机制，我们可以保证系统核心进程大部分时间都处于运行状态，即使特定情形下进程崩溃，因无法正常定时“喂狗”，Linux系统在看门狗作用下重新启动（reboot），核心进程又运行起来了。多用于嵌入式系统。
+
+
+
+### 计划任务crontab
+
+我们会有写定期定时的任务。
+
+该命令从输入设备读取指令，并将其放在crontab中，供之后读取和执行。
+
+通常，crontab储存的指令被守护进程激活，crond为其守护进程，常常在后台执行，每一分钟会检查一次是否有预定的作业要执行。
+
+* 启动日志rsyslog
+
+  启动日志来看我们的任务是否真的被执行
+
+  `sudo service rsyslog start`
+
+* 启动crontab
+
+  `sudo cron -f &`
+
+* 添加一个计划任务
+
+  `crontab -e`
+
+  第一次启动会让你选择一个编辑器，我们选择vim
+
+* 后续会进入到一个编辑界面，这边是添加计划的地方，与一般的配置文档相同，以#开头的是注释
+
+  ![](http://ojynuthay.bkt.clouddn.com/crontab11.png)
+
+  最后一句便是我们添加的任务了，这个任务每分钟会在home/claymore/创建一个年月日时分秒为名字的空白文件
+
+  前面五颗星：minute hour day month week (美好日月星辰)
+
+* 查看添加了那些任务
+
+  `crontab -l`
+
+  虽然我们添加了任务，但是cron的守护进程没有启动不会检测到有任务，我们可以通过下面两种方式来确定我们的cron是否在后台启动：
+
+  `pa aux | grep cron`
+
+  `pgrep cron`
+
+* 看执行任务命令在日志的信息
+
+  `sudo tail -f /var/log/syslog`
+
+* 删除任务
+
+  `crontab -r`
+
+  ​
+
+#### 深入
+
+每次用`crontab -e`都会添加计划任务，都会在/var/spool/cron/crontabs中添加一个该用户自己的任务文档。这样是为了隔离
+
+所以，系统级别的任务需要sudo权限编辑/etc/crontab文件就可以。
+
+cron 服务监测时间最小单位是分钟，所以 cron 会每分钟去读取一次 /etc/crontab 与 /var/spool/cron/crontabs 里面的內容。
+
+在 /etc 目录下，cron 相关的目录有下面几个：
+
+![](http://ojynuthay.bkt.clouddn.com/cron.png)
+
+每个目录的作用：
+
+1. /etc/cron.daily，目录下的脚本会每天执行一次，在每天的6点25分时运行；
+2. /etc/cron.hourly，目录下的脚本会每个小时执行一次，在每小时的17分钟时运行；
+3. /etc/cron.mouthly，目录下的脚本会每月执行一次，在每月1号的6点52分时运行；
+4. /etc/cron.weekly，目录下的脚本会每周执行一次，在每周第七天的6点47分时运行；
+
+系统默认执行时间可以根据需求进行修改。
+
+
+
+### 一句话执行命令
+
+比如可能进行以下部分操作：
+
+```
+sudo apt-get update
+sudo apt-get install some-tool
+some-tool
+```
+
+这几个命令之间有等待。我们可以一次性输入完：
+
+`sudo apt-get update;sudo apt-get install some-tool;some-tool`
+
+然后就可以让它一次性运行了
+
+但是前面的命令没成功怎么办？用which来查找是否安装了某个命令
+
+`which cowsay>/dev/null && cowsay -f head-in ohch~`
+
+没有安装cowsay，什么也不会发生，如果安装了cowsay则会发生。
+
+ &&表示前面的命令执行状态（不是输出结果）为0，则执行后面的
+
+||表示前面的命令执行状态不为0，则执行后面的
+
+
+
+
+### 日志系统
+
+在 Linux 中大部分的发行版都内置使用 syslog 系统日志，那么通过前期的课程我们了解到常见的日志一般存放在 `/var/log`中：
+
+`$ ll /var/log`
+
+
+
+
+
+### 神器 lsof
+
+list openfiles,  列出打开文件，因为unix中一切都是文件，所以将它称之为神器。
+
+lsof有着实在是令人惊讶的选项数量。你可以使用它来获得你系统上设备的信息，你能通过它了解到指定的用户在指定的地点正在碰什么东西，或者甚至是一个进程正在使用什么文件或网络连接。
+
+lsof -p 813   进程为813的进程打开的文件
+
+lsof abc.txt         显示开启文件abc.txt的进程
+lsof -c abc         显示abc进程现在打开的文件
+
+lsof +d /usr/local/     显示目录下被进程开启的文件
+lsof +D /usr/local/    同上，但是会搜索目录下的目录，时间较长
+
+
+
+
+### Suprise Get
+
+#### state
+
+查看文件状态，eg: `state filename`
+
+
+
+#### date
+
+时间设定成2009年5月10号的命令：
+
+`date -s 05/10/2009`
+
+系统时间设定成下午14点30分59秒：
+
+`date -s 14:30:50`
+
+
+
+### 比较合并
+
+比较
+
+`diff -y [file1][flie2]` 同行输出两个文件的不同
+
+`diff -u [file1][flie2]`以补丁格式输出两个文件的不同
+
+`diff -Nu [file1][file2]>[patchfile]`将不同输出到补丁文件
+
+`patch -p[n]<[patchfile]` 打补丁文件，n一般为0，目录级联
