@@ -294,12 +294,7 @@ lsof +d /usr/local/     显示目录下被进程开启的文件
 lsof +D /usr/local/    同上，但是会搜索目录下的目录，时间较长
 
 
-
-
-### Suprise Get
-
-
-#### date
+### date
 
 时间设定成2009年5月10号的命令：
 
