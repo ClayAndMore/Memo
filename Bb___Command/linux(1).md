@@ -67,133 +67,6 @@ reboot , init 6
 
 
 
-### 用户切换
-
-#### 用户符号
-
-`$`表示没有root权限的用户
-
-`#`表示有root权限的用户
-
-`~`表示在home目录下
-
-#### su,su-与sudo
-
-`su `可以切换到用户user，执行时需要输入目标用户的密码，
-
-`sudo `可以以特权级别运行cmd命令，需要当前用户属于sudo组，且需要输入当前用户密码。
-
-`su - `命令也是切换用户，同时环境变量也会跟着改变成目标用户的环境变量。只打su - 会切换到root用户
-
-#### 当前用户更改root密码
-
-`sudo passwd root`
-
-
-
-### 用户和用户组
-
-我们一般登录系统时都是以普通账户的身份登录的，要创建用户需要 root 权限，这里就要用到 `sudo` 这个命令了。不过使用这个命令有两个大前提，一是你要知道当前登录用户的密码，二是当前用户必须在 `sudo` 用户组。
-
-添加一个叫test的用户：
-
-`sudo adduser -m test `
-
-一般会输入m参数这样会自动为我们在home下创建用户目录，和用户目录下的环境变量配置文件.bashrc。
-
-接下来会让你输入原本的用户密码，和新用户的密码和确认密码，还有一些设置，可按回车设置默认。
-
-`useradd -g name tim`讲用户tim添加到name组,一般添加到root用户组。
-
-删除用户(删除所有目录）：
-
-`sudo deluser claymore --remove-home`
-
-添加的用户在/etc/passwd文件中末尾有记录：
-
-`wy:x:1000:0::/home/wy:/bin/bash`
-
-用户名：密码： uid：gid ：备注： 家目录： shell（默认使用的shell)
-
-为用户添加root权限：
-
-`usermod -g root wy`   这时gid会变为root的id,0
-
-去/etc/sudoers ：
-
-```
-# User privilege specification
-root    ALL=(ALL:ALL) ALL
-wy      ALL=(ALL:ALL) ALL
-```
-
-
-
-#### 用户组(groups命令)
-
-用户组说明这里的用户有同样的权限。
-
-创建用户组：
-
-`groupadd name`  name 为组名
-
-`groupadd -g 200 name`  创建组号为200的name组
-
-
-
-删除组：
-
-`groupdel name` 删除name组，不能删除不为空的组
-
-每一个用户都有一个用户组，查看用户的组：
-
-`groups claymore `
-
-out:`claymore:claymore`
-
-前面的为用户名，后面的为用户组，一般创建一个用户会默认创建一个同名的用户组。
-
-/etc/group 的内容包括用户组（Group）、用户组口令、GID 及该用户组所包含的用户（User），每个用户组一条记录。格式如下：
-
-> group_name:password:GID:user_list
-
-你看到上面的 password 字段为一个 'x' 并不是说密码就是它，只是表示密码不可见而已。
-
-
-### w
-
-用于显示已经登陆系统的用户列表，并显示用户正在执行的指令。执行这个命令可得知目前登入系统的用户有那些人，以及他们正在执行的程序。单独执行w命令会显示所有的用户，您也可指定用户名称，仅显示某位用户的相关信息。
-
-```
-[root@bogon ~]# w
- 17:30:33 up 9 days,  1:43,  4 users,  load average: 4.09, 3.19, 2.92
-USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
-root     pts/1    192.168.19.39    09:34    7:40m  0.41s  0.24s python kk_count.py
-root     pts/2    192.168.19.39    09:38    7:34m  0.01s  0.00s tail -f server_sample.log
-root     pts/3    192.168.19.39    09:57   17:05   0.04s  0.04s -bash
-root     pts/4    192.168.19.20    17:30    1.00s  0.00s  0.00s w
-```
-
-User：登录用户名
-TTY：登录后系统分配的终端号
-From：远程主机名，即从哪登录的
-login@：何时登录
-IDLE：用户空闲时间。这是个计时器，一旦用户执行任何操作，改计时器就会被重置。
-JCPU：和终端连接的所有进程占用时间。包括当前正在运行的后台作业占用时间
-PCPU：当前进程所占用时间
-WHAT：当前正在运行进程的命令行
-
-
-
-还可以向某人发消息：
-
-```
-[root@bogon ~]# write root pts/1
-
-hhh
-```
-
-
 ### 一些技巧
 
 #### Tap补全命令
@@ -266,29 +139,6 @@ man 手册的内容很多，涉及了 Linux 使用过程中的方方面面，为
 想要获得更详细的帮助，你还可以使用`info`命令，不过通常使用`man`就足够了。如果你知道某个命令的作用，只是想快速查看一些它的某个具体参数的作用，那么你可以使用`--help`参数，大部分命令都会带有这个参数，如：
 
 `ls --help`
-
-#### who 命令
-
-`who am i`
-
-out:`claymore tty2 2017-02-16 10:29`
-
-可以查看你的用户名和终端，tty2表示2终端，可以开七个终端。`ctrl+alt+F1-F7`f7是图形终端，其他都是命令终端，打开多个图形终端被称为伪终端。
-
-`who` 命令其它常用参数
-
-| 参数   | 说明                  |
-| ---- | ------------------- |
-| `-a` | 打印能打印的全部            |
-| `-d` | 打印死掉的进程             |
-| `-m` | 同`am i`,`mom likes` |
-| `-q` | 打印当前登录用户数及用户名       |
-| `-u` | 打印当前登录用户登录信息        |
-| `-r` | 打印运行等级              |
-
-#### whereis
-
-`whereis name`可看name文件所在的位置
 
 
 
@@ -447,11 +297,6 @@ lsof +D /usr/local/    同上，但是会搜索目录下的目录，时间较长
 
 
 ### Suprise Get
-
-#### state
-
-查看文件状态，eg: `state filename`
-
 
 
 #### date
