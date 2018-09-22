@@ -5,7 +5,7 @@
 安装，`pip install bottle` 特别简单。
 或者用yum或apt.
 
-#### 启动
+### 启动
 
 基础demo.py：
 
@@ -36,7 +36,7 @@ demo是文件demo.py  这里不能写绝对路径
 
 
 
-#### 关于请求
+### 关于请求
 指定请求
 * @route('/name')
 * @route('/name',method="POST")
@@ -74,7 +74,7 @@ email = request.forms.get('email')
 
 
 
-#### 动态路由
+### 动态路由
 
 1. 请求参数放入URL路径中
   `/user/<name>`
@@ -96,17 +96,17 @@ email = request.forms.get('email')
 3. 自定义过滤函数
 
 
-#### 静态文件
+### 静态文件
 `return static_file(filename,root="",mimetype=""，download=True)`
 root是指跟目录，必须参数，如果这个文件在根目录下，root可以为空。
 mimetype 是知名文件类型，一般会自动识别，可不填。
 download 可选，是强制下载文件，如果设置为True，那么下载的文件名是你资源本来的名字，如果是其他则指定了下载文件名。
 
 
-#### 错误页面
+### 错误页面
 @error(404) 一个装饰器，参数为定义的错误类型。
 
-#### URL转向
+### URL转向
 abort()
 ```python
 @error(500)
@@ -153,7 +153,7 @@ bottle提供了对某些类型和编码的转换支持。
 
 
 
-#### header
+### header
 
 响应的头文件如 `Cache-Control` 或者 `Location` 等都是通过 @Response.set_header() 函数定义的，该函数接受两个参数：一个头文件名称和一个值，名称部分是区分大小写的：
 
@@ -172,9 +172,9 @@ response.add_header('Set-Cookie','name1=value1')
 
 
 
-#### cookie
+### cookie
 
-##### 添加cookie
+#### 添加cookie
 
 ```python
 import response 
@@ -196,7 +196,7 @@ set_cookie 有几个参数：
 
 
 
-##### 加密cookie
+#### 加密cookie
 
 `response.set_cookie('name','value',secret='...')` 
 
@@ -208,7 +208,7 @@ secret 是我们的密钥。
 
 
 
-##### 中文cookie
+#### 中文cookie
 
 当cookie中有中文时，未加密
 
@@ -227,7 +227,7 @@ response.set_cookie('myname',quote('我'))
 
 
 
-#### 文件上传
+### 文件上传
 
 `f = request.files.get('name')`  
 
@@ -247,7 +247,7 @@ response.set_cookie('myname',quote('我'))
 
 
 
-#### 内建模版引擎
+### 内建模版引擎
 
 嵌入变量：
 
@@ -265,7 +265,7 @@ template('进入{{ !link }}',link=link)  #变量前加入！使模版停止对ht
 
 
 
-#### 部署
+### 部署
 
 run(server='gunicorn')
 
