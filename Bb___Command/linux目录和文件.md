@@ -67,15 +67,101 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 ### 目录和文件操作
 
+#### 查看（ls）
+
+看似简单， 如果用全了很有帮助， 默认显示的只有：非隐藏文件的文件名、 以文件名进行
+排序及文件名代表的颜色显示如此而已。
+
+看下一些重要的参数吧
+
+* -a: 全部的文件，连同隐藏文件（ 开头为 . 的文件） 一起列出来（常用）
+
+* -d: 仅列出目录本身，而不是列出目录内的文件数据（常用）
+
+* -l ：长数据串行出，包含文件的属性与权限等等数据；（常用）,  **ll 为缩写**
+
+* --full-time ：以完整时间模式 （包含年、月、日、时、分） 输出
+
+  ```
+  [root@study ~]# ls -al --full-time ~
+  total 56
+  dr-xr-x---. 5 root root 4096 2015-06-04 19:49:54.520684829 +0800 .
+  dr-xr-xr-x. 17 root root 4096 2015-05-04 17:56:38.888000000 +0800 ..
+  -rw-------. 1 root root 1816 2015-05-04 17:57:02.326000000 +0800 anaconda-ks.cfg
+  -rw-------. 1 root root 6798 2015-06-04 19:53:41.451684829 +0800 .bash_history
+  -rw-r--r--. 1 root root 18 2013-12-29 10:26:31.000000000 +0800 .bash_logout
+  -rw-r--r--. 1 root root 176 2013-12-29 10:26:31.000000000 +0800 .bash_profile
+  -rw-rw-rw-. 1 root root 176 2013-12-29 10:26:31.000000000 +0800 .bashrc
+  ```
+
+* --time={atime,ctime} ：输出 access 时间或改变权限属性时间 （ctime）, 而非内容变更时间 （modification time）, 具体看下面文件变动时间
+
+#### 文件变动时间
+
+是有三个主要的变动时间，那么三个时间的意义是什么呢？
+
+* modification time （mtime）： 当该文件的“内容数据”变更时，就会更新这个时间！内
+  容数据指的是文件的内容，而不是文件的属性或权限喔！
+* status time （ctime）： 当该文件的“状态 （status）”改变时，就会更新这个时间，举
+  例来说，像是权限与属性被更改了，都会更新这个时间啊。
+* access time （atime）： 当“该文件的内容被取用”时，就会更新这个读取时间
+  （access）。举例来说，我们使用 cat 去读取 /etc/man_db.conf ， 就会更新
+
+```shell
+ls -l /etc/man_db.conf
+-rw-r--r--. 1 root root 5171 Jun 10 2014 /etc/man_db.conf 
+# 2014/06/10 创建的内容（mtime）， 默认显示显示这个时间，修改文件内容也会更新这个时间，如 vi后 wq
+
+ls -l --time=atime /etc/man_db.conf
+-rw-r--r--. 1 root root 5171 Jun 15 23:46 /etc/man_db.conf 
+# 在 2015/06/15 读取过内容（atime）
+
+ls -l --time=ctime /etc/man_db.conf
+-rw-r--r--. 1 root root 5171 May 4 17:54 /etc/man_db.conf 
+# 在 2015/05/04 更新过状态（ctime）
+```
+
+如果从其他地方复制一个文件过来， ctime时间回变成当前，但是atime和mtime 还是原来旧文件的，这样来说对新文件不合理，那么如何更改atime和mtime呢， 请看touch.
+
+
+
+#### 新建文件（touch)
+
+`touch test`创建一个空白文件test
+
+
+
+修改文件时间参数：
+
+-a ：仅修订 access time；
+-m ：仅修改 mtime ；
+-c ：仅修改文件的时间ctime，若该文件不存在则不创建新文件；
+-t ：后面可以接欲修订的时间而不用目前的时间，格式为[YYYYMMDDhhmm]
+
+eg:  bashrc 日期改为 2014/06/15 2:02
+
+```
+[dmtsai@study tmp]# touch -t 201406150202 bashrc
+[dmtsai@study tmp]# date; ll bashrc; ll --time=atime bashrc; ll --time=ctime bashrc
+Tue Jun 16 00:54:07 CST 2015
+-rw-r--r--. 1 dmtsai dmtsai 231 Jun 15 2014 bashrc
+-rw-r--r--. 1 dmtsai dmtsai 231 Jun 15 2014 bashrc
+-rw-r--r--. 1 dmtsai dmtsai 231 Jun 16 00:54 bashrc
+# 注意看看，日期在 atime 与 mtime 都改变了，但是 ctime 则是记录目前的时间！
+```
+
+
+
+
+
+
 #### 新建目录（mkdir）
 
 `mkdir mydir`  创建一个名为mydir的空目录
 
 `mkdir -p father/son/grandson`  -p创建一个多级目录
 
-#### 新建文件（touch)
 
-`touch test`创建一个空白文件test
 
 #### 复制(cp)
 
@@ -152,9 +238,22 @@ nl 添加行号并打印
 * 使用file查看文件类型
 
 
-#### state
+#### stat
 
 查看文件状态，eg: `state filename`
+
+
+
+#### basename, dirname
+
+```
+[root@study ~]# basename /etc/sysconfig/network
+network &lt;== 很简单！就取得最后的文件名～
+[root@study ~]# dirname /etc/sysconfig/network
+/etc/sysconfig &lt;== 取得的变成目录名了！
+```
+
+
 
 
 
@@ -228,7 +327,7 @@ a （所有用户，系统默认值）
 
 mode 参数：
 
-​	r 可读。
+	r 可读。
 
 　　w 可写。
 
@@ -352,21 +451,21 @@ eg:
    （1）根据文件名查找
 
            -name     //根据文件名查找（精确查找）
-
+    
            -iname       //根据文件名查找，但是不区分大小写
-
+    
     附文件通配：
-
+    
     *表示  通配任意的字符
-
+    
     `find /etc -name pass*`
-
+    
     ？表示  通配任意的单个字符
-
+    
     `find /etc -name passw?`
-
+    
     [ ] 表示 通配括号里面的任意一个字符
-
+    
     `find /tmp -name "[ab].sh"`
 
 
