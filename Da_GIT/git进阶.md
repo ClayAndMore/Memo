@@ -400,6 +400,14 @@ git reflog 可以看到本地的git操作
 
 
 
+#### windows git status乱码
+
+```
+git config --global core.quotepath false 
+```
+
+
+
 #### 一个分支的修改同步到另一个分支
 
 branch A（01版本），在branch A（01版本）上开了分支branch B（01版本），这个时候我修改了branch A（01->02版本），请问我如何将修改的结果带到branch B？
