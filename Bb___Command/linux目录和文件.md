@@ -67,15 +67,101 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 ### 目录和文件操作
 
+#### 查看（ls）
+
+看似简单， 如果用全了很有帮助， 默认显示的只有：非隐藏文件的文件名、 以文件名进行
+排序及文件名代表的颜色显示如此而已。
+
+看下一些重要的参数吧
+
+* -a: 全部的文件，连同隐藏文件（ 开头为 . 的文件） 一起列出来（常用）
+
+* -d: 仅列出目录本身，而不是列出目录内的文件数据（常用）
+
+* -l ：长数据串行出，包含文件的属性与权限等等数据；（常用）,  **ll 为缩写**
+
+* --full-time ：以完整时间模式 （包含年、月、日、时、分） 输出
+
+  ```
+  [root@study ~]# ls -al --full-time ~
+  total 56
+  dr-xr-x---. 5 root root 4096 2015-06-04 19:49:54.520684829 +0800 .
+  dr-xr-xr-x. 17 root root 4096 2015-05-04 17:56:38.888000000 +0800 ..
+  -rw-------. 1 root root 1816 2015-05-04 17:57:02.326000000 +0800 anaconda-ks.cfg
+  -rw-------. 1 root root 6798 2015-06-04 19:53:41.451684829 +0800 .bash_history
+  -rw-r--r--. 1 root root 18 2013-12-29 10:26:31.000000000 +0800 .bash_logout
+  -rw-r--r--. 1 root root 176 2013-12-29 10:26:31.000000000 +0800 .bash_profile
+  -rw-rw-rw-. 1 root root 176 2013-12-29 10:26:31.000000000 +0800 .bashrc
+  ```
+
+* --time={atime,ctime} ：输出 access 时间或改变权限属性时间 （ctime）, 而非内容变更时间 （modification time）, 具体看下面文件变动时间
+
+#### 文件变动时间
+
+是有三个主要的变动时间，那么三个时间的意义是什么呢？
+
+* modification time （mtime）： 当该文件的“内容数据”变更时，就会更新这个时间！内
+  容数据指的是文件的内容，而不是文件的属性或权限喔！
+* status time （ctime）： 当该文件的“状态 （status）”改变时，就会更新这个时间，举
+  例来说，像是权限与属性被更改了，都会更新这个时间啊。
+* access time （atime）： 当“该文件的内容被取用”时，就会更新这个读取时间
+  （access）。举例来说，我们使用 cat 去读取 /etc/man_db.conf ， 就会更新
+
+```shell
+ls -l /etc/man_db.conf
+-rw-r--r--. 1 root root 5171 Jun 10 2014 /etc/man_db.conf 
+# 2014/06/10 创建的内容（mtime）， 默认显示显示这个时间，修改文件内容也会更新这个时间，如 vi后 wq
+
+ls -l --time=atime /etc/man_db.conf
+-rw-r--r--. 1 root root 5171 Jun 15 23:46 /etc/man_db.conf 
+# 在 2015/06/15 读取过内容（atime）
+
+ls -l --time=ctime /etc/man_db.conf
+-rw-r--r--. 1 root root 5171 May 4 17:54 /etc/man_db.conf 
+# 在 2015/05/04 更新过状态（ctime）
+```
+
+如果从其他地方复制一个文件过来， ctime时间回变成当前，但是atime和mtime 还是原来旧文件的，这样来说对新文件不合理，那么如何更改atime和mtime呢， 请看touch.
+
+
+
+#### 新建文件（touch)
+
+`touch test`创建一个空白文件test
+
+
+
+修改文件时间参数：
+
+-a ：仅修订 access time；
+-m ：仅修改 mtime ；
+-c ：仅修改文件的时间ctime，若该文件不存在则不创建新文件；
+-t ：后面可以接欲修订的时间而不用目前的时间，格式为[YYYYMMDDhhmm]
+
+eg:  bashrc 日期改为 2014/06/15 2:02
+
+```
+[dmtsai@study tmp]# touch -t 201406150202 bashrc
+[dmtsai@study tmp]# date; ll bashrc; ll --time=atime bashrc; ll --time=ctime bashrc
+Tue Jun 16 00:54:07 CST 2015
+-rw-r--r--. 1 dmtsai dmtsai 231 Jun 15 2014 bashrc
+-rw-r--r--. 1 dmtsai dmtsai 231 Jun 15 2014 bashrc
+-rw-r--r--. 1 dmtsai dmtsai 231 Jun 16 00:54 bashrc
+# 注意看看，日期在 atime 与 mtime 都改变了，但是 ctime 则是记录目前的时间！
+```
+
+
+
+
+
+
 #### 新建目录（mkdir）
 
 `mkdir mydir`  创建一个名为mydir的空目录
 
 `mkdir -p father/son/grandson`  -p创建一个多级目录
 
-#### 新建文件（touch)
 
-`touch test`创建一个空白文件test
 
 #### 复制(cp)
 
@@ -152,9 +238,22 @@ nl 添加行号并打印
 * 使用file查看文件类型
 
 
-#### state
+#### stat
 
 查看文件状态，eg: `state filename`
+
+
+
+#### basename, dirname
+
+```
+[root@study ~]# basename /etc/sysconfig/network
+network &lt;== 很简单！就取得最后的文件名～
+[root@study ~]# dirname /etc/sysconfig/network
+/etc/sysconfig &lt;== 取得的变成目录名了！
+```
+
+
 
 
 
@@ -228,7 +327,7 @@ a （所有用户，系统默认值）
 
 mode 参数：
 
-​	r 可读。
+	r 可读。
 
 　　w 可写。
 
@@ -253,6 +352,109 @@ mode 参数：
 
 
 数字修改： `chmod  664 myfile`    数字对应的权限范围是： u,g,o
+
+
+
+#### 文件默认权限 umask
+
+查看默认权限的方式：
+
+```shell
+[root@study ~]# umask
+0022 &lt;==与一般权限有关的是后面三个数字！
+[root@study ~]# umask -S
+u=rwx,g=rx,o=rx
+```
+
+
+
+若使用者创建为“文件”则默认“没有可执行（ x ）权限”，亦即只有 rw 这两个项目，也就
+是最大为 666 分，默认权限如下： -rw-rw-rw
+
+若使用者创建为“目录”，则由于**x 与是否可以进入此目录有关**，因此默认为所有权限均开
+放，亦即为 777 分，默认权限如下： drwxrwxrwx
+
+
+
+umask 数值指的是**需要减掉的权限**:
+
+```
+0 - user, 2 - group, 2 - others
+所以创建文件时 ， 用户自己不用减，其他-2， 666 - 022 = 644 = -rw-r--r--
+
+所以创建目录时 ， 用户自己不用减，其他-2， 777 - 022 = 755 = drwxr-xr-x
+```
+
+
+
+#### **文件隐藏属性**
+
+下面的chattr指令只能在Ext2/Ext3/Ext4的 Linux 传统文件系统上面完整生效， 其他的文件系统可能就无法完整的支持这个指令了，例如 xfs 仅支持部份参数而已。
+
+```shell
+[root@study ~]# chattr [+-=][ASacdistu] 文件或目录名称
+选项与参数：
++ ：增加某一个特殊参数，其他原本存在参数则不动。
+- ：移除某一个特殊参数，其他原本存在参数则不动。
+= ：设置一定，且仅有后面接的参数
+A ：当设置了 A 这个属性时，若你有存取此文件（或目录）时，他的存取时间 atime 将不会被修改，
+可避免 I/O 较慢的机器过度的存取磁盘。（目前建议使用文件系统挂载参数处理这个项目）
+S ：一般文件是非同步写入磁盘的（原理请参考[前一章sync](../Text/index.html#sync)的说明），如果加上 S 这个属性时，
+当你进行任何文件的修改，该更动会“同步”写入磁盘中。
+a ：当设置 a 之后，这个文件将只能增加数据，而不能删除也不能修改数据，只有root 才能设置这属性
+c ：这个属性设置之后，将会自动的将此文件“压缩”，在读取的时候将会自动解压缩，
+但是在储存的时候，将会先进行压缩后再储存（看来对于大文件似乎蛮有用的！）
+d ：当 dump 程序被执行的时候，设置 d 属性将可使该文件（或目录）不会被 dump 备份
+i ：这个 i 可就很厉害了！他可以让一个文件“不能被删除、改名、设置链接也无法写入或新增数据！”
+对于系统安全性有相当大的助益！只有 root 能设置此属性
+s ：当文件设置了 s 属性时，如果这个文件被删除，他将会被完全的移除出这个硬盘空间，
+所以如果误删了，完全无法救回来了喔！
+u ：与 s 相反的，当使用 u 来设置文件时，如果该文件被删除了，则数据内容其实还存在磁盘中，可以使用来救援该文件喔！
+
+```
+
+注意1：属性设置常见的是 a 与 i 的设置值，而且很多设置值必须要身为 root 才能设置
+注意2：xfs 文件系统仅支持 AadiS 而已
+
+
+
+范例：请尝试到/tmp下面创建文件，并加入 i 的参数，尝试删除看看。
+
+```shell
+[root@study ~]# cd /tmp
+[root@study tmp]# touch attrtest &lt;==创建一个空文件
+[root@study tmp]# chattr +i attrtest &lt;==给予 i 的属性
+[root@study tmp]# rm attrtest &lt;==尝试删除看看
+rm: remove regular empty file `attrtest'? y
+rm: cannot remove `attrtest': Operation not permitted
+# 看到了吗？呼呼！连 root 也没有办法将这个文件删除呢！赶紧解除设置！
+范例：请将该文件的 i 属性取消！
+[root@study tmp]# chattr -i attrtest
+```
+
+
+
+查看文件隐藏属性：
+
+```shell
+[root@study ~]# lsattr [-adR] 文件或目录
+选项与参数：
+-a ：将隐藏文件的属性也秀出来；
+-d ：如果接的是目录，仅列出目录本身的属性而非目录内的文件名；
+-R ：连同子目录的数据也一并列出来！
+[root@study tmp]# chattr +aiS attrtest
+[root@study tmp]# lsattr attrtest
+--S-ia---------- attrtest
+```
+
+
+
+####  文件特殊权限： SUID, SGID, SBIT
+
+待续
+
+
+
 
 
 ### 软链接和硬链接
@@ -352,21 +554,21 @@ eg:
    （1）根据文件名查找
 
            -name     //根据文件名查找（精确查找）
-
+    
            -iname       //根据文件名查找，但是不区分大小写
-
+    
     附文件通配：
-
+    
     *表示  通配任意的字符
-
+    
     `find /etc -name pass*`
-
+    
     ？表示  通配任意的单个字符
-
+    
     `find /etc -name passw?`
-
+    
     [ ] 表示 通配括号里面的任意一个字符
-
+    
     `find /tmp -name "[ab].sh"`
 
 
