@@ -593,6 +593,13 @@ pprint.pprint(dict)
 
 `pprint(dict(defaultdict)`
 
+pprint实例, 配置好一次，无需多次配置
+
+```python
+pp = pprint.PrettyPrinter(indent=5)
+pp.pprint(dict) 
+```
+
 
 
 ### subprocess
