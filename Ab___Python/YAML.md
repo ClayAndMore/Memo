@@ -77,3 +77,8 @@ print (repr(data).decode('unicode-escape'))
 
 设置成： 字段值on 或 off 会识别为Ture 或 False
 
+
+
+## ConfigParser
+
+`ConfigParser`模块在python3中修改为`configparser`
