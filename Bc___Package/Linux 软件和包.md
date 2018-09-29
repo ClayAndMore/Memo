@@ -140,21 +140,42 @@ tar一般都是源码打包的软件，需要自己解包，然后进行安装�
 
 #### gzip
 
-  压缩gzip ,没有tar
+gzip 是由 GNU 计划所开发出来的压缩指令，该指令已经取代了 compress 。
+后来 GNU 又开发出 bzip2 及 xz 这几个压缩比更好的压缩指令gzip 可以说是应用度最广的压缩指令了！目前 gzip 可以解开 compress, zip 与 gzip 等软件所压缩的文件。
+至于 gzip 所创建的压缩文件为 *.gz 的文件名
 
-  `gzip hello.c` 压缩hello.c成hello.c.gz，hello.c会消失。
+选项与参数：
+-c ：将压缩的数据输出到屏幕上，可通过数据流重导向来处理；
+-d ：解压缩的参数；
+-t ：可以用来检验一个压缩文件的一致性～看看文件有无错误；
+-v ：可以显示出原文件/压缩文件的压缩比等信息；
+-# ：# 为数字的意思，代表压缩等级，-1 最快，但是压缩比最差、-9 最慢，但是压缩比最好！默认是 -6
 
-  解压
+* 压缩：
+  ```shell
+  [dmtsai@study tmp]$ gzip -v services
+  services: 79.7% -- replaced with services.gz
+  ```
+  注意： 压缩后，原文件会消失
 
-  `gzip -d hello.c.gz`   将hello.c.gz解压成hello.c，hello.c.gz会消失
+* 解压：
+  `gzip -d services.gz`
+  与 gzip 相反， gzip -d 会将原本的 .gz 删除，回复到原本的 services 文件
 
-  参数：
-
-  -o:不提示的情况下覆盖文件；
-  -d:-d /home/sunny 指明将文件解压缩到/home/sunny目录下
-
+* services 用最佳的压缩比压缩，并保留原本的文件
+  `gzip -9 -c services > services.gz`
+  -c 与 >结合可以使用保留原本文件
   ​
+读取 zcat/zmore/zless
+zcat/zmore/zless 则可以对应于
+cat/more/less 的方式来读取纯文本文件被压缩后的压缩文件！ 由于 gzip 这个压缩指令主要想
+要用来取代 compress 的，所以不但 compress 的压缩文件可以使用 gzip 来解开，同时 zcat
+这个指令可以同时读取 compress 与 gzip 的压缩文件
 
+#### bz2
+bzip2 则是为了取代
+gzip 并提供更佳的压缩比而来的。 bzip2 真是很不错用的东西～这玩意的压缩比竟然比 gzip
+还要好～至于 bzip2 的用法几乎与 gzip 相同
 
 
 ### 安装软件的方式
