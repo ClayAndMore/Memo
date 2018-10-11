@@ -1,3 +1,44 @@
+### random
+
+计算机不会产生绝对随机的随机数，计算机只能产生“伪随机数”。
+
+一定的方法，一定的规律 产生的随机数也是固定的，所以我们要喂一个数字来影响随机数的产生，达到一定的随机。还有的是通过移动内存内的位置产生随机， 不太系统不太相同。
+
+* random.seed()   喂随机数  eg:`random.seed(time.time())`
+
+* random.random()用于生成一个0到1的随机符点数: 0 <= n < 1.0
+
+* random.uniform的函数原型为：random.uniform(a, b)，用于生成一个指定范围内的随机符点数，两个参数其中一个是上限，一个是下限。
+
+* random.randint(a, b)，用于生成一个指定范围内的整数。其中参数a是下限，参数b是上限，生成的随机数n: a <= n <= b
+
+* random.choice从序列中获取一个随机元素。
+
+  ```python
+  print random.choice("学习Python")   
+  print random.choice(["JGood", "is", "a", "handsome", "boy"])  
+  print random.choice(("Tuple", "List", "Dict"))  
+  ```
+
+* random.shuffle(x[, random])，用于将一个列表中的元素打乱。如:
+
+  ```python
+  p = ["Python", "is", "powerful", "simple", "and so on..."]  
+  random.shuffle(p)  
+  print p 
+  #['powerful', 'simple', 'is', 'Python', 'and so on...'] 
+  ```
+
+* random.sample(sequence, k)，从指定序列中随机获取指定长度的片断。sample函数不会修改原有序列。
+
+  ```python
+  list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
+  slice = random.sample(list, 5)  #从list中随机获取5个元素，作为一个片断返回  
+  ```
+
+
+
+
 ### bisect
 
 Bisect 是利用二分法来实现有序数组的查询和插入的。
