@@ -43,7 +43,7 @@ stdio 是`standard input & output`的缩写，包含了编译器理解 printf() 
 **/\* ... */** 用于注释说明
 
 ```
-/*
+/* 
  多行注释
  多行注释
  多行注释
@@ -71,47 +71,8 @@ stdio 是`standard input & output`的缩写，包含了编译器理解 printf() 
 
 
 #### 枚举类型
-声明
-`enum　枚举名　{枚举元素1,枚举元素2,……};`
-eg:
-```c
-enum DAY
-{
-      MON=1, TUE, WED, THU, FRI, SAT, SUN
-};
-```
 
-注意：第一个枚举成员的默认值为整型的 0，后续枚举成员的值在前一个成员上加 1。
-我们在这个实例中把第一个枚举成员的值定义为 1，第二个就为 2，以此类推。
 
-可以在定义枚举类型时改变枚举元素的值：
-
-`enum season {spring, summer=3, autumn, winter};`
-没有指定值的枚举元素，其值为前一元素加 1。也就说 spring 的值为 0，summer 的值为 3，autumn 的值为 4，winter 的值为 5
-
-定义枚举：
-1、先定义枚举类型，再定义枚举变量
-```c
-enum DAY
-{
-      MON=1, TUE, WED, THU, FRI, SAT, SUN
-};
-enum DAY day;
-```
-2、定义枚举类型的同时定义枚举变量
-```c
-enum DAY
-{
-      MON=1, TUE, WED, THU, FRI, SAT, SUN
-} day;
-```
-3、省略枚举名称，直接定义枚举变量
-```c
-enum
-{
-      MON=1, TUE, WED, THU, FRI, SAT, SUN
-} day;
-```
 
 #### void类型
 
@@ -257,12 +218,12 @@ const 定义常量从汇编的角度来看，只是给出了对应的内存地�
 
   ```c
   #include <stdio.h>
-
+   
   /* 函数声明 */
   void func1(void);
-
+   
   static int count=10;        /* 全局变量 - static 是默认的 */
-
+   
   int main()
   {
     while (count--) {
@@ -270,7 +231,7 @@ const 定义常量从汇编的角度来看，只是给出了对应的内存地�
     }
     return 0;
   }
-
+   
   void func1(void)
   {
   /* 'thingy' 是 'func1' 的局部变量 - 只初始化一次
@@ -282,7 +243,7 @@ const 定义常量从汇编的角度来看，只是给出了对应的内存地�
   }
   ```
 
-  输出
+  输出 
 
   ```
   thingy 为 6 ， count 为 9
@@ -307,10 +268,10 @@ const 定义常量从汇编的角度来看，只是给出了对应的内存地�
 
   ```c
   #include <stdio.h>
-
+   
   int count ;
   extern void write_extern();
-
+   
   int main()
   {
      count = 5;
@@ -322,9 +283,9 @@ const 定义常量从汇编的角度来看，只是给出了对应的内存地�
 
   ```c
   #include <stdio.h>
-
+   
   extern int count;
-
+   
   void write_extern(void)
   {
      printf("count is %d\n", count);
@@ -361,47 +322,8 @@ int added = add_together(10, 18);
 ```
 
 
-### 数组
-声明
-`type arrayName [ arraySize ];`
-这叫做一维数组。arraySize 必须是一个大于零的整数常量，type 可以是任意有效的 C 数据类型。例如，要声明一个类型为 double 的包含 10 个元素的数组 balance，声明语句如下：
-
-`double balance[10];`
-初始化
-```c
-可以只给部分元素赋值，当 { } 中值的个数少于元素个数时，只给前面部分元素赋值。例如：
-
-int a[10]={12, 19, 22 , 993, 344};
-表示只给 a[0]~a[4] 5 个元素赋值，而后面 5 个元素自动初始化为 0。
-
-当赋值的元素少于数组总体元素的时候，不同类型剩余的元素自动初始化值说明如下：
-
- 对于 short、int、long，就是整数 0；
- 对于 char，就是字符 '\0'；
- 对于 float、double，就是小数 0.0。
-我们可以通过下面的形式将数组的所有元素初始化为 0：
-
-int nums[10] = {0};
-char str[10] = {0};
-float scores[10] = {0.0};
-由于剩余的元素会自动初始化为 0，所以只需要给第 0 个元素赋值为 0 即可。
 
 
-```
-
-
-指针与出数组名的区别：
-指针：也是一个变量，存储的数据是地址。
-
-数组名：代表的是该数组最开始的一个元素的地址。
-
-int a[10];
-int *p;
-p = &a[0] // 可以写成 p = a;
-对数组元素 a[i]的引用也可以写成*(a+i)这种形式。
-赋值语句  p=&a[0] 也可以写成下列形式: p=a。
-p 是个指针，p[i]与*(p+i)是等价的。
-区别：指针是一个变量，可以进行数值运算。数组名不是变量，不可以进行数值运算。
 
 ### 结构体声明
 
@@ -430,7 +352,7 @@ float length = sqrt(p.x * p.x + p.y * p.y);
 
 ### 指针
 
-指针类型是普通类型的变体，只需普通类型的后面添加 `*` 后缀即可。比如，`int*` 就是一个 `int`类型的指针。在之前的 `main` 函数的输入参数列表中，我们还见过一个 `char**` 类型，这是一个 `char` 类型的指针的指针。
+指针类型是普通类型的变体，只需普通类型的后面添加 `*` 后缀即可。比如，`int*` 就是一个 `int`类型的指针。在之前的 `main` 函数的输入参数列表中，我们还见过一个 `char**` 类型，这是一个 `char` 类型的指针的指针。 
 
 
 
@@ -477,7 +399,7 @@ int main ()
 {
    /* 局部变量定义 */
    char grade = 'B';
-
+ 
    switch(grade)
    {
    case 'A' :
@@ -497,44 +419,12 @@ int main ()
       printf("无效的成绩\n" );
    }
    printf("您的成绩是 %c\n", grade );
-
+ 
    return 0;
 }
 ```
-和枚举一起使用：
-```c
-#include <stdio.h>
-#include <stdlib.h>
-int main()
-{
 
-    enum color { red=1, green, blue };
 
-    enum  color favorite_color;
-
-    /* ask user to choose color */
-    printf("请输入你喜欢的颜色: (1. red, 2. green, 3. blue): ");
-    scanf("%d", &favorite_color);
-
-    /* 输出结果 */
-    switch (favorite_color)
-    {
-    case red:
-        printf("你喜欢的颜色是红色");
-        break;
-    case green:
-        printf("你喜欢的颜色是绿色");
-        break;
-    case blue:
-        printf("你喜欢的颜色是蓝色");
-        break;
-    default:
-        printf("你没有选择你喜欢的颜色");
-    }
-
-    return 0;
-}
-```
 
 ### typedef
 
@@ -549,3 +439,10 @@ https://ksco.gitbooks.io/build-your-own-lisp/Interactive.html
 
 
 #### 预处理器（preprocessor ）
+
+
+
+
+
+
+
