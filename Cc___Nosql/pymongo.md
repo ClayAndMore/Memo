@@ -424,6 +424,20 @@ ObjectId('5af1475ec3666e22533e72dd')
 
 
 
+##### 匹配数组中的字典
+
+想匹配：`{'a': [{'c': 'cc', 'd':'dd'},]}`  中的cc
+
+```
+> db.test.find({'a': {'$elemMatch': {'c': 'ccc'}}})
+> db.test.find({'a': {'$elemMatch': {'c': 'cc'}}})
+{ "_id" : ObjectId("5bc06713c3666e62ccbb3d92"), "a" : [  {  "c" : "cc",  "d" : "dd" } ] }
+```
+
+
+
+
+
 ##### 在不存在时才更新
 
 `db.foo.update({'title.de': {$exists : false}}, {$set: {'title.de': ''}})`
