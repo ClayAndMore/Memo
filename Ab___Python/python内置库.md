@@ -602,6 +602,22 @@ pp.pprint(dict)
 
 
 
+输出到文件：
+
+```python
+logFile=open('c:\\temp\\mylogfile'+'.txt', 'w')
+pprint.pprint(dataobject, logFile)
+----
+>>> import pprint
+>>> with open("file_out.txt", "w") as fout:
+...     fout.write(pprint.pformat(vars(pprint)))
+... 
+```
+
+
+
+
+
 ### subprocess
 
 subprocess最早是在2.4版本中引入的。
