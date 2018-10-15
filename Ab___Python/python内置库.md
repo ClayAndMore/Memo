@@ -1196,6 +1196,9 @@ Traceback (most recent call last):
 TypeError: Incorrect padding
 >>> safe_b64decode('YWJjZA')
 'abcd'
+
+def safe_b64decode(str):
+    return base64.b64decode(str+'='*(4-len(str)%4)
 ```
 
 
