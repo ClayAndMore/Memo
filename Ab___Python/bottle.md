@@ -227,6 +227,29 @@ response.set_cookie('myname',quote('我'))
 
 
 
+### 返回图片
+
+ using stream instead of static_file 
+
+```python
+from PIL import Image
+@route('/image')
+def video_image():
+    image_buffer = BytesIO()
+    #pi_camera.capture(image_buffer, format='jpeg') # This works without a problem
+    my_iamge = Image.new('RGB', (self.width, self.height), self.clo)
+    my_image.save(image_buffer, 'jpeg')
+
+    image_buffer.seek(0) # this may not be needed
+    bytes = image_buffer.read()
+    response.set_header('Content-type', 'image/jpeg')
+    return bytes
+```
+
+
+
+
+
 ### 文件上传
 
 `f = request.files.get('name')`  
