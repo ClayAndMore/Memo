@@ -439,65 +439,6 @@ UnboundLocalError: local variable 'b' referenced before assignment
 
 
 
-### 模块和模块包
-
-#### 模块
-
-相当与引用其他.py文件，类似于java中的引入包。
-`import 文件名`
-使用其他文件中的对象：`文件名(模块).对象`
-其他引入方式：
-
-```
-import a as b             # 引入模块a，并将模块a重命名为b
-from a import function1   # 从模块a中引入function1对象。调用a中对象时，我们不用再说明模块，即直接使用function1，而不是a.function1。
-from a import *           # 从模块a中引入所有对象。调用a中对象时，我们不用再说明模块，即直接使用对象，而不是a.对象。
-
-```
-
-#### 模块包
-
-可以将功能相似的模块放在同一个文件夹（比如说this_dir）中，构成一个模块包。通过
-
-`import this_dir.module`
-引入this_dir文件夹中的module模块。
-
-该文件夹中必须包含一个 `__init__.py` 的文件，提醒Python，该文件夹为一个模块包。__init__.py 可以是一个空文件。
-
-#### 导入
-
-导入的包要先执行其中 的语句，无论是from X import XX,  还是直接import X
-
-
-
-#### 导入上级模块
-
-```python
-import sys
-sys.path.append("..")
-# 现在直接可以导入上级的包了
-```
-
-#### 查看导入包的路径
-
-eg： 查看pymongo包的路径
-
-```python
->>>import pymongo
->>>pymongo.__file__
-```
-
-#### 导入其他目录的包
-
-```python
-import sys
-sys.path.insert(0, '/path/to/application/app/folder')
-
-import file
-```
-
-
-
 ### 错误和异常
 
 ```
