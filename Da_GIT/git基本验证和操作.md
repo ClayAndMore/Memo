@@ -150,3 +150,48 @@ git push 仓库别名 仓库分支名
 　　git commit -m ’提交说明’　　--将修改后的代码先提交到本地仓库
 　　git pull　　--如果是多人协作开发，一定要先pull，将 github 最新的代码拉取到本地，避免冲突
 　　git push　　--将代码推送到 github , 默认推送到 别名为 origin 的仓库中的 master 分支上。
+
+
+
+
+
+### 问题
+
+#### Permission denied (publickey)
+
+* 这很可能是你更改了密钥的命名或者路径，可以用ssh-add 等命令来解决，最好我们用默认的位置。
+
+* ssh-agent
+
+  * 开启
+
+    ```shell
+    # start the ssh-agent in the background
+    eval $(ssh-agent -s)
+    Agent pid 59566
+    ```
+
+  * 列表
+
+    ```
+    ssh-add -l
+    ```
+
+  * 添加
+
+    `ssh add ~/.ssh/id_rsa`
+
+* 目录权限
+
+    ```
+    sudo chmod 700 ~/.ssh/
+    sudo chmod 600 ~/.ssh/*
+    sudo chown -R User ~/.ssh/
+    sudo chgrp -R User ~/.ssh/
+    ```
+
+* 万能：
+
+    ```
+    ssh -vT git@github.com
+    ```

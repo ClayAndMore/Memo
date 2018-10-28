@@ -1,5 +1,11 @@
 ### RestFramework
 
+#### 安装
+
+`pip install djangorestframework`
+
+
+
 #### 建立一个数据模型
 
 ```python
