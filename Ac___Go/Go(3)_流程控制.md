@@ -1,0 +1,177 @@
+## 流程控制
+
+### if
+
+if ... else ...
+
+表达式必须是布尔类型
+
+Go里面`if`条件判断语句中不需要括号，如下代码所示
+
+```go
+if x > 10 {
+	fmt.Println("x is greater than 10")
+} else {
+	fmt.Println("x is less than 10")
+}
+```
+
+Go的`if`还有一个强大的地方就是条件判断语句里面允许声明一个变量，这个变量的作用域只能在该条件逻辑块内，其他地方就不起作用了，如下所示
+
+```go
+// 计算获取值x,然后根据x返回的大小，判断是否大于10。
+if x := computedValue(); x > 10 {
+	fmt.Println("x is greater than 10")
+} else {
+	fmt.Println("x is less than 10")
+}
+
+//这个地方如果这样调用就编译出错了，因为x是条件里面的变量
+fmt.Println(x)
+```
+
+这个值也可以是函数表达式的返回值。
+
+
+
+多个条件的时候如下所示：
+
+```go
+if integer == 3 {
+	fmt.Println("The integer is equal to 3")
+} else if integer < 3 {
+	fmt.Println("The integer is less than 3")
+} else {
+	fmt.Println("The integer is greater than 3")
+}
+```
+
+
+
+### goto
+
+
+
+
+
+### for
+
+格式：
+
+```go
+for expression1; expression2; expression3 {
+	//...
+}
+```
+
+```go
+package main
+
+import "fmt"
+
+func main(){
+	sum := 0;
+	for index:=0; index < 10 ; index++ {
+		sum += index
+	}
+	fmt.Println("sum is equal to ", sum)
+}
+// 输出：sum is equal to 45
+```
+
+有些时候需要进行多个赋值操作，由于Go里面没有`,`操作符，那么可以使用平行赋值`i, j = i+1, j-1`
+
+有些时候如果我们忽略`expression1`和`expression3`：
+
+```go
+sum := 1
+for ; sum < 1000;  {
+	sum += sum
+}
+```
+
+其中`;`也可以省略，那么就变成如下的代码了，是不是似曾相识？对，这就是`while`的功能。
+
+```go
+sum := 1
+for sum < 1000 {   //相当于 while < 1000
+	sum += sum
+}
+for{              // 相当于 while true
+    break
+}
+```
+
+
+
+
+
+### switch
+
+基本使用：
+
+```go
+func main(){
+    a, b, c, x := 1,2,3,2
+    switch x{        // 同样也支持初始化语句 eg: swith x := 5; x{}
+        case a, b:   // 多个匹配条件命中其一即可(or)
+        println("a | b")
+    case c:          // 匹配单个条件
+        println(“c”)
+    case a:          // 错误， 不能出现重复的case常量值， duplicate case 5 in swith
+        println("a")
+    case 4:  
+        println("d") // 常量    
+        case 3:		     // 单条件，内容为空。 隐式： case 3: break;
+    default:         // 无论写在哪里，只有case匹配失败时才会走default
+        println('j') 
+    }
+}
+```
+
+代替if:
+
+```go
+func main(){
+    switch x := 5;{  // 相当于 “switch x := 5; true{}” ,一下条件都为true时执行。
+    case x > 5:
+        println("a")
+    case x >0 && x <=5:
+        println("b")
+    default:
+        println("z")
+    }
+}
+```
+
+
+
+### goto, continue, break
+
+配合标签，break和continue可以在多层嵌套中指定目标层级
+
+```go
+func main(){
+    outer:
+    for x :=0; x<5; x++{
+        for y := 0; y<10; y++{
+            if y>2{
+                println()
+                continue outer
+            }
+            if x>2{
+                break outer
+            }
+            print(x,":", y, "")
+        }
+    }
+}
+
+输出： 
+0：0 0：1 0：2
+1：0 1：1 1：2
+2：0 2：1 2：2
+```
+
+
+
