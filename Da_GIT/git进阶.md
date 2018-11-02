@@ -327,6 +327,8 @@ Git提供了一个命令`git reflog`用来记录你的每一次命令，这样�
 
 * 更改已经提交过的注释 :`git commit --amend`
 
+* 撤销MERGING状态： `git reset --hard HEAD`
+
 
 
 
