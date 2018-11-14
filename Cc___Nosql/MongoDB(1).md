@@ -2,7 +2,9 @@
 
 MongoDB 是由C++语言编写的，是一个基于**分布式**文件存储的开源数据库系统。
 
-MongoDB 将数据存储为一个文档，数据结构由键值(key=>value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。文档结构类似与json对象。
+MongoDB 将数据存储为一个文档，数据结构由键值(key=>value)对组成。
+
+MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。文档结构类似与json对象。
 
 但是我们mongodb的数据存储格式叫： BSON
 
@@ -14,77 +16,35 @@ BSON和JSON的区别：
 
 当然这些优点，会牺牲掉空间。
 
-### 安装和配置
+#### key
 
-ubuntu：
+**key的格式可以不相同**, 最好同一格式保存到同一集合。
 
-`apt-get install -y mongodb`
+键不能包含`\0(空字符)` , 这个字符用于表示键的结尾。
 
-默认安装在了： `/usr/bin/` 下。
-
-在该路径下：
-
-`./mongod` 可运行MongoDB服务。
-
-`./mongo`   运行MongoDB后台管理shell,它是自带的js shell,当进入时，会默认链接到test文档（数据库）。
-
-eg:
-
-```
-$ cd /usr/local/mongodb/bin
-$ ./mongo
-MongoDB shell version: 3.0.6
-connecting to: test
-Welcome to the MongoDB shell.
-……
-> db.runoob.insert({x:10})
-WriteResult({ "nInserted" : 1 })
-> db.runoob.find()
-{ "_id" : ObjectId("5604ff74a274a611b0c990aa"), "x" : 10 }
->
-```
+`.和$具有特殊意义`, 通常被保留
 
 
 
-#### 离线安装
+#### 集合
 
-去官网下载相关包：https://www.mongodb.com/download-center?jmp=nav#community
+不能以system开头， 这个是系统保留集合
 
-或者这里直接 wget 包下载路径(这里脱离了主题离线)
+system.users保存着数据库的用户信息。
 
-tar 解压。进入bin目录,monogd是服务端，mongo是客户端要：`./mongo`运行。
+system.namespaces保存着所有数据库集合的信息。
 
-注意运行前要有/data/db路径，这里是默认存放数据的文件夹，如果自己要指定：
+使用.分割不同命令空间的子集合， 如blog.posts， blog.authors
 
-```
-mongod --dbpath <path to data directory>
-```
+这里的blog集合不需要存在， 只是说这样命名集合更具有结构性。
 
 
 
-#### 后台运行
+#### 数据库
 
-后台运行需要指定日志文件,并携带--fork参数：
+数据库名不能有空字符串和标点，因为最后该名是要变成文件， 区分大小写，最好全部小写。
 
-```
-/home/mongodb-linux-x86_64-rhel62-3.4.10/bin/mongod \
-         --dbpath /data/db/ --fork --logpath /data/log/mongo.log
-```
-
-
-
-### 使用和命令
-
-db（这是个命令，不是说它就是数据库）为默认数据库，默认数据库是test，存储在data目录中。
-
-MongoDB的单个实例可以容纳多个独立的数据库，每一个都有自己的集合和权限，不同的数据库也放置在不同的文件中。
-
-* show dbs 显示就所有数据列表
-* db             显示当前数据库对象和集合。
-* use  name 可以连接到指定数据库（name)
-* show collections 显示集合
-
-数据库也通过名字来标识。数据库名可以是满足以下条件的任意UTF-8字符串。
+数据库名可以是满足以下条件的任意UTF-8字符串。
 
 - 不能是空字符串（"")。
 - 不得含有' '（空格)、.、$、/、\和\0 (空字符)。
@@ -99,251 +59,42 @@ MongoDB的单个实例可以容纳多个独立的数据库，每一个都有自�
 
 
 
+命名空间： 数据库名+集合名
 
-还有一些常用的命令： 
+如cms数据库的blog.posts集合：`cms.blog.posts`
 
-* db.collection.count() 看集合的数据条数, 注意：**当和limit一起用的时候count是返回符合条件的数。**
-* db.collection.find().explain()  在语句后加explain可以看到执行时发生的过程。
+获取 时可以 cms.blog[posts], 这样可以获取那些怪异的名字。 
 
 
 
-#### 创建
+### 数据类型
 
-use:
+* null `{"x": null}`
+* 布尔 false,true
+* 数值 默认64位浮点，对于整数可以使用NumberInt(4字节带符号整数)，NumberLong(8字节带符号整数)
+* 字符串， UTF-8
+* 日期，毫秒数`{"x": new Date()}`
+* 正则 ， 语法和js的正则表达式语法相同`{"x":  /foobar/i}`
+* 数组
+* 内嵌文档
+* 对象id, 12字节ID，`{"x": ObjectId()}`
+* 二进制数据， 是一个任意字节的字符串， 不能在shell里使用
 
-```
-> use firstdb                                                   
-switched to db firstdb                                             
-> db                                                              
-firstdb                                                                
->   
-```
 
-这时用`show dbs` 并不会看到刚才创建的数据库，因为没有数据,插入数据：
 
-```
-> db.firstdb.insert({'name':'firstdata'})                    
-WriteResult({ "nInserted" : 1 })                              
-> show dbs                                                         vmlinuz.old
-admin    (empty)                                           
-firstdb  0.078GB                                           
-local    0.078GB                                                     
-test     0.078GB                                                      
->                                                                    
-```
 
-一般我们不需要创建集合，集合在插入时没有则自动创建。
 
+### 应答和非应答
 
+默认操作都会等待数据库响应（写入是否成功），然后才会继续执行，这是应答式写入。
 
-#### 删除
+非应答式写入不返回任何响应，所以无法知道写入是否成功。
 
-MongoDB 删除数据库的语法格式如下：
+通常来说，都应使用应答式，但是对于一些不重要的数据，可以使用非应答式。
 
-```
-db.dropDatabase()
-```
+原来默认的写入机制是非应答式， 如Connection类
 
-删除当前数据库，默认为 test，你可以使用 db 命令查看当前数据库名。
-
-
-
-`db.collection.remove(<query>,<justOne>)`
-
-2,6版以后的为：
-
-```
-db.collection.remove(
-   <query>,
-   {
-     justOne: <boolean>,
-     writeConcern: <document>
-   }
-)
-```
-
-- **query **:（可选）删除的文档的条件。
-- **justOne **: （可选）如果设为 true 或 1，则只删除一个文档。
-- **writeConcern **:（可选）抛出异常的级别。
-
-接下来我们移除 title 为 'MongoDB 教程' 的文档：
-
-```
->db.col.remove({'title':'MongoDB 教程'})
-WriteResult({ "nRemoved" : 2 })           # 删除了两条数据
->db.col.find()
-……                                        # 没有数据
-```
-
-如果你只想删除第一条找到的记录可以设置 justOne 为 1，如下所示：
-
-```
->db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)
-```
-
-如果你想删除所有数据，可以使用以下方式（类似常规 SQL 的 truncate 命令）：
-
-```
->db.col.remove({})
->db.col.find()
->
-```
-
-
-
-#### 插入
-
-`db.collection_name.insert(document)`
-
-如果collection_name 没有则创建。
-
-插入文档你也可以使用 db.col.save(document) 命令。如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据。
-
-
-
-3.2 版本后还有以下几种语法可用于插入文档:
-
-- db.collection.insertOne():向指定集合中插入一条文档数据
-- db.collection.insertMany():向指定集合中插入多条文档数据
-
-```
-#  插入单条数据
-
-> var document = db.collection.insertOne({"a": 3})
-> document
-{
-        "acknowledged" : true,
-        "insertedId" : ObjectId("571a218011a82a1d94c02333")
-}
-
-#  插入多条数据
-> var res = db.collection.insertMany([{"b": 3}, {'c': 4}])
-> res
-{
-        "acknowledged" : true,
-        "insertedIds" : [
-                ObjectId("571a22a911a82a1d94c02337"),
-                ObjectId("571a22a911a82a1d94c02338")
-        ]
-}
-```
-
-
-
-#### 改
-
-```
-db.collection.update(
-   <query>,      update的查询条件，类似sql update查询内where后面的。
-   <update>,     update的对象和一些更新的操作符（如$,$inc...）等，也可以理解为sql update查询内set后面的
-   {
-     upsert: <boolean>, 可选，如果不存在update的记录，是否插入objNew. true为插入，默认是false，不插入。
-     multi: <boolean>, 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。
-     writeConcern: <document>  可选，抛出异常的级别
-   }
-)
-```
-
-eg:
-
-```
->db.col.update({'title':'MongoDB 教程'},{$set:{'title':'MongoDB'}})
-WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })   # 输出信息
-> db.col.find().pretty()
-{
-        "_id" : ObjectId("56064f89ade2f21f36b03136"),
-        "title" : "MongoDB",
-        "description" : "MongoDB 是一个 Nosql 数据库",
-        "tags" : [
-                "mongodb",
-                "database",
-                "NoSQL"
-        ],
-        "likes" : 100
-}
->
-可以看到标题(title)由原来的 "MongoDB 教程" 更新为了 "MongoDB"。
-以上语句只会修改第一条发现的文档，如果你要修改多条相同的文档，则需要设置 multi 参数为 true。
->db.col.update({'title':'MongoDB 教程'},{$set:{'title':'MongoDB'}},{multi:true})
-```
-
-
-
-
-
-#### 查看
-
-`db.collection_name.find(query,projection)`
-
-- query ：可选，使用查询操作符指定查询条件，相当于where条件。
-- projection ：可选，使用投影操作符指定返回的键。查询时返回文档中所有键值， 只需省略该参数即可（默认省略）。
-
-如果你需要以易读的方式来读取数据，可以使用 pretty() 方法，语法格式如下：
-
-```
->db.col.find().pretty()
-```
-
-pretty() 方法以格式化的方式来显示所有文档。
-
-除了 find() 方法之外，还有一个 findOne() 方法，它只返回一个文档。
-
-
-
-#### 条件
-
-mongodb的条件查询语句：
-
-| 等于    | `{<key>:<value>`}        | `db.col.find({"by":"菜鸟教程"}).pretty()`    | `where by = '菜鸟教程'` |
-| ----- | ------------------------ | ---------------------------------------- | ------------------- |
-| 小于    | `{<key>:{$lt:<value>}}`  | `db.col.find({"likes":{$lt:50}}).pretty()` | `where likes < 50`  |
-| 小于或等于 | `{<key>:{$lte:<value>}}` | `db.col.find({"likes":{$lte:50}}).pretty()` | `where likes <= 50` |
-| 大于    | `{<key>:{$gt:<value>}}`  | `db.col.find({"likes":{$gt:50}}).pretty()` | `where likes > 50`  |
-| 大于或等于 | `{<key>:{$gte:<value>}}` | `db.col.find({"likes":{$gte:50}}).pretty()` | `where likes >= 50` |
-| 不等于   | `{<key>:{$ne:<value>}}`  | `db.col.find({"likes":{$ne:50}}).pretty()` | `where likes != 50` |
-
-一些简写说明：
-
-```
-$gt -------- greater than  >
-$gte --------- gt equal  >=
-$lt -------- less than  <
-$lte --------- lt equal  <=
-$ne ----------- not equal  !=
-$eq  --------  equal  =
-```
-
-
-
-
-
-and条件：逗号：
-
-`db.col.find({"by":"菜鸟教程", "title":"MongoDB 教程"}).pretty()`
-
-对应sql:`WHERE by='菜鸟教程' AND title='MongoDB 教程'`
-
-or 条件，`db.col.find({$or:[{"by":"菜鸟教程"},{"title": "MongoDB 教程"}]}).pretty()`
-
-联合：`db.col.find({"likes": {$gt:50}, $or: [{"by": "菜鸟教程"},{"title": "MongoDB 教程"}]}).pretty()`
-
-对应sql:`where likes>50 AND (by = '菜鸟教程' OR title = 'MongoDB 教程')`
-
-#### $type操作符
-
-检索数据的类型。如：
-
-获取 "col" 集合中 title 为 String 的数据，你可以使用以下命令：
-
-```
-db.col.find({"title" : {$type : 2}})
-```
-
-类型和对应数字：
-
-Double-1，String-2, Object-3, Array-4, Binary data-5, Objectid-7, Boolean-8,Date-9,Null-10
-
-其他略。可查http://www.runoob.com/mongodb/mongodb-operators-type.html
+现在写入的安全机制都变为应答式，开始使用MongoClient类。
 
 
 
@@ -461,6 +212,25 @@ eg:
 
 skip 和 limit 结合就能实现分页。
 
+但数量非常多的话，skip会变的很慢，因为要查找然后再抛弃，**避免使用skip略过大量结果**
+
+一般可以找到一种方法不使用skip跳过分页，取决于查询本身，如：
+
+```
+// 按照"date" 降序显示文档列表，如下获取第一页：
+db.foo.find().sort({"date":-1}).limit(100)
+
+// 获取第二页，不推荐skip
+db.foo.find().sort({"date":-1}).skip(100).limit(100)
+
+// 推荐, lastdate是上
+db.foo.find({"date": {"$gt": lastdate}}).sort({"date":-1}).limit(100)
+```
+
+
+
+
+
 #### sort
 
 sort()方法对数据进行排序，sort()方法可以通过参数指定排序的字段，并使用 1 和 -1 来指定排序的方式，其中 1 为升序排列，而-1是用于降序排列。
@@ -479,7 +249,7 @@ KEY是字段名称。
 
 索引可以理解为一本书的目录，这样就能更快的找到我们的要的内容。
 
-
+创建索引需要使用文档的附加结构，**在一个集合中只放入一种类型的文档，可以更有效地对集合进行索引**，
 
 ### 副本集（复制）
 
