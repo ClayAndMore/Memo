@@ -20,6 +20,31 @@ Command + , 打开当前应用偏好配置
 
 
 
+#### mac终端(terminal)里的快捷键
+Command + K 清屏
+
+Command + T 新建标签 （同窗口）
+
+Command + N 新建标签（新窗口）
+
+Command +W  关闭当前标签页
+
+Command + S  保存终端输出
+
+Command + D  垂直分隔当前标签页
+
+Command + Shift + D 水平分隔当前标签页
+
+Command + shift +  {或}向左/向右切换标签
+
+
+
+- 行首`ctrl + a`
+- 行尾`ctrl + e`
+
+
+
+
 #### 截图
 
 截图快捷键：Command + Shift + 4

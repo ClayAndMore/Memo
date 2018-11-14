@@ -1,5 +1,5 @@
 ---
-title: 数据库与SQL
+		title: 数据库与SQL
 date: 2016-07-16 09:17:45
 categories: 数据库
 tags: [数据库,sql]
@@ -129,6 +129,7 @@ Delete语句用于删除数据库记录
 * Abs: 获得数值的绝对值
 * Sin：略
 * Cos：略
+
   <hr>
 ## SQL扩展
 
