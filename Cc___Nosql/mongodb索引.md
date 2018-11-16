@@ -221,7 +221,7 @@ explan()的isMultikey字段。
 
 ### 查询优化器
 
-
+如果同时有好几个索引都适合你的查询，每次查询都不是单纯的一个执行方案，mongo后台会并行执行几个查询计划，谁先返回就用谁的，explain()的 allPlans字段显示了本次查询尝试过的计划。
 
 
 
@@ -259,6 +259,12 @@ explan()的isMultikey字段。
     "server": "ubuntu:27017"
 }
 ```
+
+
+
+如果发现Mongo使用的索引和你希望使用的不一致，可以用hint强制使用某个索引：
+
+`db.c.find({"age": 14, "username": /.*/}).hint("username": 1, "age": 1)`
 
 
 
