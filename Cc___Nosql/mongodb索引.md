@@ -1,5 +1,9 @@
 ## 索引
 
+索引可以理解为一本书的目录，这样就能更快的找到我们的要的内容。
+
+创建索引需要使用文档的附加结构，**在一个集合中只放入一种类型的文档，可以更有效地对集合进行索引**，
+
 
 
 ### 创建
@@ -67,6 +71,12 @@ db.user.find({"age": {"$gte": 21, "$lte": 30}})
 
 如果查询只需要返回索引中的字段，没有必要返回文档。
 
+这样不用去获取实际的文档。推荐使用。
+
+比如上例中只返回索引`{_id:0, username:1, age:1}` 
+
+explan()的indexOnly字段。
+
 
 
 #### 隐式索引
@@ -79,6 +89,40 @@ db.user.find({"age": {"$gte": 21, "$lte": 30}})
 ```
 
 **只有使用索引前缀的查询才可以从中受益**
+
+
+
+### 唯一索引
+
+唯一索引：`db.users.ensureIndex({"username": 1},{'unique':true})`
+
+复合唯一索引，`db.users.ensureIndex({"username": 1，"age": 1},{'unique':true})`
+
+两个值组合不能一样。
+
+去除重复，在已有的集合上创建唯一索引时可能会失败，因为集合中可能已经存在重复键。
+
+可以使用语句去除重复内容，或者使用dropDups保留第一个。之后重复的文档都会被删除：
+
+`db.people.ensureIndex({"username":1}, {"unique": true,"dropDups": true})`
+
+这种方式比较粗暴。
+
+
+
+### 稀疏索引
+
+如果唯一索引在某个文档中不存在，是不能插入集合的。
+
+但是我们希望当这个键存在时是唯一的，不存在也可以加入，这时需要unique和sparse
+
+使用sparse 就可以创建稀疏索引。
+
+如有一个可选的email字段，如果提供了这个字段，那么它的值必须是唯一的：
+
+`db.ensureIndex({"email": 1}, {"unique": true, "sparse": true})`
+
+**稀疏索引并不必是唯一的**， 去掉unique选项，就可以创建一个非唯一的稀疏索引。
 
 
 
@@ -155,5 +199,100 @@ db.users.ensureIndex({"loc.city": 1})
     	]
     }
 }
+
+db.users.ensureIndex({"loc.city": 1}) //对子数组建立索引
 ```
+
+对数组建立索引，其实是对数组中的每个元素建立一个索引条目，而不是对数组本身建立索引。
+
+
+
+#### 多键索引
+
+如果一个索引的字段在某个文档中是数组，那么这个索引就被标记为多键索引。
+
+即使所有该字段的数组文档删除，也不会恢复为非多键索引。
+
+多键索引会比索引慢一些。
+
+explan()的isMultikey字段。
+
+
+
+### 查询优化器
+
+
+
+
+
+### 使用explain()和hint()
+
+```js
+>db.users.find({"age":42}).explain()
+{
+    "cursor": "BtreeCursor age_1_username_1",  //使用的索引 {age:1, username:1}
+    "isMultiKey": false, // 是否使用多键索引
+    "n": 8332,  //实际返回的文档数量。
+    "nscannedObjects":8332,  //所扫描文档数量。
+    "nscanded":8332,  //索引条目
+    "nscandedObejectsAllPlans: 8332,
+    "nscandedAllPlans: 8332,
+    "scanAndOrder": false, //对结果集进行排序。
+    "indexOnly": false, //覆盖索引 
+    "nYields": 0, // 本次操作暂停的次数，如有写入请求，会有暂停操作。
+    "nChunkSkips": 0,
+    "millis": 91, //查询执行速度，如果有多个查询计划，那么这个不是我们希望看到的最优时间。
+    "indexBounds":{ //索引使用情况， age从42到42精确查找，username没有限制，负无穷到正无穷。
+        "age": [
+            [
+                42,
+                42
+            ]
+        ],
+        "username": [
+            [
+                { "minElement": 1},
+                { "maxElement": 1}
+            ]
+        ]
+    }
+    "server": "ubuntu:27017"
+}
+```
+
+
+
+### 何时不应该使用索引
+
+* 数据集教小
+* 结果集在原数据集所占比例教大
+* 非选择性查询，没有条件，需要做全表扫描。
+
+
+
+{"$natural": 1}强制数据库做全表扫描， 按照磁盘顺序读取，适用于只插入的集合。
+
+那样我们就可以一直拿最新的或者最早的这样需求的数据。
+
+
+
+### 管理索引
+
+所有等索引信息都存储在system.indexes集合中， 只能通过ensureIndex或dropIndexes对其操作。
+
+不能直接插入或删除。
+
+* `db.col.getIndexes()` 来看指定集合上的所有索引信息。
+
+* 每一个索引都有自己的名称
+
+  默认是keyname1_dir1_keyname2_dir2_..
+
+  如果包含很多索引这种名字就比较笨重，我们可以标识索引：
+
+  `do.foo.ensureIndex({a:1,b:1,c:1}, {"name": "abc"})`
+
+* 删除索引： `db.people.dropIndex("x_1_y_1")`  , 参数name
+
+* 新建索引到索引建立完成时，会阻塞数据库的读写请求。
 
