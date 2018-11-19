@@ -50,11 +50,29 @@ Beautiful Soup 是一个可以从HTML或XML文件中提取数据的Python库.它
 
 安装：`pip install beautifulsoup4`
 
+Demo:
+
+```python
+from urlib import urlopen
+from bs4 import BeautififulSoup
+response = urlopen('http://www.baidu.com')
+bs = BeautifulSoup(response.read(), "html.parser")
+print bs.title #  获取网页标题的文本内容
+```
+
+BeatifuleSoup 实例化接受三种字符类型作为参数：
+
+* `BeautifulSoup("<h1>这是一个测试文档</h1>", "html.parser")`
+* `BeautifulSoup("native.html", "html.parser")`  本地文件
+* demo中的那种。
+
+
+
 Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构，每个节点都是Python对象。所有对象可以归纳为4种类型: Tag , NavigableString , BeautifulSoup , Comment 。
 
 #### tag
 
-这个就跟HTML或者XML（还能解析XML？是的，能！）中的标签是一样一样的。我们使用find()方法返回的类型就是这个（插一句：使用find-all()返回的是多个该对象的集合，是可以用for循环遍历的。）。返回标签之后，还可以对提取标签中的信息。
+tag对象是 XML或HTML原生文档中的元素标签对象，这个就跟HTML或者XML（还能解析XML？是的，能！）中的标签是一样一样的。
 
 ###### 提取标签的名字：
 
@@ -62,7 +80,7 @@ Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构，每个�
 
 ###### 提取标签的属性：
 
-`tag['attribute']`
+`tag['attribute']`， 属性字典： tag.attrs
 我们用一个例子来了解这个类型：
 
 ```python
@@ -89,6 +107,14 @@ print("find's Attribute(class) is ", find['class'])  #输出标签的class属性
 ```
 
 BeautifulSoup对象表示一个文档的全部内容。支持遍历文档树和搜索文档树。
+
+
+
+我们使用find()方法返回的类型就是这个tag类型，
+
+使用find-all()返回的是多个该对象的集合，是可以用for循环遍历的。
+
+返回标签之后，还可以对提取标签中的信息。
 
 
 
