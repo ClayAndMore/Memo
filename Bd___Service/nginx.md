@@ -74,3 +74,46 @@ location / {
 ```
 
 允许192.168.18.58 向本机访问。
+
+
+
+#### 打印
+
+在nginx中要想打印某个值，完全可以实现直接打印的效果，用不着借助第三方扩展，直接返回结果就好：
+
+```nginx
+server    {
+    listen 80;
+    server_name tmp.kaibuy.cn;
+    index index.php;
+    root  /home/web/blog/public/www;
+    #error_page   404   /404.html;
+    location / {
+        default_type  text/plain;   
+        set $str "This Host : ";
+        return 200 "$str $http_host";
+    }
+
+    access_log off;
+}
+```
+
+是指定以文本方式打印，如果不加这句，搞不好会以下载文件的方式出现。当然也可以指定为HTML。
+
+`set $str "This Host : ";`设定一个变量
+
+如果变量内容是单词，
+
+也可以：`set $str MyValue;`，这种不带引号时，中间不能有空格即可。 
+
+`return 200 "$str $http_host";`返回内容体，前面200是状态码，可以是任意符合HTML状态码的代码，这任意。
+后面引号里的是两个变量，`$str`是刚才定义的变量，`$http_host`是nginx系统变量。
+
+这儿也可以写成`return 200 $str$http_host;`
+
+也就是不带引号，但变量之间要是连续的，不能有空格。
+
+
+
+#### 获取cookie
+

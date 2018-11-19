@@ -124,6 +124,8 @@ update(criteria, objNew, upsert, mult)
 
   ` posts.update({"_id":post["_id"]},{"$set": {"content":"Test Update SET...."}})`
 
+  ` update({"userid":9},{"$unset":{"allyreq":true}})`  # 为true 或 1 都没有关系。
+
 * $inc 自增
 
   `posts.update({"_id":post["_id"]},{"$inc":  {"views":1}})`
