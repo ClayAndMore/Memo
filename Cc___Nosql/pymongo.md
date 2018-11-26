@@ -124,6 +124,8 @@ update(criteria, objNew, upsert, mult)
 
   ` posts.update({"_id":post["_id"]},{"$set": {"content":"Test Update SET...."}})`
 
+  ` update({"userid":9},{"$unset":{"allyreq":true}})`  # 为true 或 1 都没有关系。
+
 * $inc 自增
 
   `posts.update({"_id":post["_id"]},{"$inc":  {"views":1}})`
@@ -435,6 +437,12 @@ ObjectId('5af1475ec3666e22533e72dd')
 ```
 
 
+
+#####找出某数组的最大长度的文档
+
+`db.getCollection('info').find({'astats.kk_executer.report.behavior.danger_behavior.10':{'$exists': true}})`
+
+比较笨但是简单的方法，一只试，试到返回一个文档或者不在返回文档为止。
 
 
 

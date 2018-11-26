@@ -440,3 +440,22 @@ How to solve ReadTimeoutError: HTTPSConnectionPool(host='pypi.python.org', port=
 `pip  install --index https://pypi.mirrors.ustc.edu.cn/simple/ pandas `
 
 `http://mirrors.sohu.com/python/ `
+
+
+
+### 问题
+
+#### python命令行删除和方向键无效
+
+`./python2.7 ./pip install readline`
+
+安装时会提示： gcc failed with exit status
+
+尝试： 
+
+```
+yum install patch
+yum install ncurses-devel 
+yum install readline-deve
+```
+

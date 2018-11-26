@@ -114,13 +114,13 @@ t指格式化的类型type为ext3,后面为指定分区
 ​      查看内存：`free `   
 
       [root@bogon img]# free -g
-
+    
                  total       used       free     shared    buffers     cached
-
+    
     Mem:            31         19         11          1          0         10
-
+    
     -/+ buffers/cache:          9         22
-
+    
     Swap:            0          0          0
 
 
@@ -351,3 +351,14 @@ model name    : Intel(R) Core(TM) i5-2320 CPU @ 3.00GHz
 cd /etc/sysconfig/network-scripts
 mv
 ```
+
+
+
+
+
+### BOIS
+
+`dmiencode`
+
+
+

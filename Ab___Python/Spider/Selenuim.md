@@ -247,8 +247,13 @@ browser.switch_to_window(browser.window_handles[0]) # 回到原来的选项卡
 
 
 
-h
-
-
-
 api文档： https://selenium-python.readthedocs.io/
+
+
+
+
+
+### phantomjs
+
+PhantomJS 是一个无界面 、可脚本编程的 WebKit 浏览器引擎，它原生支持多 Web 标准 DOM
+操作、 css 选择器、 JSON Canvas 以及 SVG
