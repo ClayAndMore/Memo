@@ -80,14 +80,16 @@ repairDatabase()会花费大量的时间。
 6.command/s 每秒的命令数，比以上插入、查找、更新、删除的综合还多，还统计了别的命令
 7.flushs/s 每秒执行fsync将数据写入硬盘的次数。
 8.mapped/s 所有的被mmap的数据量，单位是MB，
-9.vsize 虚拟内存使用量，单位MB
-10.res 物理内存使用量，单位MB
+9.vsize 虚拟内存使用量，单位MB，通常为数据目录的两倍，一次用于映射文件，一次用于日记系统。
+10.res 物理内存使用量，单位MB，正在使用的内存大小，应进来接近机器的所有内存大小。
 11.faults/s 每秒访问失败数（只有Linux有），数据被交换出物理内存，放到swap。不要超过100，否则就是机器内存太小，造成频繁swap写入。此时要升级内存或者扩展
 12.locked % 被锁的时间百分比，尽量控制在50%以下吧
 13.idx miss % 索引不命中所占百分比。如果太高的话就要考虑索引是不是少了
 14.q t|r|w 当Mongodb接收到太多的命令而数据库被锁住无法执行完成，它会将命令加入队列。这一栏显示了总共、读、写3个队列的长度，都为0的话表示mongo毫无压力。高并发时，一般队列值会升高。
-15.conn 当前连接数
-16.time 时间戳
+15. netIn 通过网络传输进来的字节数，由MongoDB进行统计，不必和系统的统计相等。
+16. netOut 通过网络输出的字节数，由MongoDB统计。
+17.conn 当前连接数
+18.time 时间戳
 ```
 
 
@@ -172,18 +174,18 @@ kk_summary.RklMRVBPUy5UQUlM         0ms         0ms         0ms
 显示当前数据库状态，包含数据库名称，集合个数，当前数据库大小, 单位为byte
 
 ```json
->db.stats()
+>db.stats() //或db.col.stats()
 {
 "db" : "yc_driver", //当前数据库
 "collections" : 5, //当前数据库多少表
-"objects" : 2911281, //当前数据库所有表多少条数据
+"objects" : 2911281, //当前数据库所有集合包含的文档总数
 "avgObjSize" : 240.28991086741541, //每条数据的平均大小
-"dataSize" : 699551452, //所有数据的总大小
-"storageSize" : 858513408, //所有数据占的磁盘大小
+"dataSize" : 699551452, //所有数据的总大小，包含文档间的间隔，不包含空闲列表的空间，与storageSize直接的差值应是被删除文档的大小。
+"storageSize" : 858513408, //所有数据占的磁盘大小，比fileSize小，少了预分配文件
 "numExtents" : 21,
 "indexes" : 5, //索引数
 "indexSize" : 569229472, //索引大小
-"fileSize" : 2080374784, //预分配给数据库的文件大小
+"fileSize" : 2080374784, //预分配给数据库的文件大小,是最大的，
 "nsSizeMB" : 16,
 "dataFileVersion" : {
     "major" : 4,
@@ -197,7 +199,9 @@ kk_summary.RklMRVBPUy5UQUlM         0ms         0ms         0ms
 }
 ```
 
+以TB为单位显示：
 
+`db.big.stats(1024*1024*1024*1024)`
 
 
 
@@ -264,24 +268,24 @@ stack size              (kbytes, -s) 8192
     [   
         {  
             "opid" : 3434473,//操作的id  
-            "active" : <boolean>,//是否处于活动状态  
+            "active" : <boolean>,//是否处于活动状态，false意外着操作已经交出或者等其他操作交出锁。
             "secs_running" : 0,//操作运行了多少秒  
-            "op" : "<operation>",//具体的操作行为,包(insert/query/update/remove/getmore/command) 
+            "op" : "<operation>",//具体的操作行为,包括(insert/query/update/remove/getmore/command) 
             "ns" : "<database>.<collection>",//操作的命名空间，如：数据库名.集合名  
             "query" : {//具体的操作语句  
         				},  
             "client" : "<host>:<outgoing>",//连接的客户端信息  
-            "desc" : "conn57683",//数据库连接描述  
+            "desc" : "conn57683",//是否与日志联系起来，记录当前操作的日志都会以conn56783开头 
             "threadId" : "0x7f04a637b700",//线程id  
             "connectionId" : 57683,//数据库连接id  
-            "locks" : {//锁的相关信息  
+            "locks" : {//锁的相关信息，^表示全局锁
                 "^" : "w",  
                 "^local" : "W",  
                 "^<database>" : "W"  
                 },  
-            "waitingForLock" : false,//是否在等待并获取锁，  
+            "waitingForLock" : false,//是否正在等待其他操作交出锁而处于租塞状态，  
             "msg": "<string>"  
-            "numYields" : 0,  
+            "numYields" : 0,  // 交出锁使其他操作得以运行的次数。
             "progress" : {  
                 "done" : <number>,  
                 "total" : <number>  
@@ -307,7 +311,11 @@ stack size              (kbytes, -s) 8192
 }  
 ```
 
-可以用 db.killOp( opid ) , 杀掉异常的操作，opid在上方。
+只返回自己需要的：
+
+`db.currentOp({'ns': 'prod.users'}`
+
+可以用 `db.killOp( opid )` , 杀掉异常的操作，opid在上方。
 
 如果没有返回一个空数组
 
@@ -318,6 +326,29 @@ db.currentOp().inprog.forEach(function(cop){
 db.killOp(cop.opid)
 })
 ```
+
+
+
+#### profiler
+
+可以使用system profiler来分析， 它可以记录特殊合集system.profie中的操作，并提供大量有关性能耗时过长的操作信息，响应的，mongo的性能也会下降
+
+默认没有开启，在shell中运行：
+
+```
+>db.setProfilingLevel(2)
+{"was": 0, "slowms":100, "ok":1}
+
+db.system.profile.find().pretty()  //所有记录记在这里
+```
+
+* 0， 关闭记录器，默认值
+* 1， 只显示长耗时操作：`db.setProfilingLevel(1,500)`, 记录超过500ms的操作
+* 2， 记录所有操作
+
+
+
+开启了profile而system.profile不存在，会为其建立一个大小为MB的固定集合(capped collection)，
 
 
 
