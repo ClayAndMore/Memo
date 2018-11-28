@@ -169,6 +169,22 @@ kk_summary.RklMRVBPUy5UQUlM         0ms         0ms         0ms
 
 下方方法都是进入到 mongo里执行：
 
+#### Object 文档大小
+
+```
+> Object.bsonsize({_id:ObjectId()})
+22
+> Object.bsonsize({_id:""+ObjectId()}) //可见ObjectId存储效率很高
+39
+> Object.bsonsize(db.info.findOne())
+85950
+> 
+```
+
+
+
+
+
 #### stats()
 
 显示当前数据库状态，包含数据库名称，集合个数，当前数据库大小, 单位为byte
@@ -199,6 +215,10 @@ kk_summary.RklMRVBPUy5UQUlM         0ms         0ms         0ms
 }
 ```
 
+以MB为单位显示：
+
+`db.big.stats(1024*1024)`
+
 以TB为单位显示：
 
 `db.big.stats(1024*1024*1024*1024)`
@@ -209,22 +229,119 @@ kk_summary.RklMRVBPUy5UQUlM         0ms         0ms         0ms
 
 #### serverStatus()
 
+#####实例信息
+
+```js
+"host" : "Fanr-PC",  　　　　　　　　　　　　　　　　　　　　　　   //主机名
+"version" : "2.4.9",  　　　　　　　　　　　　　　　　　　　　　　  //版本号
+"process" : "D:\\Program Files\\Mongodb\\bin\\mongod.exe",　　//进程镜像名
+"pid" : 4424,                       　　　　　　　　　　　　　　 //进程id
+"uptime" : 9,                      　　　　　　　　　　　　　　　//启动时间
+"uptimeMillis" : NumberLong(9749),   　　　　　　　　　　　　　　//启动时间毫秒
+"uptimeEstimate" : 9,
+"localTime" : ISODate("2014-05-10T07:15:28.921Z"), 　　　　　　//本地时间
+```
+
+
+
 ##### 当前库使用的内存
 
 `>db.serverStatus().mem`
 
-```
+```js
 {
-"bits" : 64,
-"resident" : 46662,
-"virtual" : 326198,
-"supported" : true,
+"bits" : 64,          // 64bit还是32bit实例
+"resident" : 46662,   //在物理内存中的数据（MB）
+"virtual" : 326198,	  //虚拟内存(页面文件)使用（MB）,如果启动了journal，那么virtual至少是mapped2倍
+"supported" : true,   //映射文件大小
 "mapped" : 161399,
-"mappedWithJournal" : 322798
+"mappedWithJournal" : 322798  //为journal提供内存,一般是mapped的2倍
 }
 ```
 
 注意resident 这里指的是占用内存大小，单位为M
+
+
+
+##### 索引统计信息
+
+`db.serverStatus().indexCounters`
+
+```
+{
+        "accesses" : 2,   //索引访问次数，值越大表示你的索引总体而言建得越好
+        "hits" : 2,     //索引命中次数，值越大表示mogond越好地利用了索引
+        "misses" : 0,   //索引没命中次数，越小越好
+        "resets" : 0,   //计数器重置的次数
+        "missRatio" : 0  //丢失率，即misses除以hits的值
+}
+```
+
+
+
+##### 后台刷新信息
+
+```python
+> db.serverStatus().backgroundFlushing
+{
+        "flushes" : 2071,         //数据库刷新写操作到磁盘的总次数
+        "total_ms" : 311571705,     //mongod写数据到磁盘消耗的总时间，单位ms
+        "average_ms" : 150445.05311443747,  //上述两值的比例，表示每次写磁盘的平均时间
+        "last_ms" : 8,          //当前最后一次写磁盘花去的时间，单位ms
+        "last_finished" : ISODate("2016-04-07T09:56:32.393Z")    //最后一次写完成的时间
+}
+>
+```
+
+
+
+##### 游标信息
+
+```js
+> db.serverStatus().cursors
+{
+        "note" : "deprecated, use server status metrics",    //表示也可使用db.serverStatus().metrics.cursor命令看看
+        "clientCursors_size" : 0,     //mongodb当前为客户端维护的游标个数
+        "totalOpen" : 0,     //和clientCursors_size一样
+        "pinned" : 0,       //打开的pinned类型的游标个数
+        "totalNoTimeout" : 0,   //设置了经过一段不活跃时间以后不设置超时，即参数“ DBQuery.Option.noTimeout”值以后，打开的游标个数
+        "timedOut" : 0    //从mongod启动以来的游标超时个数，如果这个值很大或者一直在增长，可能显示当前应用程序有错误
+}
+>
+```
+
+
+
+##### 操作计数器
+
+```js
+> db.serverStatus().opcounters
+{
+        "insert" : 1,     //mongod最近一次启动后的insert次数
+        "query" : 22848,  //mongod最近一次启动后的query次数
+        "update" : 0,    //mongod最近一次启动后的update次数
+        "delete" : 0,    //mongod最近一次启动后的delete次数
+        "getmore" : 0,   //mongod最近一次启动后的getmore次数,这个值可能会很高，getmore从游标中获取信息。
+        "command" : 94   //mongod最近一次启动后的执行command命令的次数
+}
+>
+```
+
+
+
+
+
+##### 锁
+
+`db.serverStatus().locks`
+
+R:表示全局读锁
+
+W:全局写锁
+
+r:指定数据库读锁，类似于sql server的意向锁
+
+w：指定数据库写锁，类似于sql server的意向锁
 
 
 
@@ -349,6 +466,100 @@ db.system.profile.find().pretty()  //所有记录记在这里
 
 
 开启了profile而system.profile不存在，会为其建立一个大小为MB的固定集合(capped collection)，
+
+可以手动建立system.profile库。
+
+输出解读：
+
+```js
+{
+   "op" : "query",   // 操作类型
+   "ns" : "test.c", // 该日志对应哪个库哪个集合
+   "query" : {      // 具体语句和行为
+      "find" : "c", 
+      "filter" : {
+         "a" : 1
+      }
+   },
+   "keysExamined" : 2,  //搜索了多少个key
+   "docsExamined" : 2,  // 搜索了多少个文档
+   "cursorExhausted" : true,  
+   "keyUpdates" : 0,   // 有多少个index key在操作中被修改，改索引键也会有少量的性能消耗，因为数据库不单单要删除旧Key，还要插入新的Key到B-Tree索引中
+   "writeConflicts" : 0, //写冲突发生的数量，例如update一个正在被别的update操作的文档
+   "numYield" : 0, //为了让别的操作完成而屈服的次数，一般发生在需要访问的数据尚未被完全读取到内存中，MongoDB会优先完成在内存中的操作
+   "locks" : {
+      "Global" : {
+         "acquireCount" : {
+            "r" : NumberLong(2)
+         }
+      },
+      "Database" : {
+         "acquireCount" : {
+            "r" : NumberLong(1)
+         }
+      },
+      "Collection" : {
+         "acquireCount" : {
+            "r" : NumberLong(1)
+         }
+      }
+   },
+   "nreturned" : 2,   //该操作最终返回文档的数量
+   "responseLength" : 108,  //结果返回的大小，单位为bytes，该值如果过大，则需考虑limit()等方式减少输出结果
+   "millis" : 0,   // 该操作从开始到结束耗时多少，单位为毫秒
+   "execStats" : {   // 包含了一些该操作的统计信息，只有query类型的才会显示
+		...
+      }
+   },
+   "ts" : ISODate("2015-09-03T15:26:14.948Z"), //该操作执行时的时间
+   "client" : "127.0.0.1", //哪个客户端发起的该操作，并显示出该客户端的ip或hostname
+   "allUsers" : [ ],  //哪个认证用户执行的该操作
+   "user" : ""}		//是否认证用户执行该操作，如认证后使用其他用户操作，该项为空
+```
+
+
+
+如果发现时间比较长，那么就需要作优化。
+
+比如nscanned数很大，或者接近记录总数，那么可能没有用到索引查询。
+
+reslen很大，有可能返回没必要的字段。
+
+nreturned很大，那么有可能查询的时候没有加限制。
+
+
+
+pymongo:
+
+```python
+# coding:utf-8
+import pymongo
+
+c = pymongo.MongoClient()
+db = c.file
+
+print 'now profile level:'
+print db.profiling_level()  #获取当前profile级别
+
+db.set_profiling_level(1,slow_ms=1000)  #设置profile级别
+
+print 'after profile level'
+print db.profiling_level()
+
+print 'file.system.profile'
+cusor = c.file.system.profile.find() # 具体日志
+import pprint
+for x in cusor:
+    pprint.pprint(x)
+
+
+print 'file.info. indexes: '
+
+pprint.pprint(db.info.index_information()) #当前所有索引
+
+```
+
+
 
 
 
