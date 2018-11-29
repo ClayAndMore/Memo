@@ -102,7 +102,6 @@ scrapy genspiderquotes quotes.toscrape.com
 # -*- coding: utf-8 -*-
 import scrapy
 
-
 class QuotesSpider(scrapy.Spider):
     name = 'quotes' 
     allowed_domains = ['quotes.toscrape.com']  
@@ -113,11 +112,38 @@ class QuotesSpider(scrapy.Spider):
 ```
 
 * name 是每个项目唯一的名字，用来区分不同的 Spider
+
 * allowed_domains: 允许爬取的域名，如果初始或后续的请求链接不是这个域名下的，则会被过滤掉
+
 * start_urls: 包含了 Spider 在启动时爬取的 url 列表，初始请求是由它来定义的
+
 * parse, 被调用时 start_urls 里面的链接构成的请求完成下载执行后，返回的响应就会作为唯一的参数传递给这个函数 该方法负责解析返回的响应、提取数据或者进一步生成要处理的请求
 
+  Response 没有指定回调函数时，该方法会默认被调用 它负责处理 Response处理返回结果，并从中提取出想要的数据和下一步的请求，然后返回。 该方法需要返回一个包Request 或ltem 的可迭代对象
 
+
+几个没有出现的属性：
+
+* custom_settings:  它是 个字典，是专属于本 Spider 的配置，此设置会覆盖项目全局的设置。此设置必须在初始化前被更新，必须定义成类变量
+* crawler:  它是由 from_crawler方法设置的，代表的是本 Spider 类对应的 Crawler 对象, Crawer 对象包含了很多项目组件，利用它我们可以获取项目的 些配置信息，如最常见的获取项目的设置信息，即 Setting
+* settings:  它是 Settings对象，利用它我们可以直接获取项目的全局设置变量除了基础属性
+
+
+
+Spider 还有 些常用的方法:
+
+1. start_request(): 
+
+   此方法用于生成初始请求，它必须返回一个可迭代对象 
+
+   此方法会默认使用 start_urls 里面的 URL 来构造 Request ，而 Request 是GET 请求方式 
+
+   如果我们想在启动时以 POST 方式访问某个站点，可以直接重写这个方法，发送 POST 请求时使用 FormRequest即可
+
+2. closed():
+
+   当Spider关闭时，该方法会被调用，在这里－般会定义释放资源的 些操作或其
+   他收尾操作
 
 #### 创建Item
 
@@ -387,3 +413,75 @@ MONGO_DB = 'tutorial'
 
 300,400是对应的Pipeline优先级，数字越小对应的Pipeline越先被调用。
 
+
+
+#### ImagesPipeline
+
+Scrapy 提供了专门处理下载的 Pipeline ，包括文件下载和图片下载 下载文件和罔片的原理
+抓取页面的原理一样 ，因此下载过程支持异步和多线程，下载十分高效 下面我们来看看具体的实现
+过程。
+
+官方文档地址为： htts://doc.scrapy.org/en/latest/topics/media-pipeline.html
+
+首先定义存储文件的路径，需要定义一个 IMAGES_STORE 变量，在 settings.py 添加如下代码
+`IMAGES STORE = '. /images’ `
+
+将路径定义为当前路径下的 images 子文件夹，下载的图片都会保存到本项日的images 文件夹中.
+
+
+
+```python
+from scrapy import Request
+from scrapy.exceptions import DropItem
+from scrapy.pipelines.images import ImagesPipeline
+
+class ImagePipeline(ImagesPipeline):
+    def file_path(self, request, response=None, info=None):
+        """request就是当前下载对应的 Request 对象 这个方法用来返回保存的文件名，
+        直接将图片链接的最后一部分当作文件名即可。这样图片下载之后保存的名称就是该函数返回的文件名
+        """
+        url = request.url
+        file_name = url.split('/')[-1]
+        return file_name
+
+    def item_completed(self, results, item, info):
+        """当单个 Item 完成下载时的处理方法 
+        因为并不是每张图片都会下载成功，所以我们需要分析下载结果并剔除下载失败的图片 
+        如果某张图片下载失败，那么我们就不需保存此 Item 到数据库 
+        该方法的第一个参数 result 就是该 Item 应的下载结果，
+		result是个列表形式，列表每个元素是一个元组，其巾包含了下载成功或失败的信息 
+		这里我们迎历下载结果找出所有成功的下载列表 如果列表为空，
+		那么该 Item 对应的图片下载失败，随即抛出异常 DropItem ，该 Item 忽略 则返回 Item
+        """
+        # ImagePipeline会默认读取Item的image_urls， 并认为它是一个列表形式，我们这里构造一下。
+        image_paths = [x['path'] for ok, x in results if ok]
+        if not image_paths:
+            raise DropItem('Image Downloaded Failed')
+        return item
+
+    def get_media_requests(self, item, info):
+        """item是爬取生成的Item对象，我们将它的 url 字段提取出来，然后直接生成Request对象
+        此Request入到调度队列， 等待被调度，执行下载
+        """
+        yield Request(item['url'])
+```
+
+执行顺序： 
+
+* get_media_requests()
+* item_completed()
+* file_path()
+
+记得在Setting中ITEM_PIPELINES加入, 注意是先是ImagePipeline然后是数据库的Pipeline.
+
+
+
+
+
+### Setings文件
+
+#### Forbidden by robots.txt
+
+关闭robots.txt协议
+
+ROBOTSTXT_OBEY = False
