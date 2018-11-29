@@ -244,6 +244,16 @@ print(response.read().decode('utf-8'))
 
 工具模块， 提供类许多URL处理方式， 如拆分，解析，合并等。
 
+方便的处理url拼接
+
+```
+from urllib.parse import urlencode
+>>> urlencode({'a':'aa', 'b':'bb'})
+'a=aa&b=bb'
+```
+
+
+
 
 
 ### rebotparser
