@@ -257,3 +257,57 @@ api文档： https://selenium-python.readthedocs.io/
 
 PhantomJS 是一个无界面 、可脚本编程的 WebKit 浏览器引擎，它原生支持多 Web 标准 DOM
 操作、 css 选择器、 JSON Canvas 以及 SVG
+
+但是最新的selenium上已经警告要不支持phantomjs了，我们取而代之的是使用chrome的headless。
+
+
+
+### 使用Headless Chrome
+
+```python
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+# --disable-gpu only on Windows
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument("window-size=1024,768")
+# 解决：selenium.common.exceptions.WebDriverException: Message: unknown error: Chrome failed to start: exited abnormally
+chrome_options.add_argument("--no-sandbox")
+
+#chrome_options.add_argument('--disable-dev-shm-usage')  目前不明， 可以尝试加上
+
+driver = webdriver.Chrome(chrome_options=chrome_options)
+```
+
+
+
+
+
+### 问题
+
+centos7:
+
+####  安装Chrome
+
+`curl https://intoli.com/install-google-chrome.sh | bash`
+
+https://intoli.com/blog/installing-google-chrome-on-centos/
+
+
+
+#### cannot find Chrome binary
+
+确认下载 chrome,和chromedirver
+
+`driver = webdriver.Chrome(executable_path=/path/chromedirver)`
+
+
+
+### failed to start: exited abnormally
+
+`chrome_options.add_argument("--no-sandbox")`
