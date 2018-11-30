@@ -91,6 +91,8 @@ if pid < 0:
 
 `os.unlink('path/file')`  删除文件，如果是目录则返回一个错误。
 
+`os.rename(src, dst)`  重命名文件， /root/a -> /root/b, `os.rename('/root/a', 'b')` 
+
 `os.remove()` 删除一个文件
 
 `os.rmdir()` 删除一个空目录， 不是空返回异常
