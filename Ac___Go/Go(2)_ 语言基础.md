@@ -585,42 +585,6 @@ string  ""
 
 
 
-#### struct
-
-将多个不同类型命名字段序列打包成一个复合类型
-
-字段名必须唯一， 可以用“_”补位。
-
-```go
-type node struct {
-    _  int
-    id int
-    next *node
-}
-
-type user struct {
-    name string
-    age byte
-}
-
-func main(){
-    n1 := node{   //命名方式初始化指定字段
-        id: 1,
-    }
-    n2 := node{
-        id: 2,
-        next: &n1,
-    }
-    u1 := user{"Tom", 12} // 顺序初始化全部字段
-    u2 := user{"Tom"}  // too few values in struct initializer
-    
-}
-```
-
-推荐命名方式初始化指定字段，这样在改变struct顺序时，或调整字段时不会导致初始化语句出错。
-
-
-
 
 
 #### 自定义类型
