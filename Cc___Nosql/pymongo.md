@@ -363,6 +363,10 @@ connection.drop_database('<DBNAME>')
 
 
 
+删除集合：
+
+`db.drop_collection(collection_name)`
+
 
 
 #### sort,skip, limit
@@ -375,7 +379,38 @@ connection.drop_database('<DBNAME>')
 
 #### 索引
 
+To create a single key ascending index on the key `'mike'` we just use a string argument:
 
+```
+>>> my_collection.create_index("mike")
+```
+
+For a compound index on `'mike'` descending and `'eliot'` ascending we need to use a list of tuples:
+
+```
+>>> my_collection.create_index([("mike", pymongo.DESCENDING),
+...                             ("eliot", pymongo.ASCENDING)])
+```
+
+All optional index creation parameters should be passed as keyword arguments to this method. For example:
+
+```
+>>> my_collection.create_index([("mike", pymongo.DESCENDING)],
+...                            background=True)
+```
+
+Valid options include, but are not limited to:
+
+> - name: custom name to use for this index - if none is given, a name will be generated.
+> - unique: if `True` creates a uniqueness constraint on the index.
+> - background: if `True` this index should be created in the background.
+> - sparse: if `True`, omit from the index any documents that lack the indexed field.
+> - bucketSize: for use with geoHaystack indexes. Number of documents to group together within a certain proximity to a given longitude and latitude.
+> - min: minimum value for keys in a [`GEO2D`](http://api.mongodb.com/python/current/api/pymongo/collection.html#pymongo.GEO2D) index.
+> - max: maximum value for keys in a [`GEO2D`](http://api.mongodb.com/python/current/api/pymongo/collection.html#pymongo.GEO2D) index.
+> - expireAfterSeconds: <int> Used to create an expiring (TTL) collection. MongoDB will automatically delete documents from this collection after <int> seconds. The indexed field must be a UTC datetime or the data will not expire.
+> - partialFilterExpression: A document that specifies a filter for a partial index.
+> - collation (optional): An instance of [`Collation`](http://api.mongodb.com/python/current/api/pymongo/collation.html#pymongo.collation.Collation). This option is only supported on MongoDB 3.4 and above.
 
 
 
