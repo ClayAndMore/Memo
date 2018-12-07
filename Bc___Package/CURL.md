@@ -2,6 +2,14 @@
 
 
 
+### http动词
+
+默认是GET, 使用 -X可以支持其他动词
+
+`curl -X POST www.example.com`
+
+
+
 ### post
 
 `-d = --data`
@@ -21,6 +29,20 @@ json 参数需要**单引号**括起来
 post json文件
 
 `curl --data @curl_post_apsc.json http://192.168.122.1/cloud3`
+
+
+
+multipart/form-data格式 -F
+
+```
+curl -X POST http://10.98.131.145:8010/api/StatisticResult 
+-F 'data=[{"key":"data","value":"[{\"key\":\"data\",\"value\":\"{\\\"aaa\\\":\\\"bbb\\\"}\",\"description\":\"\"}]","description":""}]' 
+-F md5=666666
+```
+
+
+
+
 
 
 
@@ -60,6 +82,12 @@ i 显示头信息(-I只显示头信息):
 curl -H 'Host: 1,1,1,1' -H 'Accept-Language：es' -H 'Cookie ID=1234'
 ```
 
+加 json格式：
+
+```
+curl -H "Content-Type:application/json"  -X POST -d '{"md5":"ae4e71cdcd9d035e21825ea1d7eabcb6","data":"{\"trust\": \"no\"}"}' http://10.98.131.145:8010/api/StatisticResult
+```
+
 
 
 
@@ -85,6 +113,14 @@ curl --user-agent "[User Agent]"  www.javaranger.com
 ```
 curl --cookie "name=xxx" www.javaranger.com
 ```
+
+
+
+### 显示通讯过程
+
+包括头信息等。
+
+` curl -v www.sina.com`
 
 
 
