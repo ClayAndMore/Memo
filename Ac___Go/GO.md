@@ -36,29 +36,11 @@ Go 语言又称Golang, 是谷歌开发的一种 **静态类型， 编译型、�
 
 
 
-**代码路径**： 
-
-GO寻找依赖包时会根据`$GOPATH` 来寻找，，
-
-Go从1.1版本到1.7必须设置这个变量，而且不能和Go的安装目录一样， 从go 1.8开始，GOPATH环境变量现在有一个默认值，如果它没有被设置。 它在Unix上默认为$HOME/go。
-
-`$GOPATH` 的目录约定有三个子目录：
-
-* src存放源代码
-* pkg存放编译后的生成文件
-* bin存放编译后的可执行文件。 
-
-编辑`~/.bashrc`  添加 ： `export GOPATH=/home/go`   执行`source ~/.bashrc`,
-
-`go env` ,  就能看到刚才配置的GOPATH路径了。
-
-为了方便，我们加入到 `.bashrc` 或者 `.zshrc` 或者自己的 `sh` 的配置文件中。
-
-
-
 ps: 
 
 *  可以配置多个GOPATH,  当我们引包时，会在多个$GOPATH/src里查找
+*  GOPATH分割列表分隔符不同，UNIX-like使用冒号， Windows使用分号。
+*  使用git等工具时，建议忽略pkg, bin目录，直接在src或具体的子包下创建代码仓库。
 
 
 
@@ -69,6 +51,55 @@ https://github.com/moovweb/gvm
 
 
 ### 目录结构
+
+#### **路径**：
+
+GO寻找依赖包时会根据`$GOPATH` 来寻找，，
+
+Go从1.1版本到1.7必须设置这个变量，而且不能和Go的安装目录一样， 从go 1.8开始，GOPATH环境变量现在有一个默认值，如果它没有被设置。 它在Unix上默认为$HOME/go。
+
+`$GOPATH` 的目录约定有三个子目录：
+
+- src存放源代码
+- pkg存放编译后的生成文件
+- bin存放编译后的可执行文件。 
+
+
+
+```
+workspace/
+	|
+	+--- src/                       源码
+	|	  |
+	|     + --- server/
+	|     |       |
+	| 	  |       + --- main.go
+	|     + --- server/
+	|             |
+	|             + --- main.go
+	| --- bin/                      可执行文件安装路径，不会创建额外子目录。
+    |     |
+    |     + --- server
+    + --- pkg/                      包安装路径，安装操作系统和平台隔离。
+          |
+          + --- linux_amd64/
+          		  |
+          		  + --- service.a
+```
+
+
+
+ 
+
+编辑`~/.bashrc`  添加 ： `export GOPATH=/home/go`   执行`source ~/.bashrc`,
+
+`go env` ,  就能看到刚才配置的GOPATH路径了。
+
+为了方便，我们加入到 `.bashrc` 或者 `.zshrc` 或者自己的 `sh` 的配置文件中。
+
+
+
+
 
 src 目录是开发的主要目录， 源码都在这个目录， 一般一个应用或者一个包这样表示：
 
@@ -190,6 +221,12 @@ import "github.com/astaxie/beedb"
 ### go 命令
 
 go 有一套完整的命令，可以执行go查看
+
+#### go run
+
+只是跑一下 demo ，写一个 main 方法，那么你可以在任意路径编写 main.go 文件，然后执行 go run main.go 就可以运行代码了
+
+
 
 #### go build
 
