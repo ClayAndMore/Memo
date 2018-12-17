@@ -321,6 +321,74 @@ GIL是Python解释器设计的历史遗留问题，通常我们用的解释器�
 
 
 
+#### Timer
+
+threading.timer, 等待一段时间再进行，我们可以用来实现定时器。
+
+```python
+import threading
+def timer_handle():
+    print 'hello'
+   
+timer = threading.Timer(5, timer_handler, [参数一，参数二..]) #时间间隔(s)， 回调函数(执行函数)，回调函数参数
+
+timer.cancle()  #关闭定期器
+```
+
+上述只打印一次，我们要一直间隔打印才能形成定时器，一种是while True， 一种是用递归调用：
+
+```python
+import threading
+
+def time_handler():
+    print 'hello'
+    global timer
+    timer = threading.Timer(5, time_handler)
+    timer.start()
+timer_handler
+```
+
+程序看起来很简单，通过在回调函数里面，重新创建定时器，来使得定时器能够一直工作。
+
+但是值得注意的是，定时器的句柄需要定义成为一个全局变量，这样做的好处是，创建的定时器进程和实例不会堆积，而是覆盖，避免不必要的内存占用。
+
+
+
+一个结构化的定时器类：
+
+```python
+from threading import Timer,Thread,Event
+
+class perpetualTimer():
+   def __init__(self,t,hFunction):
+      self.t=t
+      self.hFunction = hFunction
+      self.thread = Timer(self.t,self.handle_function)
+
+   def handle_function(self):
+      self.hFunction()
+      self.thread = Timer(self.t,self.handle_function)
+      self.thread.start()
+
+   def start(self):
+      self.thread.start()
+
+   def cancel(self):
+      self.thread.cancel()
+
+def printer():
+    print 'aaaa'
+
+t = perpetualTimer(5,printer)
+t.start()
+```
+
+
+
+
+
+
+
 ### 多进程
 
 这得从操作系统说起。
@@ -370,7 +438,7 @@ I am child process (877) and my parent is 876.
 
 `multiprocessing`模块提供了一个`Process`类来代表一个进程对象，下面的例子演示了启动一个子进程并等待其结束：
 
-```
+```python
 from multiprocessing import Process
 
 import os
@@ -402,7 +470,7 @@ start()`方法启动，这样创建进程比`fork()`还要简单。
 
 如果要启动大量的子进程，可以用进程池的方式批量创建子进程：
 
-```
+```python
 from multiprocessing import Pool
 import os,time,random
 
