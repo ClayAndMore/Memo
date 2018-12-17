@@ -1,0 +1,475 @@
+### 内建模块
+
+​    在Python中，有一个内建模块，该模块中有一些常用函数;而该模块在Python启动后、且没有执行程序员所写的任何代码前，Python会首先加载 该内建函数到内存。
+
+另外，该内建模块中的功能可以直接使用，不用在其前添加内建模块前缀，其原因是对函数、变量、类等标识符的查找是按LE(N)GB法 则，其中B即代表内建模块。比如：内建模块中有一个abs()函数，其功能是计算一个数的绝对值，如abs(-20)将返回20。
+
+#### `__builtin__`
+
+`__builtin__`、`__builtins__`和builtins之间的关系。
+
+在Python2.X版本中，内建模块被命名为`__builtin__`，而到了Python3.X版本中，却更名为builtins。
+
+##### 向内建函数中添加函数
+
+想要向内建模块中添加一些功能，以便在任何函数中都能直接使用而不 用再进行import，这时，就要导入内建模块(注意： 用内建模块中的功能时不需要导入，但是要为内建模块添加内容时就得导入)，在内建模块的命名空间(即`__dict__`字典属性)中添加该功能。在导入时，如果是Python2.X 版本，就要导入`__builtin__`模块;如果是Python3.X版本，就要导入builtins模块。如我们要写一个能打印hello的函数：
+
+```python
+import __builtin__
+
+def print_hello():
+	print "hello, world"
+
+__builtin__.__dict__['hello'] = print_hello
+
+print_hello() # 将打印"hello, world"
+hello() # 将打印"hello, world"
+```
+
+这时，整个程序中都可以使用print_hello()和hello()了
+
+
+
+#### `__builtins__`
+
+`__builtins__`，它却同时存在于Python2.X和Python3.X中, 简单的说它时对 **内建模块的引用**，是为了统一python2和python3中的内建模块。
+
+区别： 
+
+* 没有导入就可以引用： `__builtins__`  而 内建模块需要 引入
+* 在主模块`__main__`中是和内建模块相等。
+* 在非`__main__`模块中是`__builtin__.__dict__`
+
+
+
+### 内置字段
+
+#### ` __doc__`
+
+提供py文件，模块，类，函数，的说明。
+
+eg:  doc_test.py:
+
+```python
+"""Module docstring."""
+
+class A():
+  """Class docstring"""
+  pass
+
+def f(x):
+    """Function docstring."""
+    return 2 * x
+
+if __name__ == '__main__':
+   print __doc__
+```
+
+输出： 
+
+```
+文件本身
+"""Module docstring."""
+
+模块
+import doc_test
+print doc_test.__doc__
+"""Module docstring."""
+
+类
+print A.__doc__
+  """Class docstring"""
+
+函数
+print f.__doc__
+ """Function docstring."""
+```
+
+细节：
+
+* 三引号和单引号都会输出
+
+
+* 只会输出相关内容的第一行，比如在文件中部的注释都不会输出。
+
+
+
+#### `__name__`
+
+常常会遇到 if __name__ == "__main__" 这个问题。
+
+解释下__name__：每一个模块都有一个内置属性__name__。而__name__的值取决与python模块（.py文件）的使用方式。如果是直接运行使用，那么这个模块的__name__值就是“__main__”；如果是作为模块被其他模块调用，那么这个模块（.py文件）的__name__值就是该模块（.py文件）的文件名，且不带路径和文件扩展名。
+
+#### `__file__`
+
+这个就是该文件带扩展名的文件名。
+
+
+
+
+
+#### `__dict__`
+
+
+
+
+
+
+#### `__future__`
+
+
+
+#### `__all__`
+
+一、
+
+ 在模块(*.py)中使用意为导出__all__列表里的类、函数、变量等成员，
+ 否则将导出modualA中所有不以下划线开头（私有）的成员，
+在模块中使用__all__属性可避免在相互引用时的命名冲突 
+modualA.py
+
+ ```
+ all=["fun1","class1"]
+ ```
+ 使用：
+ `from modualA import *`
+ 导入模块modualA里的所有成员（如果定义了__all__那么就导出列表中的所有，否则默认导出不以下划线开头
+ 的所有成员）
+
+二、
+
+ 在包(假设pkgA，pkgA是一个文件夹)的`__init__.py`中意为导出包里的模块
+ 例：pkgA/__init__.py
+
+ ```
+ all=["modualA","modualB"]
+ from modualA import class1,class2
+ from modualB import fun1,class3
+ ....
+ ```
+
+ 使用：
+ `from pkgA import *`
+以上语句即执行了pkgA下的__init__.py，导入两个模块，和这两模块下的函数和类
+
+
+
+#### `__call__`
+
+python中所有都为对象，包括函数， 函数本身是一个类，实现了`__call__`。
+
+类实例被调用前的触发方法：
+
+```python
+class A:
+   def __init__(self, s):
+       print s
+   def __call__(self):
+       print 'cccccc'
+
+a=A('ssss')
+a()  # 触发__call__， a就可以理解为一个对象。
+```
+
+out:
+
+ssss
+cccccc
+
+
+
+### 内置函数
+
+#### vars
+
+  vars()函数以字典形式返回每个成员的当前值,如果vars函数没有带参数,那么它会返回包含当前局部命名空间中所有成员的当前值的一个字典.
+
+```
+>>> a = 'hhh'
+>>> def f():
+...  print 'sss'
+... 
+>>> pprint.pprint(vars())
+{'__builtins__': <module '__builtin__' (built-in)>,
+ '__doc__': None,
+ '__name__': '__main__',
+ '__package__': None,
+ 'a': 'hhh',
+ 'f': <function f at 0x7f1b1de54410>,
+ 'pprint': <module 'pprint' from '/usr/lib64/python2.6/pprint.pyc'>}
+```
+
+
+
+
+
+#### locals() 获得函数参数k-v
+
+```
+>>> def func(a,b,c):
+...  print locals().items()
+... 
+>>> func(1,2,3)
+[('a', 1), ('c', 3), ('b', 2)]
+```
+
+
+
+#### globals()
+
+python的全局名字空间存储在一个叫globals()的dict对象中
+
+
+
+#### eval() 和 exec()
+
+For statements, use [`exec(string)`](https://docs.python.org/library/functions.html#exec) (Python 2/3) or [`exec string`](https://docs.python.org/2/reference/simple_stmts.html#grammar-token-exec_stmt) (Python 2):
+
+```
+>>> mycode = 'print "hello world"'
+>>> exec(mycode)
+Hello world
+```
+
+When you need the value of an expression, use [`eval(string)`](http://docs.python.org/library/functions.html#eval):
+
+```
+>>> x = eval("2+2")
+>>> x
+4
+```
+
+一般不推荐这种做法，效率低。
+
+
+
+#### getattr()
+
+```python
+def getattr(object, name, default=None): # known special case of getattr
+    """
+    getattr(object, name[, default]) -> value
+    
+    Get a named attribute from an object; getattr(x, 'y') is equivalent to x.y.
+    When a default argument is given, it is returned when the attribute doesn't
+    exist; without it, an exception is raised in that case.
+    """
+    pass
+```
+
+`getattr(x, y, z) = x.y`  如果y不存在则返回z, 没有z则抛出异常。
+
+
+
+#### setattr()
+
+```python
+def setattr(p_object, name, value): # real signature unknown; restored from __doc__
+    """
+    setattr(object, name, value)
+    
+    Set a named attribute on an object; setattr(x, 'y', v) is equivalent to
+    ``x.y = v''.
+    """
+    pass
+```
+
+嗯 说的很明白： `setattr(x, 'y', v) = x.y = v`
+
+
+
+#### dir()
+
+dir()函数以列表形式返回一个特定的模块,类,对象或它类型的所有成员(以及继承成员)
+
+```python
+>>> class A:
+...  def a(self):
+...   pass
+...  def b(self):
+...   pass
+... 
+>>> dir(A)
+['__doc__', '__module__', 'a', 'b']
+>>> class B(A):
+...  def c(self):
+...   pass
+...  def d(self):
+...   pass
+... 
+>>> dir(B)
+['__doc__', '__module__', 'a', 'b', 'c', 'd']
+```
+
+
+
+
+
+#### help()
+
+查看模块具体用法：eg :
+
+`help(shutil)` 
+
+`help(shutil.copy)`
+
+其实就是输出其doc
+
+
+
+#### property()
+
+```python
+def __init__(self, fget=None, fset=None, fdel=None, doc=None):
+    pass
+```
+
+- fget -- 获取属性值的函数
+- fset -- 设置属性值的函数
+- fdel -- 删除属性值函数
+- doc -- 属性描述信息
+- 返回新式类属性
+
+```python
+class C(object):
+    def __init__(self):
+        self._x = None
+ 
+    def getx(self):
+        return self._x
+ 
+    def setx(self, value):
+        self._x = value
+ 
+    def delx(self):
+        del self._x
+ 
+    x = property(getx, setx, delx, "I'm the 'x' property.")
+```
+
+**如果 *c* 是 *C* 的实例化, c.x 将触发 getter,c.x = value 将触发 setter ， del c.x 触发 deleter。 **
+
+
+
+##### `@property`
+
+Python内置的`@property`装饰器就是负责把一个方法变成属性调用的：
+
+```python
+class Student(object):
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
+```
+
+`@property`的实现比较复杂，我们先考察如何使用。把一个getter方法变成属性，只需要加上`@property`就可以了，此时，`@property`本身又创建了另一个装饰器`@score.setter`，负责把一个setter方法变成属性赋值，于是，我们就拥有一个可控的属性操作：
+
+```
+>>> s = Student()
+>>> s.score = 60 # OK，实际转化为s.set_score(60)
+>>> s.score # OK，实际转化为s.get_score()
+60
+>>> s.score = 9999
+Traceback (most recent call last):
+  ...
+ValueError: score must between 0 ~ 100!
+
+
+```
+
+注意到这个神奇的`@property`，我们在对实例属性操作的时候，就知道该属性很可能不是直接暴露的，而是通过getter和setter方法来实现的。
+
+还可以定义只读属性，只定义getter方法，不定义setter方法就是一个只读属性：
+
+```
+class Student(object):
+
+    @property
+    def birth(self):
+        return self._birth
+
+    @birth.setter
+    def birth(self, value):
+        self._birth = value
+
+    @property
+    def age(self):
+        return 2015 - self._birth
+
+
+
+```
+
+上面的`birth`是可读写属性，而`age`就是一个**只读**属性，因为`age`可以根据`birth`和当前时间计算出来。
+
+
+
+### python 自带命令解析
+
+#### -c
+
+```
+def hello():
+    return 'Hi :)'
+```
+
+命令行输出：`python -c 'import foo; print foo.hello()'`
+
+类似于:
+
+`echo print\(\"hi:\)\"\) | python`
+
+`echo 'print("hi:)")' | python`
+
+`python < test.py` 或 `python > test.py`
+
+#### -m
+
+
+
+### 路径问题
+
+python 获取变量路径问题
+
+
+
+### 其他
+
+#### 获取某函数的print到变量
+
+```python
+from cStringIO import StringIO
+import sys
+
+class Capturing(list):
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        del self._stringio    # free up some memory
+        sys.stdout = self._stdout
+```
+
+Usage:
+
+```
+with Capturing() as output:
+    do_something(my_object)
+```
+
+
+
+这时do_something函数中的print不会真正的输出，它的输出都会存放在output中，
+
+获得输出我们只需要其output变量就好。

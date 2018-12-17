@@ -451,3 +451,10 @@ logger.critical('this is a logger critical message')
 
 
 
+### 问题
+
+#### ValueError: incomplete format
+
+format 设置了 `%(message)`, 
+
+默认是`%(message)s`,  s代表可转换的字符串类型。应该用这种。
