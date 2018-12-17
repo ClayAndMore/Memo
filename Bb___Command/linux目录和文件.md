@@ -222,6 +222,14 @@ alias rm='rm -i'
 
 `mv 旧的文件名 新的文件名`
 
+
+
+-v ，verbose 输出详细的移动过程
+
+-n,   no--clobber   不覆盖已存在文件
+
+
+
 #### 查看文件
 
 * 使用cat,tac和nl查看文件
