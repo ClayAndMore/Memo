@@ -109,7 +109,7 @@ cmd.SysProcAttr = $syscall.SysProcAttr{
 
 mount namespace 是linux 第一个实现的Namespace, 因此当时为它命名为NEWNS(new Namespace),当时人们也没有想到有这么多Namespace 会加入到linux大家庭。
 
-类似，添加一行：`| syscall.ClONE_NEWPID`
+类似，添加一行：`| syscall.ClONE_NEWNS`
 
 运行看下/proc文件的内容，proc是一个文件系统，提供额外的机制，通过内核和内核模块来将信息发送给进程。
 
@@ -136,7 +136,7 @@ mount namespace 是linux 第一个实现的Namespace, 因此当时为它命名�
 }
 cmd.SysProcAttr.Credential = &syscall.Credential{
     Uid: uint32(1),
-    Gid: unit32(1)
+    Gid: unit32(1),
 }
 ```
 
@@ -144,9 +144,11 @@ cmd.SysProcAttr.Credential = &syscall.Credential{
 
 命令：`id`
 
-显示我们uid, git,groups 都是0，root
+显示我们uid, gid,groups 都是0，root
 
 运行刚才的go, 会发现id都变了。
+
+这里可能有`/usr/bin/sh: invalid argument`的问题，`https://github.com/xianlubird/mydocker/issues/3`
 
 
 
@@ -179,7 +181,7 @@ Linu x Cgroups(Control Groups)  ， 可以方便的限制某个进程的资源�
   是对一组进程资源控制的模块，一般包含：
 
   * 对设置（如硬盘）的输入输出访问控制
-  * cpu的调度策略，占用，每寸
+  * cpu的调度策略，占用，尺寸
   * 进程挂起，恢复，网络流量， 优先级，监控
 
 * hierarchy
