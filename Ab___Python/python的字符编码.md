@@ -245,3 +245,15 @@ Traceback (most recent call last):  File "", line 1, inLookupError: unknown enc
 b'\u4e2d'
 ```
 
+
+
+当声明字符串的时候末尾为\
+
+```python
+a = 'sdfsdf\',  # 这样会提示你没有引号， 
+# 如果声明成一个windows路径
+# 处理方式：
+b = r"\\STORAGE-1\Testing\Test Data\ClearCore\Exports\5" "\\" 
+# 等同于\\STORAGE-1\Testing\Test Data\ClearCore\Exports\5\
+```
+
