@@ -436,6 +436,12 @@ def hello():
 
 
 
+### pydoc
+
+pydoc -> 命令行查看 Python 文档神器
+
+
+
 ### 路径问题
 
 python 获取变量路径问题
