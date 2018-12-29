@@ -1,6 +1,6 @@
 ## Redis
 
-Red is 是一个基于内存的高效的非关系型数据库
+Red is 是一个基于内存的高效的非关系型数据库, C语言实现。
 ### 相关链接
 官方 https: //redis. io
 官方文档 https ://redis.io/documentation
