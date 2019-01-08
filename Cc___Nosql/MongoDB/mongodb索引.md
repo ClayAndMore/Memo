@@ -310,7 +310,22 @@ explan()的isMultikey字段。
 
   `do.foo.ensureIndex({a:1,b:1,c:1}, {"name": "abc"})`
 
-* 删除索引： `db.people.dropIndex("x_1_y_1")`  , 参数name
+* 如下索引：
+
+  ```
+     {
+        "v" : 1,
+        "key" : { "cat" : -1 },
+        "ns" : "test.pets",
+        "name" : "catIdx"
+     },
+  ```
+
+
+
+  删除索引： `db.people.dropIndex("catIdx")`  , 参数name
+
+  或者`db.pets.dropIndex( { "cat" : -1 } )`
 
 * 新建索引到索引建立完成时，会阻塞数据库的读写请求。
 
