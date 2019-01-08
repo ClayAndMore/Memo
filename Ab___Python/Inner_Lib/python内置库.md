@@ -87,7 +87,9 @@ if pid < 0:
 
 `os.mknod(“test.txt”)`  创建空文件 
 
-`os.mkdir('')` 创建新的文件夹
+`os.mkdir('a/b/c')` 创建新的文件夹, 即使b和c都不存在
+
+`os.makedir()s` 
 
 `os.unlink('path/file')`  删除文件，如果是目录则返回一个错误。
 
@@ -781,22 +783,6 @@ os.killpg(pgid, sid)
 ### socketserver
 
 py2:Socketserver,  py3: socketserver
-
-
-
-### shutil
-
-`shutil.rmtree() ` 会移除该文件夹所有内容，不管其中文件是否被占用。
-
-`shutil.move('原文件夹/原文件名','目标文件夹/目标文件名')  `   把一个文件从一个文件夹移动到另一个文件夹，并同时重命名
-
-`shutil.copy('源目录'， '目标目录')`
-
-`shutil.copyfile('源目录', '目标目录')`
-
-copyfile仅仅是把文件拷贝到目的文件。但是copy函数可以把文件的mode也一起拷贝。比如说原来的文件有+x可执行权限，那么目的文件也会有可执行权限。
-
-`shutil.make_archive(base_name, format, root_dir=None, base_dir=None, verbose=0,dry_run=0, owner=None, group=None, logger=None)` 要锁打包
 
 
 

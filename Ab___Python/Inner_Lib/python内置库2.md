@@ -38,6 +38,188 @@
 
 
 
+### shutil
+
+
+
+#### copy文件
+
+* `shutil.copymode(src, dst)`
+
+  复制 `src` 的文件**权限位**到 `dst` 。 文件的内容、属主和用户组不会受影响。
+
+* `shutil.copystat(src, dst)`
+
+  复制文件 `src` 的文件**权限位**、**最后访问 access 时间**、**最后修改 modification 时间**和**标识 flags **到 `dst`。文件的内容、属主和用户组不会受影响。 时间和标识等可以理解为元数据。
+
+* `shutil.copyfileobj(fsrc, fdst[, length])`
+
+  对象 `fsrc` 的内容到类文件对象 `fdst`。 可选**整数参数** `length`， 指定缓冲区大小。
+
+  具体而言， `length` 的值为负数，复制操作不会将源数据分块进行复制。
+
+  默认的，为了避免不可控制的内存消耗，数据会被分块存入chunk中。 
+
+  **注意：** 如果 `fsrc` 对象的当前文件位置不为 0 ，则只有从当前文件位置到文件末位的内容会被复制。
+
+  eg:
+
+  ```python
+  with open(src, 'rb') as f1,open(os.path.join(dst,'test.pdf'), 'wb') as f2:
+  	shutil.copyfileobj(f1, f2)
+  ```
+
+* `shutil.copyfile(src, dst)`
+
+  复制文件 `src` 的内容（不包含元素据）到文件 `dst` 中。
+
+   `dst` 必须为一个完整的目标文件, 可以不存在。
+
+   `src` 和 `dst` 不能为同一个文件，否则会报错。 
+
+  如果 `dst` 已经存在，则会被覆盖。
+
+  目标文件位置必须为可写状态，否则会触发  IOError。 
+
+   特别的， 字符设备、块设备和管道不能使用此方法复制。 
+
+* `shutil.copy(src, dst)`
+
+  复制文件 `src` 到 `dst` 文件或文件夹中。 如果 `dst` 是文件夹， 则会在文件夹中创建或覆盖一个文件，且该文件与 `src` 的文件名相同。 文件权限位会被复制(可执行等).
+
+* `shtil.copy2(src, dst)`
+
+  与 `shutil.copy()` 类似，另外会同时复制文件的元数据。 实际上，该方法是 `shutil.copy()` 和 `shutil.copystat()` 组合。该方法相当于 Unix 命令的 ` cp -p `。
+
+
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Function              preserves     supports          accepts     copies other
+                      permissions   directory dest.   file obj    metadata  
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+shutil.copy              ✔             ✔                 ☐           ☐
+shutil.copy2             ✔             ✔                 ☐           ✔
+shutil.copyfile          ☐             ☐                 ☐           ☐
+shutil.copyfileobj       ☐             ☐                 ✔           ☐
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+* copytree:
+
+  ```python
+  import shutil, errno
+  
+  def copyanything(src, dst):
+      try:
+          shutil.copytree(src, dst)
+      except OSError as exc: # python >2.5
+          if exc.errno == errno.ENOTDIR:
+              shutil.copy(src, dst)
+          else: raise
+  ```
+
+
+
+
+#### 移动和删除
+
+`shutil.rmtree() ` 会移除该文件夹所有内容，不管其中文件是否被占用。
+
+`shutil.move('原文件夹/原文件名','目标文件夹/目标文件名')  `   把一个文件从一个文件夹移动到另一个文件夹，并同时重命名
+
+将一个文件或文件夹从 `src` 移动到 `dst` 如果 `dst` 已存在且为文件夹，则 `src` 将会被移动到 `dst`内。 
+
+如果如 `dst` 存在但不是一个文件夹， 取决于 `os.rename()` 的语义，`dst` 可能会被覆盖。 
+
+如果 `dst` 与 `src` 在相同的文件系统下， 则使用 `os.rename()` 。 
+
+否认则，将使用 `shutil.copy2()` 复制 `src`到 `dst` 并删除。
+
+
+
+#### 打包
+
+`shutil.make_archive(base_name, format,...)`
+
+创建压缩包并返回文件路径，例如：zip、tar
+
+- - base_name： 压缩包的文件名，也可以是压缩包的路径。只是文件名时，则保存至当前目录，否则保存至指定路径，
+    如 data_bak                       =>保存至当前路径
+    如：/tmp/data_bak =>保存至/tmp/
+
+  - format：	压缩包种类，“zip”, “tar”, “bztar”，“gztar”
+
+  - root_dir：	要压缩的文件夹路径（默认当前目录）
+
+  - owner：	用户，默认当前用户
+
+  - group：	组，默认当前组
+
+  - logger：	用于记录日志，通常是logging.Logger对象
+
+  - eg:
+
+    ```python
+    #将 /data 下的文件打包放置当前程序目录
+    import shutil
+    ret = shutil.make_archive("data_bak", 'gztar', root_dir='/data')
+      
+      
+    #将 /data下的文件打包放置 /tmp/目录
+    import shutil
+    ret = shutil.make_archive("/tmp/data_bak", 'gztar', root_dir='/data')
+    ```
+
+
+
+shutil 对压缩包的处理是调用 ZipFile 和 TarFile 两个模块来进行的，详细：
+
+
+
+### zipfile
+
+```python
+import zipfile
+
+# 压缩
+z = zipfile.ZipFile('laxi.zip', 'w')
+z.write('a.log')
+z.write('data.data')
+z.close()
+
+# 解压
+z = zipfile.ZipFile('laxi.zip', 'r')
+z.extractall(path='.')
+z.close()
+```
+
+
+
+### tar file
+
+```python
+import tarfile
+
+# 压缩
+t=tarfile.open('/tmp/egon.tar','w')
+t.add('/test1/a.py',arcname='a.bak')
+t.add('/test1/b.py',arcname='b.bak')
+t.close()
+
+
+# 解压
+t=tarfile.open('/tmp/egon.tar','r')
+t.extractall('/egon')
+t.close()
+```
+
+
+
+
+
+
+
 
 ### bisect
 
