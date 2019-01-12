@@ -19,7 +19,7 @@ SSH 为 [Secure Shell](http://baike.baidu.com/view/2118359.htm) 的缩写，SS
 
 ### 版本分类
 
-linux 发新版来分类：
+linux 发行版来分类：
 
 RedHat 系列 
 
@@ -30,7 +30,9 @@ RHEL (Redhat Enterprise linux)  商业版，大型企业核心服务器首选
 * 常见的安装包格式 rpm包,安装rpm包的命令是“rpm -参数” 
 * 包管理工具  yum 
 
-Debian系列（ubuntu基于此系列）
+Debian系列（ubuntu基于此系列）['dɛbɪrn]
+
+Ubuntu 基于 Debian 的 unstable 或者 testing 分支，同时对来自 Debian 的部分软件包进行了一定的修改，以使其更加适合桌面使用。 同时，优化了安装过程，使 Ubuntu 安装起来更加容易。
 
 * 常见的安装包格式 deb包,安装deb包的命令是“dpkg -参数”
 * 包管理工具 apt-get

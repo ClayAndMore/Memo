@@ -239,11 +239,88 @@ bit位相关:
 
 #### hash
 
-hget k field,                    获取存储在哈希表中指定字段的值
+hget k field                      获取存储在哈希表中指定字段的值，不存在时，返回nil.
+
+hmget k field 1 [field 2] 获取所有给定字段的值
+
+hgetall key                       获取在哈希表中指定 key 的所有字段和值
+
+hkeys   key                       获取所有哈希表中的字段
+
+hvals key                          获取哈希表中的所有值。
+
+hlen    key                        获取哈希表中字段的数量, key不存在时，返回0
 
 
 
-HSET k field v,                将哈希表 key 中的字段 field 的值设为 value 。
+hset k field v                  将哈希表 key 中的字段 field 的值设为 value
+
+hmset k f1 v1 [f2 v2]     同时将多个 field-value (域-值)对设置到哈希表 key 中。
+
+hsetnx k f  v                    只有在字段 field 不存在时，设置哈希表字段的值
 
 
 
+hexists k field                 查看哈希表 key 中，指定的字段是否存在。
+
+hdel k field1 field2        删除一个或多个哈希表字段，不存在的字段将被忽略
+
+
+
+hincrby k f increment   为哈希表 key 中的指定字段的整数值加上增量 increment 。
+
+hincrbyfloat k f increment 为哈希表 key 中的指定字段的浮点数值加上增量 increment 。
+
+
+
+`HSCAN key cursor [MATCH pattern][COUNT count]`
+
+迭代哈希变中的键值对
+
+
+
+#### list
+
+llen    k                           获取列表长度
+
+lrange k start stop       获取指定范围内的元素
+
+
+
+lpushx k  v                     将一个或多个值插入到已存在的列表头部
+
+lpush   k  v [v2...]          将一个或多个值插入到列表头部
+
+rpush  k  v [v2...]          在列表中添加一个或多个值
+
+rpushx  k v                    为已存在的列表添加值
+
+
+
+lpop k                             移除并获取列表的第一个元素
+
+rpop k                            移除并获取列表最后一个元素
+
+
+
+lindex k  index             通过索引获取列表中的元素
+
+lset  k  index  value     通过索引设置列表元素的值
+
+lrem  k  count value    通过索引设置列表元素的值
+
+rpoplpush source destination
+
+移除列表的最后一个元素，并将该元素添加到另一个列表并返回
+
+BLPOP k1 [k2..] timeout       
+
+移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。
+
+BRPOP k1 [k2..]  timeout 
+
+移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。
+
+BRPOPLPUSH source destination timeout
+
+从列表中弹出一个值，将弹出的元素插入到另外一个列表中并返回它； 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止

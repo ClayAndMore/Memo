@@ -316,62 +316,6 @@ print superList([1,2,3]) - superList([3,4])
 
 
 
-### 文件操作
-
-*   创建文件
-        `对象名 = open(文件名，模式)`
-        常用的模式：
-  * r 打开只读文件，该文件必须存在。
-    * r+ 打开可读写的文件，该文件必须存在。
-    * w 打开只写文件，若文件存在则文件长度清为0，即该文件内容会消失。若文件不存在则 建立该文件。
-    * w+ 打开可读写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。
-    * a 以附加**写**的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留。
-    * a+ 以附加**读写**方式打开可读写的文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾后，即文件原先的内容会被保留。
-
-      上述的形态字符串都可以再加一个b字符，如rb、w+b或ab＋等组合，加入b 字符用来告诉函数库打开的文件为二进制文件，而非纯文字文件。windows下文件是二进制，而linux不需要区分二进制和文件。
-* 读取
-```
-content = f.read(N)          # 读取N bytes的数据
-content = f.readline()       # 读取一行
-content = f.readlines()      # 读取所有行，储存在列表中，每个元素是一行。
-```
-* 写入
-  `f.write('I like apple!\n')      # 将'I like apple'写入文件并换行`
-
-  `f.writelines(['a\n', 'b\n', 'c\n'])`   注意一定要加换行，不然只写了一行  
-
-* 关闭文件
-  `f.close()`
-
-* 指定编码
-
-  ```python
-  open('cafe.txt', 'w', encoding='utf-8').write()  
-  ```
-
-
-
-* 输出重定向
-
-  ```python
-  import os
-  import sys
-
-  temp=sys.stdout # 记录当前输出指向，默认是consle
-
-  with open("outputlog.txt","a+") as f:
-      sys.stdout=f   # 输出指向txt文件
-      print("filepath:",__file__,
-      "\nfilename:",os.path.basename(__file__))
-      print("some other information")
-      print("some other")
-      print("information")
-      sys.stdout=temp # 输出重定向回consle
-      print(f.readlines()) # 将记录在文件中的结果输出到屏幕
-  ```
-
-
-
 ### 作用域
 
 #### 非公开
