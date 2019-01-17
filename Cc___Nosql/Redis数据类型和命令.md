@@ -77,8 +77,6 @@ Redis的Set是string类型的无序集合。
 (integer) 1
 127.0.0.1:6379> sadd set1 chui
 (integer) 0
-127.0.0.1:6379> smembes set1
-(error) ERR unknown command `smembes`, with args beginning with: `set1`, 
 127.0.0.1:6379> smembers set1
 1) "da"
 2) "wo"
@@ -324,3 +322,92 @@ BRPOP k1 [k2..]  timeout
 BRPOPLPUSH source destination timeout
 
 从列表中弹出一个值，将弹出的元素插入到另外一个列表中并返回它； 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
+
+
+
+#### set
+
+sadd key member1  [member2...]
+
+向集合添加一个或多个成员，已经存在于集合的成员元素将被忽略。
+
+假如集合 key 不存在，则创建一个只包含添加的元素作成员的集合。
+
+
+
+smembers key                                               获取集合中的所有成员，不存在的集合 key 被视为空集合。
+
+scard key                                                        获取集合的成员数
+
+sismember key member                            
+
+判断member元素是否是集合key的成员，
+
+是集合的成员，返回 1 。 如果成员元素不是集合的成员，或 key 不存在，返回 0 。
+
+
+
+sdiff key1 [key2]                                            返回所有给定集合的差集,  不存在的集合视为空集，以下
+
+sinter  key1 [key2]                                         返回给定所有集合的交集
+
+sunion  ke1 [key2]                                         返回所有给定集合的并集
+
+sdiffstore  des key1 [key2]                          
+
+给定集合的差集存储在des中 ， 集合 des 已存在，则会被覆盖, 返回集合中的元素数量，以下
+
+sinterstore des key1 [key2]                         给定集合的交集存存储在des中
+
+sunionstore des key1 [key2]                       给定集合的并集存储在des合集中
+
+
+
+smove  source des member                       
+
+将member元素从source 集合移动到 des， 原子性操作
+
+如果 source 集合不存在或不包含指定的 member 元素，则 SMOVE 命令不执行任何操作，仅返回 0 。
+
+否则， member 元素从 source 集合中被移除，并添加到 destination 集合中去。
+
+当 destination 集合已经包含 member 元素时， SMOVE 命令只是简单地将 source 集合中的 member 元素删除。
+
+
+
+srem key member1 [member2]                 移除集合中一个或多个成员，不存在的成员元素会被忽略
+
+spop key                                                         移除并返回集合中的一个随机元素
+
+srandmember key [count]                           
+
+返回集合中一个或多个随机数
+
+从 Redis 2.6 版本开始， Srandmember 命令接受可选的 count 参数：
+
+- 如果 count 为正数，且小于集合基数，那么命令返回一个包含 count 个元素的数组，数组中的元素各不相同。如果 count 大于等于集合基数，那么返回整个集合。
+- 如果 count 为负数，那么命令返回一个数组，数组中的元素可能会重复出现多次，而数组的长度为 count 的绝对值。
+
+
+
+`SSCAN KEY [MATCH pattern][COUNT count]`  
+
+迭代集合键中的元素。
+
+```shell
+redis 127.0.0.1:6379> SADD myset1 "hello"
+(integer) 1
+redis 127.0.0.1:6379> SADD myset1 "hi"
+(integer) 1
+redis 127.0.0.1:6379> SADD myset1 "bar"
+(integer) 1
+redis 127.0.0.1:6379> sscan myset1 0 match h*
+1) "0"
+2) 1) "hello"
+   2) "h1"
+```
+
+
+
+#### sorted set
+

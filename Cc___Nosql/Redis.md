@@ -49,18 +49,7 @@ systemctl restart redis
 
 
 
-### redis-py
+编译安装：
 
-GitHub: ://g ithub .com/andymccurdy redis-py
-官方文档 https: //redis-py.rea dthedocs.io
-
-pip 安装
-pip3 install redis
-为了验证 redis-py 库是否已经安装成功，可以在命令行下测试 下：
-
-```python
->>> import redis
->>> redis.VERSION
-(3, 0, 1)
-```
+https://redis.io/download
 
