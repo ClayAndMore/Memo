@@ -11,3 +11,14 @@
 - /dev/sda1，就是硬盘设备，
 - \> results.txt，就是把结果重定向到results.txt文件中。
 
+
+
+
+
+
+
+### 待补充
+
+```
+/proc/pid/cmdline
+```

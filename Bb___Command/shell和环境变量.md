@@ -6,7 +6,33 @@ shell简而言之就是一个与系统内核交互的壳。
 
 在 UNIX/Linux 中比较流行的常见的 Shell 有 bash，zsh，ksh，csh 等等，Ubuntu 终端默认使用的是 bash，（我们可以去/bin/ 下看一下。）
 
-bash 兼容了sh，是它的加强版本。
+centos 下所有shell: 
+
+```shell
+[root@]# cat /etc/shells 
+/bin/sh
+/bin/bash
+/sbin/nologin
+/bin/dash
+```
+
+
+
+/etc/passwd 中会指定用户登录后用的shell:
+
+```shell
+[dmtsai@study ~]$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+....
+```
+
+
+
+
+
+
 
 ### 环境变量
 
@@ -91,3 +117,151 @@ source filename 与 sh filename 及./filename执行脚本的区别在那里呢�
 1. 当shell脚本具有可执行权限时，用sh filename与./filename执行脚本是没有区别得。./filename是因为当前目录没有在PATH中，所有"."是用来表示当前目录的。
 2. sh filename 重新建立一个子shell，在子shell中执行脚本里面的语句，该子shell继承父shell的环境变量，但子shell新建的、改变的变量不会被带回父shell，除非使用export。
 3. source filename：这个命令其实只是简单地读取脚本里面的语句依次在当前shell里面执行，没有建立新的子shell。那么脚本里面所有新建、改变变量的语句都会保存在当前shell里面。
+
+
+
+#### echo, 变量设置，unset
+
+* 变量的取用， echo
+
+  ```
+  [root@bogon wangyu]# echo $HOME
+  /root
+  [root@bogon wangyu]# echo ${HOME}
+  /root
+  ```
+
+* 变量的设置
+
+  ```shell
+  [root@b] myname = haha   # 注意不能有空格
+  -bash: myname: command not found
+  [root@b] myname=haha
+  [root@b] echo $myname
+  haha
+  
+  # 更多规则
+  [root@b] var="lang is $LANG"  # 双引号内的特殊字符如 $ 等，可以保有原本的特性
+  [root@b] echo $var
+  lang is en_US.UTF-8
+  [root@b] var='lang is $LANG'  # 单引号内的特殊字符则仅为一般字符（纯文本）
+  [root@b] echo $var
+  lang is $LANG
+  
+  [root@b] myname=ha\ ha   # 空格逃脱，其实就是转义
+  [root@b] echo $myname
+  ha ha
+  [root@b] myname=ha\$ha     # 逃脱$
+  [root@b] echo $myname
+  ha$ha
+  
+  
+  # 获取其他语句执行结果， 反引号 或 $()
+  [root@b] version=`uname -r`
+  [root@b] echo $version
+  4.11.6-1.el6.elrepo.x86_64
+  [root@b] version1=$(uname -r)
+  [root@b] echo $version1
+  4.11.6-1.el6.elrepo.x86_64
+  [root@b] uname -r
+  4.11.6-1.el6.elrepo.x86_64
+  [root@b] ls  /lib/modules/`uname -r`/kernel
+  arch  block  crypto  drivers  fs  lib  mm  net  sound  virt
+  
+  
+  [root@b]# 通常大写字符为系统默认变量，自行设置变量可以使用小写字符
+  
+  # 累加， 则可用 "$变量名称"或${变量}累加内容
+  [root@b] PATH="$PATH":/home/bin
+  [root@b] PATH=${PATH}:/home/bin
+  [dmtsai@study ~] name=$nameyes # 我要将 name 的内容多出 "yes" 呢, 我们并没有nameyes这个变量
+  [dmtsai@study ~] name="$name"yes
+  [dmtsai@study ~] name=${name}yes # 以此例较佳！
+  
+  # 若该变量需要在其他子程序执行，则需要以 export 来使变量变成环境变量： “export PATH”
+  [dmtsai@study ~] name=VBird
+  [dmtsai@study ~] bash # 进入到所谓的子程序
+  [dmtsai@study ~] echo $name # 子程序：再次的 echo 一下；
+  # 嘿嘿！并没有刚刚设置的内容喔！
+  [dmtsai@study ~] exit # 子程序：离开这个子程序
+  [dmtsai@study ~] export name
+  [dmtsai@study ~] bash 
+  [dmtsai@study ~] echo $name #子程序, 再次执行
+  VBird
+  ```
+
+* unset
+
+
+
+
+
+### Bash
+
+bash 兼容了sh，是它的加强版本。
+
+bash 用历史记录功能， 记录你输入过的命令在~/.bash_history中， 不过是记录上次登录的内容，
+
+本次登录的内容都记录在内存中。
+
+
+
+#### alias
+
+命令别名设置， `alias l = 'ls -al'`
+
+
+
+#### type
+
+查询指令是否为 Bash shell 的内置命令： type
+
+` type [-tpa] name`
+
+不加任何选项与参数时，type 会显示出 name 是外部指令还是 bash 内置指令
+
+* -t ：会将 name 以下面这些字眼显示出他的意义：
+  file ：表示为外部指令；
+  alias ：表示该指令为命令别名所设置的名称；
+  builtin ：表示该指令为 bash 内置的指令功能；
+* -p ：如果后面接的 name 为外部指令时，才会显示完整文件名；
+* -a ：会由 PATH 变量定义的路径中，将所有含 name 的指令都列出来，包含 alias
+
+```shell
+[dmtsai@study ~]$ type ls
+ls is aliased to `ls --color=auto' #未加任何参数，列出 ls 的最主要使用情况
+[dmtsai@study ~]$ type -t ls
+alias                              # 仅列出 ls 执行时的依据
+[dmtsai@study ~]$ type -a ls
+ls is aliased to `ls --color=auto' # 最先使用 aliase
+ls is /usr/bin/ls                  # 还有找到外部指令在 /bin/ls
+
+# 那么 cd 呢？
+[dmtsai@study ~]$ type cd
+cd is a shell builtin              # 看到了吗？ cd 是 shell 内置指令
+
+# 自己写的sh
+[root@bogon wangyu]# type apiup
+apiup is /ng8w/bin/apiup
+[root@bogon wangyu]# type -a apiup
+apiup is /ng8w/bin/apiup
+[root@bogon wangyu]# type -t apiup
+file
+[root@bogon wangyu]# type -p apiup
+/ng8w/bin/apiup
+```
+
+
+
+#### 指令下达和快捷键
+
+逃脱指令： `\[逃脱键]` ,  一般是 \回车， 用来多行输入， 注意其中没有空格。
+
+
+
+| 组合键             | 功能                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| ctrl + u /ctrl + k | 分别是从光标处向前删除指令串 （ctrl+u） 及向后删除指令串（）ctrl]+k） |
+| ctril +a /ctrl + e | 分别是让光标移动到整个指令串的最前面 （ctrl+a） 或最后面（ctrl+e）。 |
+| ctrl + r           | 搜索曾经输入过的命令。                                       |
+

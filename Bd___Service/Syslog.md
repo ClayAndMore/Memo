@@ -87,6 +87,23 @@ centos 5 以下的都是/etc/syslog.conf
 
 
 
+#### level
+
+在配置前，我们先来了解下日志的level: local0～local7 ``16``～``23``保留为本地使用:
+
+```
+emerg 0　　　　 　　系统不可用
+alert 1 　　　　　　必须马上采取行动的事件
+crit 2 　　　　　　 关键的事件
+err 3 　　　　　　　错误事件
+warning 4 　　　　　警告事件
+notice 5 　　　　　普通但重要的事件
+info 6 　　　　　　有用的信息
+debug 7 　　　　　调试信息
+```
+
+
+
 #### syslog 服务器
 
 

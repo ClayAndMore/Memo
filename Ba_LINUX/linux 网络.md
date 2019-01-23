@@ -122,6 +122,205 @@ ps -aux | grep <进程号>
 
 
 
+### netstat
+
+Netstat用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况.
+
+几个比较重要的参数：
+
+```shell
+-a (all)显示所有选项，默认不显示LISTEN相关
+-t (tcp)仅显示tcp相关选项
+-u (udp)仅显示udp相关选项
+-n 拒绝显示别名，能显示数字的全部转化成数字。
+-l 仅列出有在 Listen (监听) 的服務状态
+
+-p 显示建立相关链接的程序名
+-r 显示路由信息，路由表
+-e 显示扩展信息，例如uid等
+-s 按各个协议进行统计
+-c 每隔一个固定时间，执行该netstat命令。
+
+提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到
+```
+
+
+
+#### 解释
+
+```shell
+root@1# netstat
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 VM-0-6-ubuntu:ssh       222.128.62.122:31001    ESTABLISHED
+tcp        0      0 VM-0-6-ubuntu:34546     169.254.0.55:5574       ESTABLISHED
+tcp        0      0 VM-0-6-ubuntu:ssh       222.128.62.125:34010    TIME_WAIT  
+tcp        0      0 VM-0-6-ubuntu:ssh       211.151.59.19:32842     ESTABLISHED
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ]         DGRAM                    3483840  /run/user/500/systemd/notify
+unix  3      [ ]         STREAM     CONNECTED     21412    /usr/local/yd.socket.client
+unix  3      [ ]         DGRAM                    13479    /run/systemd/notify
+unix  2      [ ]         DGRAM                    13487    /run/systemd/journal/s
+..
+```
+
+从整体上看，netstat的输出结果可以分为两个部分：
+
+一个是Active Internet connections，称为有源TCP连接。
+
+- Proto显示socket使用的协议(tcp,udp,raw)。
+- "Recv-Q"和"Send-Q"指的是接收队列和发送队列(这些数字一般都应该是0,如果不是则表示软件包正在队列中堆积,这种情况是非常少见的)
+- Local Address显示在本地哪个地址和端口上监听,Foreign Address显示接收外部哪些地址哪个端口的请求
+- State显示socket的状态(通常只有tcp有状态信息)
+- PID/Program name显示socket进程id和进程名， p参数
+
+另一个是Active UNIX domain sockets，称为有源Unix域套接口， **和网络套接字一样，但是只能用于本机通信，性能可以提高一倍**。
+
+- Proto显示连接使用的协议
+- RefCnt表示连接到本套接口上的进程号,
+- Types显示套接口的类型,
+- tate显示套接口当前的状态,Path表示连接到套接口的其它进程使用的路径名。
+
+
+
+
+
+加上-n, 可以比较出加n和不加n的差别， 加n时local Adrress的显示会变成ip:
+
+```shell
+ot@VM-0-6-ubuntu:/home/ubuntu# netstat -n
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 172.21.0.6:22           211.151.59.19:32867     ESTABLISHED
+tcp        0      0 172.21.0.6:22           222.128.62.122:31001    ESTABLISHED
+tcp        0      0 172.21.0.6:34546        169.254.0.55:5574       ESTABLISHED
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ]         DGRAM                    3483840  /run/user/500/systemd/notify
+unix  3      [ ]         STREAM     CONNECTED     21412    /usr/local/yd.socket.client
+unix  3      [ ]         DGRAM                    13479    /run/systemd/notify
+unix  2      [ ]         DGRAM                    13487    /run/systemd/journal/syslog
+...
+```
+
+
+
+#### 几个有用的命令组合
+
+* 找出运行在指定端口的进程
+  `netstat -anp | grep ':3306'`
+
+* tcp 各种状态表：
+
+  ```
+  [root@localhost log]# netstat -nat |awk '{print $6}'|sort|uniq -c
+      302 CLOSE_WAIT
+        1 established)
+      646 ESTABLISHED
+        1 FIN_WAIT2
+        1 Foreign
+       48 LISTEN
+        1 SYN_SENT
+      317 TIME_WAIT
+  ```
+
+* 如果你想看看 http,smtp 或 ntp 服务是否在运行，使用 grep。
+
+  ```shell
+  $ sudo netstat -aple | grep ntp
+  udp        0      0 enlightened.local:ntp   *:*                                 root       17430       1789/ntpd       
+  udp        0      0 localhost:ntp           *:*                                 root       17429       1789/ntpd       
+  udp        0      0 *:ntp                   *:*                                 root       17422       1789/ntpd       
+  udp6       0      0 fe80::216:36ff:fef8:ntp [::]:*                              root       17432       1789/ntpd       
+  udp6       0      0 ip6-localhost:ntp       [::]:*                              root       17431       1789/ntpd       
+  udp6       0      0 [::]:ntp                [::]:*                              root       17423       1789/ntpd       
+  unix  2      [ ]         DGRAM                    17418    1789/ntpd
+  ```
+
+* 各协议网络包的统计：
+
+  ```shell
+  $ netstat -s
+  Ip:
+      32797 total packets received
+      0 forwarded
+      0 incoming packets discarded
+      32795 incoming packets delivered
+      29115 requests sent out
+      60 outgoing packets dropped
+  Icmp:
+      125 ICMP messages received
+      0 input ICMP message failed.
+      ICMP input histogram:
+          destination unreachable: 125
+      125 ICMP messages sent
+      0 ICMP messages failed
+      ICMP output histogram:
+  ```
+
+  如果想只打印出 TCP 或 UDP 协议的统计数据，只要加上对应的选项（-t 和 -u）
+
+* 核心路由信息：
+
+  ```shell
+  [root@localhost ~]# netstat -r
+  Kernel IP routing table
+  Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+  default         localhost       0.0.0.0         UG        0 0          0 em1
+  1.1.1.0         *               255.255.255.0   U         0 0          0 console
+  link-local      *               255.255.0.0     U         0 0          0 em1
+  link-local      *               255.255.0.0     U         0 0          0 console
+  172.17.0.0      *               255.255.0.0     U         0 0          0 docker0
+  192.168.18.0    *               255.255.255.0   U         0 0          0 em1
+  192.168.122.0   *               255.255.255.0   U         0 0          0 virbr0
+  [root@localhost ~]# netstat -rn
+  Kernel IP routing table
+  Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+  0.0.0.0         192.168.18.2    0.0.0.0         UG        0 0          0 em1
+  1.1.1.0         0.0.0.0         255.255.255.0   U         0 0          0 console
+  169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 em1
+  169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 console
+  172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+  192.168.18.0    0.0.0.0         255.255.255.0   U         0 0          0 em1
+  192.168.122.0   0.0.0.0         255.255.255.0   U         0 0          0 virbr0
+  
+  ```
+
+
+
+
+#### state
+
+state列共有12中可能的状态，前面11种是按照TCP连接建立的三次握手和TCP连接断开的四次挥手过程来描述的
+
+* LISTEN:首先服务端需要打开一个socket进行监听，状态为LISTEN 侦听来自远方TCP端口的连接请求 
+*  SYN_SENT:客户端通过应用程序调用connect进行active open.于是客户端tcp发送一个SYN以请求建立一个连接.之后状态置为SYN_SENT. 在发送连接请求后等待匹配的连接请求 
+* SYN_RECV:服务端应发出ACK确认客户端的 SYN,同时自己向客户端发送一个SYN. 之后状态置为SYN_RECV. 在收到和发送一个连接请求后等待对连接请求的确认 
+* ESTABLISHED: 代表一个打开的连接，双方可以进行或已经在数据交互了。代表一个打开的连接，数据可以传送给用户
+
+* FIN_WAIT1: 主动关闭 (active close) 端应用程序调用close，于是其TCP发出FIN请求主动关闭连接，之后进入FIN_WAIT1状态. 等待远程TCP的连接中断请求，或先前的连接中断请求的确认 
+* CLOSE_WAIT:被动关闭( passive close )端TCP接到FIN后，就发出ACK以回应FIN请求(它的接收也作为文件结束符传递给上层应用程序),并进入CLOSE_WAIT 等待从本地用户发来的连接中断请求 
+
+* FIN_WAIT2:主动关闭端接到ACK后，就进入了 FIN-WAIT-2  从远程TCP等待连接中断请求 
+
+* LAST_ACK:被动关闭端一段时间后，接收到文件结束符的应用程 序将调用CLOSE关闭连接。这导致它的TCP也发送一个 FIN,等待对方的ACK.就进入了LAST-ACK 等待原来发向远程TCP的连接中断请求的确认 
+
+* TIME_WAIT:在主动关闭端接收到FIN后，TCP 就发送ACK包，并进入TIME-WAIT状态。等待足够的时间以确保远程TCP接收到连接中断请求的确认 
+
+* CLOSING: 比较少见 等待远程TCP对连接中断的确认 
+
+* CLOSED: 被动关闭端在接受到ACK包后，就进入了closed的状态。连接结束.没有任何连接状态 
+
+* UNKNOWN: 未知的Socket状态
+
+
+SYN: (同步序列编号,Synchronize Sequence Numbers)该标志仅在三次握手建立TCP连接时有效。表示一个新的TCP连接请求。
+ACK: (确认编号,Acknowledgement Number)是对TCP请求的确认标志,同时提示对端系统已经成功接收所有数据。
+FIN: (结束标志,FINish)用来结束一个TCP回话.但对应端口仍处于开放状态,准备接收后续数据。
+
+
+
 ### nc/netcat
 
 netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向，你可以在脚本中以多种方式使用它。使用netcat命令所能完成的事情令人惊讶。
