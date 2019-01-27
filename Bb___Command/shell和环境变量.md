@@ -265,3 +265,4 @@ file
 | ctril +a /ctrl + e | 分别是让光标移动到整个指令串的最前面 （ctrl+a） 或最后面（ctrl+e）。 |
 | ctrl + r           | 搜索曾经输入过的命令。                                       |
 
+
