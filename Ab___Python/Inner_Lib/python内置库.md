@@ -1331,3 +1331,28 @@ data:
 
 `socket.setdefaulttimeout(5); # 超时 5秒`
 
+疑问？ 这个设置超时和urlopen(timeout=)的区别：
+
+https://stackoverflow.com/questions/27327787/python-urllib2-does-not-respect-timeout
+
+https://stackoverflow.com/questions/8464391/what-should-i-do-if-socket-setdefaulttimeout-is-not-working
+
+
+
+关闭连接：
+
+close()会释放链接资源但是不会立即关闭，如果需要立即关闭可以用shutdown()
+
+```python
+ fdurl = urllib2.urlopen(req,timeout=self.timeout)
+    realsock = fdurl.fp._sock.fp._sock** # we want to close the "real" socket later 
+    req = urllib2.Request(url, header)
+    try:
+             fdurl = urllib2.urlopen(req,timeout=self.timeout)
+    except urllib2.URLError,e:
+              print "urlopen exception", e
+    finally:
+    	realsock.close() 
+    	fdurl.close()
+```
+
