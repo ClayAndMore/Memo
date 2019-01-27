@@ -136,6 +136,7 @@ Netstat用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般�
 -l 仅列出有在 Listen (监听) 的服務状态
 
 -p 显示建立相关链接的程序名
+-o 计时
 -r 显示路由信息，路由表
 -e 显示扩展信息，例如uid等
 -s 按各个协议进行统计
@@ -170,9 +171,23 @@ unix  2      [ ]         DGRAM                    13487    /run/systemd/journal/
 一个是Active Internet connections，称为有源TCP连接。
 
 - Proto显示socket使用的协议(tcp,udp,raw)。
-- "Recv-Q"和"Send-Q"指的是接收队列和发送队列(这些数字一般都应该是0,如果不是则表示软件包正在队列中堆积,这种情况是非常少见的)
+
+- "Recv-Q"和"Send-Q"指的是接收队列和发送队列(这些数字一般都应该是0,如果不是则表示软件包正在队列中堆积,这种情况是非常少见的), 单位是字节, 堆积状态是不正常的。
+
+  - Recv-Q :  是表示程序总共还有多少字节的数据没有从内核空间的套接字缓存拷贝到用户空间。
+
+    可能是遭受了拒绝服务 denial-of-service 攻击。
+
+  - Send-Q: 
+
+    可能是有应用向外发送数据包过快，或者是对方接收数据包不够快,
+
+    注意有的程序send成功，但是阻塞在send-Q, send只是表示写入send buffer成功
+
 - Local Address显示在本地哪个地址和端口上监听,Foreign Address显示接收外部哪些地址哪个端口的请求
+
 - State显示socket的状态(通常只有tcp有状态信息)
+
 - PID/Program name显示socket进程id和进程名， p参数
 
 另一个是Active UNIX domain sockets，称为有源Unix域套接口， **和网络套接字一样，但是只能用于本机通信，性能可以提高一倍**。
@@ -203,6 +218,48 @@ unix  3      [ ]         DGRAM                    13479    /run/systemd/notify
 unix  2      [ ]         DGRAM                    13487    /run/systemd/journal/syslog
 ...
 ```
+
+
+
+#### 计时器
+
+用-o参数可以计时：
+
+`Proto Recv-Q Send-Q Local Address    Foreign Address   State  PID/Program name  Timer`
+
+会多一行Timer
+
+```
+    Timer
+keepalive (576.47/0/0)  
+timewait (53.30/0/0)
+<第一列>      <第二列>
+```
+
+第一列，一般有一下几种状态；
+
+* keepalive - 表示是keepalive的时间计时
+
+* on - 表示是重发（retransmission）的时间计时
+
+* off - 表示没有时间计时
+
+* timewait - 表示等待（timewait）时间计时
+
+第二列，
+
+`(576.47/0/0) -> (a/b/c)`
+
+* a -  计时时间值
+  * 当第一列为keepalive的时候，a代表keepalive计时时间；
+  * 当第一列为on的时候，a代表重发（retransmission）的时间计时；
+  * 当第一列为timewait的时候，a代表等待（timewait）的时间计时）
+
+* b - 已经产生的重发（retransmission）次数
+
+* c - keepalive已经发送的探测（probe）包的次数
+
+
 
 
 
@@ -313,11 +370,6 @@ state列共有12中可能的状态，前面11种是按照TCP连接建立的三�
 * CLOSED: 被动关闭端在接受到ACK包后，就进入了closed的状态。连接结束.没有任何连接状态 
 
 * UNKNOWN: 未知的Socket状态
-
-
-SYN: (同步序列编号,Synchronize Sequence Numbers)该标志仅在三次握手建立TCP连接时有效。表示一个新的TCP连接请求。
-ACK: (确认编号,Acknowledgement Number)是对TCP请求的确认标志,同时提示对端系统已经成功接收所有数据。
-FIN: (结束标志,FINish)用来结束一个TCP回话.但对应端口仍处于开放状态,准备接收后续数据。
 
 
 
