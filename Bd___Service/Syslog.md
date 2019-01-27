@@ -115,6 +115,26 @@ centos 5 以下的都是/etc/syslog.conf
 
 
 
+##### GLOBAL DIRECTIVES
+
+```shell
+# Use default timestamp format
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# File syncing capability is disabled by default. This feature is usually not required,
+# not useful and an extreme performance hit
+#$ActionFileEnableSync on
+
+# Include all config files in /etc/rsyslog.d/, 会读取/etc/rsyslog.d/*.conf目录下的配置文件
+$IncludeConfig /etc/rsyslog.d/*.conf
+```
+
+
+
+
+
+
+
 ##### RULES
 
 规定了： 
@@ -228,6 +248,42 @@ root@study ~]# vim /etc/rsyslog.conf
 #*.* @192.168.1.100 # 若用 UDP 传输，设置要变这样！
 [root@study ~]# systemctl restart rsyslog.service
 ```
+
+
+
+#### 搭配haproxy
+
+为haproxy创建一个独立的配置文件:
+
+```shell
+# vim /etc/rsyslog.d/haproxy.conf
+$Modload imudp
+$UDPServerRun 514
+$UDPServerAddress 127.0.0.1  # 只接收本地的udp
+local2.*   /var/log/haproxy.log
+# 如果不加下面的配置除了在/var/log/haproxy.log中写入日志味道，也会写入message文件
+&~
+
+# 或可指定分开级别的日志文件：
+local2.=info     /var/log/haproxy-info.log
+local2.notice    /var/log/haproxy-allbutinfo.log
+```
+
+配置rsyslog的主配置文件，开启远程日志
+
+```shell
+# vim /etc/sysconfig/rsyslog
+SYSLOGD_OPTIONS = "-c 2 -r -m 0"
+# -c 2 使用兼容模式， 默认是-c 5
+# -r 开启远程日志
+# -m 0 修改syslog的内部mark消息写入间隔时间(0为关闭),例如240为每隔240分钟写入一次"--MARK--"信息;
+# -x:   关闭自动解析对方日志服务器的FQDN信息,这能避免DNS不完整所带来的麻烦;
+# -h: 默认情况下,syslog不会发送从远端接受过来的消息到其他主机,而使用该选项,则把该开关打开,所有接受到的信息都可根据syslog.conf中定义的@主机转发过去.
+```
+
+重启haproxy 和 rsyslog
+
+
 
 
 
