@@ -597,3 +597,175 @@ find . -name \*.pyc -delete
 `grep -rn "x" *  `
 
 -rn表示递归查找，x表示要查找的字符，*表示当前目录下的所有文件
+
+
+
+
+
+### 目录切换
+
+#### OLDPWD
+
+我们知道使用`cd -` 可以换到之前的目录，实际上，`cd -`中，`-`就相当于变量$OLDPWD。`cd -`就相当于cd $OLDPWD`。下面是一个例子：
+
+```
+$ pwd
+/home/lfqy
+$ cd /
+$ echo $OLDPWD
+/home/lfqy
+$ cd $OLDPWD
+$ pwd
+/home/lfqy
+$ 
+```
+
+
+
+#### dirs
+
+dirs保存了目录栈， 栈顶永远是存放当前的目录
+
+dirs常用的参数：
+
+| 选项 | 含义                                          |
+| ---- | --------------------------------------------- |
+| -p   | 每行显示一条记录                              |
+| -v   | 每行显示一条记录，同时展示该记录在栈中的index |
+| -c   | 清空目录栈                                    |
+
+
+
+```
+[root@localhost ~]# dirs
+~
+[root@localhost ~]# cd /boot/
+[root@localhost boot]# dirs
+/boot
+[root@localhost boot]# dirs -v
+ 0  /boot
+[root@localhost boot]# 
+```
+
+
+
+#### pushd
+
+每次pushd命令执行完成之后，默认都会执行一个dirs命令来显示目录栈的内容
+
+* pushed  目录
+
+  pushd后面如果直接跟目录使用，会切换到该目录并且将该目录置于目录栈的栈顶。
+
+  时时刻刻都要记住，目录栈的栈顶永远存放的是当前目录。
+
+  如果当前目录发生变化，那么目录栈的栈顶元素肯定也变了
+
+  反过来，如果栈顶元素发生变化，那么当前目录肯定也变了。
+
+  ```
+   $ pwd
+   /home/lfqy
+   $ pushd /
+   / ~
+   $ dirs -v
+    0  /
+    1  ~
+   $ pushd ~/Music/
+   ~/Music / ~
+   $ dirs -v
+    0  ~/Music
+    1  /
+    2  ~
+  ```
+
+* pushd 无参数
+
+  pushd不带任何参数执行的效果就是，将目录栈最顶层的两个目录进行交换。前面说过，栈顶目录和当前目录一个发生变化，另一个也变。这样，实际上，就实现了`cd -`的功能。
+
+  ```
+  $ dirs -v
+    0  ~/Music
+    1  /
+    2  ~
+   $ pushd
+   / ~/Music ~
+   $ dirs -v
+    0  /
+    1  ~/Music
+    2  ~
+   $ pushd
+   ~/Music / ~
+   $ dirs -v
+    0  ~/Music
+    1  /
+    2  ~ 
+  ```
+
+* pushd +n
+
+  `pushd +n`切换到目录栈中的第n个目录(这里的n就是`dirs -v`命令展示的index)，并将该目录以栈循环的方式推到栈顶, 注意这样带来栈的变化：
+
+  ```
+   $ dirs -v
+    0  ~/Music
+    1  /
+    2  ~
+   $ pushd +2
+   ~ ~/Music /
+   $ dirs -v
+    0  ~
+    1  ~/Music
+    2  /
+   $ pushd +1
+   ~/Music / ~
+   $ dirs -v
+    0  ~/Music
+    1  /
+    2  ~
+   $ 
+  ```
+
+
+#### popd
+
+每次popd命令执行完成之后，默认都会执行一个dirs命令来显示目录栈的内容
+
+* popd 不带参数
+
+  将栈顶推出，删掉并进入栈顶后的目录
+
+  ```
+  [root@localhost home]# pushd /root
+  ~ /home /
+  [root@localhost ~]# dirs -v
+   0  ~
+   1  /home
+   2  /
+  [root@localhost ~]# popd
+  /home /
+  [root@localhost home]# pwd
+  /home
+  [root@localhost home]# dirs -v
+   0  /home
+   1  /
+  ```
+
+
+* popd +n
+
+  将栈中第n个删除，不会引起当前目录的变化：
+
+  ```
+  root@localhost ~]# dirs -v
+   0  ~
+   1  /home
+   2  /
+  [root@localhost ~]# pop +2
+  -bash: pop: command not found
+  [root@localhost ~]# popd +2
+  ~ /home
+  [root@localhost ~]# dirs -v
+   0  ~
+   1  /home
+  ```
