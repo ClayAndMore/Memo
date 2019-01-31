@@ -493,3 +493,14 @@ ObjectId('5af1475ec3666e22533e72dd')
 
 当不存在a为1这样的字段， 会增加b和c.
 
+
+
+##### 返回cursor中的第一个
+
+```python
+try:
+    record = cursor.next()
+except StopIteration:
+    print("Empty cursor!")
+```
+
