@@ -433,3 +433,140 @@ True
 通常你的代码无需直接使用特殊方法，除非有大量等元编程存在。
 
 通过内置等函数（len, iter, str,）等来使用特殊方法是最好的选择。
+
+
+
+### Mixin
+
+Mixin编程是一种开发模式，是一种**将多个类中的功能单元的进行组合的利用的方式**。
+
+像继承，但和继承不同。
+
+通常**mixin并不作为任何类的基类**，也不关心与什么类一起使用，而是**在运行时动态的同其他零散的类一起组合使用**。
+使用mixin机制有如下好处：
+
+* 可以在不修改任何源代码的情况下，对已有类进行扩展；
+
+* 可以保证组件的划分；
+
+* 可以根据需要，使用已有的功能进行组合，来实现“新”类；
+
+* 很好的避免了类继承的局限性，因为新的业务需要可能就需要创建新的子类。
+
+在举例子之前，我们需要先熟悉几个关键字：
+
+#### `__bases__`
+
+返回一个元组，该元组元素是类的基类
+
+```python
+class t0(object):
+    pass
+
+class t1(t0):
+    pass
+
+print t0.__bases__   # (<type 'object'>,)
+print t1.__bases__   # (<class '__main__.t0'>,)
+```
+
+
+
+#### `___mro__`
+
+返回一个元祖， 元素是该类的依次继承的类
+
+```python
+class t0(object):
+    pass
+
+class t1(t0):
+    pass
+
+print t0.__mro__  # (<class '__main__.t0'>, <type 'object'>)
+print t1.__mro__  # (<class '__main__.t1'>, <class '__main__.t0'>, <type 'object'>)
+```
+
+
+
+#### eg
+
+```python
+def mixin(pyclass, pyMixinClass, b=1):
+    if b:
+        pyclass.__bases__ += (pyMixinClass,)
+    elif pyMixinClass not in pyclass.__bases__:
+        pyclass.__bases__ = (pyMixinClass,) + pyclass.__bases__
+    else:
+        pass
+
+class MinxinClass:
+    def p(self):
+        print 'i am mixin p'
+
+class t0(object):
+    def p(self):
+        print 'i am p1'
+
+class t1(t0):
+    pass
+
+class t2(t0):
+    pass
+
+if __name__ == '__main__':
+    t_1 = t1()
+    t_1.p()
+    mixin(t1, MinxinClass, b=0)
+    t_1 = t1()
+    t_1.p()
+
+    mixin(t2, MinxinClass)
+    t_2 = t2()
+    t_2.p()
+    
+out:
+i am p1
+i am mixin p
+i am p1
+```
+
+会有些输出bases中左边的类的方法， 注意：
+
+```
+>>> a=('s','ss')
+>>> ('sss',)+a
+('sss', 's', 'ss')
+
+>>> a+=('sss',)
+>>> a
+('s', 'ss', 'sss')
+```
+
+所以注意pyMixin加的顺序。
+
+
+
+**mixin 类的继承：**
+
+```python
+class t3(MixinClass, t0):
+    pass
+
+class t4(t0, MixinClass):
+    pass
+   
+class t5(t0, MixinClass):
+     def p(self):
+        print 'i am p5'
+    
+if __name__ == '__main__':
+    t_3 = t3()
+    t_3.p()    # i am mixin p
+    t_4 = t4()
+    t_4.p()    #  i am p1
+    t_5 = t5()
+    t_5.p()    # i am p5
+```
+
+原理上和bases及mro属性是一样的。
