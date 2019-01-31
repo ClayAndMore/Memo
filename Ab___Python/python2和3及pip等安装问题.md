@@ -459,3 +459,32 @@ yum install ncurses-devel
 yum install readline-deve
 ```
 
+ubuntu:
+
+`apt-get install python-setuptools python-dev ncurses-dev`
+
+
+
+#### 离线安装时的：zipimport.ZipImortError
+
+```
+zipimport.ZipImportError: can't decompress data; zlib not available
+Makefile:1099: recipe for target 'install' failed
+make: *** [install] Error 1
+```
+
+缺少zlib 的相关工具包
+解决：
+
+1. 安装zlib相关依赖包：`yum -y install zlib*`或者`sudo apt-get install zlibc zlib1g-dev`
+2. 到python安装目录下执行`sudo ./configure`
+3. 进入 python安装包,修改Module路径的setup文件：`vim module/setup`
+   找到一下一行代码：
+   `#zlib zlibmodule.c -I$(prefix)/include -L$(exec_prefix)/lib -lz`
+   去掉注释:
+   `zlib zlibmodule.c -I$(prefix)/include -L$(exec_prefix)/lib -lz`
+   安装完上面的依赖包后，重新进入终端，进入python的安装包路径下执行：
+   `make && make install`
+   重新编译安装即可
+
+第三步我在安装3.6的时候没有找到， 也可正常安装
