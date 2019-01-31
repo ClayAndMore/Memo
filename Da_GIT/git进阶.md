@@ -28,7 +28,7 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
 
 
-### 分支
+### branch
 
 * 查看分支
 
@@ -68,6 +68,8 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
   `git branch -d branchname `   删除本地分支
 
   `git branch -r -d origin/branch-name`    删除远程分支
+
+  `git push <remote_name> --delete <branch_name>`  也是删除远程分支
 
 * 重命名分支
 
@@ -276,8 +278,9 @@ git stash将当前工作区缓存起来，这样切换到其他分支工作区�
 * git stash pop , 会同时删除缓存内容。
 * 可加具体stash:` $ git stash apply stash@{0}`
 
+如果 你在a分支缓存了 到b分支又拿回来了，一般会又冲突，我们要解决冲突. 如果是误操作，需要：
 
-如果 你在a分支缓存了 到b分支又拿回来了，一般会又冲突，我们要解决冲突
+`get reset --hard HEAD`
 
 
 
@@ -420,6 +423,10 @@ git merge A
 ```
 
 
+
+#### 文件从 Git 仓库中移除，但任希望保留在当前工作目录中
+
+`git rm --cached file-you-want-to-remove`
 
 
 
