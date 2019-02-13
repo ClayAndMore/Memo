@@ -10,10 +10,10 @@ python的哲学：
 
 `用一种方法，最好是只有一种方法来做一件事。`
 
-linux 命令行将以\$开始，比如\$ls,$python
-python命令行将以>>>开始 如：>>>print 'Hello World!'
+python命令行将以>>>开始 如：`>>>print 'Hello World!'`
+
 注释会以#开始
-文件后缀.py
+
 一行写不下可以用\连接,或者用括号：
 
 ```python
@@ -32,7 +32,7 @@ if （xxxx is None and
 
 用 `python xxoo.py` 来运行，那么写不写都没关系，如果要用 `./xxoo.py` 那么就必须加这行，这行被称为 shebang, 用来为脚本语言指定解释器.
 
-*在Python中，等号`=`是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量，例如：
+在Python中，等号`=`是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量，例如：
 
   ```
   a = 123 # a是整数
@@ -53,13 +53,17 @@ if （xxxx is None and
 
 * CPython
 
-当我们从Python官方网站下载并安装好Python 3.5后，我们就直接获得了一个官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行python就是启动CPython解释器。
+当我们从Python官方网站下载并安装好Python 后，我们就直接获得了一个官方版本的解释器：CPython。
 
-CPython是使用最广的Python解释器。教程的所有代码也都在CPython下执行。
+这个解释器是用C语言开发的，所以叫CPython。在命令行下运行python就是启动CPython解释器。
+
+CPython是使用最广的Python解释器。
 
 * IPython
 
-IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。
+IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。
+
+好比很多国产浏览器虽然外观不同，但内核其实都是调用了IE。
 
 CPython用>>>作为提示符，而IPython用In [序号]:作为提示符。
 
@@ -122,6 +126,10 @@ else:
 
 最后一个常见的问题是如何输出格式化的字符串。我们经常会输出类似`'亲爱的xxx你好！你xx月的话费是xx，余额是xx'`之类的字符串，而xxx的内容都是根据变量变化的，所以，需要一种简便的格式化字符串的方式。
 
+
+
+#### %
+
 在Python中，采用的格式化方式和C语言是一致的，用`%`实现，举例如下：
 
 ```
@@ -151,7 +159,7 @@ else:
 '3.14'
 ```
 
-如果你不太确定应该用什么，`%s`永远起作用，它会把任何数据类型转换为字符串：
+如果你不太确定应该用什么，`%s`永远起作用，它会把**任何数据类型转换为字符串**：
 
 ```
 >>> 'Age: %s. Gender: %s' % (25, True)
@@ -171,7 +179,7 @@ else:
 
 ```python
 a='abc'
-print('hello,%s!'%a) #%a前不要有逗号
+print('hello,%s!'%a) # %a 前不要有逗号
 ```
 
 #### format
@@ -198,7 +206,7 @@ if i>0
 ```
 通过缩来实现不同层次
 一个if结构：
-```
+```python
 if i>0
     i=1
 elif i<0 # 可以写多个elif
@@ -240,7 +248,7 @@ if 后判断真值，
 #### 相等比较
 == 和 is的差别，==比较的是内容，is比较的是引用。
 
-注意None时尽量用is None, 而不是==， 否定的正确写法是 is not Noe.
+注意None时尽量用is None, 而不是==， 否定的正确写法是 is not None.
 
 首先速度is会快，它没有==（`__eg__`的重载），直接比的是id。
 
@@ -297,7 +305,8 @@ text='男' if gender=='male' else '女'
 尝试一下：
 `>>>print [1,2,3] - [3,4]`
 会有错误信息，说明该运算符“-”没有定义。现在我们继承list类，添加对"-"的定义：
-```
+
+```python
 class superList(list):
     def __sub__(self, b):
         a = self[:]     # 这里，self是supeList的对象。由于superList继承于list，它可以利用和list[:]相同的引用方法来表示整个对象。
@@ -407,7 +416,7 @@ finally:
 
 * 看异常的类型：
 
-  ```
+  ```python
   import sys
   try:
       raise
