@@ -1,4 +1,4 @@
-
+Tags:[nosql, 数据库, mongodb, python]
 
 ### db.command
 

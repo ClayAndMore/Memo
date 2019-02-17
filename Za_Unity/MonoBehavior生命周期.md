@@ -1,9 +1,5 @@
----
-title: MonoBehavior生命周期
-date: 2016-06-05 10:11:10
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-05
 
 
 
@@ -45,7 +41,7 @@ tags: unity
 * GUILayout.TextField (str)    : 编辑框，输入文本，参数为显式的文本。用户可以接收参数的文本，就是你输入的文本：
 
   	string str = "";
-  	  str = GUILayout.TextField(str);
+    	  str = GUILayout.TextField(str);
 
 
 ### OnDestory()

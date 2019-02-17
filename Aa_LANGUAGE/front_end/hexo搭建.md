@@ -1,9 +1,6 @@
----
-title: hexo搭建
-date: 2017-01-21 21:53:44
-header-img: "postBack.jpg"
-tags: hexo
----
+
+tags:[hexo] date: 2017-01-21
+
 
 ### 前期准备
 

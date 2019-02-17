@@ -1,9 +1,5 @@
----
-title: UGUI
-date: 2016-06-19 11:25:11
-categories: unity
-tags: [unity,UGUI]
----
+
+Tags:[Unity]  date: 2016-06-19
 
 ### slide和文字滚动
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/ugui1.png)
@@ -27,7 +23,7 @@ tags: [unity,UGUI]
 这里介绍通过UGUIbutton的Click函数加载另外场景的两种方式，也是函数传值的方式
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/btnGetinFinish.png)
 ​    
-        public void buttonStarOtherSence(string SceneName) {
+​        public void buttonStarOtherSence(string SceneName) {
 
         Application.LoadLevel(SceneName);
         }

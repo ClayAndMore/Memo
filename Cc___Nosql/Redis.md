@@ -1,3 +1,5 @@
+tags:[消息队列, nosql, 数据库, Redis]
+
 ## Redis
 
 Red is 是一个基于内存的高效的非关系型数据库, C语言实现。

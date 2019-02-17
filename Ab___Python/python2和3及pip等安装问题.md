@@ -1,10 +1,5 @@
----
-title: CentOS7-python2和3及pip等安装问题
-date: 2017-03-18 14:54:28
-categories:
-header-img: python
-tags: python
----
+tags: [python, pip] date: 2017-03-18
+
 
 
 

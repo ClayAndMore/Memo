@@ -1,9 +1,6 @@
----
-title: js
-date: 2016-08-04 10:53:00
-categories: js
-tags: js
----
+
+tags: [前端] date: 2016-08-04
+
 
 ###  写在前面
 JavaScript语句是发送给浏览器的命令，这些命令的作用是告诉浏览器要做的事情。
@@ -36,7 +33,7 @@ var aima = "aima";
 ### 函数
 语法：
 function 函数名（）{
-    函数代码；
+​    函数代码；
 }
 ### 输出内容
 document.write() ,用于直接先html输出流写内容。
@@ -69,7 +66,7 @@ document.getElementById("id")  //返回结果null 或 object
 ### innerHTML属性
 innerHTML属性用于获取或替换HTML元素的内容
 语法：
-    Object.innerHTML 
+​    Object.innerHTML 
 eg:
 通过id="aima"获取<div>元素，并将元素的内容输出和改变元素内容。
 html代码：`<div id="aima"></div>`
@@ -101,7 +98,7 @@ object.className = classname
 为网页内的某个元素指定一个css样式来更改该元素的外观
 html:`<div id = "aima" class = "aimastyle"> Hello aimaonline!</div>`
 js: `var aimaChar = document.getElementById("aima");`
-    `aimaChar.className = "newstyle"`
+​    `aimaChar.className = "newstyle"`
 
 ### js对象
 对象拥有属性和方法：

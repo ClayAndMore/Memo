@@ -1,3 +1,5 @@
+tags:[python, spider, py_lib]
+
 ## requests
 
 用urllib时在处理网站验证和cookies时不太方便，需要Opener和handler来处理。

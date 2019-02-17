@@ -1,3 +1,5 @@
+Tags:[linux]
+
 ### firwalld
 
 #### firewalld的基本使用

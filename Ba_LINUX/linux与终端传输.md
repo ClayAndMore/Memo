@@ -1,10 +1,5 @@
----
-title: linux与终端传输
-date: 2017-06-22 10:12:45
-categories: linux
-header-img:
-tags: linux
----
+
+Tags:[linux] date: 2017-06-22
 
 
 

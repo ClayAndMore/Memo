@@ -1,10 +1,5 @@
----
-title: IO模型
-date: 2017-04-27 12:18:23
-categories: web
-header-img:
-tags: web
----
+
+tags:[异步, linux] date: 2017-04-27
 
 ### 异步IO
 

@@ -1,3 +1,5 @@
+Tags: [c]
+
 ### printf
 
 `printf("23+56=%d\n", 23+56);`

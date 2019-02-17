@@ -1,9 +1,5 @@
----
-title: LINQ
-date: 2016-04-25 14:47:35
-categories: "c#"
-tags: [c#]
----
+
+tags: [c#] date: 2016-04-25 
 
 ### 什么是LINQ
 在数据库系统中，数据可以放在规划很好的表中，用SQL查询。但是在程序中，保存在类对象或结构中的数据差异很大。这时，使用LINQ可以轻松的查询对象集合。
@@ -50,7 +46,7 @@ tags: [c#]
 LINQ查询可以返回两种类型的结果，枚举，或者一个单一值
 
        int[] numbers = {2,5,28,31};
-
+    
        IEnumerable<int> lowNums = from n in numbers  //返回枚举数
                                   where n < 20 
                                   select n;
@@ -63,7 +59,7 @@ LINQ查询可以返回两种类型的结果，枚举，或者一个单一值
 
 ###查询表达式的结构
 *   from子句  
-        ` form Type Item in Ttems `
+    ​    ` form Type Item in Ttems `
     * 它指定了要作为数据源使用的数据集合，还引入了迭代变量。
     * type是集合中元素的类型，这是可选的，编译器可以推断
     * Item是迭代变量的名字

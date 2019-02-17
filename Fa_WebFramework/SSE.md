@@ -1,3 +1,5 @@
+Tags:[web]
+
 服务器向浏览器推送信息，除了WebSocket, 还有种方式： Server-Sent Events(SSE)
 
 

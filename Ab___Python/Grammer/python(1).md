@@ -1,10 +1,6 @@
----
-title: python基础整理
-date: 2017-01-30 08:08:55
-categories: python
-header-img:
-tags:  python
----
+
+tags: [python] date: 2017-01-30 
+
 
 python的哲学：
 

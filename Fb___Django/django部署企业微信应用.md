@@ -1,10 +1,5 @@
----
-title: django部署企业微信应用
-date: 2017-07-04 09:19:51
-categories:
-header-img:
-tags:
----
+
+tags:[Django, python]  date: 2017-07-04
 
 ### 写在前面
 

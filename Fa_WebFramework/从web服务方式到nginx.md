@@ -1,10 +1,5 @@
----
-title: 从web服务方式到nginx
-date: 2017-03-16 22:26:18
-categories: Nginx
-header-img:
-tags: Nginx
----
+
+Tags:[linux, Nginx, web] date: 2017-03-16
 
 ### 常见web服务方式
 

@@ -1,10 +1,5 @@
----
- title: linux下python与mysql
-date: 2017-03-14 18:21:17
-categories:
-header-img: python
-tags: python
----
+
+Tags:[slq, 数据库, linux_software] date: 2017-03-14 
 
 ### 安装mysql
 

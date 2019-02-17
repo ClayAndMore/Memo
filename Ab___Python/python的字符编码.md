@@ -1,10 +1,6 @@
----
-title: python的字符编码
-date: 2017-02-22 17:03:42
-categories: python
-header-img: 
-tags: python
----
+
+Tags:[python, 字符] date: 2017-02-22 
+
 
 ### 搞清字符编码问题：
 

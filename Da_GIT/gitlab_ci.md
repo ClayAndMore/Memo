@@ -1,3 +1,5 @@
+Tags:[Git]
+
 ## gitlab-ci
 
 gitlab-ci全称是gitlab continuous integration的意思，也就是持续集成。中心思想是当每一次push到gitlab的时候，都会触发一次脚本执行，然后脚本的内容包括了测试，编译，部署等一系列自定义的内容

@@ -1,3 +1,5 @@
+Tags:[python, spider]
+
 ### Selector
 
 Scrapy 提供了自己的数据提取方法，即 Se lector （选择器）

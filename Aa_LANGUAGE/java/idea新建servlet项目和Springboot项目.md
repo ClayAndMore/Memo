@@ -1,9 +1,6 @@
----
-title: idea新建servlet项目和Springboot项目
-date: 2016-07-30 12:18:39
-categories: java
-tags: [java,srpingboot]
----
+
+tags: [java] date: 2016-07-30 
+
 
 ## idea创建servlet项目
 

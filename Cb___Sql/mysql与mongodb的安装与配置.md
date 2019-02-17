@@ -1,9 +1,5 @@
----
-title: mysql与mongodb的安装与配置
-date: 2016-07-18 09:45:39
-categories: 数据库
-tags: [数据库,mysql，nosql]
----
+
+Tags:[slq, 数据库] date: 2016-07-18
 
 ## MySql
 

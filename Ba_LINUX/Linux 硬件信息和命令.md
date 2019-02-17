@@ -1,3 +1,5 @@
+Tags:[linux]
+
 ## Linux 硬件信息和命令
 
 ### 磁盘

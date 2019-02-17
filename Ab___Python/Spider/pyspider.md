@@ -1,3 +1,5 @@
+Tags:[python, spider]
+
 ### 安装
 
 pip3 install pyspider 

@@ -1,10 +1,5 @@
----
-title: Django(一)
-date: 2017-04-27 13:50:03
-categories: Django
-header-img:
-tags: Django
----
+
+tags:[Django, python]  date: 2017-04-27
 
 ### 概述
 

@@ -1,3 +1,5 @@
+Tags:[linux, linux_software]
+
 ## CURL
 
 

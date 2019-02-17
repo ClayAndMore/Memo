@@ -1,22 +1,19 @@
----
-title: unity函数和细节整理
-date: 2016-06-03 09:15:02
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-03 
 
 ## 基础函数
 
 ### 移动、旋转和缩放对象
-*   移动
-    对象在**原有的位置**上继续移动：
+* 移动
+  对象在**原有的位置**上继续移动：
 
-          transform.Translate ( Vector3 offset);
+        transform.Translate ( Vector3 offset);
 
-      相当于:
+    相当于:
 
-          transform.position = transform.position + offset;
-    <!-- more -->
+        transform.position = transform.position + offset;
+
+  <!-- more -->
 
 *   缩放游戏对象
 
@@ -24,10 +21,10 @@ tags: unity
                       transform.lacalScale *= 1.2f ; //对整体进行缩放
 
 *   旋转游戏对象 
-                  旋转有两种，一种是自转：
-                ​      
-                      transform.Rotate( new Vector3(0,10,0));  // 围绕Y轴转10°。
-                
+    ​              旋转有两种，一种是自转：
+    ​            ​      
+    ​                  transform.Rotate( new Vector3(0,10,0));  // 围绕Y轴转10°。
+    ​            
                   一种是围绕一个点或者一个对象来旋转：
                 
                       this.transform.RotateAround(sphere.position, Vector3.up, 180);  //围绕球的位置对Y轴旋转180。
@@ -60,7 +57,7 @@ tags: unity
                reciever.SendMessage("Show",100,SendMessageOptions.DontRequireReceiver);
                 }
             }
-  说明：第一个参数是接受的函数名称，100是传的参数，后面是是否必须有接受方法，一般可不填。
+    说明：第一个参数是接受的函数名称，100是传的参数，后面是是否必须有接受方法，一般可不填。
 * 接收者 
 
         //消息接收函数，消息发送后被调用，就是接收一次调用一次
@@ -68,7 +65,7 @@ tags: unity
             {
                 Debug.Log("收到的数字是" + num);
             }
-  <br>
+    <br>
 ### 时间类 Time
 * Time.time : 从游戏开始计时，暂停不增加，运行游戏的时间。
 * Time.timeScale : 时间流逝速度，1f和现实流逝速度一样，0.5f时间变慢，真实时间一秒，游戏时间过了0.5秒
@@ -94,7 +91,7 @@ tags: unity
             }
 *   Mathf.Min (a,b,c) : 返回两个或n个数的最小值，参数为整数或者浮点数。
 *   Mathf.Max (a,b,c) : 返回两个或n个数的最大值，参数为整数或者浮点数。
-                <br>
+    ​            <br>
 ### 射线
 * 新建射线
 
@@ -181,7 +178,7 @@ PlayerPrefs.GetFlaot("查询键“）；//返回浮点型数据
 
 
         public class gameMune : MonoBehaviour {
-
+    
         public UILabel nowScore;    
         public UILabel highScore;
         public static gameMune _instan;

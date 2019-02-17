@@ -1,3 +1,5 @@
+Tags:[linux, linux_software]
+
 ## ftp
 
 FTP（ File Transfer Protocol ）文件传输协议，是一种常用来在两终端系统之间传输文件的方法。

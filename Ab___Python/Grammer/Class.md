@@ -1,3 +1,5 @@
+Tags:[python]
+
 ### 类
 
 ```python

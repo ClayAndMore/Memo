@@ -1,9 +1,5 @@
----
-title: c#网络编程
-date: 2016-05-30 16:42:37
-categories: c#
-tags: [c#,网络编程]
----
+tags: [c#,网络编程] date: 2016-05-30
+
 
 ### Socket编程
 1.Socket类
@@ -215,10 +211,9 @@ tags: [c#,网络编程]
                 }
             }
         }
-  另一个客户端跟上面代码一样，不过要把这个接受端的端口号和另一个发送端口号对应，这个的发送端也是一样。
-  运行效果：
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/asynSocketUdp.png)
-
+    另一个客户端跟上面代码一样，不过要把这个接受端的端口号和另一个发送端口号对应，这个的发送端也是一样。
+    运行效果：
+    ![](http://7xs1eq.com1.z0.glb.clouddn.com/asynSocketUdp.png)
 
 ---
 
@@ -233,7 +228,7 @@ tags: [c#,网络编程]
             using System.Threading.Tasks;
             using System.Net;
             using System.Net.Sockets;
-           
+               
             namespace ServerApp
             {
                 class Program
@@ -281,7 +276,7 @@ tags: [c#,网络编程]
 
 
     2. 客户端
-
+    
             using System;
             using System.Collections.Generic;
             using System.Linq;
@@ -380,12 +375,12 @@ tags: [c#,网络编程]
 
   ​          
   ​          
-                        //定义要发送回客户端的消息，采用ASCII编码，如果要发送汉字或其他特殊符号，可以采用UTF-8    
-                        byte[] sendData = Encoding.ASCII.GetBytes(Smsg);
-                            //开始异步发送消息  epSender是上次接收消息时的客户端IP和端口信息
-                            serverSocket.BeginSendTo(sendData, 0, sendData.Length, SocketFlags.None,
-                                epSender, new AsyncCallback(SendData), epSender);
-            
+​                        //定义要发送回客户端的消息，采用ASCII编码，如果要发送汉字或其他特殊符号，可以采用UTF-8    
+​                        byte[] sendData = Encoding.ASCII.GetBytes(Smsg);
+​                            //开始异步发送消息  epSender是上次接收消息时的客户端IP和端口信息
+​                            serverSocket.BeginSendTo(sendData, 0, sendData.Length, SocketFlags.None,
+​                                epSender, new AsyncCallback(SendData), epSender);
+​            
                             receiveData = new byte[1024];  //重新实例化接收数据字节数组
             
                             //开始异步接收消息，此处的委托函数是这个函数本身，递归                               

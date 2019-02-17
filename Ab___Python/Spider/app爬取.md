@@ -1,3 +1,5 @@
+Tags:[python, spider]
+
 ### Appium的安装
 
 GIthub: https://github.com/appium/apppium

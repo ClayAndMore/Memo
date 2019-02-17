@@ -1,9 +1,5 @@
----
-		title: 数据库与SQL
-date: 2016-07-16 09:17:45
-categories: 数据库
-tags: [数据库,sql]
----
+
+Tags:[slq, 数据库] date: 2016-07-16 
 
 ## 数据库范式
 

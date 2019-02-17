@@ -1,9 +1,6 @@
----
-title: jquery
-date: 2016-07-25 12:02:40
-categories: 前端
-tags: [前端,jquery]
----
+
+tags: [前端] date: 2016-07-25
+
 
 ### 写在前面
 jQuery 是一个兼容多浏览器的javascript库。

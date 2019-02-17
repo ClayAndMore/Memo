@@ -1,3 +1,5 @@
+tags:[消息队列, nosql, 数据库, Redis, python]
+
 ### redis-py
 
 GitHub: ://g ithub .com/andymccurdy redis-py

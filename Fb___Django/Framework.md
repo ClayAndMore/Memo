@@ -1,3 +1,5 @@
+tags:[Django, python] 
+
 ### RestFramework
 
 #### 安装

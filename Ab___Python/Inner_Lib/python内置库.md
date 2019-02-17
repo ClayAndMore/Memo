@@ -1,4 +1,4 @@
-Ï=ate: 2017-08-31 
+tags​:[python, py_lib], date:​ 2017-08-31 
 
 
 
@@ -202,7 +202,7 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
   ensure_ascii：默认值True，只做两件事：
 
   		1. 如果有非ASII的字符， 用utf-8解码。
-  		2. 确保dumps后的数据为 str 字符数组。
+    		2. 确保dumps后的数据为 str 字符数组。
 
 如果dict内含有non-ASCII的字符，则会解码成utf-8的数据，去掉了u, 双斜杠转义单斜杠
 

@@ -1,3 +1,5 @@
+Tags:[Mac]
+
 ## home-brew
 
 brew ， 也叫homebrew,是 Mac 下的一个包管理工具，类似于 centos 下的 yum，可以很方便地进行安装/卸载/更新各种软件包

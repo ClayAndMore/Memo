@@ -1,3 +1,5 @@
+Tags:[python,spider]
+
 ## scrapy
 
 Scrap是一个基于 Twisted的异步处理框架,是纯 Python实现的爬虫框架,其架构清晰,模块之

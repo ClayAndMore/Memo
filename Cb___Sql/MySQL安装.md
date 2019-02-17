@@ -1,11 +1,5 @@
----
-title: MySQL免安装版配置
-date: 2016-12-06 22:17:02
-tags:
-- MySQL
-categories:
-- 
----
+
+Tags:[slq, 数据库] date: 2016-12-06
 
 
 

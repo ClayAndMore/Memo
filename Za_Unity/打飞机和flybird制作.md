@@ -1,9 +1,5 @@
----
-title: 打飞机和flybird制作
-date: 2016-06-30 11:54:14
-categories: unity
-tags: unity
----
+
+Tags:[Unity] date: 2016-06-30
 
 ## 飞机
 
@@ -39,13 +35,13 @@ Quaternion.identity是四元数，该四元数，相当于"无旋转"：这个�
 ### 游戏状态控制
 在类MonoBehaviour外声明一个公共枚举，控制游戏的状态
 ​        
-        public enum GameState { 
-         start,
-         plaing,
-         end
-         }
-        public class GameManager : MonoBehaviour{
-        public static GameState state=GameState.start;//声明静态变量，使所有类能够访问
+​        public enum GameState { 
+​         start,
+​         plaing,
+​         end
+​         }
+​        public class GameManager : MonoBehaviour{
+​        public static GameState state=GameState.start;//声明静态变量，使所有类能够访问
 在其他脚本文件中可直接改变游戏状态
 `GameManager.state=GameState.end;`
 
@@ -84,17 +80,17 @@ RandomGenerate函数是管子高度随机生成的函数，一个背景上有两
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/bird1.png)
 Tiling是显式整个的多少，如设置为0.3333显式整个图片的三分之一，也就是一个鸟，Offset为偏移，整个图片向相关轴的偏移，如在tillingX为0.3的情况下，偏移X为0.3就是第二个翅膀想上的图片，下面为update中的代码。
 ​        
-            if (GameManager.state == GameState.plaing)
-            {
-                if (Input.GetMouseButton(0))
-                {
-                    Rigi.useGravity = true;
-                    Rigi.velocity = new Vector3(3, 0, 0);//给定速度	
-                    audi.Play();
-                    Vector3 vel = Rigi.velocity;
-                    Rigi.velocity = new Vector3(vel.x, 5, vel.z);
-                }
-    
+​            if (GameManager.state == GameState.plaing)
+​            {
+​                if (Input.GetMouseButton(0))
+​                {
+​                    Rigi.useGravity = true;
+​                    Rigi.velocity = new Vector3(3, 0, 0);//给定速度	
+​                    audi.Play();
+​                    Vector3 vel = Rigi.velocity;
+​                    Rigi.velocity = new Vector3(vel.x, 5, vel.z);
+​                }
+​    
             timer += Time.deltaTime;         //timer为时间计数器，如果运行五秒，此时timer为5f;
             if (timer >= 1.0f / frameNumber)  //1除以每秒的帧数，获得一帧的时间，每秒帧数可以自定义。
             {
@@ -123,7 +119,7 @@ PlayerPrefs.GetFlaot("查询键“）；//返回浮点型数据
 
 
         public class gameMune : MonoBehaviour {
-
+    
         public UILabel nowScore;    
         public UILabel highScore;
         public static gameMune _instan;

@@ -1,9 +1,6 @@
----
-title: spring和mvc
-date: 2016-08-10 12:22:33
-categories: java
-tags: [java,spring]
----
+
+tags: [java] date: 2016-08-10 
+
 
 ### Spring和Spring mvc 
 spring开源框架，威力解决企业应用的程序开发，简单来说，就它是一个轻量级的ioc和aop的容器框架。

@@ -1,9 +1,5 @@
----
-title: unity导航系统
-date: 2016-06-12 10:35:03
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-12
 
 导航系统可以让人物在场景里面只能的移动，绕过障碍等。
 

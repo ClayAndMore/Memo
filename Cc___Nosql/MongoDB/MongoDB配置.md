@@ -1,3 +1,5 @@
+Tags:[nosql, 数据库, mongodb, linux_software]
+
 ### 安装和配置
 
 ubuntu：

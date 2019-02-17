@@ -1,9 +1,6 @@
----
-title: c#StringBuiler
-date: 2016-04-30 16:39:40
-categories: c#
-tags: [c#,string]
----
+
+tags: [c#] date: 2016-04-30
+
 
 ### 写在前面
 
@@ -26,29 +23,29 @@ MyStringBuilder.Capacity = 25;
         StringBuilder MyStringBuilder = new StringBuilder("Hello World!");
         MyStringBuilder.Append(" What a beautiful day.");
         Console.WriteLine(MyStringBuilder);
-  此示例将 Hello World! What a beautiful day. 显示到控制台。
+    此示例将 Hello World! What a beautiful day. 显示到控制台。
 * AppendFormat 方法将文本添加到 StringBuilder 的结尾处，而且实现了 IFormattable 接口，因此可接受格式化部分中描述的标准格式字符串。可以使用此方法来自定义变量的格式并将这些值追加到 StringBuilder 的后面。以下示例使用 AppendFormat 方法将一个设置为货币值格式的整数值放置到 StringBuilder 的结尾。
 
         int MyInt = 25; 
         StringBuilder MyStringBuilder = new StringBuilder("Your total is ");
         MyStringBuilder.AppendFormat("{0:C} ", MyInt);
         Console.WriteLine(MyStringBuilder);
-  此示例将 Your total is $25.00 显示到控制台。
+    此示例将 Your total is $25.00 显示到控制台。
 * Insert 方法将字符串或对象添加到当前 StringBuilder 中的指定位置。以下示例使用此方法将一个单词插入到 StringBuilder 的第六个位置。
 
         StringBuilder MyStringBuilder = new StringBuilder("Hello World!");
         MyStringBuilder.Insert(6,"Beautiful ");
         Console.WriteLine(MyStringBuilder);
-  此示例将 Hello Beautiful World! 显示到控制台。
+    此示例将 Hello Beautiful World! 显示到控制台。
 * 可以使用 Remove 方法从当前 StringBuilder 中移除指定数量的字符，移除过程从指定的从零开始的索引处开始。以下示例使用 Remove 方法缩短 StringBuilder。
 
         StringBuilder MyStringBuilder = new StringBuilder("Hello World!");
         MyStringBuilder.Remove(5,7);
         Console.WriteLine(MyStringBuilder);
-  此示例将 Hello 显示到控制台。
+    此示例将 Hello 显示到控制台。
 * 使用 Replace 方法，可以用另一个指定的字符来替换 StringBuilder 对象内的字符。以下示例使用 Replace 方法来搜索 StringBuilder 对象，查找所有的感叹号字符 (!)，并用问号字符 (?) 来替换它们。
 
         StringBuilder MyStringBuilder = new StringBuilder("Hello World!");
         MyStringBuilder.Replace('!', '?');
         Console.WriteLine(MyStringBuilder);
-  此示例将 Hello World? 显示到控制台
+    此示例将 Hello World? 显示到控制台

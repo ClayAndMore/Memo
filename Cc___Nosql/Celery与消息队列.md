@@ -1,10 +1,7 @@
----
-title: Celery与消息队列
-date: 2017-02-08 21:11:37
-categories:
-header-img:
+tags:[消息队列]
+
+date: 2017-02-08
 tags: RabbitMQ
----
 
 
 

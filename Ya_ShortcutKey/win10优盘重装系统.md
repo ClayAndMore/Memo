@@ -1,10 +1,5 @@
----
-title: win10优盘重装系统
-date: 2017-01-29 08:20:00
-categories: windows
-header-img:
-tags: windows
----
+
+tags: [命令与快捷键] date: 2017-01-29 
 
 ### 写在前面
 

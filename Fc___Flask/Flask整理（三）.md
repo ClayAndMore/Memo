@@ -1,10 +1,5 @@
----
-title: Flask整理（三）
-date: 2017-03-30 14:42:58
-categories: flask
-header-img:
-tags: flask
----
+
+Tags:[flask,python]  date: 2017-03-30
 
 ### Itsdangerous
 

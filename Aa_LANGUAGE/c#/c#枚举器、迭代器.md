@@ -1,11 +1,10 @@
----
-title: c#枚举器、迭代器、LINQ
-date: 2016-04-23 14:42:23
-categories: "c#"
-tags: [c#]
----
+
+ tags: [c#] date: 2016-04-23 14:42:23
+
+
 
 ## 使用foreach语句
+
 这个语句为我们依次取出数组中的每一个元素，例如下面代码声明了一个有四个元素的数组，然后使用foreach来循环打印这些项的值：
 
         int[] arr1={10.11.12.13};  //定义数组
@@ -43,7 +42,7 @@ tags: [c#]
                       }           
             ![](http://7xs1eq.com1.z0.glb.clouddn.com/arrayIEnumerable.png)
 *   目前描述的枚举接口都是非泛型的，而大多数用的是泛型的，因为非泛型返回object的引用，而必须转化为实际类型。而**泛型的返回实际类型的引用**。
-            ![](http://7xs1eq.com1.z0.glb.clouddn.com/IEnumeratorAndIEnumerable.jpg)
+    ​        ![](http://7xs1eq.com1.z0.glb.clouddn.com/IEnumeratorAndIEnumerable.jpg)
 
 ---
 
@@ -89,12 +88,12 @@ tags: [c#]
     }
 注意Main方法，由于MyClass类实现了GetEnumerator，是可枚举类型，我们在foreach语句中直接使用了类的实例。
 ###使用迭代器来创建可枚举类型
-    class Myclass{
-        public IEnumerator<string> GetEnumerator(){
-            IEnumerable<string> myEnumerable=BlackAndWhite(); //获取可枚举类型
-            return myEnumerable.GetEnumerator();              //获取枚举器
-        }
-        
+​    class Myclass{
+​        public IEnumerator<string> GetEnumerator(){
+​            IEnumerable<string> myEnumerable=BlackAndWhite(); //获取可枚举类型
+​            return myEnumerable.GetEnumerator();              //获取枚举器
+​        }
+​        
         public IEnumerator<string> BlackAndWhite(){
             yield return "black";
             yield return "gray";

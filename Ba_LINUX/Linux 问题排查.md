@@ -1,3 +1,5 @@
+Tags:[linux]
+
 ## Linux 问题排查 
 
 ### No space left on device

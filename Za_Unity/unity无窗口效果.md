@@ -1,9 +1,5 @@
----
-title: unity无窗口效果
-date: 2016-07-01 11:46:59
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-07-01
 
 本笔记参照蛮牛案例而作
 http://www.manew.com/thread-43230-1-1.html

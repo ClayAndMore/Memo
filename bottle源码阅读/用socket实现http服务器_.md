@@ -1,10 +1,5 @@
----
-title: 用标准库中的接口写一个python服务器
-date: 2017-02-22 10:32:46
-categories:
-header-img:
-tags:
----
+
+Tags:[python, bottle] date: 2017-02-22 
 
 
 

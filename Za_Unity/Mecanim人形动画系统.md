@@ -1,9 +1,5 @@
----
-title: Mecanim人形动画系统
-date: 2016-06-29 11:32:46
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-29
 
 ### 模型准备
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/mecanim.png)
@@ -20,22 +16,22 @@ tags: unity
 这里是状态的过渡，这里有个**小细节**：注意上面的has exit time,如果这个勾选上，意味着完成一个动作进度才能进行下一个，如果让人物流畅切换状态，那么不用勾选。
 下面是控制代码：        
 ​        
-         void Update() {
-        if (Input.GetKey(KeyCode.W)) {
-            if (Input.GetKey(KeyCode.LeftShift)) //通过按shift控制是走还是跑
-            {
-                girlAnimator.SetBool("IsRun", true); //girlAnimator为Animator组件的变量
-                girlAnimator.SetFloat("Speed", 0);
-                this.transform.Translate(Vector3.forward * floWalkingSpeed);
-            }
-            else
-            {
-                girlAnimator.SetBool("IsRun", false);
-                girlAnimator.SetFloat("Speed", 1f);
-            }
-            this.transform.Translate(Vector3.forward * floWalkingSpeed);
-        }
-    
+​         void Update() {
+​        if (Input.GetKey(KeyCode.W)) {
+​            if (Input.GetKey(KeyCode.LeftShift)) //通过按shift控制是走还是跑
+​            {
+​                girlAnimator.SetBool("IsRun", true); //girlAnimator为Animator组件的变量
+​                girlAnimator.SetFloat("Speed", 0);
+​                this.transform.Translate(Vector3.forward * floWalkingSpeed);
+​            }
+​            else
+​            {
+​                girlAnimator.SetBool("IsRun", false);
+​                girlAnimator.SetFloat("Speed", 1f);
+​            }
+​            this.transform.Translate(Vector3.forward * floWalkingSpeed);
+​        }
+​    
         else if (Input.GetKey(KeyCode.S))
         {
             this.transform.Translate(Vector3.back * floWalkingSpeed);
@@ -87,14 +83,14 @@ speed控制走还是跑，direction控制左右转弯，当direction为正时，
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/mask3.png)
 这里禁止了腿部动作，也就是说这个动画层只有腿部以外的动画有效。
 ​        
-        void Start () {
-        anim = GetComponent<Animator>();
-        if (anim.layerCount >= 2) //图层数量大于等于2
-        {
-            anim.SetLayerWeight(1, 1);//第一个数字为图层索引，1表示第二个图层，
-        }
-            }
-    
+​        void Start () {
+​        anim = GetComponent<Animator>();
+​        if (anim.layerCount >= 2) //图层数量大于等于2
+​        {
+​            anim.SetLayerWeight(1, 1);//第一个数字为图层索引，1表示第二个图层，
+​        }
+​            }
+​    
             // Update is called once per frame
             void Update () {
               if (anim)

@@ -1,9 +1,6 @@
----
-title: java基础整理
-date: 2016-07-10 08:51:37
-categories: java
-tags: java
----
+
+tags: [java] date: 2016-07-10
+
 
 ## jvm
 
@@ -185,7 +182,7 @@ String result = line.substring(0,1).toUpperCase().concat(line.substring(1).toLow
 
 ## Java map和list
 在学Java以前，一说到存放东西，第一个想到的就是使用数组，使用数组，在数据的存取方面的却也挺方便，其存储效率高访问快，但是它也受到了一些限制，比如说数组的长度以及数组的类型，当我需要一组string类型数据的同时还需要Integer类型的话，就需要定义两次，同时，数组长度也受到限制，即使是动态定义数组长度，但是长度依然需要固定在某一个范围内，不方便也不灵活。
-       如果说我想要消除上面的这个限制和不方便应该怎么办呢？Java是否提供了相应的解决方法。答案是肯定的，这就是Java容器，java容器是javaAPI所提供的一系列类的实例，用于在程序中存放对象，主要位于Java.util包中，其长度不受限制，类型不受限制，你在存放String类的时候依然能够存放Integer类，两者不会冲突。
+​       如果说我想要消除上面的这个限制和不方便应该怎么办呢？Java是否提供了相应的解决方法。答案是肯定的，这就是Java容器，java容器是javaAPI所提供的一系列类的实例，用于在程序中存放对象，主要位于Java.util包中，其长度不受限制，类型不受限制，你在存放String类的时候依然能够存放Integer类，两者不会冲突。
 
 容器API类图结果如下所示：
  ![](http://img.blog.csdn.net/20140411154642250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZGFuZGFuem1j/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
@@ -245,11 +242,11 @@ size=2
 #### **ArrayList**
 
      ArrayList其实就相当于顺式存储，它包装了一个数组 Object[]，当实例化一个ArrayList时，一个数组也被实例化，当向ArrayList中添加对象时，数组的大小也相应的改变。这样就带来以下有特点：  
-
+    
        快速随即访问，你可以随即访问每个元素而不用考虑性能问题，通过调用get(i)方法来访问下标为i的数组元素。  
-
+    
        向其中添加对象速度慢，当你创建数组时并不能确定其容量，所以当改变这个数组时就必须在内存中做很多事情。  
-
+    
        操作其中对象的速度慢，当你要向数组中任意两个元素中间添加对象时，数组需要移动所有后面的对象。  
 
 
@@ -257,15 +254,15 @@ size=2
 #### **LinkedList**
 
         LinkedList相当于链式存储，它是通过节点直接彼此连接来实现的。每一个节点都包含前一个节点的引用，后一个节点的引用和节点存储的值。当一个新节点插入时，只需要修改其中保持先后关系的节点的引用即可，当删除记录时也一样。这样就带来以下有特点：  
-
+    
        操作其中对象的速度快，只需要改变连接，新的节点可以在内存中的任何地方。  
-
+    
        不能随即访问，虽然存在get()方法，但是这个方法是通过遍历接点来定位的，所以速度慢。
 
 Set接口
 
       Set是一种不包含重复的元素的Collection，即任意的两个元素e1和e2都有e1.equals(e2)=false，Set最多有一个null元素。  
-
+    
       Set的构造函数有一个约束条件，传入的Collection参数不能包含重复的元素。  
 
 
@@ -279,9 +276,9 @@ HashSet
 举例：  
 
     import java.util.*;
-
+    
     public class TestC{
-
+    
     public static void main(String[] args)
     {
     	Set <String> s=new HashSet<String>();
@@ -304,7 +301,7 @@ HashSet
       值得注意的是Map没有继承Collection接口，Map接口是提供key到value的映射。一个Map中不能包含相同的key，每个key只能映射一个value。即是一一映射，Map接口提供3种集合的视图，Map的内容可以被当作一组key集合，一组value集合，或者一组key-value映射。  
       Map接口的实现类主要是包括HashMap和TreeMap等。
 HashMap（线程不安全）、Hashtable（线程安全），所以不考虑同步问题的时候HashMap性能好些
-       Hashtable不允许null，HashMap key-value 均允许null的存在
+​       Hashtable不允许null，HashMap key-value 均允许null的存在
 #### **HaspMap**
 
 * 添加数据使用put(key, value)，取出数据使用get(key)
@@ -372,14 +369,14 @@ public static void main(String[] args) {
   map.put("1", "value1");
   map.put("2", "value2");
   map.put("3", "value3");
-  
+
   //第一种：普遍使用，二次取值
   //通过map.keySet()拿到key的Set集合
   System.out.println("通过Map.keySet遍历key和value：");
   for (String key : map.keySet()) {
    System.out.println("key= "+ key + " and value= " + map.get(key));
   }
-  
+
   //第二种
   System.out.println("通过Map.entrySet使用iterator遍历key和value：");
   Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
@@ -387,7 +384,7 @@ public static void main(String[] args) {
    Map.Entry<String, String> entry = it.next();
    System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
   }
-  
+
   //第三种：推荐，尤其是容量大时
   System.out.println("通过Map.entrySet遍历key和value");
   for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -417,20 +414,20 @@ while (it.hasNext()) {
 2.for循环遍历：  
 ```
 for (String str : set) {  
-      System.out.println(str);  
+​      System.out.println(str);  
 }  
 
 优点还体现在泛型 假如 set中存放的是Object  
-  
+
 Set<Object> set = new HashSet<Object>();  
 for循环遍历：  
 for (Object obj: set) {  
-      if(obj instanceof Integer){  
-                int aa= (Integer)obj;  
-             }else if(obj instanceof String){  
-               String aa = (String)obj  
-             }  
-              ........  
+​      if(obj instanceof Integer){  
+​                int aa= (Integer)obj;  
+​             }else if(obj instanceof String){  
+​               String aa = (String)obj  
+​             }  
+​              ........  
 }  
 ```
 ## Java的异常分类
@@ -530,7 +527,7 @@ class文件对象： 我们写了一个student.java文件，还有一个Techer.j
     `Class c3 = Person.class;`
 * 通过Class类的一个静态方法forName(); 开发中最常用，可动态改变，通过配置文件。
     Class c4 = Class.forName("com.test.person").//一定要加上包名
-```java
+​```java
 Class c = Class.forname("com.test.person");
 Object obj = c.newInstance(); //这里会掉用person的无参构造函数，如果没有将出错。
 ```

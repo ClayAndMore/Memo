@@ -1,9 +1,5 @@
----
-title: unity之shader
-date: 2016-06-27 11:11:10
-categories: unity
-tags: [unity,shader]
----
+
+Tags:[Unity]  date: 2016-06-27 
 
 ### 基本概念
 *   shader：着色器，负责unity所有的渲染工作，实际上就是一小段程序，将Mesh（网格）指定的方式和输入的贴图或者颜色一起作用，然后输出。
@@ -59,9 +55,9 @@ tags: [unity,shader]
 
 
 ​    
-    		// Use shader model 3.0 target, to get nicer looking lighting
-    		#pragma target 3.0
-    
+​    		// Use shader model 3.0 target, to get nicer looking lighting
+​    		#pragma target 3.0
+​    
     		sampler2D _MainTex;  //sampler2D简单理解的话，所谓加载以后的texture（贴图）,后有补充
     
     		struct Input {
@@ -95,8 +91,8 @@ tags: [unity,shader]
 *   在材质中找到shader的实例，custom有定制的意思，我的弱渣英语。
     ![](http://7xs1eq.com1.z0.glb.clouddn.com/%E6%9D%90%E8%B4%A8%E4%B8%8A%E9%80%89%E6%8B%A9shader.png)
 *   对Tags的补充：
-          Unity定义了一些列这样的渲染过程，与RenderType是Opaque相对应的显而易见的是"RenderType" = "Transparent"，表示渲染含有**透明效果的物体**时调用。在这里Tags其实暗示了你的Shader输出的是什么，如果输出中都是非透明物体，那写在Opaque里；如果想渲染透明或者半透明的像素，那应该写在Transparent中。
-          另外比较有用的标签还有"IgnoreProjector"="True"（不被Projectors影响），"ForceNoShadowCasting"="True"（从不产生阴影）以及"Queue"="xxx"（指定渲染顺序队列）。这里想要着重说一下的是Queue这个标签，如果你使用Unity做过一些透明和不透明物体的混合的话，很可能已经遇到过不透明物体无法呈现在透明物体之后的情况。这种情况很可能是由于Shader的渲染顺序不正确导致的。Queue指定了物体的渲染顺序，预定义的Queue有：
+    ​      Unity定义了一些列这样的渲染过程，与RenderType是Opaque相对应的显而易见的是"RenderType" = "Transparent"，表示渲染含有**透明效果的物体**时调用。在这里Tags其实暗示了你的Shader输出的是什么，如果输出中都是非透明物体，那写在Opaque里；如果想渲染透明或者半透明的像素，那应该写在Transparent中。
+    ​      另外比较有用的标签还有"IgnoreProjector"="True"（不被Projectors影响），"ForceNoShadowCasting"="True"（从不产生阴影）以及"Queue"="xxx"（指定渲染顺序队列）。这里想要着重说一下的是Queue这个标签，如果你使用Unity做过一些透明和不透明物体的混合的话，很可能已经遇到过不透明物体无法呈现在透明物体之后的情况。这种情况很可能是由于Shader的渲染顺序不正确导致的。Queue指定了物体的渲染顺序，预定义的Queue有：
     * Background - 最早被调用的渲染，用来渲染天空盒或者背景
     * Geometry - 这是默认值，用来渲染非透明物体（普通情况下，场景中的绝大多数物体应该是非透明的）
     * AlphaTest - 用来渲染经过Alpha Test的像素，单独为AlphaTest设定一个Queue是出于对效率的考虑
@@ -105,7 +101,7 @@ tags: [unity,shader]
 
     这些预定义的值本质上是一组定义整数，Background = 1000， Geometry = 2000, AlphaTest = 2450， Transparent = 3000，最后Overlay = 4000。在我们实际设置Queue值时，不仅能使用上面的几个预定义值，我们也可以指定自己的Queue值，写成类似这样："Queue"="Transparent+100"，表示一个在Transparent之后100的Queue上进行调用。通过调整Queue值，我们可以确保某些物体一定在另一些物体之前或者之后渲染，这个技巧有时候很有用处。
 *   LOD 
-            LOD很简单，它是Level of Detail的缩写，在这里例子里我们指定了其为200（其实这是Unity的内建Diffuse着色器的设定值）。这个数值决定了我们能用什么样的Shader。在Unity的Quality Settings中我们可以设定允许的最大LOD，当设定的LOD小于SubShader所指定的LOD时，这个SubShader将不可用。Unity内建Shader定义了一组LOD的数值，我们在实现自己的Shader的时候可以将其作为参考来设定自己的LOD数值，这样在之后调整根据设备图形性能来调整画质时可以进行比较精确的控制。
+    ​        LOD很简单，它是Level of Detail的缩写，在这里例子里我们指定了其为200（其实这是Unity的内建Diffuse着色器的设定值）。这个数值决定了我们能用什么样的Shader。在Unity的Quality Settings中我们可以设定允许的最大LOD，当设定的LOD小于SubShader所指定的LOD时，这个SubShader将不可用。Unity内建Shader定义了一组LOD的数值，我们在实现自己的Shader的时候可以将其作为参考来设定自己的LOD数值，这样在之后调整根据设备图形性能来调整画质时可以进行比较精确的控制。
 
                 VertexLit及其系列 = 100
                 Decal, Reflective VertexLit = 150

@@ -1,9 +1,5 @@
----
-title: windows一些快捷键和命令
-date: 2016-07-06 09:42:13
-categories: windows
-tags: [windonws,命令与快捷键]
----
+
+tags: [命令与快捷键] date: 2016-07-06
 
 ### 查看自己DirectX版本的方法是：
 

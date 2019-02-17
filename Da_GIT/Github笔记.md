@@ -1,9 +1,5 @@
----
-title: Github笔记
-date: 2016-08-19 12:45:34
-categories:
-tags: github
----
+
+Tags:[Git] date: 2016-08-19
 
 ### 基本概述
 

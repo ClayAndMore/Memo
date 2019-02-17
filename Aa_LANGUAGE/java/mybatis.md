@@ -1,9 +1,5 @@
----
-title: MyBatis
-date: 2016-07-23 09:54:13
-categories: javaweb
-tags: mybatis
----
+tags: [java] date: 2016-07-23
+
 
 ### 相关配置
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/mybatis.png)

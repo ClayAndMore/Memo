@@ -1,3 +1,5 @@
+Tags:[slq, 数据库]
+
 ```
 进入数据库
 sqlite3 xx.db

@@ -1,8 +1,6 @@
+Tags:[Docker]
 
-
-##Docker 
-
-
+## Docker 
 
 ### 初识容器和Docker
 
@@ -102,8 +100,6 @@ https://blog.csdn.net/kinginblue/article/details/73527832
 确保服务正常运行：`docker version`
 
 服务停止和重起等，都和服务命令一样： `docker  start | relstart | stop`
-
-
 
 
 
@@ -309,8 +305,8 @@ Docker hub公共市场，https://hub.docker.com
 
 两种方式： 
 1. 容器内创建一个数据卷：
-  `docker run -d -p --name web -v /webapp training/webapp python app.py`
-  使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的/webapp目录。
+    `docker run -d -p --name web -v /webapp training/webapp python app.py`
+    使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的/webapp目录。
 2. 系统内创建一个数据卷
 
 #### 数据卷容器

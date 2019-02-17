@@ -1,3 +1,5 @@
+Tags:[数据库, nosql]
+
 ### 写在前面
 
 Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 [Apache Lucene™](https://lucene.apache.org/core/) 基础之上。 Lucene 可以说是当下最先进、高性能、全功能的搜索引擎库--无论是开源还是私有。

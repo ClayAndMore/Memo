@@ -1,10 +1,6 @@
----
-title: python进阶整理
-date: 2017-01-30 08:15:53
-categories: python
-header-img:
-tags: python
----
+
+tags: [python] date: 2017-01-30
+
 
 
 

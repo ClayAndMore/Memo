@@ -1,9 +1,5 @@
----
-title: unity中的协程
-date: 2016-06-10 10:27:48
-categories: unity
-tags: [unity,协程]
----
+
+Tags:[Unity]  date: 2016-06-10 
 
 ### 协程
 协程并非真正的多线程。协程其实是等某个操作完成之后再执行后面的代码，或者说是控制代码在特定的时机执行。协程只是部分执行，并假定在适当的条件得到满足，在未来的某一时刻将被恢复，直到它的工作完成。
@@ -46,30 +42,29 @@ tags: [unity,协程]
 * InvokeRepeating 重复调用函数： 指定时间、指定间隔时间重复调用。
 
         public void InvokeRepeating(string methodName, float time, float repeatRate)
-  eg:
+    eg:
 
     	void Start () {
-
-            Invoke("test", 5f);   //5秒后调用一次text
-
-            InvokeRepeating("test1", 1f, 1f);  //重复调用，1s时开始，1s间隔重复调用。
+	
+    	    Invoke("test", 5f);   //5秒后调用一次text
+	
+    	    InvokeRepeating("test1", 1f, 1f);  //重复调用，1s时开始，1s间隔重复调用。
     	}
     	
-        void test()
-        {
-            Debug.Log("this is test");
-        }
-        
-        void test1()
-        {
-            Debug.Log("this is test1");
-        }
+    	void test()
+    	{
+    	    Debug.Log("this is test");
+    	}
+    	
+    	void test1()
+    	{
+    	    Debug.Log("this is test1");
+    	}
 
 ### 协程和调用函数的区别
 
 * 调用函数是协程的简化写法。
 * 调用函数语法简单，但是不灵活，协程注重“非固定时间间隔”。
-
 
 ---
 

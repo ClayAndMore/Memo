@@ -1,9 +1,7 @@
----
-title: c#异步编程
-date: 2016-05-10 14:52:38
-categories: "c#"
-tags: [c#,异步编程]
----
+
+tags: [c#,异步] date: 2016-05-10
+
+
 
 ### 写在前面
 * 一旦进程建立，系统会在Main方法的第一行语句处开始线程的执行。
@@ -46,15 +44,15 @@ C#5.0引入的一个用来构建异步方法的新特性
     * `Task<T>` 返回值，返回T类型的值。
       `Task<int> value = DoStuff.CalculateSumAsync(5,6);`
 *   除了方法，lambda表达式和匿名方法一可以作为异步对象
-                **awati表达式**
-                await表达式指定了一个异步执行的任务，
-                ` awati + 空闲对象`
-                默认情况下它是在当前线程下运行的,这么说吧，这个空闲对象是一个awaitable类型的实例，但是我们并不需要构建，只需要他-Task，异步方法返回`Task<T>`，放到await表达式中，他们将在当前线程中异步执行。返回这个空对象（即Task）我们最简单的方式是用**Task.Run()**方法来创建一个Task，关于Task.Run(),有一点非常重要，**它是在不同线程上运行你的方法**。
-                Task.Run有个签名如下：
-                `Task.Run( Func<TReturn> func)` 
-                `Func<TReturn>`是个预定义的委托，返回值的类型为TReturn(就是泛型嘛）。
-                因此将你的方法传递给Task.Run，需要基于Func创建一个委托，有三种方式 如下：
-                
+    ​            **awati表达式**
+    ​            await表达式指定了一个异步执行的任务，
+    ​            ` awati + 空闲对象`
+    ​            默认情况下它是在当前线程下运行的,这么说吧，这个空闲对象是一个awaitable类型的实例，但是我们并不需要构建，只需要他-Task，异步方法返回`Task<T>`，放到await表达式中，他们将在当前线程中异步执行。返回这个空对象（即Task）我们最简单的方式是用**Task.Run()**方法来创建一个Task，关于Task.Run(),有一点非常重要，**它是在不同线程上运行你的方法**。
+    ​            Task.Run有个签名如下：
+    ​            `Task.Run( Func<TReturn> func)` 
+    ​            `Func<TReturn>`是个预定义的委托，返回值的类型为TReturn(就是泛型嘛）。
+    ​            因此将你的方法传递给Task.Run，需要基于Func创建一个委托，有三种方式 如下：
+    ​            
                       class Myclass {
                           public int Get10(){  //Get10 与 Func<int> 委托兼容，因为它没有参数，返回类型TReturn
                               return 10;
@@ -145,7 +143,7 @@ C#5.0引入的一个用来构建异步方法的新特性
 * 在实例化Thread对象后，调用**Start方法**就可以启动执行线程，调用**Abort方法**终止线程并引发ThreadStateException异常。
 * `Thread th1 = new Thread(Thread1);` 
     // Thread1是定义的一个线程方法，th1是多线程的实例，注意thread1后面没有括号
-  eg:
+    eg:
 
         using System;
         using System.Threading;
@@ -196,7 +194,7 @@ C#5.0引入的一个用来构建异步方法的新特性
             }
         
         }
-  共分五个优先级：
+    共分五个优先级：
 * Highest：最高优先级
 * AboveNormal： 在Highest级别之后，Normal级别之前
 * Normal：默认情况
@@ -208,7 +206,7 @@ C#5.0引入的一个用来构建异步方法的新特性
 * Join(): 阻塞
 * Sleep(): 休眠
    如果多线程不能同时访问一个资源，所以引入“锁”的概念，如果一个线程读或者写资源的时候，其他线程就被锁住不能访问，当这个线程完成工作后就解开锁，允许其他线程进行读/写。这种机制C#称为线程的“同步“
-  eg:
+    eg:
 
             using System;
             using System.Threading;
@@ -253,7 +251,7 @@ C#5.0引入的一个用来构建异步方法的新特性
                 }
             
             }
-  定义了两个线程，累计打印变量num，num就是竞争性资源
+    定义了两个线程，累计打印变量num，num就是竞争性资源
 
 ---
 
@@ -263,7 +261,7 @@ C#5.0引入的一个用来构建异步方法的新特性
 
 *   当我们调用委托的BeginInvoke方法时，它开始在一个独立线程上执行引用方法，并且立即返回到原始线程。原始线程可以继续，二引用方法会在线程池的线程中**并行**执行。
 *   当程序希望获得已完成的异步方法的结果时，可检查BeginInvoke返回的**IAsyncResult**（它表示线程的状态）的IsCompleted属性，或者调用委托的**EndInvoke**方法等待委托完成。这一过程有三种标准模式：
-                ![](http://7xs1eq.com1.z0.glb.clouddn.com/aync.png)
+    ​            ![](http://7xs1eq.com1.z0.glb.clouddn.com/aync.png)
     * 在等待一直到完成模式中，发起了异步方法后，原始线程就**中断**等待异步方法完成后再继续。
     * 轮询模式中，原始线程定期检查发起的线程是否完成，如果没有则可以做其他的事。
     * 回调模式中，原始线程**一直进行**,无需等待或检查发起的线程是否完成。
@@ -444,7 +442,6 @@ C#5.0引入的一个用来构建异步方法的新特性
                     After EndInvoke:8
                     done with main ,exting
 
-
 ---
 
 **四，计数器**
@@ -463,36 +460,36 @@ C#5.0引入的一个用来构建异步方法的新特性
 
             using System;
             using System.Threading;
-      
+            
             namespace Timers
             {
             class Program
            {
-            int TimesCalled = 0;
-      
+        ​    int TimesCalled = 0;
+      ​      
             void Display(object state)
             {
                 Console.WriteLine("{0} {1}", (string)state, ++TimesCalled);
             }
-        
+            
             static void Main()
             {
                 Program p = new Program();
-        
+            
                 Timer myTimer = new Timer(p.Display, "Processing timer event", 2000, 1000);
-        
+            
                 Console.WriteLine("timer start");
-        
+            
                 Console.ReadLine();
             }
         }
           }
           输出：timer start
-                Processing timer event 1
-                Processing timer event 2
-                Processing timer event 3
-                Processing timer event 4
-                Processing timer even  一直加。。
+        ​        Processing timer event 1
+        ​        Processing timer event 2
+        ​        Processing timer event 3
+        ​        Processing timer event 4
+        ​        Processing timer even  一直加。。
 
 
 

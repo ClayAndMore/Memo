@@ -1,10 +1,5 @@
----
-title: flask+gunicorn+supervisorn+nginx项目部署
-date: 2017-03-19 09:46:08
-categories: flask
-header-img: 
-tags: flask
----
+
+Tags:[flask,python] date: 2017-03-19
 
 在腾讯云上申请了一个服务器，这里记录一下初次部署flask项目的经历：
 

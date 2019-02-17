@@ -1,3 +1,5 @@
+Tags:[linux, linux_software]
+
 ## NTP 服务器
 
 计算机内部所记录时钟是于BIOS(CMOS)内的， 如果它的电池没电了或被清除了等会导致时间不准。

@@ -1,10 +1,5 @@
----
-title: Django（二）
-date: 2017-05-10 11:23:35
-categories:
-header-img:
-tags:
----
+
+tags​:[Django, python] date:​ 2017-05-10
 
 
 

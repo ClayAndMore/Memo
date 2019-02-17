@@ -1,9 +1,5 @@
----
-title: unity中的向量与数学
-date: 2016-06-08 10:25:30
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-08
 
 ### 写在前面
 在Unity3D中提供了2D,3D,4D向量类Vector,这些类都提供了对向量的操作，如取模，向量单位化，点乘，叉乘等。还有几个预设变量属性：

@@ -1,10 +1,5 @@
----
-title: jjjj
-date: 2017-05-05 13:11:53
-categories:
-header-img:
-tags:
----
+
+tags:[Django, python]  date: 2017-05-05
 
 ### Nginx
 

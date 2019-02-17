@@ -1,10 +1,5 @@
----
-title: Flask整理(二)
-date: 2017-01-31 08:18:11
-categories: flask
-header-img:
-tags: [python,flask]
----
+
+Tags:[flask,python]  date: 2017-01-31
 
 
 

@@ -1,3 +1,5 @@
+Tags:[linux, linux_software]
+
 ## Haproxy
 
 HAProxy 是一款提供高可用性、负载均衡以及基于TCP（第四层）和HTTP（第七层）应用的代理软件。

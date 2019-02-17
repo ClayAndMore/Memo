@@ -1,11 +1,5 @@
----
-title: nodejs
-date: 2017-06-30 17:29:27
-categories: node
-header-img: node
-tags: node,js
----
 
+tags: [前端]  date: 2017-06-30
 
 
 ### Node安装

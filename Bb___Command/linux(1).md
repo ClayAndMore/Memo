@@ -1,10 +1,5 @@
----
-title: linux基本操作
-date: 2017-02-15 09:54:15
-categories: linux
-header-img:
-tags: linux
----
+
+Tags:[linux] date: 2017-02-15
 
 ### linux启动流程
 

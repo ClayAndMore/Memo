@@ -1,3 +1,5 @@
+Tags:[python]
+
 ## Python 测试
 
 ### 测试代码的必要性

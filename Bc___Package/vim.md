@@ -1,10 +1,5 @@
----
-title: vim
-date: 2017-02-16 14:20:21
-categories: linux
-header-img:
-tags: linux
----
+
+Tags:[linux, vim] date: 2017-02-16
 
 ### 基本操作
 

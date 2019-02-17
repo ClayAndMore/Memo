@@ -1,10 +1,5 @@
----
-title: jjj
-date: 2017-04-30 19:20:20
-categories:
-header-img:
-tags:
----
+
+Tags:[linux, vim] date: 2017-04-30
 
 
 

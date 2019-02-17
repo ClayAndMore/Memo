@@ -1,3 +1,5 @@
+Tags:[python]
+
 ## pyqt尝试
 
 ### 前期准备

@@ -1,9 +1,5 @@
----
-title: Unity 性能分析工具 Profiler 及项目优化
-date: 2016-06-15 10:43:02
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-15
 
 Profiler是一个辅助优化游戏性能的工具，在游戏运行时实时详细报告游戏各个部分每帧所耗费的时间。如图像渲染部分、动画系统或者脚本各耗费多少时间。
 Window ->Profiler
@@ -92,7 +88,7 @@ Edit -> Project -> Project Settings -> Player，在Inspector中找到 Script Def
     * 对于不涉及颜色变化的物体，尽量使用没有颜色参数的Shader。
 
 *   光照优化
-          尽量使用烘培好的lightmap。如果是移动开发平台，控制光的数量谨慎使用实时阴影。
+    ​      尽量使用烘培好的lightmap。如果是移动开发平台，控制光的数量谨慎使用实时阴影。
 
 *   **Draw Call合并**
     *   先说下Draw Call的概念

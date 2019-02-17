@@ -1,9 +1,6 @@
----
-title: AJAX
-date: 2016-08-08 12:33:17
-categories: 前端
-tags: [前端,AJAX]
----
+
+tags: [前端] date: 2016-08-08
+
 
 ### 写在前面
 AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。

@@ -1,10 +1,5 @@
----
-title: jjj
-date: 2017-07-03 10:05:00
-categories:
-header-img:
-tags:
----
+
+tags:[Django, python]  date: 2017-07-03
 
 
 

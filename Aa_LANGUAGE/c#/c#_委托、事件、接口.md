@@ -1,9 +1,6 @@
----
-title: c#委托,事件,接口
-date: 2016-04-20 14:27:24
-categories: "c#"
-tags: [c#]
----
+
+tags: [c#] date: 2016-04-20
+
 
 ### 委托
 
@@ -31,7 +28,7 @@ tags: [c#]
         delVar=myInstObj.MyM1;
         delVar=SClass.OtherrM2
     ```
-   一个实例，更好的帮助理解：
+      一个实例，更好的帮助理解：
  ```
  class Program{
     //1.使用delegate关键字来定义一个委托类型
@@ -58,39 +55,40 @@ tags: [c#]
     }
  }
  ```
-*   **组合委托** 一个委托由其他委托构成
-    ​      
-          MyDel delA=myInstobj.MyM1;
-          MyDel delB=SClass.Other2;
-        
-          MyDel delC=delA+delB; 
+* **组合委托** 一个委托由其他委托构成
+  ​      
+  ​      MyDel delA=myInstobj.MyM1;
+  ​      MyDel delB=SClass.Other2;
+  ​    
+
+        MyDel delC=delA+delB; 
 *   增加方法 ： `delVar+=SCL.m3;`
 *   移除方法 ： `delVar-=SCL.m3;`
 *   **语法糖**： 像上面这样加减是强大的Cshap编译器为我们做的工作，将原本很复杂的代码编译成简介的代码，我们管这样的结构叫做语法糖
 *   **调用委托**
-                    ![](http://7xs1eq.com1.z0.glb.clouddn.com/delegate.jpg)
+    ​                ![](http://7xs1eq.com1.z0.glb.clouddn.com/delegate.jpg)
     * 调用引用参数的委托
 
             delegate void MyDel(ref int x);
-
+        
             class MyClass{
             public void add2(ref int x){x+=2;}
             public void add3(ref int x){x+=3;}
             static void Main(){
             MyClass mc=new MyClass();
-          
+              
             MyDel mDel=mc.add2;
             mDel+=mc.add3;
             mDel+=mc.add2;
-          
+              
             int x=5;
             mDel(ref x);
-          
+              
             Console.WriteLine("Value:{0}",x);
             }
             }  //输出  Value：12
 *   **匿名方法**
-                    如果方法只会被使用一次--用来初始化委托，这种情况没有必要创建独立的具名方法，可以用匿名方法
+    ​                如果方法只会被使用一次--用来初始化委托，这种情况没有必要创建独立的具名方法，可以用匿名方法
 
                             class Program                              |  class Program
                             {                                          |{
@@ -117,14 +115,14 @@ tags: [c#]
              PrintMessage();   //方法没有使用任何参数
              };
 *   如果参数列表包含params参数，匿名方法的参数列表将忽略params关键字。
-                    ​      
-                              delegate void SomeDel(int x,params int[] Y);
-                              SomeDel mDel=delegate(int x,int[] y){};  //省略了params关键字
+    ​                ​      
+    ​                          delegate void SomeDel(int x,params int[] Y);
+    ​                          SomeDel mDel=delegate(int x,int[] y){};  //省略了params关键字
 
 在匿名方法内声明的变量，作用域仅在大括号内。外部变量，可在方法括号内使用（方法捕获）。
 
 *   **Lambda（λ）表达式**
-        c#2.0引入的匿名方法，3.0引入的λ表达式，简化了匿名方法的语法
+    ​    c#2.0引入的匿名方法，3.0引入的λ表达式，简化了匿名方法的语法
     * 删除了delegate关键字
     * 在参数裂变和主体之间放Lambda运算符=>，读作“goes to"
       `MyDel del=delegate(int x) {returen x+1;};`
@@ -155,16 +153,16 @@ tags: [c#]
                           Incermenter.CouterADozen+=()=>DozenCout++;//lambda表达式
                           Incermenter.CouterADozen+= delegate{DozensCount++;}; //匿名方法
 *   事件触发
-                    ` if(CouterAdozen!=null)//确认有方法可以执行 CountedADozen/事件名(source,args)/参数列表;` 
+    ​                ` if(CouterAdozen!=null)//确认有方法可以执行 CountedADozen/事件名(source,args)/参数列表;` 
 *   **标准的事件用法**，windowsGUI编程广泛的使用了事件，.NET提供了一个标准模式。System命名空间声明的EventHandler委托类型
-                    ` public delegate void EventHandler(object sender,EventArgs e);`
+    ​                ` public delegate void EventHandler(object sender,EventArgs e);`
     * 第一个参数用来保存触发事件的对象的引用，object可以匹配任何类的实例，可以理解成监视的对象。
     * 第二个参数用来保存状态信息，指明什么类型适用于该应用程序。它是EventArgs的对象，但它不用于传递数据，如果希望传递，需要声明一个派生EventArgs的类，可以理解为监视的数据。
 
             //发布者
             class Incrementer{
             public event EventHandler CAD;    //使用系统定义的委托。
-          
+              
             public void DoCount(){
                 for(i=1,i<100,i++)
                  if(i%12==0&&CAD!=null)  
@@ -174,18 +172,18 @@ tags: [c#]
             //订阅者
             class Dozens{
             public int DozensCount{get;private set;}
-          
+              
             public Dozens(Incrementer incrementer){
              DozensCount=0;
              incrementer.CAD+=theWay;
             }
-          
+              
             void theWay(object source,EventArs e) //事件处理程序的签名必须与委托的签名匹配
              {
                 DozensCount++；
             }
             }
-          
+              
             class Program{
              static void Main(){
                Incrementer incrementer=new Incrementer();
@@ -253,9 +251,9 @@ namespace eventTest
 
 * 通过扩展EventArgs来传递数据
     我们需要声明一个派生自EventArgs的自定义类保存我们需要传入的数据。
-  ​      
-            public class IncrenmentEventArgs:EventArgs{
-            public int IterationCount{get;set;}//存储整数}
+    ​      
+    ​        public class IncrenmentEventArgs:EventArgs{
+    ​        public int IterationCount{get;set;}//存储整数}
 * 要获得该类，用泛型版本的委托EventHandler<>(后续介绍泛型)，将自定义的类名称放在<>里
     `public event EventHandler<IncrenmentEventArgs> CountedADozen/事件名;`
 * 移除事件处理程序 

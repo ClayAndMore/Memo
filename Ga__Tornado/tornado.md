@@ -1,3 +1,5 @@
+Tags:[python,  Tornado]
+
 ### 基本结构
 
 基本框架
@@ -131,8 +133,6 @@ RequestHandler中用于捕获客户端传递来的内容，如post数据，URL �
           username = self.get_argument("username", '')
           password = self.get_argument("password", '')
   ```
-
-  
 
 * get_query_argument(name), get_query_arguments(name)
 

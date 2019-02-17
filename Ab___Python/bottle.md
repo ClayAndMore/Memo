@@ -1,3 +1,5 @@
+Tags:[python, bottle]
+
 ## Bottle
 
 单文件，上手快，配置性高，节约资源。
@@ -77,8 +79,8 @@ email = request.forms.get('email')
 ### 动态路由
 
 1. 请求参数放入URL路径中
-  `/user/<name>`
-  `/user/<name>/<id>`
+    `/user/<name>`
+    `/user/<name>/<id>`
 2. 指定参数类型
     1. 获取整数参数： `/user/<id:int>`
 

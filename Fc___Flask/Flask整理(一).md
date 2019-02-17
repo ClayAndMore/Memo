@@ -1,10 +1,5 @@
----
-title: Flask整理(一)
-date: 2017-01-30 08:18:11
-categories: flask
-header-img:
-tags: [python,flask]
----
+
+Tags:[flask,python]  date: 2017-01-30
 
 ### 使用FlaskScipt
 `pip install flask-script`

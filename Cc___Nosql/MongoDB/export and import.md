@@ -1,3 +1,5 @@
+Tags:[nosql, 数据库, mongodb]
+
 ### Mongo Export
 
 mongoexport -h, 几个有用的参数:

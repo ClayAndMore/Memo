@@ -1,9 +1,5 @@
----
-title: unity network和unet多人游戏
-date: 2016-06-25 10:56:53
-categories: unity
-tags: [unity,网络编程]
----
+
+Tags:[Unity]  date: 2016-06-25 
 
 ### 写在前面
 UnityEngin.Network是实现网络功能的核心，提供了基本的功能接口，例如建立服务器和加入服务器等。

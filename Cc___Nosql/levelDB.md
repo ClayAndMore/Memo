@@ -1,3 +1,5 @@
+tags:[数据库, nosql]
+
 都是在centos7上实验的
 
 

@@ -1,10 +1,6 @@
----
-dtitle: python整理（三）
-date: 2017-04-09 12:58:44
-categories: python
-header-img: 
-tags: python
----
+
+tags: [python, conda] date: 2017-04-09
+
 
 ### 概述
 

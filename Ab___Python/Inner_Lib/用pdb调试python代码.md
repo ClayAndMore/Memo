@@ -1,10 +1,6 @@
----
-title: 使用pdb调试python代码
-date: 2017-02-20 10:55:51
-categories: python
-header-img:
-tags: python
----
+
+tags: [python, py_lib] date: 2017-02-20 
+
 
 ### 写在前面
 

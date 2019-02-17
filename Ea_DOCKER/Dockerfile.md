@@ -1,3 +1,5 @@
+Tags:[Docker]
+
 ## 使用Dockerfile创建镜像
 
 Dockerfile 是一个文本格式的配置文件。

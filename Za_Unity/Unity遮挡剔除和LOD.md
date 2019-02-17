@@ -1,9 +1,5 @@
----
-title: Unity遮挡剔除和LOD
-date: 2016-06-18 10:40:04
-categories: unity
-tags: unity
----
+
+Tags:[Unity]  date: 2016-06-18 
 
 ### 遮挡剔除
 简单点说，就是对相机视野内的物体进行渲染，看不到的不进行渲染。

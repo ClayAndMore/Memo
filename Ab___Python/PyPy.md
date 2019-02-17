@@ -1,3 +1,5 @@
+tags:[python]
+
 ## PyPy
 
 ### 安装

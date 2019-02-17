@@ -1,3 +1,5 @@
+Tags:[nosql, 数据库, mongodb]
+
 ## Mongo 检查和问题记录
 
 

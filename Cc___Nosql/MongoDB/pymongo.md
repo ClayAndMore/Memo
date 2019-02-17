@@ -1,3 +1,5 @@
+Tags:[nosql, 数据库, mongodb, python]
+
 ## pymongo
 
 pymongo是mongo数据库和python中间的连接件，我们可以通过pip来下载：
