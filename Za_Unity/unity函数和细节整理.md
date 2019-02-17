@@ -1,4 +1,3 @@
-
 Tags:[Unity]  date: 2016-06-03 
 
 ## 基础函数
@@ -25,9 +24,9 @@ Tags:[Unity]  date: 2016-06-03
     ​            ​      
     ​                  transform.Rotate( new Vector3(0,10,0));  // 围绕Y轴转10°。
     ​            
-                  一种是围绕一个点或者一个对象来旋转：
-                
-                      this.transform.RotateAround(sphere.position, Vector3.up, 180);  //围绕球的位置对Y轴旋转180。
+    ​              一种是围绕一个点或者一个对象来旋转：
+    ​            
+    ​                  this.transform.RotateAround(sphere.position, Vector3.up, 180);  //围绕球的位置对Y轴旋转180。
 
     * Vector.up : 　   Y 轴正向
     * Vector.right：   X 轴正向

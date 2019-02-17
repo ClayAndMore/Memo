@@ -1,4 +1,3 @@
-
 Tags:[slq, 数据库, linux_software] date: 2017-03-14 
 
 ### 安装mysql

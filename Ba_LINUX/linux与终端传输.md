@@ -1,7 +1,4 @@
-
 Tags:[linux] date: 2017-06-22
-
-
 
 ### virtual box虚拟机连接网络的方式
 

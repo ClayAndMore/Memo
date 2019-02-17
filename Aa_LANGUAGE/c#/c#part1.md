@@ -1,4 +1,3 @@
-
 tags: [c#] date: 2016-04-08
 
 
@@ -254,27 +253,27 @@ eg:声明一个int型的属性语法。
      ​    索引器允许类或结构的实例像数组一样进行索引，类似一个带有参数的属性。
      ​    索引器，是一组get和set访问器 ，总是实例成员，不能声明为static。
      ​    
-                //声明格式
-                return this [type param1]{
-                get{}
-                set{}
-               }
-               emp[0]="Doe"; //自动调用set访问器
-               string NewName=enp[0];//自动调用get访问器
-               eg:
-               class Employee{
-               public string LastName;
-               public string FirstName;
-               public string CityBorth;
-               
-               public string this[int index]{
-                set{swith (index){
-                 case 0:LastName=value;  break;
-                 case 1:FirstName=value; break;
-                 case 2:CityBorth=value;  break;
-                 default:
-                throw new ArgumentOutOfRangeException("index");}}//抛出异常
-                
+     ​           //声明格式
+     ​           return this [type param1]{
+     ​           get{}
+     ​           set{}
+     ​          }
+     ​          emp[0]="Doe"; //自动调用set访问器
+     ​          string NewName=enp[0];//自动调用get访问器
+     ​          eg:
+     ​          class Employee{
+     ​          public string LastName;
+     ​          public string FirstName;
+     ​          public string CityBorth;
+     ​          
+     ​          public string this[int index]{
+     ​           set{swith (index){
+     ​            case 0:LastName=value;  break;
+     ​            case 1:FirstName=value; break;
+     ​            case 2:CityBorth=value;  break;
+     ​            default:
+     ​           throw new ArgumentOutOfRangeException("index");}}//抛出异常
+     ​           
                 get{
                  switch(index){
                   case 0:return LastName;
@@ -296,18 +295,18 @@ eg:声明一个int型的属性语法。
      ​    类的声明可以分割成几个分部类的声明。可以在同一文件，也可以在不同文件。
      ​    每个局部声明必须被标为**partial class**，
      ​    
-               partial class MyClass{           
-                partial void PrintSum(int x,int y);  //定义部分方法，返回类型必须为void，要有上下文关键字partial，不能包含访问修饰符，这使部分方法是隐式私有的。
-                public void Add(int x,int y)
-                {
-                 PrintSum(x,y);}
-                 }
-                 
-                 partial class MyClass{             
-                  partial void PrintSum(int x,int y){         //实现部分方法
-                   Console.WriteLine("Sum is {0}",x+y); }
-               }
-               
+     ​          partial class MyClass{           
+     ​           partial void PrintSum(int x,int y);  //定义部分方法，返回类型必须为void，要有上下文关键字partial，不能包含访问修饰符，这使部分方法是隐式私有的。
+     ​           public void Add(int x,int y)
+     ​           {
+     ​            PrintSum(x,y);}
+     ​            }
+     ​            
+     ​            partial class MyClass{             
+     ​             partial void PrintSum(int x,int y){         //实现部分方法
+     ​              Console.WriteLine("Sum is {0}",x+y); }
+     ​          }
+     ​          
                class program{
                 static void main(){
                  var mc=new MyClass();
@@ -476,13 +475,13 @@ MyMethod(ref 3+5); //错误，必须使用变量
      ​    `public MyClass(int x):this(x,"Using Default String"){...}`
      ​    这种方法很好，一个类有好几个构造函数，并且他们都需要，在对象构造的时候执行一些公共代码，可以把公共代码提取出来做为一个构造函数，可以完全把它设置为public的构造函数。但如果不能完全初始化一个对象，此时，必须禁止从类的外部调用构造函数，那样的话只会初始化一部分，可以把构造函数声明为private，只让其他构造函数使用它：
      ​    
-                class MyClass{
-                 readonly int firstVar;
-                 readonly double secondVar;
-             
-                 public string UserName;
-                 public int UserIdNumer;
-             
+     ​           class MyClass{
+     ​            readonly int firstVar;
+     ​            readonly double secondVar;
+     ​        
+     ​            public string UserName;
+     ​            public int UserIdNumer;
+     ​        
                  private MyClass(){          //私有构造函数执行其他构造
                   firstVar=10;                //函数公用的初始化
                   secondVar=0.1;
@@ -511,17 +510,17 @@ MyMethod(ref 3+5); //错误，必须使用变量
      ​    **抽象类**：被继承的类。只能用作其他类的基类。不能创建实例。用abstract修饰符。
      ​    可包含普通函数和抽象成员，也可派生抽象类。派生自派生类的类，用override实现该类的抽象成员。
      ​    
-                abstract class AbClass{                          //抽象类
-                 public void IDBase(){ Console.WriteLine("AbClass")}   //普通方法
-                 abstract public void IDDerived(){};               //抽象方法
-                }
-             
-                class DerivedClass:AbClass{                     //派生类
-                 override public void IDDerived(){
-                 Console.WriteLine("DerivedClass");
-                 };
-                 }
-             
+     ​           abstract class AbClass{                          //抽象类
+     ​            public void IDBase(){ Console.WriteLine("AbClass")}   //普通方法
+     ​            abstract public void IDDerived(){};               //抽象方法
+     ​           }
+     ​        
+     ​           class DerivedClass:AbClass{                     //派生类
+     ​            override public void IDDerived(){
+     ​            Console.WriteLine("DerivedClass");
+     ​            };
+     ​            }
+     ​        
                 class Program{
                  static void Main(){
                    //AbClass a=new AbClass();    //错误，抽象类不能创建实例。

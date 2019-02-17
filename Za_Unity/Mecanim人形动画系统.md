@@ -1,4 +1,3 @@
-
 Tags:[Unity]  date: 2016-06-29
 
 ### 模型准备
@@ -32,22 +31,22 @@ Tags:[Unity]  date: 2016-06-29
 ​            this.transform.Translate(Vector3.forward * floWalkingSpeed);
 ​        }
 ​    
-        else if (Input.GetKey(KeyCode.S))
-        {
-            this.transform.Translate(Vector3.back * floWalkingSpeed);
-        }
-        else
-        {
-            girlAnimator.SetBool("IsRun", false);
-            girlAnimator.SetFloat("Speed", 0f);
-        }
-    
-        if (Input.GetKey(KeyCode.A)) //注意这里控制角度，而不是直接控制左右方向位移
-        {
-            this.transform.Rotate(Vector3.down * floRotatSpeed);
-        } else if(Input.GetKey(KeyCode.D)){
-            this.transform.Rotate(Vector3.up * floRotatSpeed);
-        }  } 
+​        else if (Input.GetKey(KeyCode.S))
+​        {
+​            this.transform.Translate(Vector3.back * floWalkingSpeed);
+​        }
+​        else
+​        {
+​            girlAnimator.SetBool("IsRun", false);
+​            girlAnimator.SetFloat("Speed", 0f);
+​        }
+​    
+​        if (Input.GetKey(KeyCode.A)) //注意这里控制角度，而不是直接控制左右方向位移
+​        {
+​            this.transform.Rotate(Vector3.down * floRotatSpeed);
+​        } else if(Input.GetKey(KeyCode.D)){
+​            this.transform.Rotate(Vector3.up * floRotatSpeed);
+​        }  } 
 ### 状态树（融合技术）
 通过将动画集合到一个状态树中，能更好的过渡动画，使动画流畅。
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/blendTree2.png)
@@ -91,20 +90,20 @@ speed控制走还是跑，direction控制左右转弯，当direction为正时，
 ​        }
 ​            }
 ​    
-            // Update is called once per frame
-            void Update () {
-              if (anim)
-             {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                anim.SetBool("IsRaise", true);
-            }
-            if (Input.GetButtonUp("Fire1"))
-            {
-                anim.SetBool("IsRaise", false);
-            }
-            }
-            }    
+​            // Update is called once per frame
+​            void Update () {
+​              if (anim)
+​             {
+​            if (Input.GetButtonDown("Fire1"))
+​            {
+​                anim.SetBool("IsRaise", true);
+​            }
+​            if (Input.GetButtonUp("Fire1"))
+​            {
+​                anim.SetBool("IsRaise", false);
+​            }
+​            }
+​            }    
 如果状态机有两个动画层，设置第二个图层的权重为1，图层序号从零开始计算，**权重1表示没有被身体蒙版所蒙蔽的部分将由该图层的骨骼动画控制**，权重为零便是不受该层的影响    
 walking:![](http://ojynuthay.bkt.clouddn.com/demo1.png)
 walking下执行run的举手：![](http://7xs1eq.com1.z0.glb.clouddn.com/demo2.png),腿部仍为walking状态

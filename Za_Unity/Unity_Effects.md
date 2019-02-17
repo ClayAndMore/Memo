@@ -1,9 +1,4 @@
----
-title: Unity Effects
-date: 2016-06-20 10:44:45
-categories: unity
-tags: unity
----
+tags:[Unity] date: 2016-06-20 
 
 ### 写在前面
 这篇文章主要介绍unity的高级功能，Effects和Image Effect相关的功能。

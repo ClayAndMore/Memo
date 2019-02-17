@@ -1,4 +1,3 @@
-
 tags: [c#,异步] date: 2016-05-10
 
 
@@ -53,10 +52,10 @@ C#5.0引入的一个用来构建异步方法的新特性
     ​            `Func<TReturn>`是个预定义的委托，返回值的类型为TReturn(就是泛型嘛）。
     ​            因此将你的方法传递给Task.Run，需要基于Func创建一个委托，有三种方式 如下：
     ​            
-                      class Myclass {
-                          public int Get10(){  //Get10 与 Func<int> 委托兼容，因为它没有参数，返回类型TReturn
-                              return 10;
-                          }
+    ​                  class Myclass {
+    ​                      public int Get10(){  //Get10 与 Func<int> 委托兼容，因为它没有参数，返回类型TReturn
+    ​                          return 10;
+    ​                      }
 
 
           public async Task DoWorkAsync(){
@@ -466,6 +465,7 @@ C#5.0引入的一个用来构建异步方法的新特性
             class Program
            {
         ​    int TimesCalled = 0;
+
       ​      
             void Display(object state)
             {

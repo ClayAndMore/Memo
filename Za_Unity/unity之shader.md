@@ -1,4 +1,3 @@
-
 Tags:[Unity]  date: 2016-06-27 
 
 ### 基本概念
@@ -58,15 +57,15 @@ Tags:[Unity]  date: 2016-06-27
 ​    		// Use shader model 3.0 target, to get nicer looking lighting
 ​    		#pragma target 3.0
 ​    
-    		sampler2D _MainTex;  //sampler2D简单理解的话，所谓加载以后的texture（贴图）,后有补充
-    
-    		struct Input {
-    			float2 uv_MainTex;   //float和vec都可以在之后加入一个2到4的数字，来表示被打包在一起的2到4个同类型数
-    			//声明了一个叫做uv_MainTex的包含两个浮点数的变量。
-    			//在CG程序中，我们有这样的约定，在一个贴图变量（在我们例子中是_MainTex）之前加上uv两个字母，就代表提取它的uv值（其实就是两个代表贴图上点的二维坐标 ）。
-    			//我们之后就可以在surf程序中直接通过访问uv_MainTex来取得这张贴图当前需要计算的点的坐标值了。
-    		};
-    
+​    		sampler2D _MainTex;  //sampler2D简单理解的话，所谓加载以后的texture（贴图）,后有补充
+​    
+​    		struct Input {
+​    			float2 uv_MainTex;   //float和vec都可以在之后加入一个2到4的数字，来表示被打包在一起的2到4个同类型数
+​    			//声明了一个叫做uv_MainTex的包含两个浮点数的变量。
+​    			//在CG程序中，我们有这样的约定，在一个贴图变量（在我们例子中是_MainTex）之前加上uv两个字母，就代表提取它的uv值（其实就是两个代表贴图上点的二维坐标 ）。
+​    			//我们之后就可以在surf程序中直接通过访问uv_MainTex来取得这张贴图当前需要计算的点的坐标值了。
+​    		};
+​    
     		half _Glossiness;   //这里的half和我们常见float与double类似，都表示浮点数，只不过精度不一样。也许你很熟悉单精度浮点数（float或者single）和双精度浮点数（double），这里的half指的是半精度浮点数，精度最低，运算性能相对比高精度浮点数高一些，因此被大量使用。
     		half _Metallic;
     		fixed4 _Color;

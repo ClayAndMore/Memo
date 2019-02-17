@@ -1,4 +1,3 @@
-
 tags: [c#] date: 2016-04-12 
 
 
@@ -87,28 +86,28 @@ tags: [c#] date: 2016-04-12
      ​               经常使用十六进制表示位模式，
      ​               用[Flag]修饰枚举，实际上不是必要的，但可以有写额外的便利，后续。
      ​             
-                          [Flag]
-                          enum Settings : uint
-                          {
-                           SingleDeck    = 0x01,  //位0
-                           LargePictures = 0x02,  //位1
-                           FancyNumbers  = 0x04,  //位2
-                           Animation     = 0x08   //位3   注意：最后的变量没有逗号。
-                           }
-                           //创建一个带有适当的位标识的字，需要声明一个该枚举类型的变量，并使用按位或运算符设置需要的位
-                           Settings ops（标志字） = Settings.SingleDeck|Settings.FancyNumers|Settings.Animation;
-                           //判断标志字师傅偶含有特定的位标识集，可使用枚举类型中的HasFlag布尔方法。  如果使用了指定的位标识，返回true。
-                           bool useFancyNubers = osp.HasFlag(Settings.FancyNumbers);
-                     谈flag特性，可通知编译器该枚举的成员不仅可以用作单独的值，还可以按位标识进行组合，它允许枚举的ToString方法为位标识的值提供更多格式化信息。
-                     ToString方法以一个枚举值作为参数，将其与枚举的常量成员进行比较，如果与某个成员匹配，返回该成员的字符串名称。接上面例子：
-                    ​      
-                          class Program{
-                          static void Main(){
-                           Setings ops;
-                        
-                           ops=Setings.FancyNumbers;
-                           Console.WriteLine(ops.ToString());  //输出：FancyNumbers
-                        
+     ​                     [Flag]
+     ​                     enum Settings : uint
+     ​                     {
+     ​                      SingleDeck    = 0x01,  //位0
+     ​                      LargePictures = 0x02,  //位1
+     ​                      FancyNumbers  = 0x04,  //位2
+     ​                      Animation     = 0x08   //位3   注意：最后的变量没有逗号。
+     ​                      }
+     ​                      //创建一个带有适当的位标识的字，需要声明一个该枚举类型的变量，并使用按位或运算符设置需要的位
+     ​                      Settings ops（标志字） = Settings.SingleDeck|Settings.FancyNumers|Settings.Animation;
+     ​                      //判断标志字师傅偶含有特定的位标识集，可使用枚举类型中的HasFlag布尔方法。  如果使用了指定的位标识，返回true。
+     ​                      bool useFancyNubers = osp.HasFlag(Settings.FancyNumbers);
+     ​                谈flag特性，可通知编译器该枚举的成员不仅可以用作单独的值，还可以按位标识进行组合，它允许枚举的ToString方法为位标识的值提供更多格式化信息。
+     ​                ToString方法以一个枚举值作为参数，将其与枚举的常量成员进行比较，如果与某个成员匹配，返回该成员的字符串名称。接上面例子：
+     ​               ​      
+     ​                     class Program{
+     ​                     static void Main(){
+     ​                      Setings ops;
+     ​                   
+     ​                      ops=Setings.FancyNumbers;
+     ​                      Console.WriteLine(ops.ToString());  //输出：FancyNumbers
+     ​                   
                            ops=Setings.FancyNumbers|Setings.Animation;
                            Console.WriteLine(ops.ToString());  //输出：12（没有Flag标识），输出：FancyNumbers,Animation(有Flag标识)
                           }
@@ -188,20 +187,20 @@ tags: [c#] date: 2016-04-12
       ​       public int MyField=0;
       ​      }
       ​    
-            class Program{
-             static void Main(){
-             MyClass[] mcArray=new MyClass[4];   //创建数组
-            for(int i=0;i<4;i++){
-              mcArray[i]=new MyClass();       //创建类型对象
-              mcArray[i].MyField=i;           //设置字段
-             }
-             foreach (MyClass item in mcArray) 
-             item.MyField+=10;                 //改变数据
-          
-             foreach (MyClass item in mcArray)
-             Console.WriteLine("{0}",item.MyField);
-            }
-            }
+      ​      class Program{
+      ​       static void Main(){
+      ​       MyClass[] mcArray=new MyClass[4];   //创建数组
+      ​      for(int i=0;i<4;i++){
+      ​        mcArray[i]=new MyClass();       //创建类型对象
+      ​        mcArray[i].MyField=i;           //设置字段
+      ​       }
+      ​       foreach (MyClass item in mcArray) 
+      ​       item.MyField+=10;                 //改变数据
+      ​    
+      ​       foreach (MyClass item in mcArray)
+      ​       Console.WriteLine("{0}",item.MyField);
+      ​      }
+      ​      }
     * 对于多维数组，处理次序是最右边的索引号最先递增，到n-1时，开始递增左边的索引，右边的被置换成零。
 *   **数组协变**
     ​          即使某个对象不是数组的基类型，我们可以把它赋值给数组元素。这种属性叫做数组协变。要求：
@@ -254,12 +253,12 @@ tags: [c#] date: 2016-04-12
     ​          并不是所有的参数泛型都能接受，需要对泛型进行约束，这时使用了**where**子句。语法如下
     ​         where/关键字 TypeParam/参数类型：constraint，constraint,.../约束列表
     ​        
-                  class MyClass<T1,T2,T3>
-                              where T2:Customer    //T2的约束
-                              where T3:IComparable //T3的约束
-                      {....}        
-            T1是未绑定的，对于T2，只有Customer类型或从Customer继承的类的类型才能作用于类型实参，对于T3，只用实习那IComparable接口的类餐能用于类型实参
-            有五种约束类型：
+    ​              class MyClass<T1,T2,T3>
+    ​                          where T2:Customer    //T2的约束
+    ​                          where T3:IComparable //T3的约束
+    ​                  {....}        
+    ​        T1是未绑定的，对于T2，只有Customer类型或从Customer继承的类的类型才能作用于类型实参，对于T3，只用实习那IComparable接口的类餐能用于类型实参
+    ​        有五种约束类型：
     * 类名:    只有这个类型的类或从它继承的类才能作用类型实参。
     * class：  任何引用类型，类，数组，委托和接口都可以作用类型实参。 
     * struct： 任何**值类型**都可以用作类型实参
@@ -311,14 +310,14 @@ tags: [c#] date: 2016-04-12
     ​        泛型委托和非泛型委托非常相似，不过类型参数决定了能接受什么样的方法。
     ​        如下有一个泛型委托的示例。在Main中，泛型委托MyDelegate使用string类型的实参实例化，并且使用PrintString方法初始化。
     ​        
-                  delegate void MyDelegate<T>(T value);//泛型委托
-            
-                  class Simple
-                  {
-                      static public void PrintString(string s){
-                          Console.WriteLine(s);
-                      }
-                  
+    ​              delegate void MyDelegate<T>(T value);//泛型委托
+    ​        
+    ​              class Simple
+    ​              {
+    ​                  static public void PrintString(string s){
+    ​                      Console.WriteLine(s);
+    ​                  }
+    ​              
                       static public void PrintUpperString(string s){
                           Console.WriteLine("{0}",s.ToUpper());
                       }
@@ -341,13 +340,13 @@ tags: [c#] date: 2016-04-12
     ​              }
     ​              class Dog:Animal{
     ​              
-                  }
-                  
-                  class Program{
-                      static void Main(){
-                          Animal a1=new Animal();
-                          Animal a2=new Dog();
-                  
+    ​              }
+    ​              
+    ​              class Program{
+    ​                  static void Main(){
+    ​                      Animal a1=new Animal();
+    ​                      Animal a2=new Dog();
+    ​              
                           Console.WrieLine("Number of dog legs：{0}",a2.NumberOfLegs);
                       }
                   }            
@@ -383,12 +382,12 @@ tags: [c#] date: 2016-04-12
     ​        现在已经了解了协变，我们来看一种相关状况，和之前的情况相似，默认情况下可以赋值两种不兼容的类型。
     ​        **在期望传入基类时，允许传入派生对象的特性叫做逆变**
     ​        
-                  class Animal { public int NumberOfLegs=4;}
-                  class Dog:Animal{}
-                  
-                  class Program{
-                      delegate void Action<in T>(T a);
-                  
+    ​              class Animal { public int NumberOfLegs=4;}
+    ​              class Dog:Animal{}
+    ​              
+    ​              class Program{
+    ​                  delegate void Action<in T>(T a);
+    ​              
                       static void ActionOnAnimal(Animal a){
                           Console.WriteLine(a.NumberOfLegs);
                       }

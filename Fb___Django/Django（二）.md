@@ -1,4 +1,3 @@
-
 tags​:[Django, python] date:​ 2017-05-10
 
 

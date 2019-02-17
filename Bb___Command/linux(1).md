@@ -1,4 +1,3 @@
-
 Tags:[linux] date: 2017-02-15
 
 ### linux启动流程

@@ -1,4 +1,3 @@
-
 tags: [c#] date: 2016-04-20
 
 
@@ -70,7 +69,7 @@ tags: [c#] date: 2016-04-20
     * 调用引用参数的委托
 
             delegate void MyDel(ref int x);
-        
+            
             class MyClass{
             public void add2(ref int x){x+=2;}
             public void add3(ref int x){x+=3;}

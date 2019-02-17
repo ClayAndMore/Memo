@@ -1,4 +1,3 @@
-
 Tags:[Unity]  date: 2016-06-10 
 
 ### 协程
@@ -45,9 +44,9 @@ Tags:[Unity]  date: 2016-06-10
     eg:
 
     	void Start () {
-	
+		
     	    Invoke("test", 5f);   //5秒后调用一次text
-	
+		
     	    InvokeRepeating("test1", 1f, 1f);  //重复调用，1s时开始，1s间隔重复调用。
     	}
     	

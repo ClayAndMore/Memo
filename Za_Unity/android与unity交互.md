@@ -1,4 +1,3 @@
-
 Tags:[Unity]  date: 2016-07-01 
 
 有的功能unity方便实现，而有的功能android方便实现，经过两天苦经周折的查阅，终于将android项目的值传到了unity。

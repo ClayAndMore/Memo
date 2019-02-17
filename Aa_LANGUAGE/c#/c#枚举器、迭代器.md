@@ -1,4 +1,3 @@
-
  tags: [c#] date: 2016-04-23 14:42:23
 
 
@@ -94,17 +93,17 @@
 ​            return myEnumerable.GetEnumerator();              //获取枚举器
 ​        }
 ​        
-        public IEnumerator<string> BlackAndWhite(){
-            yield return "black";
-            yield return "gray";
-            yield return "white";
-        }
-    }
-    
-    class Program{
-        static void Main(){
-            Myclass mc=new Myclass();
-            
+​        public IEnumerator<string> BlackAndWhite(){
+​            yield return "black";
+​            yield return "gray";
+​            yield return "white";
+​        }
+​    }
+​    
+​    class Program{
+​        static void Main(){
+​            Myclass mc=new Myclass();
+​            
             foreach (string shade in mc)                      //使用类对象
             {
                 Console.WriteLine(shade);

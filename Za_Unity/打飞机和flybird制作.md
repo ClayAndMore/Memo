@@ -1,4 +1,3 @@
-
 Tags:[Unity] date: 2016-06-30
 
 ## 飞机
@@ -91,16 +90,16 @@ Tiling是显式整个的多少，如设置为0.3333显式整个图片的三分�
 ​                    Rigi.velocity = new Vector3(vel.x, 5, vel.z);
 ​                }
 ​    
-            timer += Time.deltaTime;         //timer为时间计数器，如果运行五秒，此时timer为5f;
-            if (timer >= 1.0f / frameNumber)  //1除以每秒的帧数，获得一帧的时间，每秒帧数可以自定义。
-            {
-                frameCount++;               //帧数增加，初值为零。
-                timer -= 1.0f / frameNumber;     
-    
-                int frameIndex = frameCount % 3; //获得偏移索引，0，1，2
-                rend.material.SetTextureOffset("_MainTex", new Vector2(0.3333f * frameIndex, 0));  //"_MainTex"为主要贴图，固定参数
-            }
-    
+​            timer += Time.deltaTime;         //timer为时间计数器，如果运行五秒，此时timer为5f;
+​            if (timer >= 1.0f / frameNumber)  //1除以每秒的帧数，获得一帧的时间，每秒帧数可以自定义。
+​            {
+​                frameCount++;               //帧数增加，初值为零。
+​                timer -= 1.0f / frameNumber;     
+​    
+​                int frameIndex = frameCount % 3; //获得偏移索引，0，1，2
+​                rend.material.SetTextureOffset("_MainTex", new Vector2(0.3333f * frameIndex, 0));  //"_MainTex"为主要贴图，固定参数
+​            }
+​    
         }
 ### PlayerPrefs持久化数据
 这是unity提供的一种简单有效的数据持久化方案，适合小项目对少量数据的持久化储存
