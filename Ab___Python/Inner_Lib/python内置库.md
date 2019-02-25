@@ -202,7 +202,7 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
   ensure_ascii：默认值True，只做两件事：
 
   		1. 如果有非ASII的字符， 用utf-8解码。
-    		2. 确保dumps后的数据为 str 字符数组。
+    ​    		2. 确保dumps后的数据为 str 字符数组。
 
 如果dict内含有non-ASCII的字符，则会解码成utf-8的数据，去掉了u, 双斜杠转义单斜杠
 
@@ -524,6 +524,28 @@ dic['k3'] = 'v3'
 print(dic)
 
 #输出：OrderedDict([('k1', 'v1'), ('k2', 'v2'), ('k3', 'v3')])
+```
+
+结合sorted函数对字典value排序：
+
+```python
+>>> d = {'ac': 33, 'gw': 20, 'ap': 102, 'za': 321, 'bs': 10}
+>>> d.items()
+[('gw', 20), ('ap', 102), ('ac', 33), ('za', 321), ('bs', 10)]
+
+>>> sorted(d.items(), key=lambda (k, v) : v)
+[('bs', 10), ('gw', 20), ('ac', 33), ('ap', 102), ('za', 321)]
+
+>>> s=OrderedDict(sorted(d.items(), key=lambda (k, v) : v))
+>>> s
+OrderedDict([('bs', 10), ('gw', 20), ('ac', 33), ('ap', 102), ('za', 321)])
+
+>>> s=OrderedDict(sorted(d.items(), key=lambda (k, v) : v, reverse=True))
+>>> s
+OrderedDict([('za', 321), ('ap', 102), ('ac', 33), ('gw', 20), ('bs', 10)])
+
+# python3:
+OrderedDict(sorted(d.items(), key=lambda item : item[1], reverse=True))
 ```
 
 
