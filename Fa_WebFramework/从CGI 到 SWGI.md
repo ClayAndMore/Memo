@@ -10,12 +10,6 @@ tags:[web]
 
 
 
-### 构建web服务器
-
-pass
-
-
-
 ### CGI
 
 通用网关接口（Common Gateway Interface CGI）
