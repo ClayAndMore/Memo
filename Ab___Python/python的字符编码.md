@@ -1,4 +1,4 @@
-Tags:[python, 字符] date: 2017-02-22 
+Tags:[python] date: 2017-02-22 
 
 
 ### 搞清字符编码问题：
