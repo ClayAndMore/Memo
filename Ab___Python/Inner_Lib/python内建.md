@@ -156,30 +156,6 @@ modualA.py
 
 
 
-#### `__call__`
-
-python中所有都为对象，包括函数， 函数本身是一个类，实现了`__call__`。
-
-类实例被调用前的触发方法：
-
-```python
-class A:
-   def __init__(self, s):
-       print s
-   def __call__(self):
-       print 'cccccc'
-
-a=A('ssss')
-a()  # 触发__call__， a就可以理解为一个对象。
-```
-
-out:
-
-ssss
-cccccc
-
-
-
 ### 内置函数
 
 #### vars
@@ -200,8 +176,6 @@ cccccc
  'f': <function f at 0x7f1b1de54410>,
  'pprint': <module 'pprint' from '/usr/lib64/python2.6/pprint.pyc'>}
 ```
-
-
 
 
 
@@ -242,41 +216,6 @@ When you need the value of an expression, use [`eval(string)`](http://docs.pytho
 ```
 
 一般不推荐这种做法，效率低。
-
-
-
-#### getattr()
-
-```python
-def getattr(object, name, default=None): # known special case of getattr
-    """
-    getattr(object, name[, default]) -> value
-    
-    Get a named attribute from an object; getattr(x, 'y') is equivalent to x.y.
-    When a default argument is given, it is returned when the attribute doesn't
-    exist; without it, an exception is raised in that case.
-    """
-    pass
-```
-
-`getattr(x, y, z) = x.y`  如果y不存在则返回z, 没有z则抛出异常。
-
-
-
-#### setattr()
-
-```python
-def setattr(p_object, name, value): # real signature unknown; restored from __doc__
-    """
-    setattr(object, name, value)
-    
-    Set a named attribute on an object; setattr(x, 'y', v) is equivalent to
-    ``x.y = v''.
-    """
-    pass
-```
-
-嗯 说的很明白： `setattr(x, 'y', v) = x.y = v`
 
 
 
@@ -353,68 +292,6 @@ class C(object):
 
 
 
-##### `@property`
-
-Python内置的`@property`装饰器就是负责把一个方法变成属性调用的：
-
-```python
-class Student(object):
-
-    @property
-    def score(self):
-        return self._score
-
-    @score.setter
-    def score(self, value):
-        if not isinstance(value, int):
-            raise ValueError('score must be an integer!')
-        if value < 0 or value > 100:
-            raise ValueError('score must between 0 ~ 100!')
-        self._score = value
-```
-
-`@property`的实现比较复杂，我们先考察如何使用。把一个getter方法变成属性，只需要加上`@property`就可以了，此时，`@property`本身又创建了另一个装饰器`@score.setter`，负责把一个setter方法变成属性赋值，于是，我们就拥有一个可控的属性操作：
-
-```
->>> s = Student()
->>> s.score = 60 # OK，实际转化为s.set_score(60)
->>> s.score # OK，实际转化为s.get_score()
-60
->>> s.score = 9999
-Traceback (most recent call last):
-  ...
-ValueError: score must between 0 ~ 100!
-
-
-```
-
-注意到这个神奇的`@property`，我们在对实例属性操作的时候，就知道该属性很可能不是直接暴露的，而是通过getter和setter方法来实现的。
-
-还可以定义只读属性，只定义getter方法，不定义setter方法就是一个只读属性：
-
-```
-class Student(object):
-
-    @property
-    def birth(self):
-        return self._birth
-
-    @birth.setter
-    def birth(self, value):
-        self._birth = value
-
-    @property
-    def age(self):
-        return 2015 - self._birth
-
-
-
-```
-
-上面的`birth`是可读写属性，而`age`就是一个**只读**属性，因为`age`可以根据`birth`和当前时间计算出来。
-
-
-
 ### python 自带命令解析
 
 #### -c
@@ -449,35 +326,3 @@ pydoc -> 命令行查看 Python 文档神器
 python 获取变量路径问题
 
 
-
-### 其他
-
-#### 获取某函数的print到变量
-
-```python
-from cStringIO import StringIO
-import sys
-
-class Capturing(list):
-    def __enter__(self):
-        self._stdout = sys.stdout
-        sys.stdout = self._stringio = StringIO()
-        return self
-    def __exit__(self, *args):
-        self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
-        sys.stdout = self._stdout
-```
-
-Usage:
-
-```
-with Capturing() as output:
-    do_something(my_object)
-```
-
-
-
-这时do_something函数中的print不会真正的输出，它的输出都会存放在output中，
-
-获得输出我们只需要其output变量就好。

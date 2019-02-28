@@ -382,7 +382,7 @@ d =  [1, 2, 3, 4, ['a', 'b']]
 
 #### getattr()
 
-
+Class 文档里有说明
 
 #### hasattr(object, name)
 
