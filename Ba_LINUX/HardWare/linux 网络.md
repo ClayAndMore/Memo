@@ -97,16 +97,7 @@ chkconfig iptables on
 
 
 
-### 网络
-
-- netstat 当前网络状态
-- ping 
-- ifconfig
-- ssh
-- ftp
-- telnet
-
-#### 查看端口
+### 查看端口
 
 查看80端口的占用情况：
 
@@ -509,3 +500,222 @@ $nc -n 172.31.100.7 1567 | bzip2 -d |tar -xvf -
 ```
 
 使用bzip2解压
+
+
+
+### ip
+
+作为网络配置工具的一份子，iproute2是linux下管理控制TCP/IP网络和流量控制的新一代工具包，旨在替代老派的工具链net-tools，即大家比较熟悉的ifconfig，arp，route，netstat等命令。
+
+net-tools通过procfs(/proc)和ioctl系统调用去访问和改变内核网络配置，而iproute2则通过netlink套接字接口与内核通讯。iproute2的核心命令是ip。
+抛开性能而言，net-tools的用法给人的感觉是比较乱，而iproute2的用户接口相对net-tools来说相对来说，更加直观。比如，各种网络资源（如link、IP地址、路由和隧道等）均使用合适的对象抽象去定义，使得用户可使用一致的语法去管理不同的对象。
+
+老派net-tools已经停止维护， 所以iproute2是未来。
+
+#### 命令格式
+
+`ip`常用命令格式如下：
+
+```
+ip [ OPTIONS ] OBJECT { COMMAND | help }
+
+对象OBJECT={ link | addr | addrlabel | route | rule | neigh | ntable | tunnel | maddr | mroute | mrule | monitor | xfrm | token }
+
+选项OPTIONS={ -V[ersion] | -s[tatistics] | -d[etails] | -r[esolve] | -h[uman-readable] | -iec | -f[amily] { inet | inet6 | ipx | dnet | link } | -o[neline] | -t[imestamp] | -b[atch] [filename] | -rc[vbuf] [size] }
+```
+
+常用对象的取值含义如下：
+
+- `link`：网络设备
+- `address`：设备上的协议（IP或IPv6）地址
+- `addrlabel`：协议地址选择的标签配置
+- `route`：路由表条目
+- `rule`：路由策略数据库中的规则
+
+常用选项的取值含义如下：
+
+- `-V，-Version`：显示指令版本信息
+- `-s，-stats，statistics`：输出详细信息
+- `-h，-human，-human-readable`：输出人类可读的统计信息和后缀
+- `-o，-oneline`：将每条记录输出到一行，用‘\’字符替换换行符
+
+
+
+#### 网卡信息
+
+`ip add show`,  显示网卡配置信息
+
+```
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 00:1e:4f:c8:43:fc brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.24/24 brd 192.168.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+```
+
+输出内容详解：
+首先这个系统有两个接口：`lo`和`eth0`，`lo`是环回接口，而我们重点关注的则是`eth0`这个普通网络接口；下面在看看每个子项的含义：
+
+- `<BROADCAST,MULTICAST,UP,LOWER_UP>`：`BROADCAST`表示该接口支持广播；`MULTICAST`表示该接口支持多播；`UP`表示该网络接口已启用；`LOWER_UP`表示网络电缆已插入，设备已连接至网络
+- `mtu 1500`：最大传输单位（数据包大小）为1,500字节
+- `qdisc pfifo_fast`：用于数据包排队
+- `state UP`：网络接口已启用
+- `qlen 1000`：传输队列长度
+- `link/ether 00:1e:4f:c8:43:fc`：接口的MAC（硬件）地址
+- `brd ff:ff:ff:ff:ff:ff`：广播地址
+- `inet 192.168.0.24/24`：IPv4地址
+- `brd 192.168.0.255`：广播地址
+- `scope global`：全局有效
+- `dynamic enp0s25`：地址是动态分配的
+- `valid_lft forever`：IPv4地址的有效使用期限
+- `preferred_lft forever`：IPv4地址的首选生存期
+- `inet6 fe80::2c8e:1de0:a862:14fd/64`：IPv6地址
+- `scope link`：仅在此设备上有效
+- `valid_lft forever`：IPv6地址的有效使用期限
+- `preferred_lft forever`：IPv6地址的首选生存期
+
+
+
+#### ip 管理
+
+- 命令：
+
+  ```
+  ip addr add 192.168.0.123/24 dev eth0
+  ```
+
+  说明：设置IP
+
+- 命令：`ip add del 192.168.0.123/24 dev eth0`
+  说明：删除配置的IP
+
+
+
+#### 启用/禁用网卡
+
+- 命令：`ip link set eth0 up`
+  说明：启用被禁用的网卡
+- 命令：`ip link set eth0 down`
+  说明：禁用网卡
+
+
+
+#### 路由配置
+
+- 命令：`ip route show`
+  说明：查看路由信息
+  输出：
+
+  ```
+  default via 172.17.175.253 dev eth0 
+  169.254.0.0/16 dev eth0 scope link metric 1002 
+  172.17.160.0/20 dev eth0 proto kernel scope link src 172.17.169.20 
+  ```
+
+  输出内容详解：
+
+  - 输出内容第一条是默认的路由，我们可以根据我们的需要改动它
+  - `metric 1002`：跳跃计数，确定网关的优先级，默认20，数值越小优先级越高
+  - `proto kernel`：该路由的协议，主要有`redirect`，`kernel`，`boot`，`static`，`ra`等，其中`kernel`指的是直接由核心判断自动设定
+
+- 命令：`ip route get 119.75.216.20`
+
+
+  说明：通过IP地址查询路由包从哪条路由来
+
+- 命令：`ip route add default via 192.168.0.150/24`
+  说明：所有的网络数据包都通过192.168.0.150来转发，而不是以前的默认路由
+
+- 命令：`ip route add 172.16.32.32 via 192.168.0.150/24 dev enp0s3`
+  说明：修改特定网卡的默认路由
+
+- 命令：`ip route del 172.17.160.0/20`
+  说明：删除路由
+
+- 命令：`ip route flush cache`
+  说明：刷新路由表
+
+
+
+#### 网络统计数据
+
+这个显示网络统计数据则是`ip`命令非常重要的一个功能，很多时候，我们都依靠该功能来进行排除网络故障。
+
+- 命令：
+
+  ```
+  ip -s link
+  ```
+
+  说明：显示所有网络接口的统计数据
+
+  输出：
+
+  ```
+  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT qlen 1
+      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+      RX: bytes  packets  errors  dropped overrun mcast   
+      361849729592 174114258 0       0       0       0       
+      TX: bytes  packets  errors  dropped carrier collsns 
+      361849729592 174114258 0       0       0       0       
+  2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
+      link/ether 00:16:3e:08:08:55 brd ff:ff:ff:ff:ff:ff
+      RX: bytes  packets  errors  dropped overrun mcast   
+      32345193376 115901261 0       0       0       0       
+      TX: bytes  packets  errors  dropped carrier collsns 
+      139742200499 114451909 0       0       0       0 
+  ```
+
+  输出重点内容详解：
+
+  - `RX`：表示接收
+  - `TX`：表示发送
+  - `bytes`：接收/发送的字节数
+  - `packets`：接收/发送的包数
+  - `errors`：接收/发送的带有错误的包总数
+  - `dropped`：由于处理资源不足导致接收/发送的丢弃的包数
+  - `overrun`：因接收溢出（环形缓冲区）导致丢失的包；通常如果接口溢出，则表示内核中存在严重问题，或者说服务器上该网络设备的处理设备太慢
+  - `mcast`：接收到的多播包数
+  - `carrier`：因数据链路错误导致发送失败的包数
+  - `collsns`：因在网络上发送冲突而导致的失败数
+
+- 命令：
+
+  ```
+  ip -s -s link ls eth0
+  ```
+
+  说明：获取一个特定网络接口的信息；在网络接口名字后面添加选项
+
+  ```
+  ls
+  ```
+
+  即可。使用多个选项
+
+  ```
+  -s
+  ```
+
+  会输出指定接口详细的信息；特别是在排除网络连接故障时，这会非常有用。
+
+  输出：
+
+
+
+  ```
+  2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
+      link/ether 00:16:3e:08:08:55 brd ff:ff:ff:ff:ff:ff
+      RX: bytes  packets  errors  dropped overrun mcast   
+      32469801665 116402997 0       0       0       0       
+      RX errors: length   crc     frame   fifo    missed
+                 0        0       0       0       0       
+      TX: bytes  packets  errors  dropped carrier collsns 
+      140235841575 115066014 0       0       0       0       
+      TX errors: aborted  fifo   window heartbeat transns
+                 0        0       0       0       2 
+  ```
+
