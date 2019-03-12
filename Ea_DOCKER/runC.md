@@ -22,9 +22,18 @@ runC 是一个轻量级的容器运行引擎，包括所有Docker 使用和容�
 
 可以这样立即，runC 的目标就是构造到处可以运行的标准容器。
 
+单的说，OCI有两个规范:
+
+* 一个是容器运行时规范`runtime-spec`
+* 一个是镜像格式规范`image-spec`。
+
+一个镜像，简单来说就是一个打包好的符合OCI规范的`filesystem bundule`。
+
+而bundile的话，包含一个配置文件`config.json`和一个rootfs目录。
 
 
-### OCI 标准包
+
+### OCI 标准包（bundle）
 
 一个标准的容器运行时需要文件系统， 也就是镜像。
 
