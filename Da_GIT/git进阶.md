@@ -401,6 +401,37 @@ git reflog 可以看到本地的git操作
 
 #### windows更改文件权限
 
+查看：`git  ls-files --stage`
+
+```bash
+AT@DESKTOP-4FSTEEM MINGW64 (add_apicloud2)
+$ git  ls-files --stage bin/api*
+100644 8aae9d44084b31a11e8000e395e680c24da3db2e 0       bin/apicloud2
+100755 b18a4f5a8031d3b5f513c91f8c34a536a46a2d63 0       bin/apiup
+
+AT@DESKTOP-4FSTEEM MINGW64 (add_apicloud2)
+$ git update-index --chmod=+x bin/apicloud2
+
+AT@DESKTOP-4FSTEEM MINGW64  (add_apicloud2)
+$ git  ls-files --stage bin/api*
+100755 8aae9d44084b31a11e8000e395e680c24da3db2e 0       bin/apicloud2
+100755 b18a4f5a8031d3b5f513c91f8c34a536a46a2d63 0       bin/apiup
+
+AT@DESKTOP-4FSTEEM MINGW64 (add_apicloud2)
+$ git status
+On branch add_apicloud2
+Your branch is ahead of 'upstream/dev-3.7.0' by 3 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        modified:   bin/apicloud2
+
+```
+
+更改：
+
 `git update-index --chmod=+x path/to/the/file`
 
 

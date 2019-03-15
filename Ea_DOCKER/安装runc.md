@@ -134,7 +134,17 @@ mycontainerid   0           stopped     /root/mycontainer   2019-03-12T..   root
 
 id 是本机唯一， 是你自己的命名， 指定-b 可以指定bundle 文件夹， 默认是目前文件夹。
 
+eg: 建立运行并进入一个 容器：
 
+```
+terminal : true,  
+
+args: "sh" 
+```
+
+
+
+help:
 
 ```bash
 USAGE:
@@ -176,4 +186,6 @@ GLOBAL OPTIONS:
    --help, -h          show help
    --version, -v       print the versio
 ```
+
+
 
