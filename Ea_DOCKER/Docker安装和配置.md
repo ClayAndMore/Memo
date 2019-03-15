@@ -3,7 +3,9 @@ tags: [docker]
 
 官网：`https://www.docker.com/`
 
-#### Ubuntu
+#### 手动安装
+
+ubuntu 为例
 
 系统要求：
 
@@ -34,11 +36,19 @@ tags: [docker]
    EOF
    ```
 
-通过官方脚本安装：
+#### 通过官方脚本安装
 
 `curl -fsSL https://get.docker.com/ | sh`
 
 或： `wget -qO- https://get.docker.com/ | sh`
+
+
+
+#### 通过软件管理安装
+
+```
+sudo apt install docker.io
+```
 
 
 
@@ -82,6 +92,12 @@ https://blog.csdn.net/kinginblue/article/details/73527832
 sudo apt-get purge -y docker-engine docker docker.io docker-ce  
 sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce  
 ```
+
+
+
+或直接`sudo apt remove --purge docker*`
+
+
 
 删除一下配置文件：
 
