@@ -86,19 +86,17 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
       release-3.6.17-送检
       wy_dev_build
       wy_release-3.6.16
-
+    
     AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_ng8wbuild_master (master)
     $ git branch | grep -v master | xargs git branch -D
     Deleted branch add_bin_pypy_devWY (was 56bd947).
     Deleted branch release-3.6.17-送检 (was 98bc3d4).
     Deleted branch wy_dev_build (was 1910c98).
     Deleted branch wy_release-3.6.16 (was 98bc3d4).
-
+    
     ```
 
-    
-
-  *  删掉本地仓库的所有分支：
+  * 删掉本地仓库的所有分支：
 
     ```bash
     AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_ng8w_dist_master (master)
@@ -110,7 +108,7 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
       remotes/origin/master
       remotes/origin/modify_api_run
       remotes/origin/repair_web_security
-
+    
     $ git branch -a | grep origin |grep -v "master"
       remotes/origin/add_tag_info
       remotes/origin/add_user_email_com
@@ -127,7 +125,7 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
        origin/del_audit_cron
        origin/modify_api_run
        origin/repair_web_security
-
+    
     $ git branch -a | grep origin |grep -v "master" | cut -d / -f 2-3 | xargs git branch -r -D
         Deleted remote-tracking branch origin/add_tag_info (was 3762763e).
         Deleted remote-tracking branch origin/add_user_email_com (was c7255e52).
@@ -135,10 +133,9 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
         Deleted remote-tracking branch origin/del_audit_cron (was 9b698d9e).
         Deleted remote-tracking branch origin/modify_api_run (was 68fbbb77).
         Deleted remote-tracking branch origin/repair_web_security (was 7650ea5e).
-
+    
     ```
 
-    
 
 
 
@@ -269,55 +266,68 @@ eg:  master 的 新分支 dev， dev做了修改并commit , 得到一个commit i
 
 
 
-### git log
+**合并指定分支文件**
 
-`git log -p`   ,   -p 是 `--patch` 的缩写，通过 `-p` 参数，你可以看到具体每个 `commit` 的改动细节
+`git checkout source_branch <path>...`
 
-`git log --stat`,  查看简要统计，只想大致看一下改动内容，但并不想深入每一行的细节
+eg:
 
-`git log --graph`命令可以看到分支合并图。
+```
+$ git branch
+  * A  
+    B
+    
+$ git checkout B message.html message.css message.js other.js
+```
 
-`git log`   查看历史版本，如果嫌输出信息太多可以试试加上`--pretty=oneline`参数
-
-其他：
-
-- `git  blame [file] `   
-
-  显示指定文件是什么人在什么时间修改过
-
-- 显示某个文件的版本历史，包括文件改名
-
-  `$ git log --follow [file]`
-  `$ git whatchanged [file]`
-
-  
+使用与新增文件或新增修改的场景，因为这样会强制覆盖A上的文件，如果a中相关文件有修改，建议不这么做。看下面：
 
 
 
-### git show 和 diff
+**智能合并**
 
-1. 查看具体某个commit：
+基于A建立一个临时分支A_temp, 将B合并到A_temp
 
-   ```
-   show
-   ```
+```
+$ git checkout -b A_temp
+Switched to a new branch 'A_temp'
 
-   1. 要看最新 `commit` ，直接输入 `git show` ；要看指定 `commit` ，输入 `git show commit的引用或SHA-1`
-   2. 如果还要指定文件，在 `git show` 的最后加上文件名
+$ git merge B
+Updating 1f73596..04627b5
+Fast-forward
+ message.css                     | 0
+ message.html                    | 0
+ message.js                      | 0
+ other.js                        | 1 +
+ 4 files changed, 1 insertion(+)
+ create mode 100644 message.css
+ create mode 100644 message.html
+ create mode 100644 message.js
 
-2. 查看未提交的内容：
+```
 
-   ```
-   diff
-   ```
+切换到A分支，并使用git checkout 将A_temp分支上新增的内容合到A:
 
-   1. 查看暂存区和上一条 `commit` 的区别：`git diff --staged`（或 `--cached`）
-   2. 查看工作目录和暂存区的区别：`git diff` 不加选项参数
-   3. 查看工作目录和上一条 `commit` 的区别：`git diff HEAD`
+```
+$ git checkout A
+Switched to branch 'A'
+
+$ git checkout A_temp message.html message.css message.js other.js
+
+$ git status
+# On branch A
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#    new file:   message.css
+#    new file:   message.html
+#    new file:   message.js
+#    modified:   other.js
+```
 
 
 
-### git stash
+### stash
 
 git stash将当前工作区缓存起来，这样切换到其他分支工作区的内容就不会影响，当在其他分支建立新分支时，比如修复bug，我们当前的工作并不会影响，当提交bug分支后，我们再将缓存内容提取出来。
 
@@ -340,6 +350,39 @@ git stash -u
 
 
 
+### clean
+
+git clean命令用来从你的工作目录中删除所有没有tracked过的文件
+
+git clean经常和git reset --hard一起结合使用. 记住reset只影响被track过的文件, 所以需要clean来删除没有track过的文件. 
+
+用法 : 
+
+* `git clean -n`
+
+  是一次clean的演习, 告诉你哪些文件会被删除. 记住他不会真正的删除文件, 只是一个提醒
+
+* `git clean -f`
+
+  删除当前目录下所有没有track过的文件. 
+
+* git clean -f <path>
+
+  删除指定路径下的没有被track过的文件
+
+* git clean -df
+
+  删除当前目录下没有被track过的文件和文件夹
+
+* git clean -xf
+
+  删除当前目录下所有没有track过的文件. 不管他是否是.gitignore文件里面指定的文件夹和文件
+
+
+git reset --hard和git clean -f是一对好基友. 结合使用他们能让你的工作目录完全回退到最近一次commit的时候
+
+
+
 ### 解决冲突
 
 如果有冲突会提示，你只需要找到那个文件，文件中会标记冲突的地方，用编辑器打开，然后把冲突编辑掉，重新提交就好了 。看后文问题
@@ -357,179 +400,6 @@ https://git-scm.com/docs/gitignore
 
 
 
+1. 
 
-### 提交请求流程
 
-1. fork 源仓库 到自己仓库，
-2. 克隆自己仓库的相关分支
-3. 基于刚才的分支新建开发分支
-4. 更改开发分支并`git push origin 远程分支的名`
-5. 请求merge
-
-
-
-### 出部署包流程
-
-1. 到更改的submodel 中提交请求合并
-2. 合并后克隆主仓库到目录中，先不用递归克隆。
-3. 进入主仓库，到相关submodel中(比如src),`git checkout -b 分支名 origin/远程分支名` 
-4. git log 看是否是之前submodel的新提交。
-5. 到顶层目录，进入刚才的分支，`git diff`看是否有内容改变 
-6. 如果有，add . ,commit ,push
-
-
-
-
-自己分支出包测试
-
-` git submodule foreach git checkout master`
-
-`git submodule foreach git pull origin master`
-
-`git status`
-
-`git add --`
-
-`git commit -m -`
-
-`git push origin 自己的分支名`
-
-
-
-### 一些问题
-
-#### windows更改文件权限
-
-查看：`git  ls-files --stage`
-
-```bash
-AT@DESKTOP-4FSTEEM MINGW64 (add_apicloud2)
-$ git  ls-files --stage bin/api*
-100644 8aae9d44084b31a11e8000e395e680c24da3db2e 0       bin/apicloud2
-100755 b18a4f5a8031d3b5f513c91f8c34a536a46a2d63 0       bin/apiup
-
-AT@DESKTOP-4FSTEEM MINGW64 (add_apicloud2)
-$ git update-index --chmod=+x bin/apicloud2
-
-AT@DESKTOP-4FSTEEM MINGW64  (add_apicloud2)
-$ git  ls-files --stage bin/api*
-100755 8aae9d44084b31a11e8000e395e680c24da3db2e 0       bin/apicloud2
-100755 b18a4f5a8031d3b5f513c91f8c34a536a46a2d63 0       bin/apiup
-
-AT@DESKTOP-4FSTEEM MINGW64 (add_apicloud2)
-$ git status
-On branch add_apicloud2
-Your branch is ahead of 'upstream/dev-3.7.0' by 3 commits.
-  (use "git push" to publish your local commits)
-
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-        modified:   bin/apicloud2
-
-```
-
-更改：
-
-`git update-index --chmod=+x path/to/the/file`
-
-
-
-#### windows git status乱码
-
-```
-git config --global core.quotepath false 
-```
-
-
-
-#### 一个分支的修改同步到另一个分支
-
-branch A（01版本），在branch A（01版本）上开了分支branch B（01版本），这个时候我修改了branch A（01->02版本），请问我如何将修改的结果带到branch B？
-
-```
-git checkout B
-git merge A
-```
-
-
-
-#### 文件从 Git 仓库中移除，但任希望保留在当前工作目录中
-
-`git rm --cached file-you-want-to-remove`
-
-
-
-#### 查看当前git分支是基于哪个分支建立的
-
-`git reflog --date=local | grep <branchname>`
-
-
-
-#### github设置密钥后push仍然需要密码：
-
-原因是当时克隆用的https的方式
-
-如果你已经用https方式克隆了仓库，就不必删除仓库重新克隆，只需将 .git/config文件中的 
-url = <https://github.com/Name/project.git> 
-一行改为 
-url = git@github.com:Name/project.git 
-即可。
-
-#### 
-
-#### Changes not staged for commit ,
-
-网上查说是没有git add .,但是我add过了，下面的命令解决了这个问题：
-
-`git` 这里有点特殊。要先加入到 staging area 的改动才会被 `git commit` 提交。同一个文件也可以 `add` 多次。不想`add`可以：
-
-```
-git commit -m 'msg' <file>
-```
-
-或者
-
-```
-git commit -m 'msg' -a
-```
-
-
-增加文件又删除也容易出现这个问题，这时我们要保持status的干净，可以用`git rm` , status里有说明
-
-
-
-#### fatal: unable to access
-
- `'https://github.com/VundleVim/Vundle.vim.git/'`: GnuTLS recv error (-54): Error in the pull function.
-
-  需要取消git的代理： `git config --global --unset http.proxy`
-
-
-
-#### Git checkout: updating paths is incompatible with switching branches
-
-I believe this occurs when you are trying to checkout a remote branch that your local git repo is not aware of yet. Try:
-
-```
-git remote show origin
-```
-
-If the remote branch you want to checkout is under "New remote branches" and not "Tracked remote branches" then you need to fetch them first:
-
-```
-git remote update
-git fetch
-```
-
-Now it should work:
-
-```
-git checkout -b local-name origin/remote-name
-```
-
-
-
-### 注意
-
-文件名在使用中文名时容易提交不上。
