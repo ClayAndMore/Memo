@@ -2,10 +2,6 @@
 
 Tags:[python, py_lib]
 
-
-
-
-
 ### to be a dict
 
 ```

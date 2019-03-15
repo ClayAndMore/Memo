@@ -2,30 +2,54 @@ Tags:[Git]
 
 ## git 进阶2
 
-
-
-###  some details
-
-* `git  blame [file] `   
-
-  显示指定文件是什么人在什么时间修改过
-
-* 显示某个文件的版本历史，包括文件改名
-
-  `$ git log --follow [file]`
-  `$ git whatchanged [file]`
-
-* `git status`  查看当前仓库状态
-
-* `git diff`    可看我们哪里对什么做了修改
-
-  ​
-
-  ​
-
 ### git rebase
 
-git rebase 也是分支的合并，它会把本地修改接到最新的后面，而不像merge那样在历史记录里看上去是平行的。
+rebase 的翻译为变基，给你的 `commit` 序列重新设置基础点（也就是父 `commit`）。展开来说就是，把你指定的 `commit` 以及它所在的 `commit` 串，以指定的目标 `commit`为基础，依次重新提交一次。
+
+```
+git rebase 目标基础点
+```
+
+需要说明的是，`rebase` 是站在需要被 `rebase` 的 `commit` 上进行操作，这点和 `merge` 是不同的。
+
+和merge 比较就可以清晰的知道它的含义了：
+
+e.g:
+
+`git merge branch1`,  原来的master和head在4的位置。
+
+![](/Users/claymore/Desktop/ git merge.png)
+
+
+
+如果把 `merge` 换成 `rebase`，可以这样操作：
+
+```
+git checkout branch1
+git rebase master
+```
+
+![](/Users/claymore/Desktop/git rebase.png)
+
+`5` 和 `6` 两条 `commit`s 把基础点从 `2` 换成了 `4` 。通过这样的方式，就让本来分叉了的提交历史重新回到了一条线。
+
+另外，在 `rebase` 之后，记得切回 `master` 再 `merge` 一下，把 `master` 移到最新的 `commit`：
+
+```
+git checkout master
+git merge branch1
+```
+
+
+
+有些人不喜欢 `merge`，因为在 `merge` 之后，`commit` 历史就会出现分叉，这种分叉再汇合的结构会让有些人觉得混乱而难以管理。如果你不希望 `commit` 历史出现分叉，可以用 `rebase` 来代替 `merge`。
+
+
+
+使用场景：
+
+rebase在某些GUI git工具上汉化翻译为“衍合”，使用场景是: 我开个新分支来开发新需求，这中间有紧急bug fix或者别的什么修改在主分支上进行了，我需要把这些改动同步到新分支来，但是我暂时不想把这个分支合并到主分支，因为的新需求还没开发完呢，咋办呢，用衍合。
+换种说法也可以：我在主分支commit a时新建了新分支，此时开始分叉，分叉后我又在主分支改了东西commit b，此时我后悔了，我不该在commit a时分叉的，因为commit b的东西我新分支也需要，此时用衍合，就等于我丢弃原分叉，在commit b重新分叉（原分叉的改动内容当然也是带上的，没有丢）
 
 
 
@@ -87,7 +111,7 @@ git rebase 也是分支的合并，它会把本地修改接到最新的后面，
 
   `git  push origin tag_name`
 
-  ​
+  
 
 
 ### submodoule

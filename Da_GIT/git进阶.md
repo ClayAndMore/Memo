@@ -96,7 +96,7 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
     ```
 
-    ​
+    
 
   *  删掉本地仓库的所有分支：
 
@@ -138,7 +138,7 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
     ```
 
-    ​
+    
 
 
 
@@ -263,9 +263,57 @@ eg:  master 的 新分支 dev， dev做了修改并commit , 得到一个commit i
 
 
 
+**取消此次merge:**
+
+`git merge —abort`
+
+
+
 ### git log
 
+`git log -p`   ,   -p 是 `--patch` 的缩写，通过 `-p` 参数，你可以看到具体每个 `commit` 的改动细节
+
+`git log --stat`,  查看简要统计，只想大致看一下改动内容，但并不想深入每一行的细节
+
 `git log --graph`命令可以看到分支合并图。
+
+`git log`   查看历史版本，如果嫌输出信息太多可以试试加上`--pretty=oneline`参数
+
+其他：
+
+- `git  blame [file] `   
+
+  显示指定文件是什么人在什么时间修改过
+
+- 显示某个文件的版本历史，包括文件改名
+
+  `$ git log --follow [file]`
+  `$ git whatchanged [file]`
+
+  
+
+
+
+### git show 和 diff
+
+1. 查看具体某个commit：
+
+   ```
+   show
+   ```
+
+   1. 要看最新 `commit` ，直接输入 `git show` ；要看指定 `commit` ，输入 `git show commit的引用或SHA-1`
+   2. 如果还要指定文件，在 `git show` 的最后加上文件名
+
+2. 查看未提交的内容：
+
+   ```
+   diff
+   ```
+
+   1. 查看暂存区和上一条 `commit` 的区别：`git diff --staged`（或 `--cached`）
+   2. 查看工作目录和暂存区的区别：`git diff` 不加选项参数
+   3. 查看工作目录和上一条 `commit` 的区别：`git diff HEAD`
 
 
 
@@ -284,66 +332,17 @@ git stash将当前工作区缓存起来，这样切换到其他分支工作区�
 
 
 
+> 注意：没有被 track 的文件（即从来没有被 add 过的文件不会被 stash 起来，因为 Git 会忽略它们。如果想把这些文件也一起 stash，可以加上 `-u` 参数，它是 `--include-untracked` 的简写。就像这样：
+
+```
+git stash -u
+```
+
+
+
 ### 解决冲突
 
 如果有冲突会提示，你只需要找到那个文件，文件中会标记冲突的地方，用编辑器打开，然后把冲突编辑掉，重新提交就好了 。看后文问题
-
-
-
-
-### 版本回溯
-
-`git log`   查看历史版本，如果嫌输出信息太多可以试试加上`--pretty=oneline`参数：
-
-`git reset --hard HEAD^`   回到上一个版本，HEAD^^回到上两个版本。。HEAD~100回到上一百个版本。
-
-在Git中，用`HEAD`表示当前版本。
-
-Git提供了一个命令`git reflog`用来记录你的每一次命令，这样就可以回到未来。
-
-回滚后需要强行提交：
-
-`git add .`  
-
-`git commit -'roll-back'`
-
-`git push -f origin master`   加入-f参数，强制提交
-
-
-
-### 本地撤销和版本回退
-
-* 撤销没有add的，也就是所有本地修改。
-
-  git checkout .  (所有)
-
-  git checkout 文件名（具体文件）
-
-* 撤销add 的， `git reset HEAD filename` ,  回到上面的状态。
-
-  如果新建的文件，已add，删掉的话用`git rm -f filename`
-
-
-* 只撤销上次的commit ,并没有push:
-
-  `	git reset --hard HEAD^`
-
-* 更改已经提交过的注释 :`git commit --amend`
-
-* 撤销MERGING状态： `git reset --hard HEAD`
-
-
-
-
-本地git操作版本回退
-
-git reflog 可以看到本地的git操作
-
-`git reset --hard Obfafd`
-
-后面为操作记录id
-
-然后可以强制推至远程分支`git push -f`
 
 
 
@@ -354,7 +353,7 @@ git reflog 可以看到本地的git操作
 
 最直接的方式是编辑 `.gitignore`  将自己要忽略的文件夹或文件添加进去
 
-
+https://git-scm.com/docs/gitignore
 
 
 

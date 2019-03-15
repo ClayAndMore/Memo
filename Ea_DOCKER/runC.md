@@ -172,6 +172,53 @@ path 是需要执行脚本的路径。 args 和 env 都是可选参数， timeou
 
 
 
+### Docker containerd
+
+Containerd 可以作为 daemon 程序运行在Linux 和 Windows 上， 管理机器上所有容器的生命周期。
+
+2016年3月，docker1.1的Docker 里就包含containerd, 2016年12月， Docker 宣布将containerd 从Docker 中分离，  和原来包含在Docker里的Containerd相比， 独立的containerd 具有更多功能，可以涵盖整个容器运行时管理的所有需求。
+
+
+
+Containerd 并不是直接面向最终用户的，是集成到更上层的系统里， 比如 Swarm, kubernetes, Mesos等容器编排系统。对于容器编排系统来说，运行时只需要使用containerd + runC， 更加轻量。
+
+它以daemon的形式运行在系统上，通过unix domain socket 暴露底层的gPRC API, 上层系统可以通过这些API管理机器上的所有容器。
+
+每个Containerd 只负责一台机器， pull 镜像，对容器的操作（启动，停止等），网络，存储都是由containerd完成的。 容器具体运行由runc 负责。
+
+ Containerd 项目架构图：
+
+![](/Users/claymore/Desktop/container_runc.png)
+
+
+
+### runC
+
+[RunC](https://github.com/opencontainers/runc) 是一个轻量级的工具，它是用来运行容器的，只用来做这一件事，并且这一件事要做好。我们可以认为它就是个命令行小工具，可以不用通过 docker 引擎，直接运行容器。事实上，runC 是标准化的产物，它根据 OCI 标准来创建和运行容器。
+runC 由golang语言实现，基于libcontainer库。从docker1.11以后，docker架构图：
+
+![](/Users/claymore/Desktop/docker_runc.png)
+
+
+
+Containerd-shim:
+
+Containerd-shim是一个真实运行的容器的真实垫片载体，每启动一个容器都会起一个新的docker-shim的一个进程， 
+他直接通过指定的三个参数：容器id，boundle目录（containerd的对应某个容器生成的目录，一般位于：/var/run/docker/libcontainerd/containerID）， 
+运行是二进制（默认为runc）来调用runc的api创建一个容器（比如创建容器：最后拼装的命令如下：runc create 。。。。。）
+
+
+
+
+
+### Kubernetes CRI 容器引擎
+
+#### CRI
+
+Container Runtime Interface, 容器运行时接口， 是一组接口规范， 
+
+
+
 ### todo
 
 https://segmentfault.com/a/1190000017543294#articleHeader2
