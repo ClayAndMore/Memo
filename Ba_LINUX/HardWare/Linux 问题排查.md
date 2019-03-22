@@ -2,6 +2,14 @@ Tags:[linux]
 
 ## Linux 问题排查 
 
+### strace 命令
+
+
+
+
+
+
+
 ### No space left on device
 
 * 一般是磁盘满了，导致无法创建新文件。
@@ -123,3 +131,25 @@ subprocess.call(['setenforce','0'])
 取消注释即可
 
 **bashrc文件讲讲rc的含义**：run command ,一般rc后缀文件就是启动脚本文件
+
+
+
+
+
+### 过多进程睡眠
+
+当我们用ps找我们的进程发在S睡眠状态，eg:
+
+```
+root      3265  0.0  0.0   4224  1544 ?        S<   Mar01  14:59 /sbin/modprobe -b acpi:IPI0001:
+root      3275  0.3  0.0  53264 30740 ?        Sl   Mar01  92:11 /usr/local/bin/gitlab-runner run --working-directory /home/gitlab-runner --config /etc/gitlab-runne
+root      3286  0.0  0.0      0     0 ?        S<   Mar01   0:00 [kworker/11:1H]
+```
+
+
+
+我们可以用 `strace -p <pid>` 看他在干嘛，
+
+* write(1, "foobar"..., 4096,  这是在写块
+
+* futex(0x1fcc500, FUTEX_WAIT_PRIVATE, 0, NULL， 进程被挂起，可能是程序原因，可能是其他原因，比较复杂。

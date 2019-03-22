@@ -10,6 +10,11 @@ Go 语言又称Golang, 是谷歌开发的一种 **静态类型， 编译型、�
 
 ### 安装
 
+Go 提供了每个平台打好包的一键安装，这些包默认会安装到如下目录：`/usr/local/go`。当然你可以改变它们的安装位置，但是改变之后你必须在你的环境变量中设置如下两个环境变量：
+
+- GOROOT：GOROOT 就是 Go 的安装路径
+- GOPATH：GOPATH 是作为编译后二进制的存放目的地和 import 包时的搜索路径
+
 
 
 #### 前提
@@ -24,25 +29,57 @@ Go 语言又称Golang, 是谷歌开发的一种 **静态类型， 编译型、�
 
 #### 配置
 
-* 安装，去官网下载对应平台的安装包：https://golang.org/
+安装，去官网下载对应平台的安装包：https://golang.org/, 打不开可以去：https://golang.google.cn/dl/
 
-* 创建目录： `tar -C /usr/local -xzf go1.9.2.linux-amd64.tar.gz`  , 个人喜好不放在/usr/local下
+Linux 版本选择 goxxxxx.linux-amd64.tar.gz 格式的安装包，这里在 Linux 服务器上直接用 `wget` 命令下载：
 
-* 环境变量： `vi ~/.bashrc` 
+```
+$ wget https://dl.google.com/go/go1.10.2.linux-amd64.tar.gz
+```
 
-  添加`export PATH=$PATH:/usr/local/go/bin`
+设置安装目录
 
-  执行`source ~/.bashrc` 使环境变量生效
+```
+$ export GO_INSTALL_DIR=$HOME
+```
 
-* 查看： `go version`
+这里我们安装到用户主目录下。
+
+解压 Go 安装包
+
+```
+$ tar -xvzf go1.10.2.linux-amd64.tar.gz -C $GO_INSTALL_DIR
+```
+
+设置环境变量
+
+```
+$ export GO_INSTALL_DIR=$HOME
+$ export GOROOT=$GO_INSTALL_DIR/go
+$ export GOPATH=$HOME/go_workspace
+$ export PATH=$GOPATH/bin:$PATH:$GO_INSTALL_DIR/go/bin
+```
+
+如果不想每次登录系统都设置一次环境变量，可以将上面 4 行追加到 `$HOME/.bashrc` 文件中。
+
+执行 `go version` 检查 Go 是否成功安装
+
+```
+$ go version
+go version go1.10.2 linux/amd64
+```
+
+看到 `go version` 命令输出 go 版本号 `go1.10.2 linux/amd64`，说明 go 命令安装成功。
+
+创建 `$GOPATH/src` 目录
+
+`$GOPATH/src` 是 Go 源码存放的目录，所以在正式开始编码前要先确保 `$GOPATH/src` 目录存在，执行命令：
+
+```
+$ mkdir -p $GOPATH/src
+```
 
 
-
-个人喜好建立一个新文件夹go_workspace 作为GOPATH:
-
-vim ~/.bashrc:
-
-`export GOPATH=/root/go_workspace`
 
 执行`source ~/.bashrc`,
 
@@ -57,16 +94,6 @@ ps:
 *  可以配置多个GOPATH,  当我们引包时，会在多个$GOPATH/src里查找
 *  GOPATH分割列表分隔符不同，UNIX-like使用冒号， Windows使用分号。
 *  使用git等工具时，建议忽略pkg, bin目录，直接在src或具体的子包下创建代码仓库。
-
-
-
-#### GOROOT
-
-待补充，
-
-会影响GOROOTDIR, GOROOTDIR则会影响go tool的使用。
-
-个人一般是设置GOROOT 到安装目录`export GOROOT=/root/go`
 
 
 

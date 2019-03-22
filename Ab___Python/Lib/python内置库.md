@@ -67,6 +67,8 @@ if pid < 0:
 
 
 
+for windows cmd 设置 utf-8 编码：`os.system("chcp 65001")`
+
 
 
 #### 路径操作
@@ -202,7 +204,8 @@ os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
   ensure_ascii：默认值True，只做两件事：
 
   		1. 如果有非ASII的字符， 用utf-8解码。
-    ​    		2. 确保dumps后的数据为 str 字符数组。
+
+        		2. 确保dumps后的数据为 str 字符数组。
 
 如果dict内含有non-ASCII的字符，则会解码成utf-8的数据，去掉了u, 双斜杠转义单斜杠
 
@@ -260,7 +263,7 @@ indent：应该是一个非负的整型，如果是0，或者为空，则一行�
   <dict>
   ```
 
-  ​
+  
 
 * json.dump(f), 
 
@@ -271,7 +274,7 @@ indent：应该是一个非负的整型，如果是0，或者为空，则一行�
 
   生成文件流​
 
-  ​
+  
 
 * json.load(f),
 
@@ -285,7 +288,7 @@ indent：应该是一个非负的整型，如果是0，或者为空，则一行�
 
   ```
 
-  ​
+  
 
 对象的转换：
 
@@ -1105,7 +1108,7 @@ UTC: 协调世界时。世界不同时区的⼀个基准，⽐如中国为 UTC+8
     ('CST', 'CST') # 北京时间，China Standard Time
     ```
 
-    ​
+    
 
 
 

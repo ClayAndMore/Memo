@@ -1,46 +1,5 @@
 tags: [Go]
 
-### 包管理工具go get
-
-类似于python 的pip， 可以获得远程包并管理包目录。
-
-go语言有一个获取远程包的工具就是`go get`，目前go get支持多数开源社区(例如：github、googlecode、bitbucket、Launchpad)
-
-```
-go get github.com/astaxie/beedb
-```
-
-> go get -u 参数可以自动更新包，而且当go get的时候会自动获取该包依赖的其他第三方包
-
-通过这个命令可以获取相应的源码，对应的开源平台采用不同的源码控制工具，例如github采用git、googlecode采用hg，
-
-**注意**：所以要想获取这些源码，必须先安装相应的源码控制工具,并同时把这些命令加入你的PATH中
-
-通过上面获取的代码在我们本地的源码相应的代码结构如下
-
-```
-$GOPATH
-  src
-   |--github.com
-		  |-astaxie
-			  |-beedb
-   pkg
-	|--相应平台
-		 |-github.com
-			   |--astaxie
-					|beedb.a
-```
-
-go get本质上可以理解为首先第一步是通过源码工具clone代码到src下面，然后执行`go install`
-
-在代码中如何使用远程包，很简单的就是和使用本地包一样，只要在开头import相应的路径就可以
-
-```
-import "github.com/astaxie/beedb"
-```
-
-
-
 ### go 命令
 
 go 有一套完整的命令，可以执行go查看
@@ -141,33 +100,15 @@ gofmt的参数介绍
 - `-e` 打印所有的语法错误到标准输出。如果不使用此标记，则只会打印不同行的前10个错误。
 - `-cpuprofile` 支持调试模式，写入相应的cpufile到指定的文件
 
-#### go get
 
-这个命令是用来动态获取远程代码包的，目前支持的有BitBucket、GitHub、Google Code和Launchpad。这个命令在内部实际上分成了两步操作：第一步是下载源码包，第二步是执行`go install`。下载源码包的go工具会自动根据不同的域名调用不同的源码工具，对应关系如下：
-
-```
-BitBucket (Mercurial Git)
-GitHub (Git)
-Google Code Project Hosting (Git, Mercurial, Subversion)
-Launchpad (Bazaar)
-```
-
-所以为了`go get` 能正常工作，你必须确保安装了合适的源码管理工具，并同时把这些命令加入你的PATH中。其实`go get`支持自定义域名的功能，具体参见`go help remote`。
-
-参数介绍：
-
-- `-d` 只下载不安装
-- `-f` 只有在你包含了`-u`参数的时候才有效，不让`-u`去验证import中的每一个都已经获取了，这对于本地fork的包特别有用
-- `-fix` 在获取源码之后先运行fix，然后再去做其他的事情
-- `-t` 同时也下载需要为运行测试所需要的包
-- `-u` 强制使用网络去更新包和它的依赖包
-- `-v` 显示执行的命令
 
 #### go install
 
 这个命令在内部实际上分成了两步操作：第一步是生成结果文件(可执行文件或者.a包)，第二步会把编译好的结果移到`$GOPATH/pkg`或者`$GOPATH/bin`。
 
 参数支持`go build`的编译参数。大家只要记住一个参数`-v`就好了，这个随时随地的可以查看底层的执行信息。
+
+
 
 #### go test
 
@@ -189,12 +130,16 @@ ok   compress/gzip 0.033s
 - `-run regexp` 只运行regexp匹配的函数，例如 `-run=Array` 那么就执行包含有Array开头的函数
 - `-v` 显示测试的详细命令
 
+
+
 #### go tool
 
 `go tool`下面下载聚集了很多命令，这里我们只介绍两个，fix和vet
 
 - `go tool fix .` 用来修复以前老版本的代码到新版本，例如go1之前老版本的代码转化到go1,例如API的变化
 - `go tool vet directory|files` 用来分析当前目录的代码是否都是正确的代码,例如是不是调用fmt.Printf里面的参数不正确，例如函数里面提前return了然后出现了无用代码之类的。
+
+
 
 #### go generate
 
@@ -222,6 +167,8 @@ $ go build
 $ go test
 ```
 
+
+
 #### godoc
 
 在Go1.2版本之前还支持`go doc`命令，但是之后全部移到了godoc这个命令下，需要这样安装`go get golang.org/x/tools/cmd/godoc`
@@ -231,6 +178,8 @@ $ go test
 如何查看相应package的文档呢？ 例如builtin包，那么执行`godoc builtin` 如果是http包，那么执行`godoc net/http` 查看某一个包里面的函数，那么执行`godoc fmt Printf` 也可以查看相应的代码，执行`godoc -src fmt Printf`
 
 通过命令在命令行执行 godoc -http=:端口号 比如`godoc -http=:8080`。然后在浏览器中打开`127.0.0.1:8080`，你将会看到一个golang.org的本地copy版本，通过它你可以查询pkg文档等其它内容。如果你设置了GOPATH，在pkg分类下，不但会列出标准包的文档，还会列出你本地`GOPATH`中所有项目的相关文档，这对于经常被墙的用户来说是一个不错的选择。
+
+
 
 #### 其它命令
 
@@ -248,61 +197,4 @@ go run 编译并运行Go程序
 
 
 ### 问题
-
-#### timeout 和 墙的问题
-
-两种方法：
-
-1、安装golang.org/x/net， github:`https://github.com/golang/net`
-golang的第三方包都会安装GOPATH目录下
-
-```
- mkdir -p GOPATH/src/golang.org/x/
- git clone https://github.com/golang/net.git GOPATH/src/golang.org/x/net
-
-$ go install net
-```
-
-
-
-或用别人集成的库：
-
-```go
-cd $GOPATH/src
-git clone https://github.com/MXi4oyu/golang.org.git
-```
-
-
-
-
-
-2、设置代理
-
-```
-export http_proxy='http://name:password@x.x.x.x:xx' export https_proxy=$http_proxy
-```
-
-其他绕墙方式：https://tianshimanbu.com/basic/go-get-timeout.html
-
-
-
-
-
-仍然不行：
-
-只能手动下一些包：
-
-```
-进入gopath的src目录：
-cd ~/go/src
-
-创建目录：
-mkdir -p  golang.org/x/
-
-进入刚创建的目录：
-cd golang.org/x
-
-克隆git库：
-git clone https://github.com/golang/sys.git  # 这里要改成你的包
-```
 

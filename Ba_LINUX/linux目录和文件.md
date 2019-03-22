@@ -581,6 +581,66 @@ eg:
     
     `find /tmp -name "[ab].sh"`
 
+（ 2） 根据文件时间
+
+```
+假如在一个目录中保留最近30天的文件，30天前的文件自动删除
+ 
+find /tmp -mtime +30 -type f -name *.sh[ab] -exec rm -f {} \;
+
+ /tmp  --设置查找的目录；
+ -mtime +30 --设置时间为30天前；相同的 还有atime,ctime
+ -type f --设置查找的类型为文件；
+ -name *.sh[ab] --设置文件名称中包含sha或者shb；
+
+ -exec rm -f --查找完毕后执行删除操作；
+ 
+"-atime"、"-ctime"、"-mtime"参数
+回忆一下这三个参数的使用方法：
+
+-atime：访问时间，文件被读取或执行的时间。
+-ctime：属性改变时间，文件的inode被修改的时间
+-mtime：内容修改时间
+参数后面会跟上具体的数字：
+
+# 下面的1 这些参数待确定
+# -1：24小时之内操作过的
+# 1：24小时之外,48小时之内操作过的
+# +1：48小时之外操作过的
+ 
+提示：将此命令写入crontab后即可自动完成查找并删除的工作
+  
+另外的方法大同小异
+find . -mtime +30 -type f | xargs rm -rf
+这种会快一些：
+find /home/file/  -ctime +10 -name "*.txt" -delete 
+
+
+```
+
+指定时间
+```
+eg:
+# 查看2016-11-03日的数据
+find . -newermt '2016-11-03' ! -newermt '2016-11-04' -exec ls -l {} \;
+
+"-newermt"参数
+
+find /dir1 -type f -newermt '2018-5-26 21:00' ! -newermt '2018-5-26 22:00' -exec cp {} /dir2 \;
+#将/dir1目录下2018-5-26 21:00到2018-5-26 22:00时间段内修改或生成的文件拷贝到/dir2目录下
+该参数中的m其实就表示mtime，t表示绝对时间，那同样还存在：-newerat、-newerct
+
+```
+
+
+
+注意：
+在使用过程中发现，可能出现这样的错误提示 find: I cannot figure out how to interpret \'2018-05-26' as a date or time
+出现这样的问题，一般是因为系统版本低或者在脚本中使用缺少执行环境造成的，可以将单条命令调整为：
+
+cmd="find /dir1 -type f -newermt '2018-5-26 21:00' ! -newermt '2018-5-26 22:00' -exec cp {} /dir2 \;"
+echo $cmd | sh
+
 
 
 #### 删除符合条件的文件
