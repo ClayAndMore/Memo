@@ -43,3 +43,65 @@ go run hello.go:
 
 `response: {"message":"Hello World"}`
 
+
+
+### 路由
+
+
+
+
+
+#### 请求方式
+
+```go
+router.GET("/someGet", getting)
+router.POST("/somePost", posting)
+router.PUT("/somePut", putting)
+router.DELETE("/someDelete", deleting)
+router.PATCH("/somePatch", patching)
+router.HEAD("/someHead", head)
+router.OPTIONS("/someOptions", options)
+```
+
+
+
+#### 获取路由参数
+
+
+
+
+
+#### 获取url查询参数
+
+
+
+
+
+#### 路由组
+
+```go
+	router := gin.Default()
+
+	// Simple group: v1
+	v1 := router.Group("/v1")
+	{
+		v1.POST("/login", loginEndpoint)
+		v1.POST("/submit", submitEndpoint)
+		v1.POST("/read", readEndpoint)
+	}
+
+	// Simple group: v2
+	v2 := router.Group("/v2")
+	{
+		v2.POST("/login", loginEndpoint)
+		v2.POST("/submit", submitEndpoint)
+		v2.POST("/read", readEndpoint)
+	}
+```
+
+这样则需访问/v1/login, /v2.logi
+
+
+
+#### 使用中间件
+

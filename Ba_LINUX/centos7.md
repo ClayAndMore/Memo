@@ -70,7 +70,7 @@ firewall-cmd --reload
 
 查看
 
-firewall-cmd --zone= public --query-port=80/tcp
+firewall-cmd --zone=public --query-port=80/tcp
 
 删除
 

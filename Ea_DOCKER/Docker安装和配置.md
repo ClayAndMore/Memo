@@ -54,11 +54,94 @@ sudo apt install docker.io
 
 #### centos
 
+centos 6:
+
 https://www.liquidweb.com/kb/how-to-install-docker-on-centos-6/
 
 https://docs.docker.com/install/linux/docker-ce/centos/
 
 https://blog.csdn.net/kinginblue/article/details/73527832
+
+采用最新`epel`的YUM源可以安装到`docker 1.7`版本
+
+```bash
+## centos6下安装epel源
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+sudo rpm -Uvh epel-release-6*.rpm
+
+## centos6安装docker1.7
+yum install docker-io
+# 如果还是找不到docker-io 
+yum install http://yum.dockerproject.org/repo/main/centos/6/Packages/docker-engine-1.7.1-1.el6.x86_64.rpm
+```
+
+安装 dokcer 1.9
+
+```
+## download
+curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-1.9.1
+## grant privilege
+chmod +x docker-1.9.1 
+## backup and make new
+mv /usr/bin/docker /usr/bin/docker-1.7
+cp ./docker-1.9.1 /usr/bin/docker
+
+## restart docker
+/etc/init.d/docker restart
+```
+
+验证安装：
+
+```
+root@pts/0 # docker version
+Client:
+ Version:      1.9.1
+ API version:  1.21
+ Go version:   go1.4.3
+ Git commit:   a34a1d5
+ Built:        Fri Nov 20 17:56:04 UTC 2015
+ OS/Arch:      linux/amd64
+
+Server:
+ Version:      1.9.1
+ API version:  1.21
+ Go version:   go1.4.3
+ Git commit:   a34a1d5
+ Built:        Fri Nov 20 17:56:04 UTC 2015
+ OS/Arch:      linux/amd64
+```
+
+
+
+升级到更高docker版本：
+
+http://www.senra.me/centos6-install-new-docker-191-or-113/
+
+
+
+centos 7:
+
+```
+$ sudo yum update
+```
+
+- 运行Docker的安装脚本
+
+```
+$ curl -fsSL https://get.docker.com/ | sh
+```
+
+- 启动守护进程
+
+```
+$ sudo systemctl start docker
+```
+
+设置docker守护线程开机自启动
+
+```
+$ sudo systemctl enable docker
+```
 
 
 
@@ -107,6 +190,27 @@ sudo rm /etc/apparmor.d/docker
 sudo groupdel docker
 sudo rm -rf /var/run/docker.sock
 ```
+
+
+
+#### centos:
+
+搜索已经下载的docker:
+
+` yum list installed|grep docker `
+或者使用该命令 
+
+```bash
+[root@localhost ~]# rpm -qa|grep docker 
+docker.x86_64 2:1.12.6-16.el7.centos @extras 
+docker-client.x86_64 2:1.12.6-16.el7.centos @extras 
+docker-common.x86_64 2:1.12.6-16.el7.centos @extra
+```
+
+
+
+删掉镜像等文件：`rm -rf /var/lib/docker`
+
 
 
 

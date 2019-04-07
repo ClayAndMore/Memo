@@ -130,7 +130,7 @@ curl --cookie "name=xxx" www.javaranger.com
 
 ### 问题：
 
-` url: (6) Could not resolve host: application `
+#### ` url: (6) Could not resolve host: application `
 
 解决：
 
@@ -141,3 +141,22 @@ curl -H Content-Type: application/json ~
 curl -H Content-Type:application/json ~
 ```
 
+
+
+#### curl: (60) Peer's Certificate has expired.
+
+可能是由于服务器时间不正确导致https证书认证错误，更新服务器时间即可
+
+例:
+
+`date -s “2017-4-25 12:00:00”`
+
+或者
+
+`ntpdate time.apple.com`
+
+`ntpdate pool.ntp.org`
+
+如果没有ntpdate:
+
+`yum install -y ntpdate`
