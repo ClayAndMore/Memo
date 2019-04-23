@@ -1,0 +1,25 @@
+
+
+### 问题
+
+看日志：
+
+journalctl -xeu kubelet
+
+
+
+kubectl -n work logs pod/saythx-frontend-5bd59fb6c4-vkkgt
+
+
+
+进入 容器：kubectl exec -n work -it saythx-backend-74db8bbc87-zcqhz bash
+
+
+
+删除pods:
+
+kubectl -n work delete  pod/saythx-work-5c7975c9d7-lbxhc
+
+
+
+

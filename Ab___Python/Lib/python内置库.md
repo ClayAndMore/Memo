@@ -30,6 +30,7 @@ tags​:[python, py_lib], date:​ 2017-08-31
   except:
       print(sys.exc_info())
   (<class 'ValueError'>, ValueError(), <traceback object at 0x0000000002CF1108>)
+  exc_type, exc_obj, exc_tb = sys.exc_info()
   ```
 
 * sys.path.insert(0,path)   path是系统路径的一个列表，这条语句是将path路径插入到path的第一个位置，这样在import时候更容易被搜索到，提高效率。
