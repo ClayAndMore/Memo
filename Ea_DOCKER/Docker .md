@@ -67,7 +67,7 @@ docker 在下载image的时候,会在/var/lib/docker目录下创建相关的imag
 
   `docker run -it hub.163.com/public/ubuntu:14.04 bash`
 
-  ​
+  
 
 * 查看镜像
 
@@ -273,3 +273,4 @@ Docker hub公共市场，https://hub.docker.com
 ## 遇到的问题
 
 * workdir 的目录为挂载目录的子目录时 运行容器时会提示找不到文件。
+
