@@ -420,7 +420,7 @@ finally:
       print(t,v)
   ```
 
-  ​
+  
 
 #### 抛异常
 `raise StopIteration`
@@ -428,6 +428,30 @@ StopIteration是一个类。抛出异常时，会自动有一个中间环节，�
 `raise StopIteration()`
 
 自定义异常
+
+```py
+if something:
+    raise Exception('My error!')
+```
+
+自定义异常类：
+
+```python
+class beyond_upload_limit_exception(Exception):
+    def __init__(self,arg):
+        self.args = arg
+```
+
+抛出当前异常
+
+```python
+try:
+  generate_exception()
+except SomeException as e:
+  if not can_handle(e):
+    raise
+  handle_exception(e)
+```
 
 
 
@@ -478,7 +502,7 @@ StopIteration是一个类。抛出异常时，会自动有一个中间环节，�
   print('3 // 2.0 =', 3 // 2.0) # 1.0
   ```
 
-  ​
+  
 
 * 错误：`IndentationError: expected an indented block`
 

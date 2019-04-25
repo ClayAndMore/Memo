@@ -394,7 +394,7 @@ logging.execption() 会和traceback 那样自动处理异常的详细信息：
 
 ```
 except:
-    logging.exception('Got exception on main handler')
+    logging.exception('Got exception on main handler') # 这个参数一定有一个，哪怕传''
     raise
 ```
 

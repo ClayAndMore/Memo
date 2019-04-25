@@ -1,7 +1,5 @@
 Tags:[linux, vim] date: 2017-04-30
 
-
-
 ### Tmux
 
 下载：`apt-get install Tmux`
@@ -27,8 +25,6 @@ Tmux 的配置文件 `~/.tmux.conf`
 没有输入tmux前新建会话：
 
 `tmux new -s <name-of-my-session>`
-
-
 
 #### 窗口（wind）
 
@@ -62,17 +58,13 @@ Tmux 的配置文件 `~/.tmux.conf`
 
 ​    ` c-b x` 关闭当前光标处的小窗口
 
-
-
 给当前窗口改名：
 
 `c-b ,`
 
-
-
 退出窗口，从会话中断开，稍后可以重新连接：
 
-`ctrl + d`
+`ctrl-b + d`
 
 接入会话：
 
@@ -82,8 +74,6 @@ Tmux 的配置文件 `~/.tmux.conf`
 
 `$ tmux a -t session-name`
 
-
-
 关闭会话：
 
 要关闭会话的话，可以使用如下的命令，该命令和接入会话时所使用的命令很像：
@@ -91,8 +81,6 @@ Tmux 的配置文件 `~/.tmux.conf`
 `$ tmux kill-session -t session-name`
 
 提示：关闭窗口时也可以使用类似的命令，只不过要把 kill-session 换成 kill-window。另外，还可以使用 tmux killall 同时关闭 tmux。
-
-
 
 ### 安装和配置git
 
@@ -120,15 +108,11 @@ Tmux 的配置文件 `~/.tmux.conf`
 
 出现hello,你的名字，you've successfully....则说明成功。
 
-
-
 ### VIM
 
 配置文件 ubuntu `/etc/vim/vimrc` 
 
 普通模式：p 当前位置插入注释符号（偶然得知，不知道哪个插件）
-
-
 
 ### vundle
 
@@ -159,15 +143,11 @@ begin和end里放入你要安装的插件。注意这里不是注释，要带上
 
 and: ^M 你肯定复制人家配置了！而且从windows上传的！dos2unix咯....
 
-
-
 进入vim:
 
 安装插件：`:PluginInstall`
 
 显示插件：`PluginList`
-
-
 
 ### NEATree
 
@@ -191,7 +171,7 @@ let NERDTreeMinimalUI=1 "不显示帮助面板
 let NERDTreeDirArrows=1 "目录箭头 1 显示箭头  0传统+-|号
 nnoremap <C-l> gt  "切换tab,修改快捷键，将原来的gt改为ctrl+l
 nnoremap <C-h> gT
-autocmd VimEnter * NERDTree 打开vim,默认开启nerdtree	
+autocmd VimEnter * NERDTree 打开vim,默认开启nerdtree    
 ```
 
 常用快捷键（在打开NerdTree时）：
@@ -212,10 +192,6 @@ T       在新 Tab 中打开选中文件/书签，但不跳到新 Tab
 
 m 显示文件系统菜单（添加、删除、移动操作）
 
-
-
-
-
 ### TagList
 
 跳转到类或函数定义区
@@ -229,21 +205,21 @@ m 显示文件系统菜单（添加、删除、移动操作）
 3. 下载Taglist: http://vim-taglist.sourceforge.net/installation.html
 
 4. 解压得到两个文件： 
-
+   
    ```
    plugin/taglist.vim - main taglist plugin file
    doc/taglist.txt    - documentation (help) file
    ```
 
 5. 放入~/.vim下，：
-
+   
    ```
    vim/plugin/taglist.vim 
    vim/doc/taglist.txt   
    ```
 
 6. 在vimrc( 一般是在/etc下)中配置环境变量：
-
+   
    `let Tlist_Ctags_Cmd='/home/wangyu/vim_plugin/ctags-5.8/ctags'`
 
 7. 重启vim
@@ -251,8 +227,6 @@ m 显示文件系统菜单（添加、删除、移动操作）
 8. 在vim中`:Tlista`  开启/关闭
 
 9. 开启后ctrl + w 移动到list窗口，回车进入定义处。
-
-
 
 ### python-mode
 
@@ -285,8 +259,6 @@ let g: pymode_rope_completion_bind = '<C-Space>'  自动补全的映射
 let g: pymode_rope_goto_defiition_bind = '<C-c>g'  这里也是默认键 
 ```
 
-
-
 ### YouCompleteMe
 
 相比其他自动补全插件，它的特别和强大之处是基于语义的自动补全。
@@ -296,8 +268,6 @@ let g: pymode_rope_goto_defiition_bind = '<C-c>g'  这里也是默认键
 `vim --version`
 
 来看我们版本信息，其中有+python说明有python支持
-
-
 
 用vundle安装：
 
@@ -319,10 +289,8 @@ let g: pymode_rope_goto_defiition_bind = '<C-c>g'  这里也是默认键
 
 那就安吧，然后在编译。
 
-
-
 ### 补充：
 
 * 文档中有提示快捷键`<header>`是`\'`意思。`<C-b>`一般是ctrl+b的意思。
-
+  
   设置`<header>`:`let mapleader=";"`
