@@ -26,6 +26,8 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
 删掉源： `git remote remove xxx`
 
+修改源地址： `git remote set-url origin new_url`
+
 
 
 ### branch

@@ -1,3 +1,15 @@
+Grafana是一个纯html/js的web应用，是一个开源仪表盘工具，访问InfluxDB时不会存在跨域访问的限制，只要配置好数据源后，即可展示监控数据。
+
+特点：
+
+1. 丰富的数据源接口，支持InfluxDB、MySQL、ElasticSearch、PostgreSQL等多数据源
+
+2. 丰富的API接口，方便自动化程序调用
+
+3. 监控dashboard导入导出，制作好模板后导入后修改参数即可实现实时监控
+
+4. 支持复杂的告警规则及邮件告警
+
 ### 安装
 
 Docker 版：
@@ -9,7 +21,7 @@ Docker 版：
 
 `docker run -d --name grafana  -p 8000:3000 grafana/grafana grafana`
 
- 暴露容器3000端口到宿主机8000, 页面访问8000端口就可以看到grafana的页面了。
+ 暴露容器3000端口到宿主机8000, 页面访问8000端口就可以看到grafana的页面了。
 
 ### 配置
 
@@ -39,8 +51,6 @@ docker run \
 设置admin的密码为newpwd ： -e "GF_SECURITY_ADMIN_PASSWORD=newpwd"
 ```
 
-
-
 ### 挂载数据文件，设置Grafana数据持久化
 
 ```
@@ -58,3 +68,8 @@ docker run \
 
 或使用Z标志(1.7 up) : `run -v ./api:/usr/src/app:Z`,  它可对*SELinux*等有效。
 
+### Dashboard
+
+模板 [https://grafana.com/dashboards](https://grafana.com/dashboards)
+
+支持导入

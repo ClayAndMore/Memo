@@ -1,6 +1,36 @@
 ### uwf
 
+默认安装
+
+```bash
+# 1. 启用
+ufw enable
+# 2. 开启/禁用
+sudo ufw allow|deny [service]
+
+sudo ufw allow smtp　允许所有的外部IP访问本机的25/tcp (smtp)端口
+
+sudo ufw allow 22/tcp 允许所有的外部IP访问本机的22/tcp (ssh)端口
+
+sudo ufw allow 53 允许外部访问53端口(tcp/udp)
+
+sudo ufw allow from 192.168.1.100 允许此IP访问所有的本机端口
+
+sudo ufw allow proto udp 192.168.0.1 port 53 to 192.168.0.2 port 53
+
+sudo ufw deny smtp 禁止外部访问smtp服务
+
+sudo ufw delete allow smtp 删除上面建立的某条规则
+
+# 防火墙状态
+ufw status
+```
+
+
+
 **ufw show added** 查看已经添加 过的规则。
+
+
 
 
 
@@ -13,12 +43,12 @@ cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
 deb http://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial main
 EOF
 ```
+
 或：
+
 ```
 echo "deb [arch=amd64] https://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list
 ```
-
-
 
 然后执行 apt-get update:
 
@@ -36,12 +66,9 @@ W: GPG error: https://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial InRel
 W: The repository 'https://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial InRelease' is not signed.
 N: Data from such a repository can't be authenticated and is therefore potentially dangerous to use.
 N: See apt-secure(8) manpage for repository creation and user configuration details.
-
 ```
 
 刚添加后基本会报这个GPG error.
-
-
 
 #### 添加GPG公钥
 
@@ -69,8 +96,6 @@ gpg: keyserver receive failed: keyserver error
 gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 94558F59
 ```
 
-
-
 解决：
 
 ```
@@ -82,9 +107,6 @@ gpg: Total number processed: 1
 gpg:               imported: 1  (RSA: 1)
 root@VMu:~/k8s# gpg --export --armor BA07F4FB | sudo apt-key add -
 OK
-
 ```
-
-
 
 再次 apt-get update
