@@ -20,8 +20,6 @@ e.g:
 
 ![](/Users/claymore/Desktop/ git merge.png)
 
-
-
 如果把 `merge` 换成 `rebase`，可以这样操作：
 
 ```
@@ -40,18 +38,12 @@ git checkout master
 git merge branch1
 ```
 
-
-
 有些人不喜欢 `merge`，因为在 `merge` 之后，`commit` 历史就会出现分叉，这种分叉再汇合的结构会让有些人觉得混乱而难以管理。如果你不希望 `commit` 历史出现分叉，可以用 `rebase` 来代替 `merge`。
-
-
 
 使用场景：
 
 rebase在某些GUI git工具上汉化翻译为“衍合”，使用场景是: 我开个新分支来开发新需求，这中间有紧急bug fix或者别的什么修改在主分支上进行了，我需要把这些改动同步到新分支来，但是我暂时不想把这个分支合并到主分支，因为的新需求还没开发完呢，咋办呢，用衍合。
 换种说法也可以：我在主分支commit a时新建了新分支，此时开始分叉，分叉后我又在主分支改了东西commit b，此时我后悔了，我不该在commit a时分叉的，因为commit b的东西我新分支也需要，此时用衍合，就等于我丢弃原分叉，在commit b重新分叉（原分叉的改动内容当然也是带上的，没有丢）
-
-
 
 ### 标签管理
 
@@ -61,58 +53,53 @@ rebase在某些GUI git工具上汉化翻译为“衍合”，使用场景是: �
 
 其实tag就是commit的一个指针，它是一个容易让人记住的名字，跟某个commit捆绑在一起。
 
-
-
 #### 标签操作
 
 * 创建标签
-
+  
   * 切到某个分支：
-
+    
     `git tag <tag_name>`
-
+  
   * 如果对以前的提交打标签：
-
+    
     `git tag <tag_name> <commit_id>`
-
+    
     eg: `$ git tag v0.9 6224937`
-
+  
   * 还可以创建带有说明的标签，用`-a`指定标签名，`-m`指定说明文字：
-
+    
     ```
     $ git tag -a v0.1 -m "version 0.1 released" 3628164
     ```
-
+  
   * 还可以用GPG来加密某次git 标签，防止被在传输过程中被篡改。
-
+  
   注： 创建的标签只会存在本地，不会推送到远程。
 
 * 查看所有标签
-
+  
   `git tag`
 
 * 查看标签信息
-
+  
   `git show v0.9`
 
 * 删除标签
-
+  
   删除本地
-
+  
   `git tag -d <tag_name>`1
-
+  
   删除远程：
-
+  
   先删除本地，再删除远程：
-
+  
   `git push origin :refs/tags/<tagname>`
 
 * 推送tag标签
-
-  `git  push origin tag_name`
-
   
-
+  `git  push origin tag_name`
 
 ### submodoule
 
@@ -136,13 +123,7 @@ cd ..
 git clone project.git project3 --recursive
 ```
 
-
-
 git submodoule foreach
-
-
-
-
 
 ### linux 下的配置
 
@@ -168,8 +149,6 @@ export PS1='\u@\h \[\033[01;36m\]\W\[\033[01;32m\]$(git_branch)\[\033[00m\] \$ '
 
 `source ./.bashrc`
 
-
-
 #### linux git自动补全
 
 `https://github.com/git/git/blob/master/contrib/completion/git-completion.bash `
@@ -178,11 +157,7 @@ export PS1='\u@\h \[\033[01;36m\]\W\[\033[01;32m\]$(git_branch)\[\033[00m\] \$ '
 
 `source ~/git-completion.bash`
 
-
-
-一个插件： yum install bash-completion  
-
-
+一个插件： yum install bash-completion  
 
 #### git的命令行的颜色配置
 
@@ -192,4 +167,3 @@ git config --global color.diff auto
 git config --global color.branch auto 
 git config --global color.interactive auto
 ```
-

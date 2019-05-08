@@ -1,7 +1,5 @@
 Tags:[Git] date: 2017-08-19 12:45:34
 
-
-
 ### 从本地已有项目，推送到github
 
 #### ssh与公钥
@@ -13,8 +11,6 @@ Tags:[Git] date: 2017-08-19 12:45:34
 如果没有跳到上一步，客户端与github建立连接。
 
 到.ssh文件看下，会有两个文件，id_rsa（私钥）和id_rsa.pub（公钥）
-
-
 
 #### 客户端与github建立连接
 
@@ -29,21 +25,21 @@ Tags:[Git] date: 2017-08-19 12:45:34
 接下来让你输入key的名字和密码（记住）。如果不输入直接按回车就好，多账号时这里要输入。
 
 - 到.ssh文件看下，会有两个文件，id_rsa和id_rsa.pub
+
 - 将id_rsa.pub用vi（或笔记本）打开，复制其内容到github里setting-ssh keys-key中。
 
-
 - 将本地数据库与远程仓库连接（验证链接）：
-
+  
   `ssh -T git@github.com`
-
+  
   会可能出现：
-
+  
   `ssh: connect to host github.com port 22: Connection timed out`
-
+  
   解决方法：
-
+  
   在存放公钥私钥(id_rsa和id_rsa.pub)的文件里，新建config文本，内容如下：
-
+  
   ```
   Host github.com
   User YourEmail@163.com
@@ -52,28 +48,27 @@ Tags:[Git] date: 2017-08-19 12:45:34
   IdentityFile ~/.ssh/id_rsa
   Port 443123456123456
   ```
-
-  其中User为登录github的账号名称。 
-  再次执行`ssh -T git@github.com`时，会出现提示，回车”yes”即可。 
-
-  还有可能出现`Permission denied (publickey).` 的问题，这很可能是你更改了密钥的命名或者路径，可以用ssh-add 等命令来解决，最好我们用默认的位置。
-
   
+  其中User为登录github的账号名称。 
+  
+  再次执行`ssh -T git@github.com`时，会出现提示，回车”yes”即可。 
+  
+  还有可能出现`Permission denied (publickey).` 的问题，这很可能是你更改了密钥的命名或者路径，可以用ssh-add 等命令来解决，最好我们用默认的位置。
 
 #### 初始化本地仓库，并提交内容
 
 1. github创建一个新的空仓库
 
 2. bash命令终端进入本地仓库，初始化本地仓库：
-
+   
    `git init`
 
 3. 添加全部文件，准备commit提交
-
+   
    `git add .`
 
 4. 将文件提交到本地仓库
-
+   
    `git commit -m'提交说明'`
 
 设置username和email，因为github每次commit都会记录他们。 
@@ -84,29 +79,25 @@ gitconfig−−globaluser.name"yourname" git config –global user.email “your
 
 可去.gitconfig文件看。
 
-
-
 #### 连接到远程仓库，并将代码同步
 
 - `git remote add origin 远程仓库地址`
-
+  
   连接到远程仓库并为该仓库创建别名 , 别名为origin . 这个别名是自定义的，通常用origin ;仓库地址是github上的项目地址，如：
-
+  
   https://github.com/ClayAndMore/flask-blog.git
 
 - `git push -u origin master`
-
+  
   创建一个 upStream （上传流），并将本地代码通过这个 upStream 推送到 别名为 origin 的仓库中的 master 分支上
-
+  
   > -u ，就是创建 upStream 上传流，如果没有这个上传流就无法将代码推送到 github；同时，这个 upStream 只需要在初次推送代码的时候创建，以后就不用创建了
-
+  
   另外，在初次 push 代码的时候，可能会因为网络等原因导致命令行终端上的内容一直没有变化，耐心等待一会就好。
-
+  
   可能会出现;`error: failed to push some refs to....`的问题，这是因为github中的README.md文件不在本地代码目录中，通过如下命令进行代码合并：
-
+  
   `git pull --rebase origin master`
-
-
 
 #### 后期继续提交
 
@@ -117,7 +108,7 @@ gitconfig−−globaluser.name"yourname" git config –global user.email “your
 - git pull # 如果有团队合作的话，先pull,再push
 
 - git push 将代码推送到 github , 默认推送到 别名为 origin 的仓库中的 master 分支上。
-
+  
   或`git push origin master`
 
 - 注意事项：
@@ -127,10 +118,6 @@ gitconfig−−globaluser.name"yourname" git config –global user.email “your
 git pull 仓库别名 仓库分支名
 git push 仓库别名 仓库分支名
 ```
-
-
-
-
 
 ### 从linux上传项目到github
 
@@ -151,10 +138,6 @@ git push 仓库别名 仓库分支名
 　　git pull　　--如果是多人协作开发，一定要先pull，将 github 最新的代码拉取到本地，避免冲突
 　　git push　　--将代码推送到 github , 默认推送到 别名为 origin 的仓库中的 master 分支上。
 
-
-
-
-
 ### 问题
 
 #### Permission denied (publickey)
@@ -162,36 +145,36 @@ git push 仓库别名 仓库分支名
 * 这很可能是你更改了密钥的命名或者路径，可以用ssh-add 等命令来解决，最好我们用默认的位置。
 
 * ssh-agent
-
+  
   * 开启
-
+    
     ```shell
     # start the ssh-agent in the background
     eval $(ssh-agent -s)
     Agent pid 59566
     ```
-
+  
   * 列表
-
+    
     ```
     ssh-add -l
     ```
-
+  
   * 添加
-
+    
     `ssh add ~/.ssh/id_rsa`
 
 * 目录权限
-
-    ```
+  
+  ```
     sudo chmod 700 ~/.ssh/
     sudo chmod 600 ~/.ssh/*
     sudo chown -R User ~/.ssh/
     sudo chgrp -R User ~/.ssh/
-    ```
+  ```
 
 * 万能：
-
-    ```
+  
+  ```
     ssh -vT git@github.com
-    ```
+  ```

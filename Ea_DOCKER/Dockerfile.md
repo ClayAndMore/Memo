@@ -55,6 +55,11 @@ EXPOSE 80
 用来给最新的container 设置与外部交流的port,现在我们可以使用-P(注意是大写). 来手动开启所有在dockerfile中,通过EXPOSE暴露的端口.
 
 其他命令：
+格式为 `EXPOSE <端口1> [<端口2>...]`。
+
+`EXPOSE` 指令是声明运行时容器提供服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务。在 Dockerfile 中写入这样的声明有两个好处，一个是帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射；另一个用处则是在运行时使用随机端口映射时，也就是 `docker run -P`时，会自动随机映射 `EXPOSE` 的端口。
+
+要将 `EXPOSE` 和在运行时使用 `-p <宿主端口>:<容器端口>` 区分开来。`-p`，是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问，而 `EXPOSE` 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射。：
 
 #### CMD
 
@@ -124,6 +129,46 @@ EXPOSE 80
 
 #### COPY 和 ADD
 
+<<<<<<< HEAD
+=======
+通过 VOLUME 指令创建的挂载点，无法指定主机上对应的目录，是自动生成的。
+
+可以通过docker inspect 来查看挂载的位置信息：
+
+```
+ "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "8683e95736a143fb25ee9cec603aab9cbb5137570426d1474ce0fa319525faac",
+                "Source": "/var/lib/docker/volumes/8683e95736a143fb25ee9cec603aab9cbb5137570426d1474ce0fa319525faac/_data",
+                "Destination": "/usr/src",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+```
+
+**和-v的区别**：
+
+1、运行命令：`docker run --name test -it -v /home/myimage:/data ubuntu /bin/bash`
+
+其中的 -v 标记 在容器中设置了一个挂载点 /data，**并将主机上的 /home/myimage 目录中的内容**关联到 /data下, 注意是主机中目录的内容，如果容器被关联的目录中有内容会被主机的内容覆盖。
+
+这样在容器中对/data目录下的操作，还是在主机上对/home/xqh/myimage的操作，都是完全实时同步的，因为这两个目录实际都是指向主机目录。
+
+2、运行命令：docker run --name test1 -it -v /data ubuntu /bin/bash
+
+上面-v的标记只设置了容器的挂载点，并没有指定关联的主机目录。这时docker会自动绑定主机上的一个目录。通过**docker inspect** 命令可以查看到。这种方式和我们VOLUME参数一样。
+
+可以看出这种方式对应的主机目录是自动创建的，其目的不是让在主机上修改，而是让多个容器共享。
+
+
+
+#### COPY 和 ADD 
+
+>>>>>>> 2b0b9ec62862df4253ac77732fdbb55d26a8e73d
 为容器添加文件
 限制：你添加的文件或者目录,只能在docker build运行的目录下, 因为,这是docker在调起container的时候,只将该目录放进了daemon。
 
@@ -225,9 +270,6 @@ echo $PATH
 >> /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data
 ```
 
-### 
-
-
 
 #### 调试输出
 
@@ -254,3 +296,17 @@ build 过程中输出：
 `docker top CONTAINER` 和在容器里执行 `top` 的效果类似。
 
 ` docker top aa`
+
+### 问题
+
+#### error response from daemon no build stage in current context
+
+docker build 时， 提示error response from daemon no build stage in current context， 因为From 语句可能不在第一句
+
+
+
+#### exec format error
+
+standard_init_linux.go:207: exec user process caused "exec format error"
+
+有的容器里没有bash,只有sh, 用启动的时候最好用 sh shell.sh, 而不是让脚本的开头处去引导。

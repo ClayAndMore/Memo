@@ -1,7 +1,5 @@
 Tags:[Git] date: 2017-08-31 
 
-
-
 在工作时，我们的个人git和公司git要合理的区分。
 
 ### 多账户链接
@@ -33,7 +31,7 @@ Host git.pta.center
     Port 10022
     PreferredAuthentications publickey
     User wangyu
-    
+
 # 局域网
 Host 192.168.1.222
     HostName 192.168.1.222
@@ -41,8 +39,6 @@ Host 192.168.1.222
     PreferredAuthentications publickey
     IdentityFile /D/Workspace/ssh/id_rsa_oschina
 ```
-
-
 
 Host后面的名字可以随便起，就是命名。
 
@@ -56,15 +52,11 @@ PreferredAuthentications 验证方式，这里是公钥方式，还可以设置�
 
 IdentifyFile 是私钥 的文件地址。
 
-
-
 #### 测试配置是否成功
 
 `ssh -T git@github.com `
 
 这里的github.com 是上面的Host 的名称。接下来可以分别验证。
-
-
 
 #### 添加到ssh-agent
 
@@ -81,15 +73,11 @@ Could not open a connection to your authentication agent.
 那么请执行`eval $(ssh-agent)`命令后再重试，如果还不行，请再执行`ssh-agent bash`命令后重试。 
 如果还不行，请参考：[StackOverFlow·ssh-Could not open a…](http://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent)
 
-
-
 #### 配置局部用户和邮箱
 
 进到项目目录，分别配置用户和邮箱。
 
 `git config --local user.name "你的名字"`
 `git config --local user.email "你的邮箱"`
-
-
 
 ### test

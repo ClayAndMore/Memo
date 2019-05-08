@@ -71,8 +71,6 @@ docker run -d --name=telegraf -v /root/telegraf/telegraf.conf:/etc/telegraf/tele
 
 通过-v参数，把本地的telegraf.conf放到容器中覆盖默认的配置，同时把/var/run也放入容器内，因为其中有docker.sock这个文件是与docker通信的接口。
 
-
-
 ### 配置NGINX
 
 小提示:需要nginx开启`--with-http_stub_status_module`模块
@@ -109,5 +107,3 @@ telegraf配置
 systemctl restart telegraf
 telegraf --config telegraf.conf --input-filter nginx --test
 ```
-
-
