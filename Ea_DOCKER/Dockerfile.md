@@ -100,6 +100,8 @@ EXPOSE 80
 
   不过,CMD和ENTRYPOINT都只能在dockerfile里面出现一次.
 
+
+
 #### WORKDIR
 
 指定运行目录
@@ -116,6 +118,8 @@ EXPOSE 80
 
   并且当你在使用docker run时也会停留在workdir指定的目录中。
 
+
+
 #### VOLUME
 
 指定数据卷的位置：
@@ -127,10 +131,6 @@ EXPOSE 80
   VOLUME ["/opt/data","/opt/project"]
 ```
 
-#### COPY 和 ADD
-
-<<<<<<< HEAD
-=======
 通过 VOLUME 指令创建的挂载点，无法指定主机上对应的目录，是自动生成的。
 
 可以通过docker inspect 来查看挂载的位置信息：
@@ -168,7 +168,6 @@ EXPOSE 80
 
 #### COPY 和 ADD 
 
->>>>>>> 2b0b9ec62862df4253ac77732fdbb55d26a8e73d
 为容器添加文件
 限制：你添加的文件或者目录,只能在docker build运行的目录下, 因为,这是docker在调起container的时候,只将该目录放进了daemon。
 
@@ -213,8 +212,9 @@ EXPOSE 80
 * COPY 文件夹
 
   * COPY a /opt/ ， 会把a下的所有文件放入opt，此时没有了a文件夹
-
   * COPY a /opt/a/ ,   会把a整个拷入
+
+
 
 #### ARG 和 ENV
 
