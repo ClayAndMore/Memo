@@ -21,18 +21,103 @@ Tags:[linux, linux_software]
 
 子指令以花括号包含
 
-* daemon off|on  是否以守护进程的方式启动nginx，定位问题时设为off，正常环境为on
+#### 默认配置
 
-* worker_processes Nginx开启的进程数 
-  
-  * `worker_processes  1;`
-  * `#worker_processes auto;`
-  * 以下参数指定了哪个cpu分配给哪个进程，一般来说不用特殊指定。如果一定要设的话，用0和1指定分配方式。这样设就是给1-4个进程分配单独的核来运行，出现第5个进程是就是随机分配了.eg:
-  * `#worker_processes 4     #4核CPU `
-  * `#worker_cpu_affinity 0001 0010 0100 1000`
+```nginx
+#运行nginx的用户
+user  nginx;
+#启动进程设置成和CPU数量相等
+worker_processes  1;
 
-* worker_cpu_affinity  nginx 默认没有开启利用多核cpu配置的。需要此参数来充分利用多核cpu.
-  
+#全局错误日志及PID文件的位置
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+#工作模式及连接数上限
+events {
+        #单个后台work进程最大并发数设置为1024
+    worker_connections  1024;
+}
+
+
+http {
+        #设定mime类型
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+        #设定日志格式
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+        #设置连接超时的事件
+    keepalive_timeout  65;
+
+        #开启GZIP压缩
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf; # 这里添加其他配置文件, 默认带一个default.conf
+}
+```
+
+e.g.: /etc/nginx/conf.d/default.conf:
+
+```nginx
+server {
+    listen    80;       #侦听80端口，如果强制所有的访问都必须是HTTPs的，这行需要注销掉
+    server_name  www.buagengen.com;             #域名
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+        # 定义首页索引目录和名称
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #定义错误提示页面
+    #error_page  404              /404.html;
+
+    #重定向错误页面到 /50x.html
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+```
+
+
+
+#### 问题
+
+看日志问题：
+
+directory index of "/usr/share/nginx/html/" is forbidden
+
+如果在/usr/share/nginx/html下面找不到文件，会报403 forbidden。
+
+
+
+#### 指令
+
+- daemon off|on  是否以守护进程的方式启动nginx，定位问题时设为off，正常环境为on
+
+- worker_processes Nginx开启的进程数 
+
+  - `worker_processes  1;`
+  - `#worker_processes auto;`
+  - 以下参数指定了哪个cpu分配给哪个进程，一般来说不用特殊指定。如果一定要设的话，用0和1指定分配方式。这样设就是给1-4个进程分配单独的核来运行，出现第5个进程是就是随机分配了.eg:
+  - `#worker_processes 4     #4核CPU `
+  - `#worker_cpu_affinity 0001 0010 0100 1000`
+
+- worker_cpu_affinity  nginx 默认没有开启利用多核cpu配置的。需要此参数来充分利用多核cpu.
+
   ```nginx
   # 两核cpu，开启两个进程，
   # 01 10;表示开启两个进程，第一个进程对应着第一个CPU内核，第二个进程对应着第二个CPU内核。
@@ -48,15 +133,11 @@ Tags:[linux, linux_software]
   worker_cpu_affinity 0101 1010;
   ```
 
-* worker_rlimit_nofile
+- worker_rlimit_nofile
 
-* pid
+- pid
 
-#### 默认配置
-
-
-
-
+#### 
 
 #### 全局配置
 
