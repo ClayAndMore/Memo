@@ -16,6 +16,22 @@ Tags:[linux]
 
 
 
+### hosts
+
+osts文件是Linux系统中一个负责IP地址与域名快速解析的文件，以ASCII格式保存在“/etc”目录下，文件名为“hosts”（不同的linux版本，这个配置文件也可能不同。比如Debian的对应文件是/etc/hostname
+
+一般情况下hosts文件的每行为一个主机，每行由三部份组成，每个部份由空格隔开。其中#号开头的行做说明，不被系统解释。
+
+hosts文件的格式如下：
+
+```
+`IP地址 主机名/域名   `
+```
+
+微解释一下主机名(hostname)和域名(Domain）的区别：主机名通常在局域网内使用，通过hosts文件，主机名就被解析到对应ip；域名通常在internet上使用，但如果本机不想使用internet上的域名解析，这时就可以更改hosts文件，加入自己的域名解析。
+
+一个IP地址可以指向多个主机名和域名，比如配置`localhost localdomain wangdachui`这三个主机名都是可以解析到本地主机的.
+
 
 
 ### iptables

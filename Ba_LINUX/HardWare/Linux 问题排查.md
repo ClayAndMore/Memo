@@ -4,7 +4,27 @@ Tags:[linux]
 
 ### strace 命令
 
+可以看到命令的具体行为：
 
+```sh
+wichert@fog:~$ strace ls
+execve("/bin/ls", ["ls"], [/* 16 vars */]) = 0
+brk(0)                                  = 0x9fa8000
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7f0a000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+```
+
+看进程在干嘛：
+
+```sh
+wichert@fog:~$ strace -p 3761
+Process 3761 attached - interrupt to quit
+select(16, [5 7 8], NULL, [5 7 8], {0, 580000}) = 0 (Timeout)
+alarm(0)                                = 62
+rt_sigprocmask(SIG_BLOCK, [ALRM], [], 8) = 0
+rt_sigaction(SIGALRM, {SIG_DFL}, {0x809a270, [], 0}, 8) ...
+```
 
 
 

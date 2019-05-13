@@ -230,13 +230,15 @@ Docker hub公共市场，https://hub.docker.com
 两种方式： 
 
 1. 容器内创建一个数据卷：
-   
+  
     `docker run -d -p --name web -v /webapp training/webapp python app.py`
    
     使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的/webapp目录。
 2. 系统内创建一个数据卷
 
 #### 数据卷容器
+
+-v， 如果指定的容器目录没有会自动创建。
 
 
 

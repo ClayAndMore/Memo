@@ -13,6 +13,8 @@ Tags:[linux, linux_software]
 
 ### 配置文件
 
+
+
 井号注释
 
 指令是以一个变量名开头(例如，worker_processes或pid),然后包含参数
@@ -21,7 +23,11 @@ Tags:[linux, linux_software]
 
 子指令以花括号包含
 
-#### 默认配置
+
+
+#### nginx.conf
+
+在`/etc/nginx/nginx.conf 是nginx的默认配置文件：
 
 ```nginx
 #运行nginx的用户
@@ -39,9 +45,8 @@ events {
     worker_connections  1024;
 }
 
-
 http {
-        #设定mime类型
+    #设定mime类型
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
@@ -55,56 +60,17 @@ http {
     sendfile        on;
     #tcp_nopush     on;
 
-        #设置连接超时的事件
+    #设置连接超时的事件
     keepalive_timeout  65;
 
-        #开启GZIP压缩
+    #开启GZIP压缩
     #gzip  on;
 
-    include /etc/nginx/conf.d/*.conf; # 这里添加其他配置文件, 默认带一个default.conf
-}
-```
-
-e.g.: /etc/nginx/conf.d/default.conf:
-
-```nginx
-server {
-    listen    80;       #侦听80端口，如果强制所有的访问都必须是HTTPs的，这行需要注销掉
-    server_name  www.buagengen.com;             #域名
-
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
-
-        # 定义首页索引目录和名称
-    location / {
-        root   /usr/share/nginx/html;
-        index  index.html index.htm;
-    }
-
-    #定义错误提示页面
-    #error_page  404              /404.html;
-
-    #重定向错误页面到 /50x.html
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-        root   /usr/share/nginx/html;
-    }
+    include /etc/nginx/conf.d/*.conf;
 }
 ```
 
 
-
-#### 问题
-
-看日志问题：
-
-directory index of "/usr/share/nginx/html/" is forbidden
-
-如果在/usr/share/nginx/html下面找不到文件，会报403 forbidden。
-
-
-
-#### 指令
 
 - daemon off|on  是否以守护进程的方式启动nginx，定位问题时设为off，正常环境为on
 
@@ -137,13 +103,39 @@ directory index of "/usr/share/nginx/html/" is forbidden
 
 - pid
 
-#### 
 
-#### 全局配置
+
+最后一行包含了其他的配置文件，这个目录下是我们自定义的配置文件，默认包含default.conf
+
+
+#### default.conf
 
 ```nginx
+server {
+    listen    80;       #侦听80端口，如果强制所有的访问都必须是HTTPs的，这行需要注销掉
+    server_name  www.buagengen.com;             #域名
 
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+        # 定义首页索引目录和名称
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #定义错误提示页面
+    #error_page  404              /404.html;
+
+    #重定向错误页面到 /50x.html
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
 ```
+
+
 
 ### 其他
 

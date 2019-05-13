@@ -738,71 +738,11 @@ subprocess 的目的就是启动一个新的进程并且与之通信。
 
 
 
-
-
 ### Queue
 
 py2: `import Queue`  ,  py3: `import queue`
 
 线程安全，可上锁，后续添加。
-
-
-
-
-
-### singnal
-
-Python 所用信号名和Linux一致，可通过`man 7 signal`查询。
-
-这个包的核心是使用singnal.signal()函数来预设(register)信号处理函数：
-
-`singnal.signal(signalnum, handler)`
-
-signalnum为某个信号，handler为该信号的处理函数。我们在信号基础里提到，进程可以无视信号，可以采取默认操作，还可以自定义操作。当handler为signal.SIG_IGN时，信号被无视(ignore)。当handler为singal.SIG_DFL，进程采取默认操作(default)。当handler为一个函数名时，进程采取函数中定义的操作。
-
-```python
-import signal
-# Define signal handler function
-def myHandler(signum, frame):
-    print('I received: ', signum)
-
-# register signal.SIGTSTP's handler 
-signal.signal(signal.SIGTSTP, myHandler)
-signal.pause()
-print('End of Signal Demo')
-```
-
-我们用signal.signal()函数来预设信号处理函数，当该进程接受到信号SIGTSTP时，会执行myHandler函数。
-
-运行该程序，当程序运行到signal.pause()的时候，进程暂停并等待信号。此时，通过按下CTRL+Z向该进程发送SIGTSTP信号。
-
-发信号：
-
-一个有用的函数是signal.alarm()，它被用于在一定时间之后，向进程自身发送`SIGALRM`信号:
-
-```python
-import signal
-# Define signal handler function
-def myHandler(signum, frame):
-    print("Now, it's the time")
-    exit()
-
-# register signal.SIGALRM's handler 
-signal.signal(signal.SIGALRM, myHandler)
-signal.alarm(5)
-while True:
-    print('not yet')
-```
-
-我们这里用了一个无限循环以便让进程持续运行。在signal.alarm()执行5秒之后，进程将向自己发出SIGALRM信号，随后，信号处理函数myHandler开始执行。
-
-signal包的核心是设置信号处理函数。除了signal.alarm()向自身发送信号之外，并没有其他发送信号的功能。但在os包中，有类似于linux的kill命令的函数，分别为
-
-os.kill(pid, sid)
-
-os.killpg(pgid, sid)
-
-分别向进程和进程组(见[Linux进程关系](http://www.cnblogs.com/vamei/archive/2012/10/07/2713023.html))发送信号。sid为信号所对应的整数或者singal.SIG*。
 
 
 
