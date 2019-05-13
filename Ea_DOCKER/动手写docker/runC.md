@@ -1,3 +1,5 @@
+Tags:[Docker]
+
 ### 由来
 
 过去几年内，linux 增加了 Cgroups,Namespace, Seccomp 等一些功能， Docker 严重依赖这些特性。

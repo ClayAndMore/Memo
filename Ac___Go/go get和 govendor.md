@@ -1,4 +1,4 @@
-Tag: [Go]
+Tags: [Go]
 
 ### 包管理工具go get
 

@@ -1,3 +1,5 @@
+Tags:[python]
+
 ### 对象的属性
 
 Python一切皆对象(object)，每个对象都可能有多个属性(attribute)。Python的属性有一套统一的管理方案。

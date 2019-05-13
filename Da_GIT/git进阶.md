@@ -30,6 +30,17 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
 
 
+### clone
+
+`git clone url [文件夹名]`
+
+只克隆某个分支：
+
+`git clone -b opencv-2.4 --single-branch https://github.com/Itseez/opencv.git`
+
+
+
+
 ### branch
 
 * 查看分支

@@ -1,4 +1,4 @@
-Tags:[linux, linux_software, python]
+Tags:[linux, linux_software, python, 消息队列]
 
 ## beanstalkd
 

@@ -1,3 +1,5 @@
+Tags:[k8s]
+
  `Service` 的 4 种基础类型，在前面的介绍中，我们一般都在使用 `ClusterIP`或 `NodePort` 等方式将服务暴露在集群内或者集群外。
 
 介绍另一种处理服务访问的方式 `Ingress`。

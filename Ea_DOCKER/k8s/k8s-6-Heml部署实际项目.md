@@ -1,3 +1,5 @@
+Tags:[k8s]
+
 ### Heml Chart
 
 上节我们解释过 `chart` 的含义，现在我们要将项目使用 Helm 部署，那么首先，我们需要创建一个 `chart`。

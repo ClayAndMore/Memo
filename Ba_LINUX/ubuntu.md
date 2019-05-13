@@ -1,3 +1,5 @@
+Tags:[linux]
+
 ### uwf
 
 默认安装

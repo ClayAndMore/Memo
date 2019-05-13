@@ -1,3 +1,5 @@
+Tags:[python, py_lib]
+
 ## Fabric
 
 Fabric是一个Python的库，提供了丰富的同SSH交互的接口，可以用来在本地或远程机器上自动化、流水化地执行Shell命令。
@@ -432,7 +434,7 @@ abric在任务遇到错误时就会退出，如果我们希望捕获这个错误
 1. `fab -w hello`
 
 2. 设置”env.warn_only”环境参数为True
-   
+  
    ```
    from fabric.api import env
    env.warn_only = True
@@ -461,7 +463,7 @@ abric在任务遇到错误时就会退出，如果我们希望捕获这个错误
 1. `fab -P hello`
 
 2. 设置”env.parallel”环境参数为True
-   
+  
    ```python
    from fabric.api import env
    

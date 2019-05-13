@@ -1,3 +1,5 @@
+Tags:[python, py_lib]
+
 ## PEP 8
 
 Python社区则利用他们的无穷智慧，提出了编写Python代码的PEP 8[③](https://www.kancloud.cn/epubit/python3/301709#anchor13)（[http://www. python.org/dev/peps/pep-0008/](http://www.python.org/dev/peps/pep-0008/)）标准。这些规范可以归纳成下面的内容。
