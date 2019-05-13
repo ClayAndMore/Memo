@@ -1,3 +1,5 @@
+Tags:[linux, linux_software]
+
 ### 前提
 
 * 安装Zlib ` yum install zlib-devel -y`

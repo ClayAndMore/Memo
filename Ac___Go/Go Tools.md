@@ -1,4 +1,4 @@
-tags: [Go]
+Tags: [Go]
 
 ### go 命令
 

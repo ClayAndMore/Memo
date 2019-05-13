@@ -1,3 +1,5 @@
+Tags:[k8s]
+
 helm list -a
 
 删除记得用purge

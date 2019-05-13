@@ -1,3 +1,5 @@
+Tags:[linux, 监控]
+
 InfluxDB官方文档：https://docs.influxdata.com/influxdb/。
 
 InfluxDB 是一个时间序列数据库，用于处理海量写入与负载查询。InfluxDB旨在用作涉及大量时间戳数据的任何用例（包括DevOps监控，应用程序指标，物联网传感器数据和实时分析）的后端存储。

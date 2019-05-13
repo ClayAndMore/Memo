@@ -1,3 +1,5 @@
+Tags:[k8s]
+
 K8S 中几乎所有的操作都需要经过 `kube-apiserver` 处理，所以为了安全起见，K8S 为它提供了三类安全访问的措施。分别是：
 
 * 用于识别用户身份的认证（Authentication）

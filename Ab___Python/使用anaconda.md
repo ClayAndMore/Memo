@@ -1,5 +1,5 @@
 
-tags: [python, conda] date: 2017-04-09
+tags: [python] date: 2017-04-09
 
 
 ### 概述
@@ -100,7 +100,7 @@ ubuntu：`bash XXXX.sh`
 
   `conda info --envs`
 
-  ​
+  
 
 
 
