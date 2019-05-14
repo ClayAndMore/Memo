@@ -6,14 +6,14 @@ Tags:[Unity]  date: 2016-06-18
 
 * 新建场景，一个plane和一堆cube，模仿高楼。
 
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/occulsion1.png)
+  ![](http://claymore.wang:5000/uploads/big/29121f360fa0fab9fccb5d02c094e8ae.png)
 
 <!-- more -->
 
 * 选中所有的高楼（cube）,右上角static -> Occluder Static 和 Occludee Static 
 * window -> Occlusion Culling  Bake烘培
 * 右侧窗口的Visualizatior,开始运行
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/occlusion2.png)
+  ![](http://claymore.wang:5000/uploads/big/be900830b511d6b1ad44b6ae6ac231ee.png)
   如图所示，没有被相机检测的物体没有渲染。
 
 #### 层消隐距离
@@ -31,14 +31,14 @@ Tags:[Unity]  date: 2016-06-18
 Level of Detail ,当一个物体离摄像机较远的时候使用复杂度低的模型，较进的时候使用复杂度较高的模型。
 一般在第三方软件制作各个层级（不同复杂程度）的模型，并按照复杂程度的高低命名为 “模型名称_LOD0” ，“模型名称_LOD1” ，“模型名称_LOD2”等，数字越高表示复杂程度越低，这样的命名会使Unity自动添加LOD组(LODGroup).
 自带的环境包里就有：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/LOD1.png)
+![](http://claymore.wang:5000/uploads/big/26003b18c498c98eb28ec708e3454ab4.png)
 
 实例：
 
 * 新建场景添加三个基础物体,建立空物体名为_LOD，并将三个物体放置其下，摄像机在右边：
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/LOD2.png)
+  ![](http://claymore.wang:5000/uploads/big/ba36bc5f139c8d038779461d3783ce22.png)
 * 空物体添加组件：LODGroup，三个物体在空物体下reset，位置归零，重合到一起。
 * 这里我将cube拖拽到组件的LOD0中，sphere拖拽到LOD1中，capsule拖拽到LOD2。
 * 可以测试了，在将相机从右到左移动中，先显式capsule，然后shpere,最后cube.
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/LOD3.png)
+  ![](http://claymore.wang:5000/uploads/big/59066ac408575c74582856e45dac46d2.png)
 

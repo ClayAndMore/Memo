@@ -2,7 +2,7 @@ Tags:[Unity] date: 2016-06-30
 
 ## 飞机
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/Fly.png)
+![](http://claymore.wang:5000/uploads/big/ae35fc3606b8c8fb577f8a8b02c9f63b.png)
 
 这个项目中有两个需要整理的点：
 
@@ -46,10 +46,10 @@ Quaternion.identity是四元数，该四元数，相当于"无旋转"：这个�
 
 ### 背景板的连续存在
 如图，背景板：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/bgChanging.png)
+![](http://claymore.wang:5000/uploads/big/5755039a5dc917418b8046b04d3176f9.png)
 当鸟飞行时，左边的背景板会消失右边的会生成，以此循环。
 单个背景：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/onlyBg.png)
+![](http://claymore.wang:5000/uploads/big/666f8e56158fe2a17d003661a2519b21.png)
 设置两个背景position变量。一个是左侧背景firstBg，一个右侧currentBg,在currentBg中心放置一个空的触发器，当鸟触发时，改变背景板。这里通过currentBg+背景宽度（10）来新建立背景。
 
 
@@ -76,9 +76,9 @@ RandomGenerate函数是管子高度随机生成的函数，一个背景上有两
 
 ### 鸟飞行时帧数的控制
 鸟的飞行需要每帧换一个图片，使鸟的翅膀看起来在煽动， 涉及到材质问题，如图：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/bird1.png)
+![](http://claymore.wang:5000/uploads/big/38a6a44e5b9ce4b94e687d65f0d1fc51.png)
 Tiling是显式整个的多少，如设置为0.3333显式整个图片的三分之一，也就是一个鸟，Offset为偏移，整个图片向相关轴的偏移，如在tillingX为0.3的情况下，偏移X为0.3就是第二个翅膀想上的图片，下面为update中的代码。
-​        
+        
 ​            if (GameManager.state == GameState.plaing)
 ​            {
 ​                if (Input.GetMouseButton(0))
@@ -144,4 +144,4 @@ PlayerPrefs.GetFlaot("查询键“）；//返回浮点型数据
         highScore.text = HScore + "";
          }
 
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/score.png)      
+  ![](http://claymore.wang:5000/uploads/big/4d52b3530864d7c16e3938601ac66a59.png)      

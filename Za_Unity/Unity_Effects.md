@@ -6,14 +6,14 @@ unity 自带的Effect资源包邮不少资源，点击导航菜单栏->Assets->I
 Effects功能可以建空对象再添加相关组件实现，组件位于 导航菜单栏->Component->Effects
 
 ### 尾径渲染器
-![](http://7xs1eq.com1.z0.glb.clouddn.com/vive.png)
+![](http://claymore.wang:5000/uploads/big/d87a97be840c4aa2793456da464e760f.png)
 它可以实现刀剑挥舞的残影，喷气尾焰等效果。下面就来实践：
 新建场景，新建一个胶囊体，拉成条状，建立空物体为剑的底部，设置为子物体。
 
 <!-- more -->
 
 建空物体名为 top ,是剑的上端，设置为子物体。添加**Trail Renderer**。配置如下：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/trail.png)
+![](http://claymore.wang:5000/uploads/big/0b8423aa325618b3d30810ad10dfd404.png)
 有几点待补充，
 
 * Materials里是带拖尾贴图的材质球
@@ -78,11 +78,12 @@ Line Renderer
 ### 镜头光晕
 镜头光晕（Lens Flare) 是模拟摄像机镜头内折射光线的效果，用来表现真正的光源（太阳）
 空物体 添加 Lens Flare组件：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/flare.png)
+![](http://claymore.wang:5000/uploads/big/ca7b8bdcb3eabf8009ce446577f3f115.png)
+
 ### 光晕
 Halo　光晕是光源周围的光线区域，常用来表现光线照射空气中细小灰尘颗粒产生的效果，也可以表现一些自发光物体，如萤火虫，新建物体添加 Halo
 
-![](http://ojynuthay.bkt.clouddn.com/untiy%E5%85%89%E6%99%95halo.png)
+![](http://claymore.wang:5000/uploads/big/666b7a41da4b84757db48766365078e1.png)
 
 ### 投影仪
 Projector
@@ -92,7 +93,7 @@ Effects包中包含Projector文件夹，包含一些常用的资源。
 Cookie 是要投射的图案，Falloff是根据距离来决定投影的明暗（Alpha）。
 #### 下面我们来为一个人物添加阴影
 虽然说unity的实时光照很好，但是有的旧设备不支持，所以有那种地面上就一个圆的阴影，我们来个例子，也好熟悉其功能。
-![](http://7xs1eq.com1.z0.glb.clouddn.com/projector_shadow.png)
+![](http://claymore.wang:5000/uploads/big/0eb6212ff6f65003c61efb482fa42656.png)
 
 * 导入effects包
 * 关闭平行光和点光源的shadow type 设置为 no shadow。
@@ -105,7 +106,7 @@ Cookie 是要投射的图案，Falloff是根据距离来决定投影的明暗（
 #### 人物选择光圈
 在3D游戏开发中，经常选取人物脚下的旋转光圈。用投影做，光圈不会被障碍物挡住。
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/projector_ring.png)
+![](http://claymore.wang:5000/uploads/big/e358366d47e020afb096dc397c968afd.png)
 
 * 前面和上面一样，把Cookie贴图换成 一个光环（图片导入设置中Warp Mode设置为Clamp），给自物体添加脚本，让其自己旋转。
 * 为人物添加碰撞，用于射线检测
@@ -154,16 +155,16 @@ Cookie 是要投射的图案，Falloff是根据距离来决定投影的明暗（
 * 为摄像机添加组件 sun shafts shafts caster 为刚才的空物体，组件的threshold color可调光的强弱。
 ##### Twirl 旋转 
 图像扭曲，为摄像机添加自带Twirl脚本：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/Twirl.png)
+![](http://claymore.wang:5000/uploads/big/96e36a77a98ca79f79ff6036533eb4a3.png)
 
 #### Vortex 漩涡
 和旋转相似，区别是Twirl是围绕一个点，二漩涡是围绕一个区域
 
 ##### Depth of Field 景深
 景深是一种常见的后期处理效果，可模拟摄像机的属性，在关键地方明亮，在其他地方模糊，突出距离感和写实。
-![](http://7xs1eq.com1.z0.glb.clouddn.com/depth1.png)
+![](http://claymore.wang:5000/uploads/big/4cbc8f1f94ae8d2a2b5defbab8cd3da9.png)
 在相机添加 Depth of Field(Lens Bur、Scatter、DX11)组件，Focus On transform 为此立方体。
-![](http://7xs1eq.com1.z0.glb.clouddn.com/depth2.png)
+![](http://claymore.wang:5000/uploads/big/7ad2adf1b99b6715bbcd0837db522781.png)
 
 ##### Tilt Shift 移轴特效
 它是景深的一种特殊版本，可以使失焦区域和聚焦区域的过渡更加光滑。不容易造成图像瑕疵，但是它依赖纹理查找，造成更高的处理开销。
@@ -201,6 +202,6 @@ Unity抗锯齿分为两大类：
 
 #### ToonShading 卡通渲染
 基本原理是在角色外侧绘制一圈黑色的轮廓，并且让受到光照的颜色亮度离散化，明的地方更亮，暗的地方更。
-![](http://7xs1eq.com1.z0.glb.clouddn.com/TooShading.png)
+![](http://claymore.wang:5000/uploads/big/f39367d69263427bf50384f3e721700f.png)
 将一个模型的shader改为Toon/Lit OutLine。
 Base(rbg)是它本身的贴图，Toon Ramp是effects包里带的UnilToonGradient贴图。

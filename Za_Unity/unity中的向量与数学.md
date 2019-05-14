@@ -16,7 +16,7 @@ Tags:[Unity]  date: 2016-06-08
 
 <!-- more -->
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/vector3.png)
+![](http://claymore.wang:5000/uploads/big/e46d0cb2cf36205a722537ac70e197e9.png)
 
 ### 向量减法
 两个对象之间的向量：
@@ -87,4 +87,4 @@ Nomalize(),多代指方向。
       }
     }
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/angle.png)
+![](http://claymore.wang:5000/uploads/big/b2c5f7b4e9ac35a678b3ce801e4fb9c5.png)

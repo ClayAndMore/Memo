@@ -1,9 +1,9 @@
 Tags:[Unity]  date: 2016-06-19
 
 ### slide和文字滚动
-![](http://7xs1eq.com1.z0.glb.clouddn.com/ugui1.png)
+![](http://claymore.wang:5000/uploads/big/a9a8d82cc48c0d6a7881b98d3fb9fe73.png)
 基本操作都是在文字的背景图片上添加组件
-![](http://7xs1eq.com1.z0.glb.clouddn.com/scrolRectNew.png)
+![](http://claymore.wang:5000/uploads/big/b72211ad8016a0b793a0c585c895bc9c.png)
 
 <!-- more -->
 
@@ -20,8 +20,8 @@ Tags:[Unity]  date: 2016-06-19
 
 ### button控件函数传值
 这里介绍通过UGUIbutton的Click函数加载另外场景的两种方式，也是函数传值的方式
-![](http://7xs1eq.com1.z0.glb.clouddn.com/btnGetinFinish.png)
-​    
+![](http://claymore.wang:5000/uploads/big/4d790da1f37e5ba795ed82cde931799c.png)
+    
 ​        public void buttonStarOtherSence(string SceneName) {
 
         Application.LoadLevel(SceneName);
@@ -37,10 +37,11 @@ simple 即正常缩放
 右上为sliced可划分九宫格 在图片属性的sprite editor中可拖拽几个点，分割出边框，使图片在缩放时边框不会失真
 左下为Tiled 平铺
 右下为 filled 可显示部分 技能刷新时可用
-![](http://7xs1eq.com1.z0.glb.clouddn.com/ImageTypeAll.jpg)
+![](http://claymore.wang:5000/uploads/big/e3b1660bdeacd72d8f90f69dfdc0a0b5.jpg)
+
 #### 制作技能冷却图标
     技能释放时，图标以中心成扇形刷新，如上右下
-![](http://7xs1eq.com1.z0.glb.clouddn.com/skill.png)
+![](http://claymore.wang:5000/uploads/big/90b4a36657a95fb003e39a7b0b981b3f.png)
 需要脚本控制：
 
             using UnityEngine;
@@ -85,10 +86,11 @@ simple 即正常缩放
               }
 将image的Click方法给予OnSIllClick，点击技能即可实现。
 ### 标签页
-![](http://7xs1eq.com1.z0.glb.clouddn.com/tap.png)
+![](http://claymore.wang:5000/uploads/big/753a53348eb40e346444c0230812c714.png)
 创建三个空物体，目的是分别对应GameObject.SetAvtive()方法，物体下添加各自的内容，如文字，使得在点击不同标签页时显示不同内容，每个标签页(tap)都是image物体，添加了toggle组件，下都有个图片，比自己颜色深的图片，父物体（image4）添加了了toggle group组件，使三个tap下的group都设置为它 这样就可以只选择一个页面
+
 ### 滚动列表
-![](http://7xs1eq.com1.z0.glb.clouddn.com/crolObject.png)
+![](http://claymore.wang:5000/uploads/big/40be1a7f595da8c3cf58bd089aab8aa7.png)
 创建一个空的image（如图）作为显式范围，添加Scroll Rect脚本，contest为一个空的gameobject，将这个gameobject高度，左端和image对齐，右端延伸到很长，放你需要的图标，这个gameobject添加网格（component->Layout->Gird Layout Group），网格内放新建的空物体，空物体下放图标。
 
 

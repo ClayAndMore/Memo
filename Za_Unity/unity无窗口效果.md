@@ -3,7 +3,7 @@ Tags:[Unity]  date: 2016-07-01
 本笔记参照蛮牛案例而作
 http://www.manew.com/thread-43230-1-1.html
 下面是最后成品：觉得好酷炫，哈哈，谢谢大神的教程
-![](http://7xs1eq.com1.z0.glb.clouddn.com/noform.png)
+![](http://claymore.wang:5000/uploads/big/e0faae31a17d90f81ca7e2f6936c3cfa.png)
 
 <!-- more -->
 

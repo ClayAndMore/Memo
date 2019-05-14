@@ -12,7 +12,7 @@ Window ->Profiler
 * Audio     音频
 * Physics   物理
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/profiler.png)
+![](http://claymore.wang:5000/uploads/big/d712c48c62c1100b52ef1f9f196baa6e.png)
 
 <!-- more -->
 
@@ -69,7 +69,7 @@ Edit -> Project -> Project Settings -> Player，在Inspector中找到 Script Def
 ### 渲染优化
 渲染主要和显卡GPU有关，如果在Profiler的CPU栏下显式Gfx.WaitForPresent 那么表示GPU每帧渲染需要时间过长，CPU需要等待GPU.
 和渲染重要的几个参数可以在Game窗口下查看，Game中点击“stats”：
-![](http://7xs1eq.com1.z0.glb.clouddn.com/stats.png)
+![](http://claymore.wang:5000/uploads/big/f4d1d5b0b75ad2fca022f3883031e3d7.png)
 
 * Trs: Trangle,三角形的数量，渲染的基础指标。图中为1.7k，也就是当前画面共渲染了17000个三角形。
 * Verts: Vertices,模型定点的数量，渲染的基础指标。5.0k,也就是当前画面一共渲染了5000个顶点。

@@ -3,7 +3,7 @@ Tags:[Unity]  date: 2016-06-12
 导航系统可以让人物在场景里面只能的移动，绕过障碍等。
 
 ### 建立场景
-![](http://7xs1eq.com1.z0.glb.clouddn.com/navagation.png)
+![](http://claymore.wang:5000/uploads/big/aecd49bcd05f99dadf4f1c17498c6a82.png)
 
 * 建立如图所示的物体，将正方体，两个特别长的长方体在inspector菜单右上角static设置成navigation static。
 * Window -> Navigation 添加导航。
@@ -67,7 +67,7 @@ Carve 是指NavMesh生成的可通过区域是否会被Nav Mesh Obstacle 切割�
 
 ### Off_Mesh Links 分离网格链接
 可以将它理解为传送门。
-![](http://7xs1eq.com1.z0.glb.clouddn.com/offMesh.png)
+![](http://claymore.wang:5000/uploads/big/36dfede2dc602f5278a92bc6379e28a9.png)
 
 * 在右边新建一个场地，添加一个空物体，放到相应的位置。
 * 左边相应位置也添加一个空物体，放到相应位置。

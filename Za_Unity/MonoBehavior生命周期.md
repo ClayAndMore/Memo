@@ -28,7 +28,7 @@ Tags:[Unity]  date: 2016-06-05
 有UGUI ,这个函数作为测试功能使用，如创建按钮等。
 它的更新频率要比Update()快：
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/ongui.png)
+![](http://claymore.wang:5000/uploads/big/ca570d6ed6c01a7c2d6e2768b1b4607f.png)
 
 既然说到这，我们来看一下OnGUI的用法，在该函数中实现UI脚本：
 * 它一共有两种形式
