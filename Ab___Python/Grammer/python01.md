@@ -1,9 +1,7 @@
 tags: [python] date: 2017-01-30 
 
 
-python的哲学：
-
-`用一种方法，最好是只有一种方法来做一件事。`
+python的哲学：`用一种方法，最好是只有一种方法来做一件事。`
 
 python命令行将以>>>开始 如：`>>>print 'Hello World!'`
 
@@ -21,12 +19,6 @@ if （xxxx is None and
 
 一行太短用分号断开写多条语句。
 
-
-
-头部 `#!/usr/bin/python`或者`#!/usr/bin/env python`
-
-用 `python xxoo.py` 来运行，那么写不写都没关系，如果要用 `./xxoo.py` 那么就必须加这行，这行被称为 shebang, 用来为脚本语言指定解释器.
-
 在Python中，等号`=`是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量，例如：
 
   ```
@@ -41,6 +33,10 @@ if （xxxx is None and
   静态语言在定义变量时必须指定变量类型，
 
 ### 解释器
+
+头部 `#!/usr/bin/python`或者`#!/usr/bin/env python`
+
+用 `python xxoo.py` 来运行，那么写不写都没关系，如果要用 `./xxoo.py` 那么就必须加这行，这行被称为 shebang, 用来为脚本语言指定解释器.
 
 当我们编写Python代码时，我们得到的是一个包含Python代码的以.py为扩展名的文本文件。要运行代码，就需要Python解释器去执行.py文件。
 
