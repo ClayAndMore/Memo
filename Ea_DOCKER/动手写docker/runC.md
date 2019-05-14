@@ -190,7 +190,7 @@ Containerd 并不是直接面向最终用户的，是集成到更上层的系统
 
  Containerd 项目架构图：
 
-![](/Users/claymore/Desktop/container_runc.png)
+![](http://claymore.wang:5000/uploads/big/fc21fa931e83e04601eb6afa0092126a.png)
 
 
 
@@ -199,7 +199,7 @@ Containerd 并不是直接面向最终用户的，是集成到更上层的系统
 [RunC](https://github.com/opencontainers/runc) 是一个轻量级的工具，它是用来运行容器的，只用来做这一件事，并且这一件事要做好。我们可以认为它就是个命令行小工具，可以不用通过 docker 引擎，直接运行容器。事实上，runC 是标准化的产物，它根据 OCI 标准来创建和运行容器。
 runC 由golang语言实现，基于libcontainer库。从docker1.11以后，docker架构图：
 
-![](/Users/claymore/Desktop/docker_runc.png)
+![](http://claymore.wang:5000/uploads/big/207b39b121d6ead032e84f38d70f82f8.png)
 
 
 

@@ -63,7 +63,7 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 ### 目录颜色
 
-![](http://ojynuthay.bkt.clouddn.com/linuxColor.png)
+![](http://claymore.wang:5000/uploads/big/7d6d6bd207b5286069e2329ffbcafd34.png)
 
 
 

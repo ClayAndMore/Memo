@@ -469,7 +469,7 @@ urlpatterns=[
 
 访问127.0.0.1:5000/app.moments_input:
 
-![](http://ojynuthay.bkt.clouddn.com/moment_input.png)
+![](http://claymore.wang:5000/uploads/big/0ead2973f643b278831ee228ac1de3e7.png)
 
 
 

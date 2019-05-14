@@ -12,7 +12,7 @@ Tags:[python]
 
 我们打算做一个小demo，类似于一个输入框输入数字作为收入，根据另一个组件的值来计算税值:
 
-![](http://ovolonhm1.bkt.clouddn.com/pyqt.png)
+![](http://claymore.wang:5000/uploads/big/d4b432ce080da6949511a87afd042ba3.png)
 
 ### 开始
 

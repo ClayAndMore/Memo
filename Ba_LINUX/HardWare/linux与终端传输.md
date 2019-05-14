@@ -111,8 +111,6 @@ VBoxManage setextradata 'Linux Guest' 'VBoxInternal/Devices/pcnet/0/LUN#0/Config
 * 在vm中网络连接设置成上面所说的第二种模式bridge
 * 确保虚拟机上有网络，查看ip 命令：`ifconfig`注意是if不是ip,
 
-![](http://ojynuthay.bkt.clouddn.com/ifconfig.png)
-
 * 安装openssh-server
 
 xshell连接不了ubuntu，原因没有安装openssh-server，解决方法： 

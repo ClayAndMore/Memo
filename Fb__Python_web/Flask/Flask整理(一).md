@@ -731,7 +731,7 @@ if __name__ == "__name__"
 * 分组查询`db.session.query(User).group_by(User.name).all()`
 * 常用的SQLAlchemy 查询执行器：
 
-![](http://ojynuthay.bkt.clouddn.com/sqlalchemy.png) 
+![](http://claymore.wang:5000/uploads/big/be07181053e690cc0bb4b9c587a57217.png) 
 
 * 对于给定的查询还可以检查SQLAlchemy生成的原生SQL查询，并将查询对象转换为一个字符串：
 

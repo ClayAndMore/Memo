@@ -8,19 +8,19 @@ tags:[异步, linux] date: 2017-04-27
 
 有三个任务正常按时间顺序执行：
 
-![](http://ojynuthay.bkt.clouddn.com/asyncPy.png)
+![](http://claymore.wang:5000/uploads/big/21d571b2aa23554479920de566d386ec.png)
 
 多线程去做：
 
-![](http://ojynuthay.bkt.clouddn.com/asyncPy2.png)
+![](http://claymore.wang:5000/uploads/big/acf0273d438bee621f1ae2ab3f16e717.png)
 
 异步去做：
 
-![](http://ojynuthay.bkt.clouddn.com/asyncPy3.png)
+![](http://claymore.wang:5000/uploads/big/827dc6526464aac1402de21c4e777c9b.png)
 
 首先，你要知道，一个任务，可能会堵塞在某个地方，比如硬盘读写，数据库操作等等，这样一个程序就必须等待你的操作完成，才能继续下去，这无疑是对计算资源的极大浪费:（下面的图就是同步IO了）
 
-![](http://ojynuthay.bkt.clouddn.com/asyncPy4.png)
+![](http://claymore.wang:5000/uploads/big/59004ab6a895a85b654181e1cbd82dab.png)
 
 那么如果，你在堵塞的时候，用某种机制，能使你快速脱离堵塞的状态，开启下一个程序，等待你的操作完成，在来继续上一个程序的工作，这个模型就是不堵塞的，这样资源的到了极大的利用，我们的效率自然提升.
 
@@ -97,35 +97,35 @@ tags:[异步, linux] date: 2017-04-27
 
      应用程序调用一个IO函数，导致应用程序阻塞，等待数据准备好。 如果数据没有准备好，一直等待….数据准备好了，从内核拷贝到用户空间,IO函数返回成功指示。
 
-  ![](http://ojynuthay.bkt.clouddn.com/%E9%98%BB%E5%A1%9Eio.png)
+  ![](http://claymore.wang:5000/uploads/big/7a4324307e4be5445c1d81fc230a8f3b.png)
 
 * 非阻塞I/O
 
   当所请求的I/O操作无法完成时，**不要将进程睡眠**，而是返回一个错误。这样我们的I/O操作函数将不断的[测试](http://lib.csdn.net/base/softwaretest)数据是否已经准备好，如果没有准备好，继续测试，直到数据准备好为止。在这个不断测试的过程中，会大量的占用CPU的时间。
 
-  ![](http://ojynuthay.bkt.clouddn.com/%E9%9D%9E%E9%98%BB%E5%A1%9Eio.png)
+  ![](http://claymore.wang:5000/uploads/big/0f46b02a4dc0a51747c3350e57ef447d.png)
 
 * I/O复用
 
    I/O复用模型会用到select、poll、epoll函数，这几个函数也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作。而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时，才真正调用I/O操作函数。
 
-  ![](http://ojynuthay.bkt.clouddn.com/io%E5%A4%8D%E7%94%A8.png)
+  ![](http://claymore.wang:5000/uploads/big/b7048c540299d690e333ec02502679a0.png)
 
 * 信号驱动I/O
 
   首先我们允许套接口进行信号驱动I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。
 
-  ![](http://ojynuthay.bkt.clouddn.com/%E4%BF%A1%E5%8F%B7%E9%A9%B1%E5%8A%A8io.png)
+  ![](http://claymore.wang:5000/uploads/big/70c2ec32cfffbebaa931d22db94349a0.png)
 
 * 异步IO模型
 
   当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者的输入输出操作
 
-  ![](http://ojynuthay.bkt.clouddn.com/%E5%BC%82%E6%AD%A5io.png)
+  ![](http://claymore.wang:5000/uploads/big/f560f80a31ce02870c52e932cca9046c.png)
 
 五种io模型的比较：
 
-![](http://ojynuthay.bkt.clouddn.com/%E4%BA%94%E4%B8%AAio%E7%9A%84%E6%AF%94%E8%BE%83.png)
+![](http://claymore.wang:5000/uploads/big/bb762f1649c77313bad5187746f62194.png)
 
 
 

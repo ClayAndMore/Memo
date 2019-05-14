@@ -3,7 +3,7 @@ Tags:[Git] date: 2016-08-19
 ### 基本概述
 
 先进入到流行的开源项目bootstrap为例
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/github1.png)
+  ![](http://claymore.wang:5000/uploads/big/28e28cca02fc7282732778a3911e5c48.png)
   从上往下看：
   地址栏是一个叫twbs的用户（组织）下的bootstrap项目
 
@@ -28,21 +28,18 @@ Tags:[Git] date: 2016-08-19
     ---
 
 * README.md文件
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/gitReadme.png)
   如果在项目根目录下有个README.md的文件，该文件提供项目说明和其他额外信息，如如何安装软件，如何运行自动化测试等。
 
 * 查看提交历史
-  点击上面的11729commits，会看到别人的提交历史，及许多修改信息，原因等。
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/commits.jpg)
+  点击上面的commits，会看到别人的提交历史，及许多修改信息，原因等。
   查看拉请求，和查看问题也一样
 
 * **通过一个分叉做出贡献**
   进入https://github.com/pragmaticlearning/github-example，点击fork，如果你是任何组织的成员，会看到你所参与的有组织的列表已经你的名字，会询问你在哪里进行分叉存储库，如果不是组织中的一员，你将被带入新项目页面。
   点击new file 可创建新的项目文件
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/newfile.png)
 
 * **创建一个拉请求**
   在上图第二个标签页pull requests
-  ![](http://7xs1eq.com1.z0.glb.clouddn.com/pullRequest.png)
+  
   可看到这是一个在pragmaticlearning/github和ClaymoreWY/github之间的请求，将一个分支的更改信息合并到另一分支的请求，你希望合并的修改所在的分支在右边，你希望合并的目标分支在左边。
 

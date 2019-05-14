@@ -2,9 +2,23 @@ Tags: [网络协议, tcp]
 
 ## tcp
 
+### tcp/ip协议
+
+tcp/ip协议是一个集合，统称为TCP/IP。
+
+tcp/ip协议族中有个重要的概念就是分层，tcp/ip按照层次分为四层：（注意http）：
+
+![](http://claymore.wang:5000/uploads/big/9f6deb251afdf35cea4625c43cc576fb.png)
+
+**如果说IP协议是找到对方的详细地址。那么TCP协议就是把安全的把东西带给对方。**
+
+
+
+
+
 ### 报文格式
 
-![](G:\picture\blog\tcp\tcp_rep_format.png)
+![](http://claymore.wang:5000/uploads/big/435c4c29873734a92dc75ace56c1cfe7.png)
 
 标志位：共6个，即URG、ACK、PSH、RST、SYN、FIN等，具体含义如下：
 
@@ -28,7 +42,27 @@ Ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效�
 
 ### 三次握手
 
-![](G:\picture\blog\tcp\tcp_3times_build.png)
+![](http://claymore.wang:5000/uploads/big/9dd2b0167ed15c71281678d21c70c95b.png)
+
+三次握手指的是建立连接过程：
+
+TCP报文中有几个字段：
+
+seq:随机码，用来确认
+
+ack:32位，确认序号,ACK为1时有效。
+
+ACK:确认序号有效，标志位
+
+SYN:发起新连接。
+
+FIN:释放连接。
+
+- 客户端发起连接，发送报文，SYN置为1，并发送了一个随机码seq
+- 服务器接收后返回报文，SYN,ACK都为1,让ack码有效，返回ack=x+1,并附加自己的随机吗seq=y
+- 客户端收到，并返回ack,建立连接完成。
+
+
 
 
 
@@ -78,11 +112,26 @@ client 返回 ACK 的包后，server 会进入一个新的叫 accept 的队列�
 
 ### 四次挥手
 
-![](G:\picture\blog\tcp\tcp_4times_close.png)
+![](http://claymore.wang:5000/uploads/big/66613dd6d08d10e9fd733123bb11f81f.png)
 
 
+
+四次挥手指的是释放连接过程：
+
+- 双发都可以主动发起连接
+- 客户端发送FIN,和一随机数告诉服务器，我要关闭了。
+- 服务器收到后返回ack,告诉客户端，你先等会，等我发送剩余数据你再关闭。
+- 这是客户端进入等待状态，服务器发送完后发送一个FIN和seq，告诉客户端我发送完了。
+- 客户端收到后返回，告诉服务器我收到了，再见。
 
 不要被图中的 client 和 server 所迷惑，你只要记住：主动关闭的一方发出 FIN 包，被动关闭的一方响应 ACK 包，此时，被动关闭的一方就进入了 CLOSE_WAIT 状态。
+
+
+
+### TroubleShoot
+
+**为什么连接的时候是三次握手，关闭的时候却是四次握手？**
+答：因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，"你发的FIN报文我收到了"。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。
 
 
 

@@ -17,7 +17,7 @@ consumer:job的消费者
 由 producer 产生一个任务 job ，并将 job 推进到一个 tube 中，
 然后由 consumer 从 tube 中取出 job 执行（当然了，这一切的操作的前提是beanstalk服务正在运行中）
 
-![](http://ojynuthay.bkt.clouddn.com/beanstalkd%E7%8A%B6%E6%80%81%E5%9B%BE.png)
+![](http://claymore.wang:5000/uploads/big/eeac43ca75d26d92fc281fdfa9af9a18.png)
 
 
 

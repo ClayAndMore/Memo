@@ -268,3 +268,18 @@ file
 | ctrl + r           | 搜索曾经输入过的命令。                                       |
 
 
+
+
+
+#### ps1
+
+```bash
+hostname  #当前hostname
+hostname aaa  # 更新hostname
+退出终端，再重新连接
+```
+
+
+
+
+

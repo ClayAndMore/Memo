@@ -4,7 +4,7 @@ Tags:[Git] date: 2017-08-31
 
 
 
-![](http://ovolonhm1.bkt.clouddn.com/git%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F.png)
+![](http://claymore.wang:5000/uploads/big/89d13391ad3e0c5f0dbfd9d5b2a64144.png)
 
 
 
@@ -275,7 +275,7 @@ eg:  master 的 新分支 dev， dev做了修改并commit , 得到一个commit i
 
 **取消此次merge:**
 
-`git merge —abort`
+`git merge —-abort`
 
 
 

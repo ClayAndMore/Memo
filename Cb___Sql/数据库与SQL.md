@@ -236,7 +236,7 @@ group by ssex
   on A.aID = B.bID
 ```
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/leftJoinResult.png)
+![](http://claymore.wang:5000/uploads/big/6750bff86c5cbc04d5dcb83420a57702.png)
 
 结果说明: left join是以A表的记录为基础的,A可以看成左表,B可以看成右表,left join是以左表为准的. 换句话说,左表(A)的记录将会全部表示出来,而右表(B)只会显示符合搜索条件的记录(例子中为: A.aID = B.bID). B表记录不足的地方均为NULL.**左边外部联接将包含了从第一个（左边）开始的两个表中的全部记录，即使在第二个（右边）表中并没有相符值的记录。**
 
@@ -246,7 +246,7 @@ group by ssex
   on A.aID = B.bID.
 ```
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/rightJoinResult.png)
+![](http://claymore.wang:5000/uploads/big/ee985b0f789bed23f57a69192ba3d7dd.png)
 
 ```java
   select *from A
@@ -254,7 +254,7 @@ group by ssex
   on A.aID = B.bID
 ```
 
-![](http://7xs1eq.com1.z0.glb.clouddn.com/innerJion.png)
+![](http://claymore.wang:5000/uploads/big/1af1d5d8894c0be7e3cf18ae7a2ccc6e.png)
 
 
 
@@ -273,7 +273,7 @@ group by ssex
 ### 多表查询
 
 #### 笛卡尔积
-![](http://7xs1eq.com1.z0.glb.clouddn.com/%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF.png)
+![](http://claymore.wang:5000/uploads/big/c4b7b3801bf6da7ea6d4bf250562d01f.png)
 selcet * from student ,sc 这样student和sc 会形成一个笛卡尔积的表
 
 #### 多表连接

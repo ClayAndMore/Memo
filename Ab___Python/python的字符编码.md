@@ -35,13 +35,13 @@ UTF-8编码有一个额外的好处，就是ASCII编码实际上可以被看成�
 
 用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件：
 
-![](http://www.liaoxuefeng.com/files/attachments/001387245992536e2ba28125cf04f5c8985dbc94a02245e000/0)
+![](http://claymore.wang:5000/uploads/big/ddd6dcd00e70088c7c2e37258a6128e2.png)
 
 
 
 浏览网页的时候，服务器会把动态生成的Unicode内容转换为UTF-8再传输到浏览器：
 
-![](http://www.liaoxuefeng.com/files/attachments/001387245979827634fd6204f9346a1ae6358d9ed051666000/0)
+![](http://claymore.wang:5000/uploads/big/5b06c373a8c0aefaffad254317fcc01b.png)
 
 
 

@@ -8,7 +8,7 @@ Tags:[Unity]  date: 2016-07-01
 2. 找到unity的classes.jar文件，个人用的unity5.23,文件在目录：E:\unity\Editor\Data\PlaybackEngines\androidplayer\Variations\il2cpp\Development\Classes
 
 3. 将classes.jar文件拖拽到android项目的libs目录：
-   ![](http://7xs1eq.com1.z0.glb.clouddn.com/androidForUnityExplorer.png)
+   ![](http://claymore.wang:5000/uploads/big/bef382449fe5b7f8ef515ec66eef39ef.png)
 
    <!-- more -->
 
@@ -36,14 +36,14 @@ Tags:[Unity]  date: 2016-07-01
 在这里，定义一个Max 函数 用于传值给unity
 5. 导出jar包
    最好右键scr导出jar包
-   ![](http://7xs1eq.com1.z0.glb.clouddn.com/androidUnityExp.png)
+   ![](http://claymore.wang:5000/uploads/big/5494b99af74d516948864994288f2696.png)
 
 ---
 
 下面就进入unity中进行开发了。
 1. 在Project中建立Plugins目录：
    test41是上面导出的jar包，注意目录里要删除android里导入的classes.jar文件，因为unity里已经存在了，AndroidMainfest是android项目的AndroidMainfest.xml文件，记得导过来。
-   ![](http://7xs1eq.com1.z0.glb.clouddn.com/UnityAndroidProject.png)
+   ![](http://claymore.wang:5000/uploads/big/2ee7b35a1669a987877515b7f0ad7472.png)
 2. 新建一个脚本，代码如下
 ```
         using UnityEngine;
@@ -74,10 +74,10 @@ Tags:[Unity]  date: 2016-07-01
 （注：初步了解这里的参数之所以填”com.unity3d.player.UnityPlayer”和”currentActivity”，是因为在生成jar文件的时候，已经指定了MainActivityclass继承UnityPlayerActivity，也在XML指定了MainActivity是Main class） 
 activity.Call<int>("","");这个调用的是有返回值的方法，int是返回类型，第一个参数是方法名，第二个参数是 object[] 参数。activity.Call("");调用的是没返回值没参数的方法 
 3. 将脚本放到一个物体上。进行导出设置：
-   ![](http://7xs1eq.com1.z0.glb.clouddn.com/unityAndroidPlayerSettings.png)
+   ![](http://claymore.wang:5000/uploads/big/c2068364171bab3c126f0622a82fc50e.png)
 4. 记得androidSDK配置好，Edit->Preferences->Exteral Tools->android sdk
 5. 最好在真机测试，不然很容易出错误 下面是最后成果：
-   ![](http://ojynuthay.bkt.clouddn.com/androidForUnityLast.png)
+   ![](http://claymore.wang:5000/uploads/big/c3dd9ccf8754dd679c81d51e925f4b69.png)
    GUI的字比较小，可能看不到，目前，到这里就结束了，有问题欢迎交流哈。
 
 

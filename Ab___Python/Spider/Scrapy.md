@@ -33,7 +33,7 @@ Scrap是一个基于 Twisted的异步处理框架,是纯 Python实现的爬虫�
 
 **而scrapy的流程如图，并且可归纳如下：**
 
-![](https://github.com/ClayAndMore/MyImage/blob/master/scrapy_data_stream.png?raw=true)
+![](http://claymore.wang:5000/uploads/big/e3c900d82acd40c3a4c323d31180b0ab.png)
 
 
 

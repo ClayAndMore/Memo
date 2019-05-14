@@ -1,4 +1,4 @@
-tags:[Django, python]  date: 2017-04-27
+Tags:[Django, python]  date: 2017-04-27
 
 ### 概述
 
@@ -55,7 +55,7 @@ eg:
 
 会在当前目录中建立了一个子目录djangosite,并生成了django开发默认的文件，：
 
-​	![](http://ojynuthay.bkt.clouddn.com/startproject.png)
+​	![](http://claymore.wang:5000/uploads/big/e9371017398c74463071036cfb7b60ee.png)
 
 * manage.py: 是管理本项目的命令行工具，之后进行站点运行、数据库自动生成，静态文件收集等都要通过该文件生成。
 * 内层`djangosite/`目录中包含了本项目的实际文件，同时应为其中包含`__init__.py`文件，该目录也是一个python包。
@@ -71,7 +71,7 @@ eg:
 
 `#python manage.py startapp 应用名称`
 
-此时的目录和结构：![](http://ojynuthay.bkt.clouddn.com/startapp.png)
+此时的目录和结构：![](http://claymore.wang:5000/uploads/big/ed25bb6ba7c12362fe6597643eb16b37.png)
 
 * admin.py:管理站点模型的声明文件，默认为空
 * app.py : 应用信息定义文件。生成了类AppConfig,该类用于定义应用名等Meta数据。
@@ -985,7 +985,7 @@ filter(Q(字段一=‘’))
 
 5. annotate聚合计数，求和，平均数，可看教程。
 
-   ​
+   
 
 ##### 改
 

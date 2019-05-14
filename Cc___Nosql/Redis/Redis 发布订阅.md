@@ -8,13 +8,13 @@ Redis 客户端可以订阅任意数量的频道。
 
 下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的关系：
 
-![](https://code.ziqiangxuetang.com/media/uploads/2014/11/pubsub1.png)
+![](http://claymore.wang:5000/uploads/big/a01c4f635bf8655b46359069dc22e537.png)
 
 
 
 当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：
 
-![](https://code.ziqiangxuetang.com/media/uploads/2014/11/pubsub2.png)
+![](http://claymore.wang:5000/uploads/big/1f424aeaa86f5653b23c6e08079bc406.png)
 
 
 

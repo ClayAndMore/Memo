@@ -8,7 +8,7 @@ https://work.weixin.qq.com/wework_admin/loginpage_wx。
 
 为了在一个应用上部署我们写好的网站，我们需要设置三个东西：
 
-![](http://ojynuthay.bkt.clouddn.com/%E5%BA%94%E7%94%A8%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0.png)
+![](http://claymore.wang:5000/uploads/big/4bbd9d013fb405d49be8406d39873315.png)
 
 
 
@@ -26,7 +26,7 @@ https://work.weixin.qq.com/wework_admin/loginpage_wx。
 
 这里是为了让我们开发好的应用和企业微信的后台进行双向通讯。
 
-![](http://ojynuthay.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%8E%A5%E5%8F%97%E6%B6%88%E6%81%AF.jpg)
+![](http://claymore.wang:5000/uploads/big/bc41754266c9bb3144b51fcb0401630d.png)
 
 * 第一个url 在我们保存的时候会触发，这里要填我们在服务器运行的django应用（已经配置好nginx和域名），要具体到触发我们django对微信写的验证函数上。
 * 第二个和第三个都可以随意填写（建议还是随机获取），只要在验证函数上一致就可，后面会说。
@@ -81,11 +81,11 @@ def wechat_validate(request):
 
 上方验证通过，才可以配置这里。如我们为一个菜单配置网站，用户点击即进入我们的网站：
 
-![](http://ojynuthay.bkt.clouddn.com/%E7%82%B9%E5%87%BB%E8%8F%9C%E5%8D%95.png)
+![](http://claymore.wang:5000/uploads/big/e29b804f013f199f717ee70a8b5f50c1.png)
 
 
 
-![](http://ojynuthay.bkt.clouddn.com/%E8%8E%B7%E5%8F%96code.png)
+![](http://claymore.wang:5000/uploads/big/327090d4f1aca9fe81ad68200d001b7e.png)
 
 
 

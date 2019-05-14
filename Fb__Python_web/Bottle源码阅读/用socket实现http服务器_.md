@@ -166,7 +166,7 @@ Accept: text/*
 
 浏览器访问：
 
-![](http://ojynuthay.bkt.clouddn.com/httpserverpy.png)
+![](http://claymore.wang:5000/uploads/big/c5ceecbc59a654ee0ef1df353cfb994e.png)
 
 从终端，我们可以看到，浏览器实际上发出了两个请求。第一个请求为 (关键信息在**起始行**，这一个请求的主体为空)
 

@@ -21,7 +21,7 @@ Tags:[web] date: 2017-03-16
 
 ### 一个web请求的处理过程
 
-![](http://ojynuthay.bkt.clouddn.com/web%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.png)
+![](http://claymore.wang:5000/uploads/big/7dfc2786b06c5ddc85fae6417b3b35e6.png)
 
 1. 客户发起情况到服务器网卡；
 2. 服务器网卡接受到请求后转交给内核处理；
@@ -121,7 +121,7 @@ worker进程主要完成的任务：
  扮演的就是典型的正向代理角色。在天朝用浏览器访问 www.google.com 
 时，被残忍的拒绝了，于是你可以在国外搭建一台代理服务器，让代理帮我去请求google.com，代理把请求返回的相应结构再返回给我。
 
-![](http://ojynuthay.bkt.clouddn.com/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86.png)
+![](http://claymore.wang:5000/uploads/big/1564fe6a552b90420d046f8f50411f33.png)
 
 反向代理：
 
@@ -129,6 +129,6 @@ worker进程主要完成的任务：
 的时候，就像拨打10086一样，背后可能有成千上万台服务器为我们服务，但具体是哪一台，你不知道，也不需要知道，你只需要知道反向代理服务器是谁就好了，www.baidu.com
  就是我们的反向代理服务器，反向代理服务器会帮我们把请求转发到真实的服务器那里去。Nginx就是性能非常好的反向代理服务器，用来做负载均衡。
 
-![](http://ojynuthay.bkt.clouddn.com/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86.png)
+![](http://claymore.wang:5000/uploads/big/f60cd64245e088a310fb1be23757e989.png)
 
 两者的区别在于代理的对象不一样：**正向代理**代理的对象是客户端，**反向代理**代理的对象是服务端

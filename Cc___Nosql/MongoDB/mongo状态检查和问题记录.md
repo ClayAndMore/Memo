@@ -69,7 +69,7 @@ repairDatabase()会花费大量的时间。
 
 #### mongostat
 
-![](http://ojynuthay.bkt.clouddn.com/mongostat.png)
+![](http://claymore.wang:5000/uploads/big/af261be5af44fd615f02901716abd7c6.png)
 
 参数说明：
 
