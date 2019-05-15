@@ -1,4 +1,4 @@
-Tags:[slq, 数据库] date: 2016-07-16 
+Tags:[sql, database] date: 2016-07-16 
 
 ## 数据库范式
 

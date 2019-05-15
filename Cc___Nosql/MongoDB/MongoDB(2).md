@@ -1,4 +1,4 @@
-Tags:[nosql, 数据库, mongodb]
+Tags:[nosql, database, mongodb]
 
 ### 关系
 
@@ -184,7 +184,7 @@ db.col.mapReduce(
   [ 0, 1, 4, 2 ]
   ```
 
-  ​
+  
 
 * group()
 
@@ -204,7 +204,7 @@ db.col.mapReduce(
   }
   ```
 
-  ​
+  
 
   ```
   eg：
@@ -229,6 +229,6 @@ db.col.mapReduce(
   ]
   ```
 
-  ​
+  
 
-  ​
+  

@@ -1,4 +1,4 @@
-tags:[消息队列, nosql, 数据库, Redis, python]
+tags:[消息队列, nosql, database, Redis, python]
 
 ### redis-py
 

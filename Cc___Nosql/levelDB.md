@@ -1,4 +1,4 @@
-tags:[数据库, nosql]
+tags:[database, nosql]
 
 都是在centos7上实验的
 

@@ -1,4 +1,4 @@
-Tags:[slq, 数据库, linux_software] date: 2017-03-14 
+Tags:[sql, database, linux_software] date: 2017-03-14 
 
 ### 安装mysql
 
@@ -111,7 +111,7 @@ ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: N
 
   `desc tablename`
 
-  ​
+  
 
 ### 创建用户和创建数据库
 
@@ -158,7 +158,7 @@ ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: N
       -> birthday date );
   ```
 
-  ​
+  
 
 * 删除表和删除库
 

@@ -1,4 +1,4 @@
-Tags:[slq, 数据库] date: 2016-12-06
+Tags:[sql, database] date: 2016-12-06
 
 
 
