@@ -2,20 +2,6 @@ Tags: [网络协议, tcp]
 
 ## tcp
 
-### tcp/ip协议
-
-tcp/ip协议是一个集合，统称为TCP/IP。
-
-tcp/ip协议族中有个重要的概念就是分层，tcp/ip按照层次分为四层：（注意http）：
-
-![](http://claymore.wang:5000/uploads/big/9f6deb251afdf35cea4625c43cc576fb.png)
-
-**如果说IP协议是找到对方的详细地址。那么TCP协议就是把安全的把东西带给对方。**
-
-
-
-
-
 ### 报文格式
 
 ![](http://claymore.wang:5000/uploads/big/435c4c29873734a92dc75ace56c1cfe7.png)
@@ -165,7 +151,7 @@ client 返回 ACK 的包后，server 会进入一个新的叫 accept 的队列�
 
 #### TIME_WAIT 过多
 
-`TIME_WAIT`产生的原因图中已经说明了，是主动关闭的一方所处的状态，然后在保持这个状态2MSL（max segment lifetime）时间之后，彻底关闭回收资源。
+`TIME_WAIT`产生的原因图中已经说明了，是主动关闭的一方所处的状态，然后在保持这个状态2**MSL（max segment lifetime）时间**之后，彻底关闭回收资源。
 
 最后，Client端等待了2MSL后依然没有收到回复，则证明Server端已正常关闭，那好，我Client端也可以关闭连接了， 为什么TIME_WAIT状态需要经过2MSL(最大报文段生存时间)才能返回到CLOSE状态？
 
