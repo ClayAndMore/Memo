@@ -1,4 +1,4 @@
-tags:[消息队列, nosql, 数据库, Redis]
+tags:[消息队列, nosql, database, Redis]
 
 
 

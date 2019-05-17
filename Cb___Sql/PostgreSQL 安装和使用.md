@@ -1,4 +1,4 @@
-Tags:[slq, 数据库]
+Tags:[sql, database]
 
 PostgreSQL(也称为`Post-gress-Q-L`)由PostgreSQL全球开发集团(全球志愿者团队)开发。 它不受任何公司或其他私人实体控制。 它是开源的，其源代码是免费提供的。
 

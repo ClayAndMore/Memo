@@ -1,4 +1,4 @@
-Tags:[nosql, 数据库, mongodb]
+Tags:[nosql, database, mongodb]
 
 ### 分片
 

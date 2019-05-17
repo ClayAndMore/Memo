@@ -1,4 +1,4 @@
-Tags:[nosql, 数据库, mongodb, python]
+Tags:[nosql, database, mongodb, python]
 
 ## pymongo
 
@@ -91,7 +91,7 @@ collection.do_something() = db.collection_name.do_something()
 
   返回ObjectId
 
-  ​
+  
 
 * insert_many() 批量插入
 
@@ -103,7 +103,7 @@ collection.do_something() = db.collection_name.do_something()
 
   返回`[ObjectId('59effa2eeccbcd470f19b59c'), ObjectId('59effa2eeccbcd470f19b59d')]`
 
-  ​
+  
 
 ##### 更新
 
@@ -320,7 +320,7 @@ update(criteria, objNew, upsert, mult)
 
   `c.user.user.find_and_modify({'_id':uname},update={'$set':{'key':data['sn']}})`
 
-  ​
+  
 
 #### Cursor
 

@@ -1,4 +1,4 @@
-Tags:[数据库, nosql]
+Tags:[database, nosql]
 
 ### 写在前面
 

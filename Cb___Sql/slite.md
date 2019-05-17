@@ -1,4 +1,4 @@
-Tags:[slq, 数据库]
+Tags:[sql, database]
 
 ```
 进入数据库
