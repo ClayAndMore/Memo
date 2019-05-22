@@ -87,7 +87,44 @@ AttributeError: 'Student' object has no attribute 'score'
 
 #### super()方法
 
-http://python.jobbole.com/87291/
+Python 3 可以使用直接使用 `super().xxx` 代替 `super(Class, self).xxx` :
+
+```python
+# 默认，Python 3
+class B(A):
+    def add(self, x):
+        super().add(x)
+
+# Python 2
+class B(A):
+    def add(self, x):
+        super(B, self).add(x)
+```
+
+**super()**方法设计目的是用来解决多重继承时父类的查找问题，所以在单重继承中用不用 super 都没关系；但是，**使用 super() 是一个好的习惯**。一般我们在子类中需要调用父类的方法时才会这么用。
+
+**super()**的好处**就是可以避免直接使用父类的名字.主要用于多重继承**
+
+```python
+# 明确指定 ：
+class  C(P):
+     def __init__(self):
+             P.__init__(self)
+             print 'calling Cs construtor'
+# 使用super()方法 ：
+class  C(P):
+    def __init__(self):
+            super(C,self).__init__()     #这种好处是当父类变名字时，不用改P的名字
+            print 'calling Cs construtor'
+ 
+c=C()
+```
+
+
+
+多继承时super的用法：http://python.jobbole.com/87291/
+
+看文章时的补充：*MRO*就是类的方法解析顺序表, 其实也就是继承父类方法时的顺序表。Method Resolution Order。
 
 
 
@@ -157,6 +194,64 @@ a=Airplane()
 b=Bird()
 who(a) #i can fly,i am a airplane
 who(b) #i can fly,i am a bird
+```
+
+
+
+#### 单例模式
+
+`__new__`版本
+
+```python
+class Singleton(object):
+    _instance=None #保存实例的引用
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance=super(Singleton,cls).__new__(cls,*args,**kwargs)
+        return cls._instance
+
+one=Singleton()
+two=Singleton()
+
+print(one is two)
+```
+
+在上面的代码中，我们将类的实例和一个类变量 `_instance` 关联起来，如果 `cls._instance` 为 None 则创建实例，否则直接返回 `cls._instance`。
+
+import版本
+
+ mysingle.py
+
+```python
+class My_Single(object):
+	def foo(self):
+		pass
+my_single=My_Single()
+
+from mysingle import my_single
+
+my_single.foo()
+```
+
+装饰器版本：
+
+```python
+def single(cls):
+	instances={}
+	def getinstance(*args,**kwargs):
+		if cls not in instances:
+			instances[cls]=cls(*args,**kwargs)
+		return instances[cls]
+	return getinstance
+
+@single
+class MyClass(object):
+    a=1
+
+a=MyClass()
+b=MyClass()
+print(a is b)
 ```
 
 

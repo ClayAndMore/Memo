@@ -387,8 +387,6 @@ UnboundLocalError: local variable 'b' referenced before assignment
 
 * 不要用windows自带的笔记本写py,它会自动加utf-8 bom。导致莫名的错误。
 
-
-
 * 解释一下整数的除法为什么也是精确的。在Python中，有两种除法，一种除法是`/`：
 
   ```
