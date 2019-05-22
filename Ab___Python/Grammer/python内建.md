@@ -217,6 +217,23 @@ When you need the value of an expression, use [`eval(string)`](http://docs.pytho
 
 一般不推荐这种做法，效率低。
 
+eval 可以解析字符串映射成程序内置变量：
+
+```python
+def test():
+    print 'this is test'
+
+i = "test"
+s = eval(i)
+print s
+print s()
+
+out :
+<function test at 0x7f69f35d5410>
+this is test
+None     # 这个是print s()本身输出的。
+```
+
 
 
 #### dir()
