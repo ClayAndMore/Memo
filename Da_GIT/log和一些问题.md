@@ -223,6 +223,28 @@ git checkout -b local-name origin/remote-name
 
 
 
+#### Connection timed out
+
+```
+git config --local -e
+```
+
+change entry of
+
+```
+ url = git@github.com:username/repo.git
+```
+
+to
+
+```
+url = https://github.com/username/repo.git
+```
+
+失败的原因似乎是有时候会被防火墙禁掉，而因为443是HTTPS的端口，不会被飞掉，所以在进行如上设置后，我们就可以强制与Github的连接都通过HTTPS。
+
+
+
 ### 注意
 
 文件名在使用中文名时容易提交不上。

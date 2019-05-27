@@ -39,8 +39,6 @@ Web服务器必须与外部的进程通信才能处理这些自定义工作。
 
 
 
-
-
 ### WSGI
 
 Web 服务器网关接口（Web Server Gateway Interface, WSGI）
@@ -204,7 +202,7 @@ sys.stdout.flush()
 
 
 
-#### 内置库wsgrief参考实现
+#### 内置库wsgiref参考实现
 
 ```python
 #!/usr/bin/env python
