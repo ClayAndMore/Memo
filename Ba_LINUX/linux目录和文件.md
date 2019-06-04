@@ -549,6 +549,12 @@ eg:
 仅仅这样我们就可以进行方便的挂载，可以通过df查看， 为什么如此方便，因为该命令会自动匹配我们的super block
 
 
+
+挂载远端目录：`mount -t nfs 10.98.131.142:/data/sample_analysis/s3_sample /142`
+
+
+
+
 ### find 查找文件
 
 ` find  [指定查找目录][查找规则]  [查找完后执行的action]`
