@@ -221,9 +221,9 @@ configure: error: Your OpenSSL headers do not match your
 
 ### 升级 nginx
 
-`./configure --prefix=/opt/nginx/ --with-http_ssl_module`
+`./configure --prefix=/opt/nginx/ --with-http_ssl_module --with-openssl=/root/auto_update_ssh/openssl-1.0.2r`
 
-
+记得指定ssl源码目录。
 
 #### 问题
 
