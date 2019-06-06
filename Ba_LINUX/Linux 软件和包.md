@@ -479,3 +479,10 @@ rpm是redhat公司的一种软件包管理机制，直接通过rpm命令进行�
 | 安装完的指定包内的文件列表 | [rpm](http://d.hatena.ne.jp/keyword/rpm) -ql | dpkg-query -L                            |
 | 安装完的包的信赖包的列表  | [rpm](http://d.hatena.ne.jp/keyword/rpm) -[qR](http://d.hatena.ne.jp/keyword/qR) | [apt](http://d.hatena.ne.jp/keyword/apt)-[cache](http://d.hatena.ne.jp/keyword/cache) depends |
 | 安装完的文件信赖的包    | [rpm](http://d.hatena.ne.jp/keyword/rpm) -[q](http://d.hatena.ne.jp/keyword/qR)f | dpkg -S                                  |
+
+
+
+
+
+### lsmod
+
