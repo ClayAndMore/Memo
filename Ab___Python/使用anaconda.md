@@ -151,6 +151,12 @@ conda config --set show_channel_urls yes
 
 
 
+显示当前镜像源：`conda config --show channels`
+
+移除添加的镜像源：`conda config --remove-key channels`
+
+
+
 ### pycharm中配置
 
 settings-project-project-interpreter

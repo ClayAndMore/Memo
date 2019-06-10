@@ -19,6 +19,8 @@ python > 2.7
 
 在fabirc2.x发布之前，可以使用fabric3.
 
+最好使用fabric3 支持python 2.7 和 python3
+
 ### 快速开始
 
 安装后会有fab可执行文件， 默认执行当下目录的fabfile.py 文件：

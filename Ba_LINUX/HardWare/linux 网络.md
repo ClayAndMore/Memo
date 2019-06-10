@@ -771,3 +771,6 @@ centos77.magedu.com
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 ```
 
+
+
+改完host,可以执行bash更新 前缀。

@@ -75,3 +75,44 @@ firewall-cmd --zone=public --query-port=80/tcp
 删除
 
 firewall-cmd --zone= public --remove-port=80/tcp --permanent
+
+
+
+### 关闭SELinux
+
+```shell
+# 查看状态：sestatus
+[root@rdo ~]# sestatus  
+SELinux status:                 enabled  
+SELinuxfs mount:                /sys/fs/selinux  
+SELinux root directory:         /etc/selinux  
+Loaded policy name:             targeted  
+Current mode:                   enforcing  
+Mode from config file:          enforcing  
+Policy MLS status:              enabled  
+Policy deny_unknown status:     allowed  
+Max kernel policy version:      28  
+
+```
+
+
+
+临时关闭： `setenforce 0`
+
+永久关闭：
+
+```
+vi  /etc/selinux/config
+#SELINUX=enforcing  
+SELINUX=disabled 
+```
+
+重启后：
+
+```
+[root@rdo ~]# sestatus  
+SELinux status:                 disabled  
+```
+
+
+
