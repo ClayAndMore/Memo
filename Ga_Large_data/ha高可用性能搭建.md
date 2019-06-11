@@ -198,3 +198,55 @@ The configuration of automatic failover requires the addition of two new paramet
 
 ### 安装zk
 
+官网下载包，放到/opt/module, 解压： `tar xvfz zookeeper-3.4.6.tar.gz`
+
+同级创建状态数据存储目录： mkidir zkdata
+
+配置zoo.cfg文件：
+
+```shell
+cd /opt/module/zookeeper-3.4.6/conf
+cp zoo_sample.cfg zoo.cfg
+vim zoo.cfg:
+
+dataDir=/opt/module/zkdata
+clientPort=2181
+
+# 各个服务节点地址配置
+server.1=node191:2888:3888
+server.2=node192:2888:3888
+server.3=node193:2888:3888
+```
+
+创建myid文件，在dataDir下，写入0-225的整数，相应节点对应的是上方配置中的数字
+
+配置环境变量：/etc/profile
+
+```shell
+export ZK_HOME=/opt/module/zookeeper-3.4.6
+export PATH=$PATH:$ZK_HOME/bin
+```
+
+Source /etc/profile
+
+Node192,node193机器也这么干。
+
+启动：
+
+```shell
+root@node192 zookeeper-3.4.6]# zkServer.sh start
+JMX enabled by default
+Using config: /opt/module/zookeeper-3.4.6/bin/../conf/zoo.cfg
+Starting zookeeper ... STARTED
+[root@node192 zookeeper-3.4.6]# zkServer.sh status
+JMX enabled by default
+Using config: /opt/module/zookeeper-3.4.6/bin/../conf/zoo.cfg
+Mode: follower
+
+[root@node193 ~]# zkServer.sh status
+JMX enabled by default
+Using config: /opt/module/zookeeper-3.4.6/bin/../conf/zoo.cfg
+Mode: leader
+```
+
+三个节点都这样干，这里为啥193是主节点？
