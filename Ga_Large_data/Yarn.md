@@ -45,7 +45,13 @@ Yarn-site.xml
 </configuration>
 ```
 
-指定resourcemanger所在服务器主机名
+指定resourcemanger所在服务器主机名, 其实有时候不用指定也可以，指定容易在页面8088访问不到。
+
+| yarn.resourcemanager.hostname             | 0.0.0.0                               |
+| ----------------------------------------- | ------------------------------------- |
+| yarn.resourcemanager.webapp.address       | ${yarn.resourcemanager.hostname}:8088 |
+| yarn.resourcemanager.webapp.https.address | ${yarn.resourcemanager.hostname}:8090 |
+| ....                                      | ....                                  |
 
 
 
@@ -103,6 +109,8 @@ app和操作有很多，我们可以在使用命令行的时候看下。
 
 这里的test.txt 和 output指的是hdfs中的路径。
 
+在运行中可8088页面看到作业进度
+
 
 
 ### 组成
@@ -116,16 +124,32 @@ app和操作有很多，我们可以在使用命令行的时候看下。
   * 启动/监控ApplicationMaster 
   * 监控NodeManager 
   * 资源分配与调度 
-
-* **ApplicationMaster** 
-  * 数据切分 
-  *  **NodeManager** 
+* **NodeManager** 
   * 单个节点上的资源管理 
   * 处理来自ResourceManager的命令 
   * 处理来自ApplicationMaster的命令 
+* **ApplicationMaster** 
+  * 数据切分 
+  * 为应用程序申请资源，并分配给内部任务 
+  * 任务监控与容错 
+* **Container** 
+  * 对任务运行环境的抽象，封装了CPU、内 存等多维资源以及环境变量、启动命令等任 务运行相关的信息 
 
-Ø为应用程序申请资源，并分配给内部任务 Ø任务监控与容错 
+提交任务后再jps能看到相关进程
 
-u **Container** 
+YARN 总体上仍然是Master/Slave 结构，在整个资源管理框架中，ResourceManager 为Master，NodeManager 为Slave。
 
-Ø对任务运行环境的抽象，封装了CPU、内 存等多维资源以及环境变量、启动命令等任 务运行相关的信息 
+1. ResourceManager 负责对各个NodeManager 上的资源进行统一管理和调度,也是全局的资源管理器整个集群上只有一个。
+
+2. ApplicationMster, 用户每提交的应用程序都包含AM, 与RM调度协商获取资源（用Container), 与NM通信启动和停止任务，监控所有任务运行状态，并在任务运行失败的时候重新申请资源用于重启任务。
+
+3. NodeManager:  NM 会定时向RM汇报本节点的资源使用情况和各个节点的Container的运行状态，另一方面会接收来自AM的Containe启动和停止请求。
+
+4. Container,  是yarn中抽象的概念，它封装cpu, 内存， 多个节点上的多维度资源。
+
+   当AM向RM申请资源，RM返回AM的资源便是Container
+
+   yarn会向每个任务分配一个Container,且该任务只能使用该Container中描述的资源。
+
+当用户提交一个应用程序时，需要提供一个用以跟踪和管理这个程序的ApplicationMaster，它负责向ResourceManager 申请资源，并要求NodeManger 启动可以占用一定资源的任务。
+由于不同的ApplicationMaster 被分布到不同的节点上，因此它们之间不会相互影响

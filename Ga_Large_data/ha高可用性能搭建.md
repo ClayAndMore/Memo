@@ -1,0 +1,200 @@
+hadoop版本3.2
+
+官方文档：https://hadoop.apache.org/docs/r3.1.1/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html
+
+
+
+HA
+
+| -      | NN-1 | NN-2 | DN   | ZK   | ZKFC | JNN  |
+| ------ | ---- | ---- | ---- | ---- | ---- | ---- |
+| Node01 | *    |      |      |      | *    | *    |
+| Node02 |      | *    | *    | *    | *    | *    |
+| Node03 |      |      | *    | *    |      |      |
+| Node04 |      |      | *    | *    |      |      |
+
+这里以node191对应node01
+
+
+
+#### 脑裂 split-brain
+
+```
+
+           +----------------------------------+
+           |                                  |
+        +->+         zk                        +--------+
+     kfc|  |                                  |       |kfc
+        |  +----------------------------------+       |
+        |                                             |
+        |                                             |
++---------+                                   +-------v----+
+| active+ |                                   |  standby   |
+|         |                                   |            |
++---------+                                   +------------+
+   nn1                                               nn2
+```
+
+当nn1 的kfc和zk连接终端，此时nn1仍是active 状态， 但是zk接收到了nn1的异常，如果这时zk通知nn2的kfc，将其由状态standby变为active,则此时有两个nn, 这种情况称之为脑裂。
+
+
+
+
+
+#### hadoop-env.sh:
+
+```
+export JAVA_HOME=
+export HDFS_NAMENODE_USER=root
+export HDFS_DATANODE_USER=root
+
+export HDFS_ZKFC_USER=root
+export HDFS_JOURNALNODE_USER=root
+```
+
+
+
+#### hdfs-site.xml
+
+```xml
+<property>
+    <name>dfs.replication</name>
+    <value>1</value>
+</property>
+<property>
+    <name>dfs.nameservices</name>
+    <value>mycluster</value>
+</property>
+<property>
+    <name>dfs.ha.namenodes.mycluster</name>
+    <value>nn1,nn2</value>
+</property>
+<property>
+    <name>dfs.namenode.rpc-address.mycluster.nn1</name>
+    <value>nod192:8020</value>
+</property>
+<property>
+    <name>dfs.namenode.rpc-address.mycluster.nn2</name>
+    <value>node193:8020</value>
+</property>
+<property>
+  <name>dfs.namenode.http-address.mycluster.nn1</name>
+  <value>node192:9870</value>
+</property>
+<property>
+  <name>dfs.namenode.http-address.mycluster.nn2</name>
+  <value>node193:9870</value>
+</property>
+
+<property>
+  <name>dfs.namenode.shared.edits.dir</name>
+  <value>qjournal://node191:8485;node192:8485;node193:8485/mycluster</value>
+</property>
+
+<property>
+  <name>dfs.client.failover.proxy.provider.mycluster</name>
+  <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+
+<property>
+    <name>dfs.ha.fencing.methods</name>
+    <value>sshfence</value>
+</property>
+
+<property>
+    <name>dfs.ha.fencing.ssh.private-key-files</name>
+    <value>/root/.ssh/id_rsa</value>
+</property>
+
+<property>
+  <name>dfs.journalnode.edits.dir</name>
+  <value>/opt/moudles/hadoop-3.1.2/data/journalnode</value>
+</property>
+
+ <property>
+   <name>dfs.ha.automatic-failover.enabled</name>
+   <value>true</value>
+ </property>
+```
+
+**dfs.nameservices** - the logical name for this new nameservice
+
+Choose a logical name for this nameservice, for example “mycluster”, and use this logical name for the value of this config option. The name you choose is arbitrary. It will be used both for configuration and as the authority component of absolute HDFS paths in the cluster.
+
+**Note:** If you are also using HDFS Federation(联邦), this configuration setting should also include the list of other nameservices, HA or otherwise, as a comma-separated list.
+
+namenode变多 我们需要一个逻辑名称指定, 例子中指定的是mycluster这个名字。
+
+**dfs.ha.namenodes.[nameservice ID]** - unique identifiers for each NameNode in the nameservice
+
+Configure with a list of comma-separated NameNode IDs. This will be used by DataNodes to determine all the NameNodes in the cluster. For example, if you used “mycluster” as the nameservice ID previously, and you wanted to use “nn1”, “nn2” and “nn3” as the individual IDs of the NameNode
+
+再次指定namenode的逻辑名字所包含的nn。
+
+**dfs.namenode.rpc-address.[nameservice ID].[name node ID]** - the fully-qualified RPC address for each NameNode to listen on
+
+For both of the previously-configured NameNode IDs, set the full address and IPC port of the NameNode processs
+
+rpc配置， 指定上方逻辑名称的物理名称。
+
+**dfs.namenode.http-address.[nameservice ID].[name node ID]** - the fully-qualified HTTP address for each NameNode to listen on
+
+Similarly to *rpc-address* above, set the addresses for both NameNodes’ HTTP servers to listen on.
+
+
+
+**dfs.namenode.shared.edits.dir** - the URI which identifies the group of JNs where the NameNodes will write/read edits
+
+This is where one configures the addresses of the JournalNodes which provide the shared edits storage, written to by the Active nameNode and read by the Standby NameNode to stay up-to-date with all the file system changes the Active NameNode makes. Though you must specify several JournalNode addresses, **you should only configure one of these URIs.** The URI should be of the form: `qjournal://*host1:port1*;*host2:port2*;*host3:port3*/*journalId*`. The Journal ID is a unique identifier for this nameservice, which allows a single set of JournalNodes to provide storage for multiple federated namesystems. Though not a requirement, it’s a good idea to reuse the nameservice ID for the journal identifier.
+
+For example, if the JournalNodes for this cluster were running on the machines “node1.example.com”, “node2.example.com”, and “node3.example.com” and the nameservice ID were “mycluster”, you would use the following as the value for this setting (the default port for the JournalNode is 8485)
+
+
+
+**dfs.client.failover.proxy.provider.[nameservice ID]** - the Java class that HDFS clients use to contact the Active NameNode
+
+Configure the name of the Java class which will be used by the DFS Client to determine which NameNode is the current Active, and therefore which NameNode is currently serving client requests. The two implementations which currently ship with Hadoop are the **ConfiguredFailoverProxyProvider** and the **RequestHedgingProxyProvider** (which, for the first call, concurrently invokes all namenodes to determine the active one, and on subsequent requests, invokes the active namenode until a fail-over happens), so use one of these unless you are using a custom proxy provider.
+
+故障转移代理类
+
+
+
+**dfs.ha.fencing.methods** - a list of scripts or Java classes which will be used to fence the Active NameNode during a failover
+
+It is desirable for correctness of the system that only one NameNode be in the Active state at any given time. **Importantly, when using the Quorum Journal Manager, only one NameNode will ever be allowed to write to the JournalNodes, so there is no potential for corrupting the file system metadata from a split-brain scenario.** However, when a failover occurs, it is still possible that the previous Active NameNode could serve read requests to clients, which may be out of date until that NameNode shuts down when trying to write to the JournalNodes. For this reason, it is still desirable to configure some fencing methods even when using the Quorum Journal Manager. However, to improve the availability of the system in the event the fencing mechanisms fail, it is advisable to configure a fencing method which is guaranteed to return success as the last fencing method in the list. Note that if you choose to use no actual fencing methods, you still must configure something for this setting, for example “`shell(/bin/true)`”.
+
+The fencing methods used during a failover are configured as a carriage-return-separated list, which will be attempted in order until one indicates that fencing has succeeded. There are two methods which ship with Hadoop: *shell* and *sshfence*. For information on implementing your own custom fencing method, see the *org.apache.hadoop.ha.NodeFencer* class.
+
+配置私钥来登录两个nn，防止脑裂
+
+
+
+The configuration of automatic failover requires the addition of two new parameters to your configuration, 自导
+
+
+
+#### core-site.xml
+
+```xml
+<property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://mycluster</value>
+    </property>
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/opt/moudles/hadoop-3.1.2/data/tmp</value>
+</property>
+ <property>
+   <name>ha.zookeeper.quorum</name>
+   <value>node192:2181,zk2, node193:2181,node194:2181</value>
+ </property>
+```
+
+配置zk集群。
+
+
+
+
+
+### 安装zk
+
