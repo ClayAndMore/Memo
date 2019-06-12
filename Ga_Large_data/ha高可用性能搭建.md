@@ -1,3 +1,21 @@
+
+
+#### 环境变量
+
+/etc/profile
+
+```
+export JAVA_HOME=/opt/module/jdk1.8.0_211
+export PATH=$PATH:$JAVA_HOME/bin
+
+export HADOOP_HOME=/opt/module/hadoop-3.1.2
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+```
+
+
+
+
+
 hadoop版本3.2
 
 官方文档：https://hadoop.apache.org/docs/r3.1.1/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html
@@ -10,7 +28,7 @@ HA
 | ------ | ---- | ---- | ---- | ---- | ---- | ---- |
 | Node01 | *    |      |      |      | *    | *    |
 | Node02 |      | *    | *    | *    | *    | *    |
-| Node03 |      |      | *    | *    |      |      |
+| Node03 |      |      | *    | *    |      | *    |
 | Node04 |      |      | *    | *    |      |      |
 
 这里以node191对应node01
@@ -41,6 +59,12 @@ HA
 
 
 
+
+
+### 配置文件
+
+
+
 #### hadoop-env.sh:
 
 ```
@@ -59,7 +83,7 @@ export HDFS_JOURNALNODE_USER=root
 ```xml
 <property>
     <name>dfs.replication</name>
-    <value>1</value>
+    <value>3</value>
 </property>
 <property>
     <name>dfs.nameservices</name>
@@ -71,19 +95,19 @@ export HDFS_JOURNALNODE_USER=root
 </property>
 <property>
     <name>dfs.namenode.rpc-address.mycluster.nn1</name>
-    <value>nod192:8020</value>
+    <value>nod191:8020</value>
 </property>
 <property>
     <name>dfs.namenode.rpc-address.mycluster.nn2</name>
-    <value>node193:8020</value>
+    <value>node192:8020</value>
 </property>
 <property>
   <name>dfs.namenode.http-address.mycluster.nn1</name>
-  <value>node192:9870</value>
+  <value>node191:9870</value>
 </property>
 <property>
   <name>dfs.namenode.http-address.mycluster.nn2</name>
-  <value>node193:9870</value>
+  <value>node192:9870</value>
 </property>
 
 <property>
@@ -108,7 +132,7 @@ export HDFS_JOURNALNODE_USER=root
 
 <property>
   <name>dfs.journalnode.edits.dir</name>
-  <value>/opt/moudles/hadoop-3.1.2/data/journalnode</value>
+  <value>/opt/module/hadoop-3.1.2/data/journalnode</value>
 </property>
 
  <property>
@@ -179,18 +203,40 @@ The configuration of automatic failover requires the addition of two new paramet
 <property>
         <name>fs.defaultFS</name>
         <value>hdfs://mycluster</value>
-    </property>
-    <property>
+</property>
+<property>
         <name>hadoop.tmp.dir</name>
         <value>/opt/moudles/hadoop-3.1.2/data/tmp</value>
 </property>
+<property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>root</value>
+</property>
  <property>
    <name>ha.zookeeper.quorum</name>
-   <value>node192:2181,zk2, node193:2181,node194:2181</value>
+   <value>node192:2181,zk2,node193:2181,node194:2181</value>
  </property>
 ```
 
 配置zk集群。
+
+#### works
+```
+node192
+node193
+node194
+```
+
+
+
+分发更改的配置文件：
+
+```
+scp hadoop-env.sh core-sit.xml hdfs-site.xml  works root@node192: `pwd`
+scp hadoop-env.sh core-sit.xml hdfs-site.xml  works root@node193: `pwd`
+scp hadoop-env.sh core-sit.xml hdfs-site.xml  works root@node194: `pwd`
+```
+
 
 
 
@@ -249,4 +295,61 @@ Using config: /opt/module/zookeeper-3.4.6/bin/../conf/zoo.cfg
 Mode: leader
 ```
 
-三个节点都这样干，这里为啥193是主节点？
+三个节点都这样干，这里为啥193是主节点？,一般来说序号的数字越大称为leader的机会越高，可能是我手工start，太慢，起到node193的时候就已经选出leader了。
+
+停止 ： zkServer.sh stop
+
+
+
+### zk客户端
+
+zkCli.sh
+
+输入help，可以看些命令。
+
+eg:
+
+```
+[zk: localhost:2181(CONNECTED) 0] ls /
+[zookeeper]
+[zk: localhost:2181(CONNECTED) 1]
+```
+
+
+
+
+
+### 启动
+
+先启动journalnode: hdfs --daemon start journalnode,  在 node191, node192, node193
+
+启动后 jps看下。
+
+```
+# node191
+jps
+7829 Jps
+7768 JournalNode
+
+# node192
+7574 QuorumPeerMain
+8074 Jps
+8045 JournalNode
+```
+
+因为 192有zk。
+
+此时 data文件夹下会有个新journalnode 文件夹。
+
+
+
+node191
+
+格式化：
+
+ 格式化nn1(node191)：  `hdfs namenode -format` 
+
+后， 格式化nn2 : `hdfs namenode -bootstrapStandby`
+
+如果nn1已经格式化：node192, nn2 复制已经格式化的node1: `hdfs namenode -initializeShareEdits`
+
