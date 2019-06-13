@@ -1,3 +1,5 @@
+tags:[异步]
+
 ### 三种I/O复用的实现方式
 
 epoll跟select都能提供多路I/O复用的解决方案。在现在的Linux内核里有都能够支持，其中epoll是Linux所特有，而select则应该是POSIX所规定，一般操作系统均有实现。
