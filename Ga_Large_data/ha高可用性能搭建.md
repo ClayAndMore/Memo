@@ -95,7 +95,7 @@ export HDFS_JOURNALNODE_USER=root
 </property>
 <property>
     <name>dfs.namenode.rpc-address.mycluster.nn1</name>
-    <value>nod191:8020</value>
+    <value>node191:8020</value>
 </property>
 <property>
     <name>dfs.namenode.rpc-address.mycluster.nn2</name>
@@ -214,7 +214,7 @@ The configuration of automatic failover requires the addition of two new paramet
 </property>
  <property>
    <name>ha.zookeeper.quorum</name>
-   <value>node192:2181,zk2,node193:2181,node194:2181</value>
+   <value>node192:2181,node193:2181,node194:2181</value>
  </property>
 ```
 
@@ -275,7 +275,7 @@ export PATH=$PATH:$ZK_HOME/bin
 
 Source /etc/profile
 
-Node192,node193机器也这么干。
+Node193,node194机器也这么干。
 
 启动：
 
@@ -321,6 +321,8 @@ eg:
 
 ### 启动
 
+#### journalnode
+
 先启动journalnode: hdfs --daemon start journalnode,  在 node191, node192, node193
 
 启动后 jps看下。
@@ -343,13 +345,140 @@ jps
 
 
 
-node191
-
-格式化：
+#### namenode 格式化
 
  格式化nn1(node191)：  `hdfs namenode -format` 
 
+格式化后看下data文件夹下有没有多个tmp文件夹
+
+启动namenode:
+
+```shell
+[root@node191 hadoop]# hadoop-daemon.sh start namenode
+WARNING: Use of this script to start HDFS daemons is deprecated.
+WARNING: Attempting to execute replacement "hdfs --daemon start" instead.
+[root@node191 hadoop]# jps
+8323 NameNode
+8362 Jps
+8012 JournalNode
+```
+
 后， 格式化nn2 : `hdfs namenode -bootstrapStandby`
 
-如果nn1已经格式化：node192, nn2 复制已经格式化的node1: `hdfs namenode -initializeShareEdits`
+成功后输出：
 
+```
+2019-06-12 08:46:34,071 INFO ha.BootstrapStandby: Found nn: nn1, ipc: node191/192.168.145.191:8020
+=====================================================
+About to bootstrap Standby ID nn2 from:
+           Nameservice ID: mycluster
+        Other Namenode ID: nn1
+  Other NN's HTTP address: http://node191:9870
+  Other NN's IPC  address: node191/192.168.145.191:8020
+             Namespace ID: 2017075246
+            Block pool ID: BP-934550845-192.168.145.191-1560309554232
+               Cluster ID: CID-efe6ac54-4ceb-484a-ac87-2c815facba79
+           Layout version: -64
+       isUpgradeFinalized: true
+=====================================================
+2019-06-12 08:46:36,405 INFO common.Storage: Storage directory /opt/module/hadoop-3.1.2/data/tmp/dfs/name has been successfully formatted.
+2019-06-12 08:46:36,576 INFO namenode.FSEditLog: Edit logging is async:true
+2019-06-12 08:46:36,804 INFO namenode.TransferFsImage: Opening connection to http://node191:9870/imagetransfer?getimage=1&txid=0&storageInfo=-64:2017075246:1560309554232:CID-efe6ac54-4ceb-484a-ac87-2c815facba79&bootstrapstandby=true
+2019-06-12 08:46:36,998 INFO common.Util: Combined time for file download and fsync to all disks took 0.01s. The file download took 0.01s at 0.00 KB/s. Synchronous (fsync) write to disk of /opt/module/hadoop-3.1.2/data/tmp/dfs/name/current/fsimage.ckpt_0000000000000000000 took 0.00s.
+2019-06-12 08:46:36,998 INFO namenode.TransferFsImage: Downloaded file fsimage.ckpt_0000000000000000000 size 391 bytes.
+2019-06-12 08:46:37,096 INFO namenode.NameNode: SHUTDOWN_MSG:
+/************************************************************
+SHUTDOWN_MSG: Shutting down NameNode at node192/192.168.145.192
+************************************************************/
+```
+
+成功后可以看下这个第二个节点的custerID是否和node191一样：
+
+```
+[root@node192 ~]# cat /opt/module/hadoop-3.1.2/data/tmp/dfs/name/current/VERSION
+#Wed Jun 12 08:46:36 EDT 2019
+namespaceID=2017075246
+clusterID=CID-efe6ac54-4ceb-484a-ac87-2c815facba79
+cTime=1560309554232
+storageType=NAME_NODE
+blockpoolID=BP-934550845-192.168.145.191-1560309554232
+layoutVersion=-64
+```
+
+
+
+#### zk格式化
+
+Node191: `hdfs zkfc -formatZK`
+
+Node192, 会发现多了个hadoop-ha:
+
+```
+[zk: localhost:2181(CONNECTED) 0] ls /
+[zookeeper, hadoop-ha]
+[zk: localhost:2181(CONNECTED) 1] ls /hadoop-ha
+[mycluster]
+[zk: localhost:2181(CONNECTED) 2] ls /hadoop-ha/mycluster
+[]
+```
+
+
+
+Start-dfs.sh:
+
+```
+[root@node191 ~]# start-dfs.sh
+Starting namenodes on [node191 node192]
+Last login: Wed Jun 12 09:44:38 EDT 2019 from 192.168.145.1 on pts/0
+node191: Warning: Permanently added 'node191,192.168.145.191' (ECDSA) to the list of known hosts.
+node191: namenode is running as process 9522.  Stop it first.
+Starting datanodes
+Last login: Wed Jun 12 09:44:50 EDT 2019 on pts/0
+Starting journal nodes [node191 node193 node192]
+Last login: Wed Jun 12 09:44:53 EDT 2019 on pts/0
+node191: journalnode is running as process 8012.  Stop it first.
+node193: journalnode is running as process 8193.  Stop it first.
+node192: journalnode is running as process 8194.  Stop it first.
+Starting ZK Failover Controllers on NN hosts [node191 node192]
+Last login: Wed Jun 12 09:45:06 EDT 2019 on pts/0
+[root@node191 ~]# jps
+10666 DFSZKFailoverController
+10714 Jps
+8012 JournalNode
+```
+
+会发现node192:
+
+```
+[zk: localhost:2181(CONNECTED) 3] ls /hadoop-ha/mycluster
+[ActiveBreadCrumb, ActiveStandbyElectorLock]
+
+[zk: localhost:2181(CONNECTED) 4] get /hadoop-ha/mycluster/ActiveBreadCrumb # 获取注册信息
+
+	myclusternn1node191 �>(�>
+cZxid = 0x400000008
+ctime = Wed Jun 12 09:45:21 EDT 2019
+mZxid = 0x400000008
+mtime = Wed Jun 12 09:45:21 EDT 2019
+pZxid = 0x400000008
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 31
+numChildren = 0
+```
+
+
+
+几个操作观察主从nn的切换：
+
+node191: `hdfs —daemon stop namenode`
+
+观察node191,node192（端口9870）页面, 看状态是active,或standby,或已经进不去
+
+node191: `hdfs —daemon start namenode`
+
+Node192: `hdfs -daemon stop zkfc`
+
+再观察页面
