@@ -60,6 +60,8 @@ python多线程这个限制和协程有点像，应用也很像，都是适合io
 
 
 
+相关文章：https://segmentfault.com/a/1190000019360335
+
 ### python 中的并发
 
 https://blog.51cto.com/youerning/2161196
