@@ -128,7 +128,7 @@ Tags:[linux, shell]
 
 读取数组：`${array_name[index]}`
 
- 获取所有数组：使用`*`和`#`
+ 获取所有数组：使用`*`和`@`
 
 ```
 echo "数组的元素为: ${my_array[*]}"
@@ -138,6 +138,53 @@ echo "数组的元素为: ${my_array[@]}"
 获取长度：
 
 `echo "数组元素个数为: ${#my_array[@]}"`
+
+eg: 把ls存到一个数组变量中。
+
+```shell
+# 将ls的输出存到filelist数组中：
+c=0
+for file in `ls`
+do
+  filelist[$c]=$file
+  ((c++))
+done
+
+# 或者
+
+set -a myfiles
+index=0
+for f in `ls`; do myfiles[index]=$f; let index=index+1; done
+# 注：用这种方法，如果文件名中有空格的话，会将一个文件名以空格为分隔符分成多个存到数组中，最后出来的结果就是错误的。
+
+# 以下代码，这种赋值方法可以使获取到的文件名正确。
+c=0
+for file in *
+do
+  filelist[$c]="$file" # （为了准确起见，此处要加上双引号“”）
+  ((c++))
+done
+
+#把filelist数组内容输出到屏幕上：
+b=0
+while [ $b -lt $c ]
+do
+  echo ${filelist[$b]}
+  ((b++))
+done
+# 或者
+b=0
+for value in ${filelist[*]}
+do 
+  echo $value
+done
+
+
+# 在屏幕上输出filelist数组长度：
+echo ${#filelist[*]}
+```
+
+
 
 
 
@@ -241,157 +288,6 @@ echo "两数之和为 : $val"
 | -e file | 检测文件（包括目录）是否存在，如果是，则返回 true。             | [ -e $file ] 返回 true。  |
 
 
-
-#### 测试命令
-
-大多数情况下，可以使用测试命令来对条件进行测试。比如可以比较字符串、判断文件是否存在及是否可读等等…
-　　
-
-通常用" [ ] "来表示条件测试。注意这里的空格很重要。要确保方括号的空格。**方括号内左右两侧都要有空格**
-
-[  -f "somefile" ] ：判断是否是一个文件
-[  -x "/bin/ls" ] ：判断/bin/ls是否存在并有可执行权限
-[  -n "$var" ] ：判断$var变量是否有值
-`[ "$a" = "$b" ]` ：判断$a和$b是否相等 ,这里要注意等号两侧的空格
-
-执行man test可以查看所有测试表达式可以比较和判断的类型。
-
-
-
-#### test命令条件测试
-
-| 参数   | 说明      |
-| ---- | ------- |
-| -eq  | 等于则为真   |
-| -ne  | 不等于则为真  |
-| -gt  | 大于则为真   |
-| -ge  | 大于等于则为真 |
-| -lt  | 小于则为真   |
-| -le  | 小于等于则为真 |
-
-```
-num1=100
-num2=100
-if test $[num1] -eq $[num2]
-then
-    echo '两个数相等！'
-else
-    echo '两个数不相等！'
-fi
-```
-
-
-
-#### 流程控制 if 
-
-* if
-
-  ```
-  if condition
-  then
-      command1 
-      commandN
-  fi
-  ```
-
-  写成一行：
-
-  ```
-  if [ $(ps -ef | grep -c "ssh") -gt 1 ]; then echo "true"; fi
-  ```
-
-* if else
-
-  ```
-  if condition
-  then
-      command1 
-      commandN
-  else
-      command
-  fi
-  ```
-
-* if else-if else
-
-  ```
-  if condition1
-  then
-      command1
-  elif condition2 
-  then 
-      command2
-  else
-      commandN
-  fi
-  ```
-
-
-
-#### 循环 for
-
-```
-for var in item1 item2 ... itemN
-do
-    command1
-    command2
-    ...
-    commandN
-done
-```
-
-一行：
-
-```
-for var in item1 item2 ... itemN; do command1; command2… done;
-```
-
-可以将for 换成while 后面跟上条件。
-
-跳出还是break 和 continue
-
-
-
-#### case
-
-可以用case语句匹配一个值与一个模式，如果匹配成功，执行相匹配的命令。case语句格式如下：
-
-```
-case 值 in
-模式1)
-    command1
-    ...
-    commandN
-    ;;
-模式2）
-    command1
-    ...
-    commandN
-    ;;
-esac
-```
-
-eg:
-
-```
-echo '输入 1 到 4 之间的数字:'
-echo '你输入的数字为:'
-read aNum
-case $aNum in
-    1)  echo '你选择了 1'
-    ;;
-    2)  echo '你选择了 2'
-    ;;
-    3)  echo '你选择了 3'
-    ;;
-    4)  echo '你选择了 4'
-    ;;
-    *)  echo '你没有输入 1 到 4 之间的数字'
-    ;;
-esac
-```
-
-case的语法和C family语言差别很大，它需要一个esac（就是case反过来）作为结束标记，每个case分支用右圆括号，用两个分号表示break。
 
 
 
