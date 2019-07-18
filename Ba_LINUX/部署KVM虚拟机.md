@@ -43,3 +43,11 @@ https://www.chenyudong.com/archives/libvirt-kvm-bridge-network.html
 
 <https://blog.csdn.net/hzhsan/article/details/44098537/>
 
+
+
+安装brctl
+
+`apt-get install bridge-utils`
+
+`yum install bridge-utils`
+
