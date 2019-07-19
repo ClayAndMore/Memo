@@ -1,12 +1,4 @@
-### redisk不适合做消息队列
 
-https://www.zhihu.com/question/20795043
-
-
-
-
-
-用redis实现消息队列（实时消费+ack机制） https://segmentfault.com/a/1190000012244418
 
 
 
