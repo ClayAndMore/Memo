@@ -37,6 +37,17 @@ flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
 
 网桥模式(卡住):
 
+https://www.chenyudong.com/archives/libvirt-kvm-bridge-network.html
+
 <https://www.linuxidc.com/Linux/2017-01/140007.htm>
 
 <https://blog.csdn.net/hzhsan/article/details/44098537/>
+
+
+
+安装brctl
+
+`apt-get install bridge-utils`
+
+`yum install bridge-utils`
+

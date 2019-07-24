@@ -44,6 +44,83 @@ hello() # 将打印"hello, world"
 
 
 
+#### `__import__`
+
+如果一个模块经常变化就可以使用 __import__() 来动态载入。
+
+测试目录, 和部分代码：
+
+```
+[root@localhost import]# tree _import/
+_import/
+├── aaa.py
+└── dir
+    ├── dir1.py
+    └── __init__.py
+    
+[root@localhost import]# cd _import/
+[root@localhost _import]# cat aaa.py 
+
+def aaa1():
+    print 'aaa1'
+def aaa2():
+    print 'aaa2'
+
+[root@localhost _import]# cat dir/dir1.py 
+def dir_test():
+    print 'dir_test'
+```
+
+测试：
+
+```python
+#  先测试文件：
+>>> a = __import__('aaa')
+>>> a
+<module 'aaa' from 'aaa.py'>
+>>> dir(a)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', 'aaa1', 'aaa2']
+>>> m=getattr(a,'aaa1')
+>>> m()
+aaa1
+
+# 测试模块
+>>> b = __import__('dir')
+>>> dir(b)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__']
+>>> b = __import__('dir.dir1')
+>>> dir(b)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__', 'dir1']
+
+>>> m=getattr(b,'dir_test')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+
+>>> dir(b.dir1)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', 'dir_test']
+>>> m=getattr(b.dir1,'dir_test')    #注意这里
+>>> m()
+dir_test
+```
+
+封装一个动态载入的函数：
+
+```python
+def getfunctionbyname(module_name,function_name):  
+    module = __import__(module_name)
+    if '.' in module_name:  # 如果是模块调用
+      	f_module = getattr(module, module_name.split('.')[-1])
+        return getattr(f_module, function_name)
+    return getattr(module,function_name)  
+
+getfunctionbyname('dir.dir1', 'dir_test')()
+getfunctionbyname('aaa', 'aaa1')()                                      
+```
+
+
+
+
+
 ### 内置字段
 
 #### ` __doc__`

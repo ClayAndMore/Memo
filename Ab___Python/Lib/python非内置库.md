@@ -176,3 +176,26 @@ SyntaxError: bytes can only contain ASCII literal characters.
 ```
 
 当然字符长度长一些时才能更精准的识别。
+
+
+
+
+
+### msgpack
+
+安装：`pip install msgpack`
+
+MessagePack 是一个高效的二进制序列化格式。它让你像 JSON 一样可以在各种语言之间交换数据。但是它比 JSON 更快、更小。小的整数会被编码成一个字节，短的字符串仅仅只需要比它的长度多一字节的大小。
+
+主要思想就是将json中一些重复出现的符号（如括号、冒号、逗号等）用更精简的方式来表示。
+
+```python
+>>> msgpack.unpackb([1,2,3])
+>>> msgpack.unpackb(_)
+[1, 2, 3]
+>>> msgpack.unpackb(_).decode('utf-8')
+u'\u4e2d\u6587'
+```
+
+
+

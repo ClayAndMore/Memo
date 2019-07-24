@@ -64,3 +64,15 @@ Redis 客户端可以订阅任意数量的频道。
 `punsubscribe [pattern [pattern ..]]`
 
 退订给所有给定模式的频道
+
+
+
+### redis做消息队列
+
+为什么redisk不适合做消息队列
+
+https://www.zhihu.com/question/20795043
+
+
+
+用redis实现消息队列（实时消费+ack机制） https://segmentfault.com/a/1190000012244418

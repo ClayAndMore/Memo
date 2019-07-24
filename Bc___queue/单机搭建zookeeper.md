@@ -1,122 +1,16 @@
-Tags:[linux, linux_software]
-
-### 写在前面
-
-初由LinkedIn公司开发，之后成为Apache项目的一部分 
-
-Kafka 基于zookeeper协调的分布式消息系统 ,
-
-
-
-分布式消息系统kafka提供了一个生产者、缓冲区、消费者的模型 
-
-```
- producer     producer     producer
-	   \	    |	     /
-	     \	    |	   /
-	       \	|	 /
-	    	kafka cluster
-	    	/    |    \
-	       /     |	    \
-  consumer     conseumer  conseumer
-```
-
-Kafka中，客户端和服务器之间的通信是通过简单，高性能，语言无关[TCP协议完成的。此协议已版本化并保持与旧版本的向后兼容性。我们为Kafka提供Java客户端，但客户端有多种语言版本
-
-
-
-#### 几个术语
-
-##### topics
-
-kafka给消息提供的分类方式。broker用来存储不同topic的消息数据 。
-
-```
-       A topic:
-------------------------------------------------
-| Partition 0:  0,1,2,3,4,5.....               |
-| Partition 1:  0,1,2,3,4,5,6,7,8,9,10, 11 ..  |
-| Partition 2:  0,1,2..                        |
-------------------------------------------------
-time: old  -------------> new
-```
-
-* 每个topic又可以拆分成多个partition , partition均匀分配到集群server中 
-* 每个partition又由一个一个消息组成 
-* 每个消息都被标识了一个递增序列号代表其进来的先后顺序，并按顺序存储在partition中 
-* 一个topic 可以在不同的机器上，每个机器有不同的Partition.
-
-
-
-**producer选择一个topic，生产消息，消息会通过分配策略append到某个partition末尾** 
-
-**consumer选择一个topic，通过id指定从哪个位置开始消费消息。消费完成之后保留id，下次可以从这个位置开始继续消费，也可以从其他任意位置开始消费** 
-
-这个id, 在Kafaka中被称为offset.
-
-
-
-这种组织方式的好处：
-
-1. 消费者可以根据需求，灵活指定offset消费
-2. 保证了消息不变性，为并发消费提供了线程安全的保证。每个consumer都保留自己的offset，互相之间不干扰，不存在线程安全问题 。
-3. 消息访问的并行高效性。生产、消费消息的时候，会被路由到指定partition，减少竞争，增加了程序的并行能力 
-4. 保证消息可靠性。**消息消费完成之后不会删除**，可以通过重置offset重新消费，保证了消息不会丢失 ，可以设置消息保留日期。
-5. 增加消息系统的可伸缩性。每个topic中保留的消息可能非常庞大，通过partition将消息切分成多个子消息，并通过负责均衡策略将partition分配到不同server。这样当机器负载满的时候，通过扩容可以将消息重新均匀分配 
-
-
-
-##### broker（经济人）
-
-指的是中间的kafka cluster，存储消息，是由多个server组成的集群 
-
-Kakfa Broker集群受Zookeeper管理 
-
-
-
-##### producer
-
-数据生产者，消费者
-
-producer和consumer 都是客户端（APP）
-
-
-
-##### consumer
-
-传统来看， 消息有两种模型：
-
-* 队列： 一池子的消费者从一个server中读取消息，每条消息只被发给其中的一个消费者
-* 发布-订阅： 消息被广播给所有的消费者
-
-Kafka提供了一个单消费者的抽象--消费者组，它可以同时兼容两种模型。
-
-消费者用一个组名(conssumer group)标记它们自己,：
-
-1. 每一条发布的消息会被传递给所有订阅了这个主题的消费者组（发布-订阅模式）
-2. 每个消费者组只会有一个消费者接收到这条消息。消费者组中的消费者实例可以是不同的进程或者干脆在不同的机器上。（队列模式）
-
-
-
-如果所有的消费者都在同一个组下面，那么就和传统队列模型一样，消费者之间会进行负载均摊。
-
-如果所有的消费者都有不同的组名，那么就和发布-订阅模型是一样，所有的消息都会被广播给所有的消费者。
-
-
-
 #### zookeeper
 
 ZooKeeper 是一个开源的分布式协调服务，由雅虎创建。
 
 在ZooKeeper 集群中机器有三种角色：
 
-* Leader
+- Leader
 
   一个集群同一时刻只能有一个Leader
 
-* Follower
+- Follower
 
-* Observer
+- Observer
 
 
 
@@ -160,7 +54,7 @@ ZooKeeper Atomic Broadcast ，Zookeeper自动广播协议。
 
 恢复模式是指的Leader挂掉的情况。
 
-* 已经被处理的消息不能丢
+- 已经被处理的消息不能丢
 
   在Leader向各个Follower广播COMMIT，同时也会在本地执行 COMMIT 并向连接的客户端返回「成功」,但是如果在各个 follower 在收到 COMMIT 命令前 leader 就挂了，导致剩下的服务器并没有执行都这条消息。 
 
@@ -173,15 +67,13 @@ ZooKeeper Atomic Broadcast ，Zookeeper自动广播协议。
   新的 leader 与 follower 建立先进先出的队列， 先将自身有而 follower 没有的 proposal 发送给 follower，再将这些 proposal 的 COMMIT 命令发送给 follower，以保证所有的 follower 都保存了所有的 proposal、所有的 follower 都处理了所有的消息。
   ```
 
-
-* 被丢弃的消息不会再出现
+- 被丢弃的消息不会再出现
 
   当 leader 接收到消息请求生成 proposal 后就挂了，其他 follower 并没有收到此 proposal，因此经过恢复模式重新选了 leader 后，这条消息是被跳过的。 此时，之前挂了的 leader 重新启动并注册成了 follower，他保留了被跳过消息的 proposal 状态，与整个系统的状态是不一致的，需要将其删除。
 
-   ```
+  ```
   Zab 通过巧妙的设计 zxid 来实现这一目的。一个 zxid 是64位，高 32 是纪元（epoch）编号，每经过一次 leader 选举产生一个新的 leader，新 leader 会将 epoch 号 +1。低 32 位是消息计数器，每接收到一条消息这个值 +1，新 leader 选举后这个值重置为 0。这样设计的好处是旧的 leader 挂了后重启，它不会被选举为 leader，因为此时它的 zxid 肯定小于当前的新 leader。当旧的 leader 作为 follower 接入新的 leader 后，新的 leader 会让它将所有的拥有旧的 epoch 号的未被 COMMIT 的 proposal 清除。
-   ```
-
+  ```
 
 
 
@@ -195,23 +87,23 @@ kafka借鉴AMQP协议进行开发
 
 #### 使用场景
 
-* 消息代理
+- 消息代理
 
   使用消息代理有很多原因(为了将处理消息和生产消息解耦开，缓存未被处理的消息等等)。对比大多数的消息系统，Kafka拥有更大的吞吐，内置分区，副本，以及错误容忍，这些特性都是选择Kafka作为大型可扩展消息处理应用的原因。
 
   从我们的经验角度来看，消息系统通常被用在相对吞吐量不大但是延迟要求低的场景中，并且通常都需要强健的持久化保障
 
-* 网站活动追踪
+- 网站活动追踪
 
   最初Kafka被用来搭建网站用户活动追踪的管道，管道中是一系列实时的消息流。站点的活动信息（页面浏览，搜索，以及其他用户的活动）被发布成不同主题下的流。这些流可以被不同场景下的应用订阅，包括但不限于实时处理，实时监控，上载到hadoop，或是构建离线数据仓库。
 
   活动追踪消息的量通常都很大，因为用户的每一个行为都会产生消息。
 
-* 日志收集
+- 日志收集
 
   许多人将Kafka作为日志收集的一个解决方案。典型的日志收集是将物理的日志文件收集起来并且将它们导入到一个集中的地方（比如HDFS）。Kafka将文件细节抽象掉，提供了一个更为简洁的抽象（消息流）。这使得处理延迟变低，且能方便地支持多数据源和多消费者。对比Scribe 或者 Flume这些消息收集工具，Kafka提供了相同的性能，更强的持久化(副本)，以及端到端的低延迟
 
-* 流处理
+- 流处理
 
   许多用户将处理消息分成了多个阶段性的处理过程：原始数据被消费出来并聚合产生成一些新主题的流，被用作进一步的处理。举个例子，一个文章推荐处理的系统通常先是会将文章内容通过RSS抓取下来，发布到一个叫"article"的主题里；后续的处理会将内容进行规范，去重和清洗；最终的阶段会将内容和用户关联匹配上。
 
@@ -239,26 +131,28 @@ https://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/
 
 1. 在报错机器上执行查看主机名命令：
 
-  ```
-  root@iZ231wxgt6mZ ~]# hostname
-  bogon
-  ```
+   ```
+   root@iZ231wxgt6mZ ~]# hostname
+   bogon
+   ```
 
-  如果执行命令报错，请检查是否给hostname定义了别名，比如在.bash_profile或者.bashrc中 alias xxx=‘hostname’； 或者命令路径不在$PATH下面。
+   如果执行命令报错，请检查是否给hostname定义了别名，比如在.bash_profile或者.bashrc中 alias xxx=‘hostname’； 或者命令路径不在$PATH下面。
 
 2. ping主机：
 
-    ```
-    [root@iZ231wxgt6mZ ~]# ping iZ231wxgt6mZ
-    ```
+   ```
+   [root@iZ231wxgt6mZ ~]# ping iZ231wxgt6mZ
+   ```
 
-		如果无法正常ping通主机名，则需要将本机地址绑定到 /etc/hosts文件中。
+   ```
+   如果无法正常ping通主机名，则需要将本机地址绑定到 /etc/hosts文件中。
+   ```
 
-    `127.0.0.1 主机名 localhost.localdomain localhos`
+   `127.0.0.1 主机名 localhost.localdomain localhos`
 
-    或是再添加一条
+   或是再添加一条
 
-    `127.0.0.1 主机名`
+   `127.0.0.1 主机名`
 
 3. 检查/etc/sysconfig/network 中的记录的hostname是否和/etc/hosts中的主机名绑定一致，如果不一致请确保一致。 如果需要修改/etc/sysconfig/network中的内容，修改后需要重启机器才能生效。
 

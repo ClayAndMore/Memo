@@ -2,7 +2,7 @@ tags:[消息队列, nosql, database, Redis, python]
 
 ### redis-py
 
-GitHub: ://g ithub .com/andymccurdy redis-py
+GitHub: //github .com/andymccurdy redis-py
 官方文档 https: //redis-py.rea dthedocs.io
 
 pip 安装
@@ -52,3 +52,13 @@ True
 如果用多个redis数据库在相同的应用， 需要创建分离的客户端实例（提供分离的连接池为每个数据库。）
 
 pubsub 或 pipeline 在两个线程间不是安全的。
+
+
+
+### 连接方式
+
+使用python连接redis有三种方式：
+
+1. 使用库中的Redis类（或StrictRedis类，其实差不多）；
+2. 使用ConnectionPool连接池（可保持长连接）；
+3. 使用Sentinel类（如果有多个redis做集群时，程序会自己选择一个合适的连接）。

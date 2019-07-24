@@ -123,9 +123,11 @@ desfile 要带上压缩后缀，sourcefile 要全路径，全路径压缩的包�
 
 - 追加到某个文件夹下
 
-  `tar avf m.tar m/a/b/j.txt`
+  `tar rvf m.tar m/a/b/j.txt`
 
   这里的j.txt实际 目录结构要和包里的一致
+  
+  tar.gz是压缩（-z)，则无法给它追加文件
 
 
 tar 只是一种压缩文件格式，所以，它只是把文件压缩打包而已。

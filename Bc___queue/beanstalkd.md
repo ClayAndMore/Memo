@@ -28,7 +28,9 @@ beanstalkd拥有的一些特性：
 - 分布式容错，分布式设计和Memcached类似，beanstalkd各个server之间并不知道彼此的存在，都是通过client来实现分布式以及根据tube名称去特定server获取job。
 - 超时控制，为了防止某个consumer长时间占用任务但不能处理的情况， Beanstalkd为reserve操作设置了timeout时间，如果该consumer不能在指定时间内完成job，job将被迁移回READY状态，供其他consumer执行。
 
-beanstalkc 是beanstalkd的python 简单客户端。
+Beanstalkd 不足:
+
+**Beanstalkd 没有提供主备同步 + 故障切换机制, 在应用中有成为单点的风险。**实际应用中，可以用数据库为任务 (job) 提供持久化存储。
 
 
 
@@ -39,6 +41,14 @@ beanstalkc 是beanstalkd的python 简单客户端。
 ubuntu : `apt-get install beanstalkd`
 
 centos:  https://kr.github.io/beanstalkd/download.html
+
+源码安装：
+
+```
+tar -zxvf /usr/bin/beanstalkd/beanstalkd-1.9.tar.gz
+cd beanstalkd
+make install PERFIX=/usr/bin/beanstalkd
+```
 
 
 
@@ -240,3 +250,5 @@ watch和watching，jobs  reserve的部分，能同时watch好多tubes.
 https://github.com/earl/beanstalkc/issues/30，
 
 尽量一个客户端不要做参数在进程间传递，会引发一些异常。
+
+一些源码分析：https://segmentfault.com/a/1190000016067218#articleHeader1
