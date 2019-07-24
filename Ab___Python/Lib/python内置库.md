@@ -1,4 +1,4 @@
-tags​:[python, py_lib], date:​ 2017-08-31 
+tags:[python, py_lib], date: 2017-08-31 
 
 
 
@@ -43,13 +43,17 @@ tags​:[python, py_lib], date:​ 2017-08-31
 
 `os.system(cmd)`   执行shell 命令。
 
+​	比较有用：for windows cmd 设置 utf-8 编码：`os.system("chcp 65001")`
+
 `os.getpid()`  获得当前python进程pid，当我们想要在代码中结束当前服务时，可以杀掉该进程。
 
 `os.fork()`
 
 fork 调用将生成一个子进程，所以这个函数会同时属于两个进程，父进程和子进程。也会返回两个值
 
-在父进程的返回结果是一个整数值，这个值是子进程的进程号，父进程可以使用该进程号来控制子进程的运行。fork 在子进程的返回结果是零。
+**在父进程的返回结果是一个整数值，这个值是子进程的进程号，父进程可以使用该进程号来控制子进程的运行。**
+
+**fork 在子进程的返回结果是零。**
 
 如果 fork 返回值小于零，一般意味着操作系统资源不足，无法创建进程。 
 
@@ -64,11 +68,7 @@ if pid < 0:
     # fork error
 ```
 
-子进程创建后，父进程拥有的很多操作系统资源，子进程也会持有。比如套接字和文件描述符，它们本质上都是对操作系统内核对象的一个引用。如果子进程不需要某些引用，一定要即时关闭它，避免操作系统资源得不到释放导致资源泄露。 
-
-
-
-for windows cmd 设置 utf-8 编码：`os.system("chcp 65001")`
+子进程创建后，父进程拥有的很多操作系统资源，子进程也会持有。比如套接字和文件描述符，它们本质上都是对操作系统内核对象的一个引用。如果子进程不需要某些引用，一定要即时关闭它，避免操作系统资源得不到释放导致资源泄露。 `
 
 
 
@@ -92,7 +92,7 @@ for windows cmd 设置 utf-8 编码：`os.system("chcp 65001")`
 
 `os.mkdir('a/b/c')` 创建新的文件夹, 即使b和c都不存在
 
-`os.makedir()s` 
+`os.makedir()`  用于以数字权限模式创建目录。默认的模式为 0777 (八进制)。eg:`os.mkdir( path, 0755 )`
 
 `os.unlink('path/file')`  删除文件，如果是目录则返回一个错误。
 
@@ -124,18 +124,6 @@ for windows cmd 设置 utf-8 编码：`os.system("chcp 65001")`
 
 
 
-
-
-#### 判断目标
-
-`os.path.exists(“goal”)  `判断目标是否存在 
-`os.path.isdir(“goal”)`  判断目标是否目录 
-`os.path.isfile(“goal”) `  判断目标是否文件
-
-
-
-
-
  `os.access(path, mode)` 用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。如果允许访问返回 True , 否则返回False。
 
 - **path** -- 要用来检测是否有访问权限的路径。
@@ -154,6 +142,12 @@ for windows cmd 设置 utf-8 编码：`os.system("chcp 65001")`
 * os.path.dirname(`__file__`)    如果以全路径进行输出父目录路径，如果相对路径运行则输出空
 * os.path.realpath  返回真实地址，如软连接的真实地址。
 
+判断目标是否存在：
+
+`os.path.exists(“goal”)  `判断目标是否存在 
+`os.path.isdir(“goal”)`  判断目标是否目录 
+`os.path.isfile(“goal”) `  判断目标是否文件
+
 
 
 #### `os.environ `
@@ -171,210 +165,6 @@ os.environ['SHELL']:使用shell的类型。
 os.environ['LAN']:使用的语言。
 
 os.environ['SSH_AUTH_SOCK']:ssh的执行路径。
-
-
-
-`os.walk`遍历目录
-
-`os.tmpnam` 创建一个临时文件夹并返回路径：`/tmp/文件夹`
-
-
-
-### json
-
-* json.dumps 用于将 Python 对象编码成 JSON 字符串。
-
-  ```python
-  In [1]: import json
-
-  In [2]: data = [ { 'a' : 1, 'b' : 2, 'c' : 3, 'd' : 4, 'e' : 5 } ]
-
-  In [3]: json = json.dumps(data)
-
-  In [4]: print json
-  [{"a": 1, "c": 3, "b": 2, "e": 5, "d": 4}]
-  ```
-
-  注： 会将中文编译成unicode，并其他字段也会变成unicode,
-
-  如果想将中文变成ascii 的str， 可使用 `encode('utf-8')`
-
-
-  一些参数：
-
-  ensure_ascii：默认值True，只做两件事：
-
-  		1. 如果有非ASII的字符， 用utf-8解码。
-
-        		2. 确保dumps后的数据为 str 字符数组。
-
-如果dict内含有non-ASCII的字符，则会解码成utf-8的数据，去掉了u, 双斜杠转义单斜杠
-
-  设置成False后，
-
-  ```python
-  >>> a={'a':'aa', 'b':'彻底'}
-  >>> import json
-  >>> json.dumps(a)
-  '{"a": "aa", "b": "\\u5f7b\\u5e95"}'
-  >>> '彻底'.decode('utf-8')
-  u'\u5f7b\u5e95
-  >>> '彻底'
-  '\xe5\xbd\xbb\xe5\xba\x95'
-  >>> json.dumps(a, ensure_ascii=False)
-  '{"a": "aa", "b": "\xe5\xbd\xbb\xe5\xba\x95"}'
-  ```
-
-  ​
-
-indent：应该是一个非负的整型，如果是0，或者为空，则一行显示数据，否则会换行且按照indent的数量显示前面的空白，这样打印出来的json数据也叫pretty-printed json
-
-*encoding*：默认是UTF-8，设置json数据的编码方式。
-
-```python
-
-```
-
-
-
-
-
-
-
-* json.loads 解码 JSON 数据。该函数返回 Python 字段的数据类型。
-
-  ```python
-  import json
-  jsonData = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-  text = json.loads(jsonData)
-  print text
-  {u'a': 1, u'c': 3, u'b': 2, u'e': 5, u'd': 4}
-  ```
-
-  注意： json的str转会python变成了unicode而不是str
-
-  	     如果里面用单引号，外面用双引号也会解析失败，规定里面只能用双引号，如果想load里面是单引号的：
-
-  ```
-  >>> import ast
-  >>> s = "{'username':'dfdsfdsf'}"
-  >>> ast.literal_eval(s)
-  {'username': 'dfdsfdsf'}
-  >>> type(s)
-  <dict>
-  ```
-
-  
-
-* json.dump(f), 
-
-  ```python
-  >>> with open('test.conf', 'w') as f:
-  ...  json.dump({'b':'bb','c':'cc'},f)
-  ```
-
-  生成文件流​
-
-  
-
-* json.load(f),
-
-  f为从文件读取出来的文件流，注意该文件内的josn格式 只能用双引号：
-
-  ```
-  {
-      "a": "aaaa",
-      "b": "bbbbbbb"
-  }
-
-  ```
-
-  
-
-对象的转换：
-
-对python对象的转换： 
-
-```python
-import json
-
-class Student(object):
-    def __init__(self, name, age, score):
-        self.name = name
-        self.age = age
-        self.score = score
-
-s = Student('Bob', 20, 88)
-print(json.dumps(s))
-```
-
-这样会毫不留情的得到一个TypeError.可选参数`default`就是把任意一个对象变成一个可序列为JSON的对象，我们只需要为`Student`专门写一个转换函数，再把函数传进去即可：
-
-```python
-def student2dict(std):
-    return {
-        'name': std.name,
-        'age': std.age,
-        'score': std.score
-    }
-
-print(json.dumps(s, default=student2dict))
-```
-
-
-
-现在我们可以偷个懒，把任意`class`的实例变为`dict`：
-
-```
-print(json.dumps(s, default=lambda obj: obj.__dict__))
-```
-
-
-
-同样的道理，如果我们要把JSON反序列化为一个`Student`对象实例，`loads()`方法首先转换出一个`dict`对象，然后，可选参数object_hook`函数负责把`dict`转换为`Student实例：
-
-```python
-def dict2student(d):
-    return Student(d['name'], d['age'], d['score'])
-
-json_str = '{"age": 20, "score": 88, "name": "Bob"}'
-print(json.loads(json_str, object_hook=dict2student))
-
-<__main__.Student object at 0x10cd3c190>
-打印出的是反序列化的Student实例对象。
-```
-
-
-
-
-
-
-python向json类型转换：
-
-| Python           | JSON   |
-| ---------------- | ------ |
-| dict             | object |
-| list, tuple      | array  |
-| str, unicode     | string |
-| int, long, float | number |
-| True             | true   |
-| False            | false  |
-| None             | null   |
-
-json向python类型转换：
-
-| JSON          | Python    |
-| ------------- | --------- |
-| object        | dict      |
-| array         | list      |
-| string        | unicode   |
-| number (int)  | int, long |
-| number (real) | float     |
-| true          | True      |
-| false         | False     |
-| null          | None      |
-
-注意： json的str转会python变成了unicode而不是str
 
 
 

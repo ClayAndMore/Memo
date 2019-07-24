@@ -212,6 +212,16 @@ bash 用历史记录功能， 记录你输入过的命令在~/.bash_history中�
 
 命令别名设置， `alias l = 'ls -al'`
 
+终端关闭之后，我们设置的别名全部失效。需要添加到.bas_profile里永久生效。
+
+几个常用的别名设置：
+
+```sh
+alias untar='tar -zxvf'
+alias ping='ping -c 5' #一般我们ping五次即可。
+alias www='python -m SimpleHTTPServer 8000' #随时的启动一个web服务器
+```
+
 
 
 #### type
