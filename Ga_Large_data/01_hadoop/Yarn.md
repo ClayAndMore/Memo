@@ -125,7 +125,7 @@ app和操作有很多，我们可以在使用命令行的时候看下。
   * 监控NodeManager 
   * 资源分配与调度 
 * **NodeManager** 
-  * 单个节点上的资源管理 
+  * 单个节点上的资源管理 ， 和datanode是1：1的关系，一个datanode机器会有个NodeManger
   * 处理来自ResourceManager的命令 
   * 处理来自ApplicationMaster的命令 
 * **ApplicationMaster** 
