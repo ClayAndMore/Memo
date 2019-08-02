@@ -1,5 +1,16 @@
 Tags:[sql, database] date: 2016-12-06
 
+### yum 安装
+
+yum install mysql-server -y
+
+修改 mysql 权限：
+
+1. `GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123' WITH GRANT OPTION;`
+
+2. 删除多余权限
+3. 刷新权限， `flush privileges;`
+
 
 
 

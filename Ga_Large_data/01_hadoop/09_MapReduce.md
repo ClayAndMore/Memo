@@ -1,4 +1,18 @@
-为什么叫MapReduce?
+### 写在前面
+
+几件事情： 
+
+1， 统计一个大文件（5G）中，某个单词的数量？
+
+2， 计算某数据库中，男性和女性中的数据？
+
+3，统计北京市中，各大品牌汽车的数量
+
+这些问题最好最快的解决方式是分多任务并行，然后归总到一起。这也是MapReduce的核心思想。
+
+
+
+### 为什么叫MapReduce?
 
 分为两大步： Map Task -> Reduce Task, 
 
@@ -6,7 +20,7 @@ map的结果聚到一起给Reduce:
 
 ![](http://claymore.wang:5000/uploads/big/0aa53ff729d412716281235f0c7922c7.png)
 
-1. 从HDFS输入，输出到HDFS, 中间不会再次牵扯到HDFS
+1. 从HDFS输入，再输出到HDFS, 中间不会再次牵扯到HDFS， HDFS-map-HDFS.
 
 2. Split, 切片是一个逻辑概念，默认是一个split对应一个block，或者对应一行。这里的一个切片对于一个map程序。
 
@@ -18,6 +32,8 @@ map输出k:v的形式，如统计表格：男：1， 输出后sort 分组，比�
 **相同的key为一组，调用一次reduce方法，方法内迭代这一组数据进行计算。**
 
 
+
+把一个map task 和 一个 Reduce task 拆出来看：
 
 ![](http://claymore.wang:5000/uploads/big/6dab98ba388c374463781455914baf50.png)
 
@@ -37,3 +53,21 @@ reduce
 
 
 注意一点：如果一个文件每行都是 hello,  统计次数的话， 如果进map,输出也是hello:1, hello:1, hello:1 …
+
+
+
+计算向数据移动
+
+1.x  jobTracker(主) 和 taskTracker(从)
+
+弊端： 
+
+* jobTracker 负载过重， 单点故障。
+*  资源管理与计算强度强耦合，其他计算框架需要重复实现资源管理
+* 不同框架对资源不能全局管理， 对同一资源可能会冲突
+
+2.x
+
+为了解决jobTracker的弊端，
+
+新资源管理 YARN 代替了jobTracker。每次计算都要向 YARN 申请资源。
