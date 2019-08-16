@@ -26,7 +26,7 @@ rt_sigprocmask(SIG_BLOCK, [ALRM], [], 8) = 0
 rt_sigaction(SIGALRM, {SIG_DFL}, {0x809a270, [], 0}, 8) ...
 ```
 
-
+更多： https://blog.csdn.net/u012719556/article/details/51645335
 
 
 

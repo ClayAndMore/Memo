@@ -49,3 +49,14 @@ eg:
 https://docs.mongodb.com/manual/reference/program/mongoimport/
 
 `mongoimport --db users --collection contacts --file contacts.json`
+
+
+
+导出全库：
+
+```
+mongodump -d <database_name> -o <directory_backup>
+
+mongorestore -d <database_name> <directory_backup> # or <directory_backup/dbname>
+```
+
