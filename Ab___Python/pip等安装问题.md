@@ -300,6 +300,14 @@ make,刚才目录就好:
 
 
 
+指定安装位置：
+
+`  -t, --target <dir>          Install packages into <dir>. By default this`
+
+`bin/python3 bin/pip3 install pymongo -t /ng8w/lib/python3`
+
+
+
 超时设置：
 
 `sudo pip install --default-timeout=100 future`
@@ -351,7 +359,7 @@ $ pip install "your python packet"
 ```
 yum install patch
 yum install ncurses-devel 
-yum install readline-deve
+yum install readline-devel
 ```
 
 ubuntu:

@@ -388,6 +388,15 @@ Type    ：明此 daemon 启动的方式，会影响到 ExecStart 。一般来�
 
 EnvironmentFile ：可以指定启动脚本的环境配置文件！例如 sshd.service 的配置文件写入到 /etc/sysconfig/sshd 当中！你也可以使用 Environment= 后面接多个不同的 Shell 变量来给予设置！ 所有的启动设置之前，都可以加上一个连词号（-），表示"抑制错误"，即发生错误的时候，不影响其他命令的执行。比如`EnvironmentFile=-/etc/sysconfig/sshd`（注意等号后面的那个连词号），就表示即使`/etc/sysconfig/sshd`文件不存在，也不会抛出错误。
 
+Environment ：用来设置环境变量，可以使用多次：
+
+```
+[Service]
+# Client Env Vars
+Environment=ETCD_CA_FILE=/path/to/CA.pem
+Environment=ETCD_CERT_FILE=/path/to/server.crt
+```
+
 ExecStart ：  就是实际执行此 daemon 的指令或脚本程序。你也可以使用ExecStartPre （之前） 以及 ExecStartPost （之后） 两个设置项目来在实际启动服务前，进行额外的指令行为。 但是你得要特别注意的是，指令串仅接受“指令 参数 参数...”的格式，不能接受 <, >, >>, |, &等特殊字符，很多的 bash 语法也不支持喔！ 所以，要使用这些特殊的字符时，最好直接写入到指令脚本里面去！不过，上述的语法也不是完全不能用，亦即，若要支持比较完整的 bash 语法，那你得要使用 Type=oneshot 才行喔！ 其他的 Type 才不能支持这些字符。
 
 ExecStop：与 systemctl stop 的执行有关，关闭此服务时所进行的指令。
@@ -403,7 +412,26 @@ TimeoutSec：若这个服务在启动或者是关闭时，因为某些缘故导�
 
 KillMode：可以是 process, control-group, none 的其中一种，如果是 process则 daemon 终止时，只会终止主要的程序 （ExecStart 接的后面那串指令），如果是 control-group 时， 则由此 daemon 所产生的其他control-group 的程序，也都会被关闭。如果是 none 的话，则没有程序会被关闭喔！mixed：主进程将收到 SIGTERM 信号，子进程收到 SIGKILL 信号
 
+- control-group（默认值）：当前控制组里面的所有子进程，都会被杀掉
+- process：只杀主进程
+- mixed：主进程将收到 SIGTERM 信号，子进程收到 SIGKILL 信号
+- none：没有进程会被杀掉，只是执行服务的 stop 命令。
+
 RestartSec：与 Restart 有点相关性，如果这个服务被关闭，然后需要重新启动时，大概要 sleep 多少时间再重新启动的意思。默认是 100ms （毫秒）。
+
+- no（默认值）：退出后不会重启
+- on-success：只有正常退出时（退出状态码为0），才会重启
+- on-failure：非正常退出时（退出状态码非0），包括被信号终止和超时，才会重启
+- on-abnormal：只有被信号终止和超时，才会重启
+- on-abort：只有在收到没有捕捉到的信号终止时，才会重启
+- on-watchdog：超时退出，才会重启
+- always：不管是什么退出原因，总是重启
+
+PIDFile: 守护进程的PID文件，必须是绝对路径。 强烈建议在 `Type=``forking` 的情况下明确设置此选项。 systemd 将会在此服务启动后从此文件中读取主守护进程的PID 。 systemd 不会写入此文件， 但会在此服务停止后删除它(若存在)。
+
+WorkingDirectory=/home， 设置工作路径， 但是各种选项里仍然要写全路径
+
+PrivateTmp=True       # 是否分配独立的临时空间（缺省） 
 
 
 
@@ -412,6 +440,10 @@ RestartSec：与 Restart 有点相关性，如果这个服务被关闭，然后�
 WantedBy:  这个设置后面接的大部分是 *.target unit ！意思是，这个 unit 本身是附挂在哪一个 target unit 下面的！一般来说，大多的服务性质的 unit 都是附挂在multi-user.target 下面！
 Also:  当目前这个 unit 本身被 enable 时，Also 后面接的 unit 也请 enable 的意思！也就是具有相依性的服务可以写在这里呢！
 Alias : 进行一个链接的别名的意思！当 systemctl enable 相关的服务时，则此服务会进行链接文件的创建！以 multi-user.target 为例，这个家伙是用来作为默认操作环境 default.target 的规划， 因此当你设置用成 default.target时，这个 /etc/systemd/system/default.target 就会链接到/usr/lib/systemd/system/multi-user.target 啰！
+
+
+
+ps: http://www.jinbuguo.com/systemd/systemd.directives.html, 一位老哥翻译的各种参数，厉害。
 
 
 
@@ -466,8 +498,16 @@ TasksAccounting=false
 WantedBy=multi-user.target
 ```
 
-这个文件夹下修改后要及得： systemctl daemon-reload ， 重新载入配置文件
 
 
+#### 注意事项
+
+1. systemctl 配置文件修改后要记得： systemctl daemon-reload ， 重新载入配置文件
+
+2. 配置文件里不能通过变量名获取一些变量：`Environment="PATH=/local/bin:$PATH"`
+
+   但是可以这样： `ExecStart=/bin/bash -c 'PATH=/new/path:$PATH exec /bin/mycmd arg1 arg2'`
+
+   或者这样：`Environment=PATH=/home:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`
 
 
