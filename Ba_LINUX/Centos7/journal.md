@@ -66,3 +66,11 @@ journalctl --since yesterday --until today
 
 
 
+
+
+#### 重启
+
+`systemctl restart systemd-journald`
+
+有时新加的服务没有详细的日志输出，你可能需要重启一下
+

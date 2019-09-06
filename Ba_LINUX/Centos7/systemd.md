@@ -427,11 +427,17 @@ RestartSec：与 Restart 有点相关性，如果这个服务被关闭，然后�
 - on-watchdog：超时退出，才会重启
 - always：不管是什么退出原因，总是重启
 
-PIDFile: 守护进程的PID文件，必须是绝对路径。 强烈建议在 `Type=``forking` 的情况下明确设置此选项。 systemd 将会在此服务启动后从此文件中读取主守护进程的PID 。 systemd 不会写入此文件， 但会在此服务停止后删除它(若存在)。
+PIDFile: 守护进程的PID文件，必须是绝对路径。 强烈建议在 `Type=forking` 的情况下明确设置此选项。 systemd 将会在此服务启动后从此文件中读取主守护进程的PID 。 systemd 不会写入此文件， 但会在此服务停止后删除它(若存在)。
 
 WorkingDirectory=/home， 设置工作路径， 但是各种选项里仍然要写全路径
 
 PrivateTmp=True       # 是否分配独立的临时空间（缺省） 
+
+StandardOutput=syslog+console
+StandardError=syslog+console
+
+日志输出，其实这也是默认值
+
 
 
 

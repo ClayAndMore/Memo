@@ -14,6 +14,17 @@ tags:[python, spider, py_lib]
 import requests
 r = requests.get("http://httpbin.org/get") # post/put/delete/head/options
 print(r.text) 
+{
+  "args": {},
+  "headers": {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Host": "httpbin.org",
+    "User-Agent": "python-requests/2.22.0"
+  },
+  "origin": "222.128.57.46, 222.128.57.46",
+  "url": "https://httpbin.org/get"
+}
 ```
 
 携带get参数：
@@ -29,21 +40,64 @@ post请求：
 
 上述get参数方式把get改为post即为post请求方式。
 
+```python
+//post有参数，使用data
+r = requests.post('https://httpbin.org/post', data = {'key1':'value1', 'key2': 'value2'})
+# 但是接收方接收的数据可能是这样的。。
+key1=value1&key2=value2
+
+# 所以说发送post请求还是要带上json.dumps
+r = requests.post('https://httpbin.org/post', data = json.dumps(  {'key1':'value1', 'key2': 'value2'}))
+
+# 更好一些的方式：
+r = requests.post('https://httpbin.org/post', json = {'key1':'value1', 'key2': 'value2'})
+        
+```
 
 
-返回结果：
+
+### 返回结果
 
 接口等返回类型是str类型， 但是它很特殊，是json格式的，如果直接像得到一个字典格式的话可以直接调用json方法： `r.json()`
 
-其他响应的属性：
+其他属性：
 
 ```python
-r.status_code,
-r.headers
-r.cookies
-r.url
-r.history
+>>> r
+<Response [200]>
+>>> dir(r)
+['...', 'apparent_encoding', 'close', 'connection', 'content', 'cookies', 'elapsed', 'encoding', 'headers', 'history', 'is_permanent_redirect', 'is_redirect', 'iter_content', 'iter_lines', 'json', 'links', 'next', 'ok', 'raise_for_status', 'raw', 'reason', 'request', 'status_code', 'text', 'url']
+
+>>> r.content
+b'{\n  "args": {}, \n  "headers": {\n    "Accept": "*/*", \n    "Accept-Encoding": "gzip, deflate", \n    "Host": "httpbin.org", \n    "User-Agent": "python-requests/2.22.0"\n  }, \n  "origin": "222.128.57.46, 222.128.57.46", \n  "url": "https://httpbin.org/get"\n}\n'
+
+>>> r.ok
+True
+>>> r.url
+'http://httpbin.org/get'
+>>> r.status_code
+200
+>>> r.reason
+'OK'
+>>> r.raw
+<urllib3.response.HTTPResponse object at 0x7f2f7efce250>
+>>> r.json() # 算是字典类型
+{'args': {}, 'headers': {'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate', 'Host': 'httpbin.org', 'User-Agent': 'python-requests/2.22.0'}, 'origin': '222.128.57.46, 222.128.57.46', 'url': 'https://httpbin.org/get'}
 ```
+
+【注意】看下这些返回值的类型：
+
+```python
+>>> type(r.text)
+<class 'str'>
+>>> type(r.content)
+<class 'bytes'>
+>>> import json
+>>> json.loads(r.text) # 注意这里，说明r.text是json话的结果
+{'args': {}, 'headers': {'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate', 'Host': 'httpbin.org', 'User-Agent': 'python-requests/2.22.0'}, 'origin': '222.128.57.46, 222.128.57.46', 'url': 'https://httpbin.org/get'}
+```
+
+
 
 
 
