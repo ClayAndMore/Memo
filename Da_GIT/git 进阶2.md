@@ -125,6 +125,75 @@ git clone project.git project3 --recursive
 
 git submodoule foreach
 
+
+
+#### eg
+
+```sh
+# AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_888365 (centos7-py3)
+$ ls
+build/        dyanalysis/  888_VERSION  PTA_VERSION      VERSION
+dist/         MAKE_UPDATE  PAGE_VERSION  src/
+do_build.sh*  MAKETAG      prepare.sh*   UPDATE_OEM_TYPE
+
+# AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_888365 (centos7-py3)
+$ git submodule foreach git fetch origin centos7-py3
+Entering 'build'
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From ssh://git.pta.center:10022/888/888-build-3.6.5
+ * branch              centos7-py3 -> FETCH_HEAD
+   2cf5fa13..549a735f  centos7-py3 -> origin/centos7-py3
+Entering 'dist'
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (14/14), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 14 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (14/14), done.
+From ssh://git.pta.center:10022/888/888_dist_3.6.5
+ * branch                centos7-py3 -> FETCH_HEAD
+   bbd0a0d3a..07d152bf2  centos7-py3 -> origin/centos7-py3
+Entering 'dyanalysis'
+From ssh://git.pta.center:10022/888/dynamic_analysis
+ * branch            centos7-py3 -> FETCH_HEAD
+ * [new branch]      centos7-py3 -> origin/centos7-py3
+Entering 'src'
+remote: Enumerating objects: 13, done.
+remote: Counting objects: 100% (13/13), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 13 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (13/13), done.
+From ssh://git.pta.center:10022/888/888_3.6.5
+ * branch            centos7-py3 -> FETCH_HEAD
+   82c66ca..5191cfc  centos7-py3 -> origin/centos7-py3
+
+# AT@DESKTOP-4FSTEEM MINGW64 /f/git_company/wy_888365 (centos7-py3)
+$ git submodule foreach git checkout origin/centos7-py3
+Entering 'build'
+Previous HEAD position was f4033c50... Merge branch 'release3618' into 'release-3.6.18'
+HEAD is now at 549a735f...  编译到bin2/bin3
+Entering 'dist'
+Checking out files: 100% (17863/17863), done.
+Previous HEAD position was 1e1243175... Merge branch 'fix-3618bug' into 'release-3.6.18'
+HEAD is now at 07d152bf2... 增加了/bin/bin3, bin/bin2, 更改了mongo 的 data 和 log的存放
+Entering 'dyanalysis'
+Previous HEAD position was 885139e... Merge branch 'dev-3.7.0' into 'release-3.6.18'
+HEAD is now at b6c74d5... Merge branch 'dev-370' into 'dev-3.7.0'
+Entering 'src'
+Previous HEAD position was 5edd54b... Merge branch '3618' into 'release-3.6.18'
+HEAD is now at 5191cfc... 改目录，python3的bin移动到python3/bin
+
+```
+
+
+
+
+
+
+
 ### linux 下的配置
 
 #### 终端显示git 当前所在分支
