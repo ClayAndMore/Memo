@@ -250,28 +250,6 @@ def video_image():
 
 
 
-
-
-### 文件上传
-
-`f = request.files.get('name')`  
-
-这里的name是`<input type="file" name="fileupload"/>`  这样中的表单name.
-
-这里获取的是一个FileUpload对象：
-
-属性：
-
-* name:  上传文件表单名 就是上面提到的那个名字。
-* raw_filename:   是文件在客户端原始上传的名字。
-* filename : 是服务器端对上述名字进行过滤后的文件名。
-
-方法：
-
-* save(path,overwrite=False)    overwirte 是说是否覆盖以前的文件
-
-
-
 ### 内建模版引擎
 
 嵌入变量：
