@@ -53,6 +53,14 @@ gitlab-ci全称是gitlab continuous integration的意思，也就是持续集成
 
 
 
+#### docker 版
+
+todo
+
+https://docs.gitlab.com/runner/install/docker.html，
+
+
+
 ### 一些概念
 
 ### Pipeline

@@ -2,6 +2,8 @@ Tags:[linux, linux_software, python, 消息队列]
 
 ## beanstalkd
 
+文档： https://pmatseykanets.github.io/beanstalkd-docs/resources/tools.html#automation
+
 ### 写在前面
 
 beanstalkd是一个快速的、通用目的的work queue。协议简单，是个轻量级的消息中间件。 断电可存储。
@@ -252,3 +254,17 @@ https://github.com/earl/beanstalkc/issues/30，
 尽量一个客户端不要做参数在进程间传递，会引发一些异常。
 
 一些源码分析：https://segmentfault.com/a/1190000016067218#articleHeader1
+
+
+
+### UI库
+
+beanstalk_console: https://github.com/ptrofimov/beanstalk_console
+
+一个php版的，目前看展示效果是最好的： https://github.com/Dionera/laravel-beanstalkd-admin-ui
+
+go写的，夸平台的，展示效果也很好：
+
+https://github.com/xuri/aurora
+
+https://github.com/xuri/aurora/wiki

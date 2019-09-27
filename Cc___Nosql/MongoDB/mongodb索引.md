@@ -128,6 +128,16 @@ explan()的indexOnly字段。
 
 
 
+### 哈希索引
+
+不同于传统的B-树索引,哈希索引使用hash函数来创建索引。
+例如:`db.users.createIndex({username : 'hashed'});`
+
+* 在索引字段上进行精确匹配,但不支持范围查询,不支持多键hash；
+*  Hash索引上的入口是均匀分布的,在分片集合中非常有用；
+
+
+
 ### 操作符中使用索引
 
 #### 低效率的操作符
@@ -323,11 +333,34 @@ explan()的isMultikey字段。
      },
   ```
 
+#### 创建索引
 
+`db.collection.createIndex(keys, options)`
+
+语法中 Key 值为要创建的索引字段,1为指定按升序创建索引,如果你想按降序来创建索引指定为-1,也可以指定为hashed（哈希索引）
+
+options: 
+
+| 属性名     | 类型    | 说明                                                         |
+| ---------- | ------- | ------------------------------------------------------------ |
+| background | boolean | 是否在后台创建索引，在生产环境中，如果数据量太大，构建索引可能会消耗很长时间，为了不影响业务，可以加上此参数，后台运行会为其他操作让路 |
+| unique     | bollean | 是否为唯一索引                                               |
+| name       | string  | 索引名字                                                     |
+| sparse     | boolean | 是否为稀疏索引，索引仅引用具有指定字段的文档                 |
+
+ 单键唯一索引:db.users. createIndex({username :1},{unique:true});
+ 单键唯一稀疏索引:db.users. createIndex({username :1},{unique:true,sparse:true});
+ 复合唯一稀疏索引:db.users. createIndex({username:1,age:-1},{unique:true,sparse:true});
+ 创建哈希索引并后台运行:db.users. createIndex({username :'hashed'},{background:true});
+
+#### 删除索引
 
   删除索引： `db.people.dropIndex("catIdx")`  , 参数name
 
   或者`db.pets.dropIndex( { "cat" : -1 } )`
 
-* 新建索引到索引建立完成时，会阻塞数据库的读写请求。
+ 根据索引名字删除某一个指定索引:db.users.dropIndex("username_1");
+ 删除某集合上所有索引:db.users.dropIndexs();
+ 重建某集合上所有索引:db.users.reIndex();
+ 查询集合上所有索引:db.users.getIndexes();
 

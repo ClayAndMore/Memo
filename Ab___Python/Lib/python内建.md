@@ -396,6 +396,10 @@ def hello():
 
 pydoc -> 命令行查看 Python 文档神器
 
+更多需要补充：
+
+https://docs.python.org/3/using/cmdline.html#envvar-PYTHONWARNINGS
+
 
 
 ### 路径问题

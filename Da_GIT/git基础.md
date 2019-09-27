@@ -53,9 +53,12 @@ branch有树枝的意思，但是不要进入两个误区，
 2. `push` 的时候，如果当前分支是一个本地创建的分支，需要指定远程仓库名和分支名，用 `git push origin branch_name` 的格式，而不能只用 `git push`
 3. `push` 的时候之后上传当前分支，并不会上传 `HEAD`；远程仓库的 `HEAD` 是永远指向默认分支（即 `master`）的。
 
+4. 获取远程代码修改后,想要push到远端与原来不同的新分支，可以使用下面的命令实现：
+   `git push origin 本地分支:远端希望创建的分支`
 
 
-### pull的本质
+
+### pull 的本质
 
 git fetch + git merge
 
