@@ -53,14 +53,16 @@ $ tar -xvzf go1.10.2.linux-amd64.tar.gz -C $GO_INSTALL_DIR
 
 设置环境变量
 
-```
-$ export GO_INSTALL_DIR=$HOME
-$ export GOROOT=$GO_INSTALL_DIR/go
-$ export GOPATH=$HOME/go_workspace
-$ export PATH=$GOPATH/bin:$PATH:$GO_INSTALL_DIR/go/bin
+```bash
+export GO_INSTALL_DIR=$HOME
+export GOROOT=$GO_INSTALL_DIR/go
+export GOPATH=$HOME/go_workspace
+export PATH=$GOPATH/bin:$PATH:$GO_INSTALL_DIR/go/bin
 ```
 
 如果不想每次登录系统都设置一次环境变量，可以将上面 4 行追加到 `$HOME/.bashrc` 文件中。
+
+**注意**， GOPATH  不用和安装目录一样。
 
 执行 `go version` 检查 Go 是否成功安装
 
@@ -162,7 +164,7 @@ func main(){
 
 编译：
 
-`cd src/hell,  go build`
+`cd src/hello,  go build`
 
 当下目录会生成一个可执行文件， 执行会输出hello world.
 
@@ -174,7 +176,7 @@ func main(){
 
 #### 包文件
 
-除了`main`包之外，其它的包最后都会生成`*.a`文件（也就是包文件）并放置在`$GOPATH/pkg/$GOOS_$GOARCH`中（以Mac为例就是`$GOPATH/pkg/darwin_amd64`）。
+除了`main`包之外，其它的包最后都会生成`*.a`文件（也就是包文件）并放置在`$GOPATH/pkg/$GOOS_$GOARCH`中（以Mac为例就是`$GOPATH/pkg/darwin_amd64`,  centos 是 `/disk/go_workspace/pkg/linux_amd64/`）。
 
 src 目录是开发的主要目录， 源码都在这个目录， 一般一个应用或者一个包这样表示：
 
@@ -182,7 +184,7 @@ src 目录是开发的主要目录， 源码都在这个目录， 一般一个�
 
 新建一个包：
 
-```
+```go
 cd $GOPATH/src
 mkdir mymath
 vi  sqrt.go
@@ -214,7 +216,7 @@ func Sqrt(x float64) float64 {
 
 如果pkg文件夹没有建立，会自动创建
 
-和编译main文件不一样的是，go build不会建立任何东西.
+**和编译main文件不一样的是，go build不会建立任何东西.**
 
 
 
@@ -247,6 +249,11 @@ import里面调用的包是`mymath`,这个就是相对于`$GOPATH/src`的路径�
 测试成果：
 
 go build, 生成该目录下一个可执行文件：./mathapp
+
+```
+root@10.250.xx.xx mathapp # ./mathapp
+Hello, world.  Sqrt(2) = 1.414213562373095
+```
 
 进入该目录执行`go install`,那么在$GOPATH/bin/下增加了一个可执行文件mathapp,
 
