@@ -166,12 +166,7 @@ else:
 
 ```
 
-输出时注意前面不要有逗号：
 
-```python
-a='abc'
-print('hello,%s!'%a) # %a 前不要有逗号
-```
 
 #### format
 
@@ -202,7 +197,7 @@ if i>0
     i=1
 elif i<0 # 可以写多个elif
     i=2
-els:
+else:
     i=0
 ```
 elif可理解为else if。

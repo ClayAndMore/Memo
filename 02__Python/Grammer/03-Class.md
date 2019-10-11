@@ -130,14 +130,101 @@ c=C()
 
 #### `__init__()方法`
 
-python中有一些特殊方法，特殊方法的特点是名字前后有两个下划线
 如果在类中定义了init这个方法，python会自动调用这个方法，这个过程也叫初始化
+
+`__init__`不能有返回值
+
+
 
 #### `__new__()`方法
 
 `__new__` 这个方法负责创建类实例，而 `__init__` 负责初始化类实例 。 `__new__` 函数可以用来自定义对象的创建，它的第一个参数是这个类的引用，然后是一些构造参数；返回值通常是对象实例的引用。
 
 通常用来判断有没有这个类的实例。
+
+
+
+#### init 和 new 的区别
+
+`__new__`所接收的第一个参数是`cls`，而`__init__`所接收的第一个参数是`self`。
+
+**这是因为当我们调用`__new__`的时候，该类的实例还并不存在（也就是`self`所引用的对象还不存在），所以需要接收一个类作为参数，从而产生一个实例。**
+
+而当我们调用`__init__`的时候，实例已经存在，因此`__init__`接受`self`作为第一个参数并对该实例进行必要的初始化操作。**这也意味着`__init__`是在`__new__`之后被调用的。**
+
+
+
+先不讨论python的旧式类，因为它已经过时了。具体看后面的新式类和旧式类。
+
+Python的新式类允许用户重载`__new__`和`__init__`方法，且这两个方法具有不同的作用。
+
+**`__new__`作为构造器，起创建一个类实例的作用。**
+
+**`__init__`作为初始化器，起初始化一个已被创建的实例的作用。**
+
+```python
+class newStyleClass(object): 
+    # In Python2, we need to specify the object as the base.
+    # In Python3 it's default.
+
+    def __new__(cls):
+        print("__new__ is called")
+        return super(newStyleClass, cls).__new__(cls) # 调用了 object 的 new 方法。
+
+    def __init__(self):
+        print("__init__ is called")
+        print("self is: ", self)
+
+newStyleClass()
+
+# __new__ is called
+# __init__ is called
+# ('self is: ', <__main__.newStyleClass object at 0x108ac0b10>)
+```
+
+`__init__`函数在`__new__`函数返回一个实例的时候被调用，并且这个实例作为`self`参数被传入了`__init__`函数。
+
+
+
+**这里需要注意的是，如果`__new__`函数返回一个已经存在的实例（不论是哪个类的），`__init__`不会被调用**
+
+```python
+obj = 12 
+# obj can be an object from any class, even object.__new__(object)
+
+class returnExistedObj(object):
+    def __new__(cls):
+        print("__new__ is called")
+        return obj
+
+    def __init__(self):
+        print("__init__ is called")
+
+print(returnExistedObj())
+
+# __new__ is called
+# 12
+```
+
+
+
+**如果我们在`__new__`函数中不返回任何对象，则`__init__`函数也不会被调用。**
+
+```python
+class notReturnObj(object):
+    def __new__(cls):
+        print("__new__ is called")
+
+    def __init__(self):
+        print("__init__ is called")
+
+print(notReturnObj())
+
+# __new__ is called
+# None
+```
+
+
 
 
 
@@ -164,16 +251,48 @@ a=A()
 
 第一个实例方法，self需要为self传递一个实例，调用时是a.foo(x)。不能A.foo(x)。这里self指的是a.
 
-第二个类方法，cls指的是一个类，不是非得要实例，A.class_foo(x)或a.class_foo(x)。这里的cls指得是A
+第二个类方法，cls指的是一个类，不是非得要实例，A.class_foo(x)或a.class_foo(x), 这里的cls指得是A
 
 第三个是静态方法，不需要对谁绑定，a.static_foo(x),A.static_foo(x)都可以。
 
-具体区别：
+这里可以看出类方法和静态方法是非实例化类调用而存在的。
+
+类方法和静态方法具体区别：
 
 @staticmethod不需要表示自身对象的self和自身类的cls参数，就跟使用函数一样。
 @classmethod也不需要self参数，但第一个参数需要是表示自身类的cls参数。
 如果在@staticmethod中要调用到这个类的一些属性方法，只能直接类名.属性名或类名.方法名。
-而@classmethod因为持有cls参数，可以来调用类的属性，类的方法，实例化对象等，**避免硬编码**。
+而@classmethod因为持有cls参数，可以来调用类的属性，类的方法，实例化对象等，**避免硬编码**（如直接调用cls,而不是类的名字.）。
+
+一个例子可以看出它们的用途
+
+```python
+class Date(object):
+
+    def __init__(self, day=0, month=0, year=0):
+        self.day = day
+        self.month = month
+        self.year = year
+
+    @classmethod
+    def from_string(cls, date_as_string):
+        day, month, year = map(int, date_as_string.split('-'))
+        date1 = cls(day, month, year) #注意这里已经返回了实例。
+        return date1
+
+    @staticmethod
+    def is_date_valid(date_as_string):
+        day, month, year = map(int, date_as_string.split('-'))
+        return day <= 31 and month <= 12 and year <= 3999
+
+date2 = Date.from_string('11-09-2012')
+is_date = Date.is_date_valid('11-09-2012')
+
+```
+
+一般一个init函数可以初始化：如Date(11,09,2012), 但是有传入(11-09-2012)这样的需求，我们可以通过类方法来预处理类的初始化。
+
+静态方法和普通方法一样，这里可以看出式一些参数的判断。
 
 
 
@@ -263,6 +382,123 @@ print(a is b)
 
 
 
+### 新式类和经典类
+
+**Python 2.x中默认都是经典类，只有显式继承了object才是新式类**
+
+```python
+class A:  # A是旧式类，因为没有显示继承object
+    pass
+
+class B(A):  # B是旧式类，因为B的基类A是旧式类
+    pass
+```
+
+**Python 3.x中默认都是新式类，不必显式的继承object**
+
+```python
+class A(object):  # A是新式类，因为显式继承object
+    pass
+
+class B(A):  # B是新式类，因为B的基类A是新式类
+    pass
+```
+
+
+
+#### `__class__`
+
+`__class__ `只有实例可以调用，表明实例属于哪个类，内容包括了__module__的信息
+
+**对新式类的实例执行a.class与type(a)的结果是一致的，对于旧式类来说就不一样了。**
+
+```python
+class A:
+    pass
+
+class B(A):
+    pass
+
+a=A()
+b=B()                  # python2          python3
+print(type(a))         <type 'instance'>  <class '__main__.A'>
+print(a.__class__)		 __main__.A				  <class '__main__.A'>
+print(type(A))         <type 'classobj'>  <class 'type'>
+print(type(b))			   <type 'instance'>  <class '__main__.B'>
+print(b.__class__)     __main__.B         <class '__main__.B'>
+print(type(B))         <type 'classobj'>  <class 'type'>
+```
+
+Class 和 type 对任何对象返回的结果都应该是一样的，但再python2中对类显得很不和谐，所以在python中所有都同一了。
+
+#### 继承搜索的顺序
+
+MRO(Method Resolution Order， 方法解析顺序)
+
+经典类多继承属性搜索顺序: 先深入继承树左侧，再返回，开始找右侧; **深度优先**
+
+新式类多继承属性搜索顺序: 先水平搜索，然后再向上移动, **广度优先**
+
+```python
+class A():
+    def name(self):
+        return 'A'
+ 
+class B(A):
+    pass
+ 
+class C(A):
+    def name(self):
+        return 'C'
+ 
+class D(B, C):
+    pass
+ 
+if __name__ == '__main__':
+	print D().name()
+  # 经典类输出： A ,  D->B->A->C
+  # 心式类输出：C,    D->B->C->A
+```
+
+
+
+#### `__slots__`
+
+新式类增加了`__slots__`内置属性, 可以把实例属性的种类锁定到`__slots__`规定的范围之中。
+
+比如只允许对A实例添加name和age属性:
+
+```python
+# -*- coding:utf-8 -*-  
+
+class A(object):  
+    __slots__ = ('name', 'age') 
+
+class A1():  
+    __slots__ = ('name', 'age') 
+	
+a = A()
+a1 = A1()
+
+a.name1 = "a"
+a1.name1 = "a1"
+```
+
+A是新式类添加了__slots__ 属性,所以只允许添加 name age,`__slots__ = ('name', 'age') `加一句这个可以只允许定义这两个属性，无法在实例中添加，这条命令只对当前类起作用，**对子类无效**
+
+A1经典类__slots__ 属性没用：
+
+```
+Traceback (most recent call last):
+  File "t.py", line 13, in <module>
+    a.name1 = "a"
+AttributeError: 'A' object has no attribute 'name1'
+```
+
+
+
+
+
 ### 特殊方法
 
 python是多范式语言，既可以面向对象，也可以函数式，依赖于python的对象中的特殊方法。
@@ -276,6 +512,8 @@ python是多范式语言，既可以面向对象，也可以函数式，依赖�
 如下，对应内置函数len
 
 另： 如果x是一个**内置类型**的实例，那么len(x)的速度会非常快，原因是CPython会从一个C结构体里读取对象的长度。
+
+
 
 
 

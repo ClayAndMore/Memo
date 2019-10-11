@@ -411,8 +411,20 @@ git reset --hard和git clean -f是一对好基友. 结合使用他们能让你�
 
 https://git-scm.com/docs/gitignore
 
+**刚添加的.gitignore 不会马上被识别，我们需要清理一下cached:**
 
+要停止跟踪文件,您需要将其从索引中删除.这可以通过此命令实现.
 
-1. 
+`git rm --cached <file>`
+
+如果要删除整个文件夹,则需要以递归方式删除其中的所有文件.
+
+`git rm -r --cached <folder>`
+
+警告：虽然这不会从本地删除物理文件,但它会在下一个git pull中删除其他开发人员计算机上的文件.
+
+或者直接清掉所有：
+
+`git rm -r --cached . `
 
 

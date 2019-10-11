@@ -69,6 +69,39 @@ server
 
 
 
+### 80 转 443
+
+```nginx
+server {
+    listen       443 ssl;
+    server_name  域名;
+    charset utf-8;
+    access_log  /var/log/nginx/webhook.iminho.me/access.log;
+    add_header X-Xss-Protection 1;
+    ssl_certificate /etc/nginx/cert/证书.pem;
+    ssl_certificate_key /etc/nginx/cert/证书.key;
+
+    location / {
+        try_files /_not_exists_ @backend;
+    }
+    location @backend {
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host            $http_host;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    server_name 域名;
+    rewrite ^(.*)$ https://${server_name}$1 permanent;
+}
+```
+
+
+
+
+
 ### 问题
 
 #### cannot load certificate key 

@@ -2,11 +2,10 @@ Tags:[python]
 
 ### 函数
 
-```
+```python
 def square_sum(a,b):
     c=a+b
     return c
-
 ```
 
 def 关键字通知python我们在定义一个函数，没有return时返回none.
@@ -14,16 +13,21 @@ def 关键字通知python我们在定义一个函数，没有return时返回none
 
 
 
+值转递和引用传递，
+
+**参数是可变类型时为引用传递，不可变类型时为参数传递**
+
+
+
 ### 函数参数
 
 用*收集位置参数，以元祖的形式返回，如果有使用的位置参数，*会收集剩下的
 
-```
+```python
 def print_args(a,b,*args)
     print("have a",a)
     print("have b",b)
     print("the rest:",args)
-
 ```
 
 用**可以将参数收集到一个字典中，参数的名字是字典的键，对应参数的值是字典的值。
@@ -39,53 +43,6 @@ def print_args(a,b,*args)
 可变参数既可以直接传入：`func(1, 2, 3)`，又可以先组装list或tuple，再通过`*args`传入：`func(*(1, 2, 3))`；
 
 关键字参数既可以直接传入：`func(a=1, b=2)`，又可以先组装dict，再通过`**kw`传入：`func(**{'a': 1, 'b': 2})`。
-
-
-
-### 包裹传递
-
-- 在传递函数的参数时，我们不知道有多少个参数，这时可以传递包裹
-
-```python
-def func(*name):
-    print type(name)
-    print name
-
-func(1,4,6)  # <type 'tuple'> (1, 4, 6)
-func(5,6,7,1,2,3)
-#<type 'tuple'>
-#(5, 6, 7, 1, 2, 3)
-```
-
-所有的参数被name收集，根据位置合并成一个元组(tuple)，这就是包裹位置传递。
-
-- 包裹关键字传递：
-
-```python
-def func(**dict):
-    print type(dict)
-    print dict
-
-func(a=1,b=9) # <type 'dict'> {'a': 1, 'b': 9}
-func(m=2,n=1,c=11) 
-# <type 'dict'>
-# {'c': 11, 'm': 2, 'n': 1}
-```
-
-与上面一个例子类似，dict是一个字典，收集所有的关键字，传递给函数func。为了提醒Python，参数dict是包裹关键字传递所用的字典，在dict前加 * *
-
-- 定义的时候没有定义包裹也可以在传递的时候用：
-
-```
-def func(a,b,c):
-    print a,b,c
-
-args = (1,3,4)
-func(*args)
-# 相应的：
-dict = {'a':1,'b':2,'c':3}
-func(**dict)
-```
 
 
 
@@ -169,14 +126,62 @@ xxx
 
 
 
+
+### 包裹传递
+
+- 在传递函数的参数时，我们不知道有多少个参数，这时可以传递包裹
+
+```python
+def func(*name):
+    print type(name)
+    print name
+
+func(1,4,6)  # <type 'tuple'> (1, 4, 6)
+func(5,6,7,1,2,3)
+#<type 'tuple'>
+#(5, 6, 7, 1, 2, 3)
+```
+
+所有的参数被name收集，根据位置合并成一个元组(tuple)，这就是包裹位置传递。
+
+- 包裹关键字传递：
+
+```python
+def func(**dict):
+    print type(dict)
+    print dict
+
+func(a=1,b=9) # <type 'dict'> {'a': 1, 'b': 9}
+func(m=2,n=1,c=11) 
+# <type 'dict'>
+# {'c': 11, 'm': 2, 'n': 1}
+```
+
+与上面一个例子类似，dict是一个字典，收集所有的关键字，传递给函数func。为了提醒Python，参数dict是包裹关键字传递所用的字典，在dict前加 * *
+
+- 定义的时候没有定义包裹也可以在传递的时候用：
+
+```python
+def func(a,b,c):
+    print a,b,c
+
+args = (1,3,4)
+func(*args)
+# 相应的：
+dict = {'a':1,'b':2,'c':3}
+func(**dict)
+```
+
+
+
+
 ### lambda表达
 
-```
+```python
 def func(x,y):
     return x+y
 ----------------
 func = lambda x,y:x+y
-
 ```
 
 关键字`lambda`表示匿名函数，冒号前面的`x`表示函数参数。
@@ -205,7 +210,6 @@ print map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 ```
 re = map((lambda x,y: x+y),[1,2,3],[6,7,9])
-
 ```
 
 map()将每次从两个表中分别取出一个元素，带入lambda所定义的函数。结果返回到表re中。
@@ -276,17 +280,17 @@ reduce()函数在3.0里面不能直接用的，它被定义在了functools包里
 zip()函数的功能，就是从多个列表中，依次各取出一个元素。每次取出的(来自不同列表的)元素合成一个元组，合并成的元组放入zip()返回的列表中。zip()函数起到了聚合列表的功能。
 分解聚合后的列表：
 
-```
+```python
 ta = [1,2,3]
 tb = [9,8,7]
 
 # cluster
 zipped = zip(ta,tb)
-print(zipped)
+print(zipped) # [(1, 9), (2, 8), (3, 7)]
 
 # decompose
 na, nb = zip(*zipped)
-print(na, nb)
+print(na, nb) # ((1, 2, 3), (9, 8, 7))
 ```
 
 
@@ -327,8 +331,6 @@ all, any,
 ```
 >>> sorted([36, 5, -12, 9, -21])
 [-21, -12, 5, 9, 36]
-
-
 ```
 
 此外，`sorted()`函数也是一个高阶函数，它还可以接收一个`key`函数来实现自定义的排序，例如按绝对值大小排序：
@@ -336,8 +338,6 @@ all, any,
 ```
 >>> sorted([36, 5, -12, 9, -21], key=abs)
 [5, 9, -12, -21, 36]
-
-
 ```
 
 key指定的函数将作用于list的每一个元素上，并根据key函数返回的结果进行排序。对比原始的list和经过`key=abs`处理过的list：
@@ -346,8 +346,6 @@ key指定的函数将作用于list的每一个元素上，并根据key函数返�
 list = [36, 5, -12, 9, -21]
 
 keys = [36, 5,  12, 9,  21]
-
-
 ```
 
 然后`sorted()`函数按照keys进行排序，并按照对应关系返回list相应的元素：
@@ -356,8 +354,6 @@ keys = [36, 5,  12, 9,  21]
 keys排序结果 => [5, 9,  12,  21, 36]
                 |  |    |    |   |
 最终结果     => [5, 9, -12, -21, 36]
-
-
 ```
 
 我们再看一个字符串排序的例子：
@@ -365,8 +361,6 @@ keys排序结果 => [5, 9,  12,  21, 36]
 ```
 >>> sorted(['bob', 'about', 'Zoo', 'Credit'])
 ['Credit', 'Zoo', 'about', 'bob']
-
-
 ```
 
 默认情况下，对字符串排序，是按照ASCII的大小比较的，由于`'Z' < 'a'`，结果，大写字母`Z`会排在小写字母`a`的前面。
@@ -378,8 +372,6 @@ keys排序结果 => [5, 9,  12,  21, 36]
 ```
 >>> sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
 ['about', 'bob', 'Credit', 'Zoo']
-
-
 ```
 
 **重点**来了：，key可以结合lambda表达式， 根据末尾数字排序：
@@ -399,11 +391,11 @@ lambda的返回值即使对其排序的逻辑。
 ```
 >>> sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
 ['Zoo', 'Credit', 'bob', 'about']
-
-
 ```
 
 从上述例子可以看出，高阶函数的抽象能力是非常强大的，而且，核心代码可以保持得非常简洁。key是一个函数，自己也可以按功能定义。
+
+
 
 #### isinstance()
 
@@ -416,7 +408,6 @@ lambda的返回值即使对其排序的逻辑。
 True
 >>> isinstance(y, str)
 False
-
 ```
 
 使用`isinstance()`判断一个对象是否是`Iterable`对象：
