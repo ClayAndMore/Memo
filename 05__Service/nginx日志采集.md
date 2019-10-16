@@ -27,7 +27,7 @@ http {
 
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+                      '"$http_user_agent" "$http_x_forwarded_for" $request_time';
 
     access_log  /var/log/nginx/access.log  main;
 ...
@@ -43,9 +43,21 @@ http {
 222.128.57.37 - - [15/May/2019:06:23:28 +0000] "GET /static/js/themes/bootstrap-responsive.min.css HTTP/1.1" 200 15961 "https://claymore.wang/p/post/content/PyPy.md/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36" "-"
 ```
 
+access.log文件里面的$1、$2...对应于nginx配置文件里面的`$remote_addr、$remote_use` 。
 
+含义解释：
 
-access.log文件里面的$1、$2...对应于nginx配置文件里面的`$remote_addr、$remote_use` 等
+1. remote_addr : 客户端地址
+2. remote_user : 客户端用户名
+3. time_local : 服务器时间
+4. request : 请求内容，包括方法名，地址，和http协议
+5. http_host : 用户请求是使用的http地址
+6. status : 返回的http 状态码
+7. request_length : 请求大小
+8. body_bytes_sent : 返回的大小
+9. http_referer : 来源页
+10. http_user_agent : 客户端名称
+11. request_time : 整体请求延时
 
 
 
