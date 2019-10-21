@@ -1,4 +1,4 @@
-Tags:[python, bottle, socket]
+Tags:[python, socket]
 
 ### 写在前面
 

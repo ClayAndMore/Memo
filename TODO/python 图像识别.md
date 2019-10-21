@@ -49,12 +49,12 @@ https://blog.csdn.net/zydarChen/article/details/77587985
 ### 安装
 
 ```python
-(py35_draw) C:\Users\AT>pip install cv2  
+# pip install cv2  
 Collecting cv2
   Could not find a version that satisfies the requirement cv2 (from versions: )
 No matching distribution found for cv2
 
-(py35_draw) C:\Users\AT>pip install opencv-python 
+# pip install opencv-python 
 Collecting opencv-python
   Downloading https://files.pythonhosted.org/packages/34/9f/c0f259ce0869959b802fd1dfff5861fa9c0e72b1cfdd60867476bc70a310/opencv_python-4.1.1.26-cp35-cp35m-win_amd64.whl (39.0MB)
     100% |████████████████████████████████| 39.0MB 396kB/s
@@ -62,9 +62,7 @@ Requirement already satisfied: numpy>=1.11.1 in f:\anaconda\envs\py35_draw\lib\s
 Installing collected packages: opencv-python
 Successfully installed opencv-python-4.1.1.26
 
-(py35_draw) C:\Users\AT>python
-Python 3.5.4 |Anaconda, Inc.| (default, Nov  8 2017, 14:34:30) [MSC v.1900 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license" for more information.
+# python
 >>> import cv2
 >>>
 ```
