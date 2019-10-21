@@ -81,6 +81,35 @@ don't run elasticsearch as root. at org.elasticsearch
 
   `su elsearch cd elasticsearch-5.5.1/bin` `./elasticsearch`
 
+
+
+#### 网络端口
+
+可外网访问：
+
+```
+vim elasticsearch-7.4.0/config/elasticsearch.yml：
+#network.host: 192.168.0.1
+network.host: 0.0.0.0
+```
+
+
+
+开启端口：
+
+```sh
+# sudo ufw allow 9200/tcp
+Rule added
+Rule added (v6)
+# sudo ufw allow 9300/tcp
+Rule added
+Rule added (v6)
+```
+
+
+
+
+
 验证：打开另一个命令行窗口，请求该端口，会得到说明信息：
 
 ```
@@ -208,3 +237,58 @@ Error: Could not find or load main class org.elasticsearch.tools.java_version_ch
 也是因为把es放到了root账户下，后放到opt下
 
 注意， es_var 这个数据文件也要在非root的时候创建。
+
+
+
+#### vm.max_map_count [65530] is too low, increase to at least [262144]
+
+这是由于 vm.max_map_count 太小引起的 可以在sysctl.conf增加 vm.max_map_count=262144
+
+```
+>vim /etc/sysctl.conf
+# 增加一句 vm.max_map_count=262144
+# 然后查看是否生效
+> sysctl -p /etc/sysctl.conf
+```
+
+
+
+####  max file descriptors 
+
+ max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536] 
+
+Linux对新用户的进程(Process)会有一些限制
+
+```
+> vim /etc/security/limits.conf
+# 增加两句 
+el hard nofile 65536
+el soft nofile 65536
+```
+
+
+
+#### bootstrap checks failed
+
+错误：
+
+```
+[2019-10-21T11:32:09,648][INFO ][o.e.b.BootstrapChecks    ] [VM-0-6-ubuntu] bound or publishing to a non-loopback address, enforcing bootstrap checks
+ERROR: [1] bootstrap checks failed
+[1]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured
+```
+
+修改elasticsearch.yml：
+
+```
+node.name: node-1  #打开注释
+cluster.initial_master_nodes: ["node-1"] 
+
+ #在最后加上这两句，要不然，外面浏览器就访问不了哈
+
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+```
+
+这样就可以浏览器访问。
+
