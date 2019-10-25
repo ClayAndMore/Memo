@@ -31,7 +31,11 @@ export PATH=$PATH:$LOGSTASH_HOME/bin
 ```sh
 # logstash -V
 logstash 7.4.0
+
+# bin/logstash -e 'input { stdin {} } output { stdout {} }'
 ```
+
+ -e 的意思是允许你从命令行指定配置 
 
 
 
@@ -61,6 +65,53 @@ output {
 * Output：数据的输出目的也支持多种插件，如本文的elasticsearch，当然这可能也是最常用的一种输出。以及exec、stdout终端、graphite、http、zabbix、nagios、redmine等。
 * Filter：使用过滤器根据日志事件的特征，对数据事件进行处理过滤后，在输出。支持grok、date、geoip、mutate、ruby、json、kv、csv、checksum、dns、drop、xml等。
 * Codec：编码插件，改变事件数据的表示方式，它可以作为对输入或输出运行该过滤。和其它产品结合，如rubydebug、graphite、fluent、nmap等。
+
+
+
+ 两个必需的元素，输入和输出，以及可选元素过滤器 等
+
+
+
+#### 语法
+
+Logstash 设计了自己的 DSL —— 有点像 Puppet 的 DSL，或许因为都是用 Ruby 语言写的吧 —— 包括有区域，注释，数据类型(布尔值，字符串，数值，数组，哈希)，条件判断，字段引用等。
+
+Logstash 用 {} 来定义区域，区域内可以包括插件区域定义，你可以在一个区域内定义多个插件。插件区域内则可以定义键值对设置。
+
+| 类型   | 示例                                              |
+| ------ | ------------------------------------------------- |
+| bool   | debug=>true                                       |
+| bytes  | my_bytes => "113" # 113 bytes                     |
+| string | host => "hostname"                                |
+| number | port => 214                                       |
+| array  | match =>[ "/var/log/messages", "/var/log/*.log" ] |
+| hash   | options => {key1 => "value1",key2 => "value2" }   |
+
+条件判断：
+
+```
+等于	==
+不等于	!=
+小于	<
+大于	>
+小于等于	<=
+大于等于	>=
+匹配正则	=~
+不匹配正则	!~
+包含	in
+不包含	not in
+与	and
+或	or
+非与	nand
+非或	xor
+复合表达式	()
+取反符合	!()
+```
+
+
+
+
+
 
 
 

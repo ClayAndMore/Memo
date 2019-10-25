@@ -662,12 +662,6 @@ GET /megacorp/employee/_search
 
 
 
-#### 显示所有索引
-
-`curl 'localhost:9200/_cat/indices?v'`
-
-_cat 提供了一系列集群状态的接口，v 表示显示表头输出。
-
 ### 进阶
 
 *  聚合函数
