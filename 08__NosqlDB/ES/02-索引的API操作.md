@@ -2,6 +2,10 @@
 
 ### 初始化
 
+简单的创建索引：
+
+`curl -XPUT 'localhost:9200/library`
+
 创建索引前可以对索引做初始化操作， 比如指定 shards 和 replicas 的数量。
 
 shards 分片数，  replicas 副本，过后补充。
@@ -69,6 +73,10 @@ curl -XGET 'localhost:9200/_all/_settings'  # 获取所有的索引信息
 _cat 提供了一系列集群状态的接口，v 表示显示表头输出。
 
 
+
+### 删除
+
+` curl -X DELETE "localhost:9200/customer?pretty" `
 
 
 

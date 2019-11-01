@@ -53,6 +53,73 @@ gitlab-ci全称是gitlab continuous integration的意思，也就是持续集成
 
 
 
+#### 遇到的问题
+
+```
+x509: cannot validate certificate for 10.250.123.12 because it doesn't contain any IP SANs
+PANIC: Failed to register this runner. Perhaps you are having network problems
+```
+
+这个是GItlab server启用了证书认证，我们需要去它页面上下载证书，上传到runner的: /etc/gitlab-runner/certs/, 没有目录要建立。
+
+URL最好填写和证书里一样的域名，否则影响验证。如果有域名，记得配hosts.
+
+```sh
+# gitlab-runner register --tls-ca-file=/etc/gitlab-runner/certs/-_**_center.crt
+Runtime platform                                    arch=amd64 os=linux pid=20825 revision=1564076b version=12.4.0
+Running in system-mode.
+
+Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):
+https://*.**.center:10443/
+Please enter the gitlab-ci token for this runner:
+eoRR-JTk2Jaz6uR17yR_
+Please enter the gitlab-ci description for this runner:
+[bogon]: host58
+Please enter the gitlab-ci tags for this runner (comma separated):
+58host
+Registering runner... succeeded                     runner=eoRR-JTk
+Please enter the executor: custom, shell, docker+machine, docker, docker-ssh, parallels, ssh, virtualbox, docker-ssh+machine, kubernetes:
+shell
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+```
+
+其他参考链接： https://stackoverflow.com/questions/44458410/gitlab-ci-runner-ignore-self-signed-certificate 
+
+
+
+`x509: certificate has expired or is not yet valid`
+
+证书过期，如果证书没有过期，runner同步一下server的时间
+
+
+
+创建后，gitlab server 可能会显示该节点的状态：
+
+`New runner. Has not connected yet`
+
+运行一下  `gitlab-runner verify`  试试
+
+
+
+ci/cd 时，又有如下问题：
+
+` Peer certificate cannot be authenticated with known CA certificates `
+
+```sh
+# vi /etc/sudoers
+gitlab-runner ALL=(ALL)     ALL
+# chmod -R 755 /home/gitlab-runner/
+# vim /home/gitlab-runner/.bashrc
+export GIT_SSL_NO_VERIFY=1
+# source /home/gitlab-runner/.bashrc
+```
+
+
+
+
+
+
+
 #### docker 版
 
 todo
