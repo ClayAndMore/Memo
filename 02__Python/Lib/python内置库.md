@@ -386,6 +386,28 @@ dp.rotate(3) # 旋转操作，尾部3个到头部
 
 Appendleft 和 popleft 都是原子操作，也就是说可以在多线程中安全使用。
 
+```
+>>> s=deque(range(1, 5))
+>>> s
+deque([1, 2, 3, 4])
+>>> s.pop()
+4
+>>> s
+deque([1, 2, 3])
+>>> s.popleft()
+1
+>>> s
+deque([2, 3])
+>>> s.append(8)
+>>> s
+deque([2, 3, 8])
+>>> s.appendleft(8)
+>>> s
+deque([8, 2, 3, 8])
+```
+
+
+
 
 
 ### pprint

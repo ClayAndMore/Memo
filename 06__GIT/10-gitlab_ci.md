@@ -91,6 +91,8 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 
 证书过期，如果证书没有过期，runner同步一下server的时间
 
+ntpdate ntp.sjtu.edu.cn
+
 
 
 创建后，gitlab server 可能会显示该节点的状态：

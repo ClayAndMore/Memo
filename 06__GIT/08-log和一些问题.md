@@ -248,3 +248,25 @@ url = https://github.com/username/repo.git
 ### 注意
 
 文件名在使用中文名时容易提交不上。
+
+
+
+
+
+## 升级git
+
+rpm 源 :  http://opensource.wandisco.com/centos/ 
+
+eg: ` wget http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm && rpm -ivh wandisco-git-release-6-1.noarch.rpm `
+
+
+
+`yum install git -y`
+
+验证：
+
+```
+git --version
+git version 2.14.1
+```
+
