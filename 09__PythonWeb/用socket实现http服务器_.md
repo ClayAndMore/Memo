@@ -150,6 +150,8 @@ HTTP/1.x表示所使用的HTTP版本，200表示状态(status code)，200是HTTP
 
 而pic_content的头信息(Content-Type: image/jpg)说明主体的类型为jpg图片(image/jpg)。
 
+
+
 #### request
 
 尽管request也可以像response那样分为三部分，request的格式与response的格式并不相同。request由客户发送给服务器，比如下面是一个request：
@@ -163,6 +165,30 @@ Accept: text/*
 
 * 第一部分为请求方法(**request method**)，第二部分是**URL**，第三部分为HTTP版本。request method可以有GET， PUT， POST， DELETE， HEAD。
 * 第二部分为URL，它通常指向一个资源(服务器上的资源或者其它地方的资源)。像现在这样，就是指向当前服务器的当前目录的test.jpg。
+
+```
+# 使用浏览器访问时的request
+GET /test.jpg HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0
+Accept: image/webp,*/*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://localhost:8080/
+Cookie: pgv_pvid=1319877504
+Cache-Control: max-age=0
+
+# 使用curl 访问时的request
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/7.58.0
+Accept: */*
+```
+
+
+
+
 
 浏览器访问：
 

@@ -156,8 +156,6 @@ cmd.SysProcAttr.Credential = &syscall.Credential{
 
 #### Network Namespace
 
-
-
 用来隔离网络设备，ip地址和等网络的namespace,让每个容器拥有自己独立的（虚拟的）网络设备，容器内的应用可以绑定到自己的端口，且不同容器的应用可以使用相同端口。
 
 照例添加：`| syscall.CLONE_NEWNET`
@@ -166,3 +164,48 @@ cmd.SysProcAttr.Credential = &syscall.Credential{
 
 
 
+原理：
+
+network namespace主要提供了关于网络资源的隔离，包括网络设备、IPv4和IPv6协议栈、IP路由表、防火墙、`/proc/net`目录、`/sys/class/net`目录、端口（socket）等等。
+**一个物理的网络设备最多存在在一个network namespace中，你可以通过创建veth pair（虚拟网络设备对：有两端，类似管道，如果数据从一端传入另一端也能接收到，反之亦然）在不同的network namespace间创建通道，以此达到通信的目的。**
+
+一般情况下，物理网络设备都分配在最初的root namespace（表示系统默认的namespace）中。但是如果你有多块物理网卡，也可以把其中一块或多块分配给新创建的network namespace。
+
+当我们说到network namespace时，其实我们指的未必是真正的网络隔离，而是把网络独立出来，给外部用户一种透明的感觉，仿佛跟另外一个网络实体在进行通信。
+
+**为了达到这个目的，容器的经典做法就是创建一个veth pair，一端放置在新的namespace中，通常命名为`eth0`，一端放在原先的namespace中连接物理网络设备，再通过网桥把别的设备连接进来或者进行路由转发，以此网络实现通信的目的。**
+
+也许有读者会好奇，**在建立起veth pair之前，新旧namespace该如何通信呢**？答案是**`pipe（管道）`**。
+
+我们以Docker Daemon在启动容器`dockerinit`的过程为例。Docker Daemon在宿主机上负责创建这个`veth pair`，通过`netlink`调用，把一端绑定到`docker0`网桥上，一端连进新建的network namespace进程中。建立的过程中，`Docker Daemon`和`dockerinit`就通过`pipe`进行通信，当`Docker Daemon`完成`veth-pair`的创建之前，`dockerinit`在管道的另一端循环等待，直到管道另一端传来`Docker Daemon`关于`veth`设备的信息，并关闭管道。`dockerinit`才结束等待的过程，并把它的“`eth0`”启动起来。整个效果类似下图所示。
+
+```
++---------------------------------------------+
+| +------------+             +-------------+  |
+| |container   |             |container    |  |
+| |namespace A |             |namespace B  |  |
+| |            |             |             |  |
+| +--+eth0 +---+             +-+eth0+------+  |
+|         XX                     XX            |
+|          XX                  XX             |
+|           XX                XX    host      |
+|             XX            XX                |
+|          + veth +-----+ veth +              |
+|          |                   |              |
+|          |  Bridge: docker0  |              |
+|          +-------------------+              |
+|                                             |
+|                                             |
++---------+Physical Network Device +----------+
+
+```
+
+
+
+
+
+
+
+更多： http://www.sel.zju.edu.cn/?p=556 
+
+ https://segmentfault.com/a/1190000011345144 
