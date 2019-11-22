@@ -668,6 +668,12 @@ find . -name \*.pyc -delete
 
 
 
+#### 排除某个目录
+
+`find / -name a -not -path "/sss"`
+
+排除在/sss目录中找a
+
 
 
 ### 目录切换

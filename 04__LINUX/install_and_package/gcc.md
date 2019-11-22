@@ -51,7 +51,7 @@ repolist: 26,862
 
 
 
-
+ devtoolset 
 
 重新生成缓存：
 
