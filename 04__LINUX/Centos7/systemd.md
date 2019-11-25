@@ -519,3 +519,8 @@ WantedBy=multi-user.target
    或者这样：`Environment=PATH=/home:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`
 
 
+
+### 参考和待整理
+
+ https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html 
+
