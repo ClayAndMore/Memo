@@ -385,9 +385,23 @@ healthcheck:
 ```yaml
 volumes:
  - /var/lib/mysql
- - cache/:/tmp/cache
- - ~/configs:/etc/configs/:ro
+ - ./cache/:/tmp/cache # 相对目录，相对于docker-compose.yml的路径，没有回创建
+ - ~/configs:/etc/configs/:ro  
 ```
+
+访问模式， ro 为只读， wo 只写， rw, 可读写。
+
+一般要带上 rw， 不然容器内部没有操作挂载路径里的 内容，特别是日志挂载出来这种形式。
+
+如果容器内程序是以特殊用户执行的，那么挂载出来的目录在书主机上是root用户，在容器内部普通用户无法写入，需要在宿主机外部 改变权限：
+
+```
+step1 进入容器 cat /etc/passwd 假设 该普通用户 对应为 82:82
+step2 回到主机 chown 82:82 -R ./wwwroot  # ./wwwroot 是挂载的目录， 这样来说，是用的宿主机的uid，但是当宿主机uid和容器内部用户一样时，在启动容器后，该id不变，所以有权限写入。
+step3 重新启动 docker-compose up -d
+```
+
+
 
 
 

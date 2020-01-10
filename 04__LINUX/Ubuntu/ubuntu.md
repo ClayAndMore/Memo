@@ -112,3 +112,9 @@ OK
 ```
 
 再次 apt-get update
+
+
+
+### 添加root 用户
+
+sudo passwd root
