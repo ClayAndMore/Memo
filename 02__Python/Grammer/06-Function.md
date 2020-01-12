@@ -193,6 +193,24 @@ func = lambda x,y:x+y
 
 
 ### 内置函数
+
+#### join()
+
+```python
+>>> tup = ('a', 'b', 'c', 'd', 'g', 'x', 'r', 'e')
+>>> ''.join(tup)
+'abcdgxre'
+>>> myTuple = ['h','e','l','l','o']
+>>> ''.join(myTuple)
+'hello'
+>>> str='-'
+>>> seq=("a", "b", "c")
+>>> print str.join(seq)
+a-b-c
+```
+
+
+
 #### map()
 
 它接收一个函数 f 和一个 list，并通过把函数 f 依次作用在 list 的每个元素上，得到一个新的 list 并返回。

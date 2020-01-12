@@ -1,5 +1,11 @@
 tags: [命令与快捷键] date: 2016-07-06
 
+### hosts
+
+C:\Windows\System32\drivers\etc
+
+
+
 ### 查看自己DirectX版本的方法是：
 
     点“开始”、“运行”，在“运行”里输入“dxdiag”回车，

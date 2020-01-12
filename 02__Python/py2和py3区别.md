@@ -106,4 +106,71 @@ range(0,3)
 ```
 
 
+### python2 和 py3 的兼容
 
+#### 判别语句
+
+可以通过`sys.version_info`来判别：
+
+```python
+try:
+    from pathlib import Path
+except ImportError:
+    from pathlib2 import Path
+
+# 或改成：
+import sys
+py_version = sys.version_info # #sys.version_info(major=2, minor=7, micro=5, releaselevel='final', serial=0)
+if py_version > (3.0) :
+    import pathlib
+else:
+    import pahtlib2
+```
+
+
+
+eg, 看下bottle里面的判别：
+
+```python
+py   = sys.version_info 
+py3k = py >= (3, 0, 0)
+py25 = py <  (2, 6, 0)
+py31 = (3, 1, 0) <= py < (3, 2, 0)
+```
+
+
+
+
+
+#### `__future__` 类的使用
+
+整除问题：python 2中的除法是默认取整的，比如2/3=0。而Python 3中就会得到0.666667。这种情况下，可以使用内置的`__future__`来解决问题，这下即使在Python 2下也可以默认得到浮点结果了。
+
+```python
+from __future__ import division
+```
+
+输出、打印问题。print函数在Python 2和3下也有所不同，比如括号的问题。这个也可以用内置的`__future__`来解决问题，这样在python 2下运行print( )也不会多出额外的一对括号了。
+
+```python
+from __future__ import print_function
+```
+
+文件读取中也有一些麻烦，比如Python 3中的打开文件时可以指定文件编码:
+```python
+with open('unicode.txt', encoding='utf-8') as f:
+    for line in f:
+        print(repr(line))
+```
+
+
+如果在Python 2下运行这个代码，就会报错提示没有“encoding”这个参数，因为Python 2内置的open（）所使用的参数和Python 3不同。这种情况下可以使用io中的open函数，这样就同时兼容2和3了
+
+```python
+from io import open
+with open('unicode.txt', encoding:'utf-8') as f:
+    for line in f:
+        print(repr(line))
+```
+
+>>>>>>> 562b086e39c3b03b8a434f52206323b8769c921d
