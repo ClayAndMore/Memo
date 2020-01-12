@@ -112,3 +112,10 @@ OK
 ```
 
 再次 apt-get update
+
+
+
+### 添加root用户
+
+新装的ubuntu主机是没有root账户的，需要我们手动添加：`passwd root`
+

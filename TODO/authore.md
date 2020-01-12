@@ -125,3 +125,9 @@ Anchore这个已经被Anchore-Engine替代，目前再使用会出现各种奇�
 Anchore分为社区版和商业版，社区版只有CLI接口，商业版提供Web页面以及更多的商业支持。
 
 安装docker-compose 注意去官网：https://docs.docker.com/compose/install/
+
+
+
+
+
+竞品资料： https://yq.aliyun.com/articles/661987
