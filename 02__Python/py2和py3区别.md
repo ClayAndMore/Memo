@@ -106,17 +106,6 @@ range(0,3)
 ```
 
 
-
-
-
-这两天申请了一个云服务器，用的centOS,自带python2.7.5没有pip,
-
-为了做东西，更新了2.7到最新版本。装了python3.5,以及两个版本的pip,很繁琐，下面总结下：
-
-
-
-
-
 ### python2 和 py3 的兼容
 
 #### 判别语句
@@ -184,3 +173,4 @@ with open('unicode.txt', encoding:'utf-8') as f:
         print(repr(line))
 ```
 
+>>>>>>> 562b086e39c3b03b8a434f52206323b8769c921d

@@ -231,6 +231,61 @@ EXPOSE 80
 
 模板image,因为镜像的可写层数是有限制的，我们需要继承模板来在子dockerfile中使用。
 
+
+
+### 优化
+
+编写优雅的Dockerfile主要需要注意以下几点：
+
+- Dockerfile文件不宜过长，层级越多最终制作出来的镜像也就越大。
+- 构建出来的镜像不要包含不需要的内容，如日志、安装临时文件等。
+- 尽量使用运行时的基础镜像，不需要将构建时的过程也放到运行时的Dockerfile里。
+
+#### 长度
+
+eg:
+
+```dockerfile
+FROM ubuntu:16.04
+RUN apt-get update
+RUN apt-get install -y apt-utils libjpeg-dev \     
+python-pip
+RUN pip install --upgrade pip
+RUN easy_install -U setuptools
+RUN apt-get clean
+```
+第二个：
+```
+FROM ubuntu:16.04
+RUN apt-get update && apt-get install -y apt-utils \
+  libjpeg-dev python-pip \
+           && pip install --upgrade pip \
+      && easy_install -U setuptools \
+    && apt-get clean
+```
+
+我们看第一个Dockerfile，乍一看条理清晰，结构合理，似乎还不错。再看第二个Dockerfile，紧凑，不易阅读，为什么要这么写？
+
+- 第一个Dockerfile的好处是：当正在执行的过程某一层出错，对其进行修正后再次Build，前面已经执行完成的层不会再次执行。**这样能大大减少下次Build的时间**，而它的问题就是会因层级变多了而使镜像占用的空间也变大。
+- 第二个Dockerfile把所有的组件全部在一层解决，**这样做能一定程度上减少镜像的占用空间**，但在制作基础镜像的时候若其中某个组编译出错，修正后再次Build就相当于重头再来了，前面编译好的组件在一个层里，得全部都重新编译一遍，比较消耗时间。
+
+从下表可以看出两个Dockerfile所编译出来的镜像大小：
+
+```
+$ docker images | grep ubuntu      
+REPOSITORY      TAG     IMAGE ID    CREATED     SIZE                                                                                                                                   
+ubuntu                   16.04       9361ce633ff1  1 days ago 422MB
+ubuntu                   16.04-1   3f5b979df1a9  1 days ago  412MB
+```
+
+
+
+#### 多阶段构建
+
+在另一篇文章中看
+
+
+
 ### 运行
 
 基本格式：
@@ -271,6 +326,7 @@ echo $PATH
 ```
 
 
+
 #### 调试输出
 
 build 过程中输出：
@@ -296,6 +352,8 @@ build 过程中输出：
 `docker top CONTAINER` 和在容器里执行 `top` 的效果类似。
 
 ` docker top aa`
+
+
 
 ### 问题
 
