@@ -37,30 +37,38 @@ Linux 版本选择 goxxxxx.linux-amd64.tar.gz 格式的安装包，这里在 Lin
 $ wget https://dl.google.com/go/go1.10.2.linux-amd64.tar.gz
 ```
 
-设置安装目录
+当前目录
 
-```
-$ export GO_INSTALL_DIR=$HOME
+```sh
+root@wy:~/go# ls
+go1.13.6.linux-amd64.tar.gz
+# 解压到当前目录，解压后会多余出来一个go目录
+go go1.13.6.linux-amd64.tar.gz
+# ls go
+1  api  AUTHORS  bin  CONTRIBUTING.md  CONTRIBUTORS  doc  favicon.ico  lib  LICENSE  misc  PATENTS  pkg  README.md  robots.txt  SECURITY.md  src  test  VERSION
+
+# 我们建立 gopath （工作目录）目录， workspace
+root@wy:~/go# ls
+go  go1.13.6.linux-amd64.tar.gz workspace
 ```
 
-这里我们安装到用户主目录下。
 
-解压 Go 安装包
-
-```
-$ tar -xvzf go1.10.2.linux-amd64.tar.gz -C $GO_INSTALL_DIR
-```
 
 设置环境变量
 
 ```bash
-export GO_INSTALL_DIR=$HOME
-export GOROOT=$GO_INSTALL_DIR/go
-export GOPATH=$HOME/go_workspace
-export PATH=$GOPATH/bin:$PATH:$GO_INSTALL_DIR/go/bin
+export GOROOT=/root/go/go
+export GOPATH=/root/go/go_workspace
+export PATH=$GOROOT/bin:$GOPATH/bin/:$PATH
 ```
 
-如果不想每次登录系统都设置一次环境变量，可以将上面 4 行追加到 `$HOME/.bashrc` 文件中。
+如果不想每次登录系统都设置一次环境变量，将上面 追加到 `$HOME/.bashrc` 文件中, 或者 `.zshrc` 或者自己的 `sh` 的配置文件中。
+
+执行`source ~/.bashrc`,
+
+`go env` ,  就能看到刚才配置的GOPATH路径了。
+
+
 
 **注意**， GOPATH  不用和安装目录一样。
 
@@ -68,10 +76,10 @@ export PATH=$GOPATH/bin:$PATH:$GO_INSTALL_DIR/go/bin
 
 ```
 $ go version
-go version go1.10.2 linux/amd64
+go version go1.13.6 linux/amd64
 ```
 
-看到 `go version` 命令输出 go 版本号 `go1.10.2 linux/amd64`，说明 go 命令安装成功。
+
 
 创建 `$GOPATH/src` 目录
 
@@ -80,14 +88,6 @@ go version go1.10.2 linux/amd64
 ```
 $ mkdir -p $GOPATH/src
 ```
-
-
-
-执行`source ~/.bashrc`,
-
-`go env` ,  就能看到刚才配置的GOPATH路径了。
-
-为了方便，我们加入到 `.bashrc` 或者 `.zshrc` 或者自己的 `sh` 的配置文件中。
 
 
 

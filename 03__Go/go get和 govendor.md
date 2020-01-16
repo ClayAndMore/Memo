@@ -40,7 +40,7 @@ $GOPATH
 					|beedb.a
 ```
 
-go get本质上可以理解为首先第一步是通过源码工具clone代码到src下面，然后执行`go install`
+go get本质上可以理解为首先第一步是通过源码工具clone代码到src（GOPATH/src）下面，然后执行`go install`
 
 在代码中如何使用远程包，很简单的就是和使用本地包一样，只要在开头import相应的路径就可以
 
