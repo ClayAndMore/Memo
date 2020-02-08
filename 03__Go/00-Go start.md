@@ -21,6 +21,8 @@ Go 提供了每个平台打好包的一键安装，这些包默认会安装到�
 
 mac 下一般使用`brew install go` 来 安装
 
+在安装之前也可以通过 **brew info go** 查看版本信息
+
 
 
 #### 前提
@@ -60,7 +62,7 @@ go  go1.13.6.linux-amd64.tar.gz workspace
 
 
 
-设置环境变量
+#### 设置环境变量
 
 ```bash
 export GOROOT=/root/go/go
@@ -73,6 +75,10 @@ export PATH=$GOROOT/bin:$GOPATH/bin/:$PATH
 执行`source ~/.bashrc`,
 
 `go env` ,  就能看到刚才配置的GOPATH路径了。
+
+如果 go >= 1.13， 则可以使用 go env -w  去永久设置环境变量，eg:
+
+`go env -w GO111MODULE=off`
 
 
 

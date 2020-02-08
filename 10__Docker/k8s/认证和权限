@@ -41,7 +41,7 @@ K8S 中几乎所有的操作都需要经过 `kube-apiserver` 处理，所以为�
 K8S 中有两类用户，一般用户及 `Service Account`。
 
 - 一般用户：一般用户只能通过外部服务进行管理，由管理员进行私钥分发。这也意味着 K8S 中并没有任何表示一般用户的对象，所以一般用户是无法通过 API 直接添加到集群的。
-- `Service Account`：由 K8S API 管理的用户，与特定的 `NameSpace`（命名空间）绑定。由 `API Server` 自动创建或者通过 API 手动进行创建。 同时，它会自动挂载到 `Pod` 中容器的 `/var/run/secrets/kubernetes.io/serviceaccount/` 目录中，其中会包含 `NameSpace` `token` 等信息，并允许集群内进程与 `API Server` 进行交互。
+- `Service Account`：由 K8S API 管理的用户，**与特定的 `NameSpace`（命名空间）绑定。**由 `API Server` 自动创建或者通过 API 手动进行创建。 同时，它会自动挂载到 `Pod` 中容器的 `/var/run/secrets/kubernetes.io/serviceaccount/` 目录中，其中会包含 `NameSpace` `token` 等信息，并允许集群内进程与 `API Server` 进行交互。
 
 对集群操作的 API 都是与用户相关联的，或者被视为匿名请求。匿名请求可通过 `kube-apiserver` 的 `--anonymous-auth` 参数进行控制，默认是开启的，匿名用户默认的用户名为 `system:anonymous`，所属组为 `system:unauthenticated`。
 
@@ -62,7 +62,7 @@ K8S 中有两类用户，一般用户及 `Service Account`。
 
 
 
-### 授权
+### 授权 Authorization
 
 授权，也就是在验证当前发起请求的用户是否有相关的权限。例如，我们在 Linux 系统中常见的文件夹权限之类的。
 
@@ -523,3 +523,74 @@ no - no RBAC policy matched
 
 也许你会觉得切换 `Namespace` 之类的操作很繁琐，有一个项目：[kubectx](https://github.com/ahmetb/kubectx) 可帮你简化这些步骤，推荐尝试。
 
+
+
+### namespace
+
+关于namespace 的一些补充：
+
+当团队或项目中具有许多用户时，可以考虑使用Namespace来区分，a如果是少量用户集群，可以不需要考虑使用Namespace，如果需要它们提供特殊性质时，可以开始使用Namespace。
+
+Namespace为名称提供了一个范围。资源的Names在Namespace中具有唯一性。
+
+Namespace是一种将集群资源划分为多个用途(通过 [resource quota](https://kubernetes.io/docs/concepts/policy/resource-quotas/))的方法。
+
+在未来的Kubernetes版本中，默认情况下，相同Namespace中的对象将具有相同的访问控制策略。
+
+对于稍微不同的资源没必要使用多个Namespace来划分，例如同意软件的不同版本，可以使用[labels(标签)](http://docs.kubernetes.org.cn/247.html)来区分同一Namespace中的资源。
+
+
+
+#### 查看
+
+列出集群中当前的Namespace:
+
+``` sh
+kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   24h
+kube-node-lease   Active   24h
+kube-public       Active   24h
+kube-system       Active   24h
+```
+
+kube-system 由Kubernetes系统创建的对象的Namespace
+
+所有对象都在 namespace 中？
+
+**大多数Kubernetes资源（例如pod、services、replication controllers或其他）都在某些Namespace中，但Namespace资源本身并不在Namespace中**。
+
+而低级别资源（如[Node](http://docs.kubernetes.org.cn/304.html)和persistentVolumes）不在任何Namespace中。[Events](https://www.kubernetes.org.cn/1031.html)是一个例外：它们可能有也可能没有Namespace，具体取决于[Events](https://www.kubernetes.org.cn/1031.html)的对象。
+
+
+
+#### 创建
+
+```
+(1) 命令行直接创建
+$ kubectl create namespace new-namespace
+
+(2) 通过文件创建
+$ cat my-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: new-namespace
+
+$ kubectl create -f ./my-namespace.yaml
+```
+
+注意：命名空间名称满足正则表达式[a-z0-9]([-a-z0-9]*[a-z0-9])?,最大长度为63位
+
+#### 删除
+
+```
+ubectl delete namespaces new-namespace
+```
+
+注意：
+
+1. 删除一个namespace会自动删除所有属于该namespace的资源。
+2. default和kube-system命名空间不可删除。
+3. PersistentVolumes是不属于任何namespace的，但PersistentVolumeClaim是属于某个特定namespace的。
+4. Events是否属于namespace取决于产生events的对象。

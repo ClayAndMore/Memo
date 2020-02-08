@@ -32,6 +32,8 @@ systemctl是CentOS7的服务管理工具中主要的工具，它融合之前serv
 查看已启动的服务列表：systemctl list-unit-files|grep enabled
 查看启动失败的服务列表：systemctl --failed
 
+查看服务的具体信息： ` systemctl cat docker`
+
 
 
 #### 配置firewalld-cmd
