@@ -142,7 +142,7 @@ type Movie struct {
 
 结构体tag可是任意的字符串面值， 通常是 key:"value"键值对序列， 因为值中含有双引号字符，所以 tag 一般用原生字符串面值的形式书写（反引号）
 
-* json开头键名对应的值⽤于控制encoding/json包的编码和 解码的⾏为，并且encoding/...下⾯其它的包也遵循这个约定。
+* **json开头键名对应的值⽤于控制encoding/json包的编码和 解码的⾏为，**并且encoding/...下⾯其它的包也遵循这个约定。
 * 成员Tag中json对应值的第⼀部分⽤于指定JSON对象的 名字，Year -> released
 * Color成员的Tag还带了⼀个额外的 omitempty选项，表示当Go语⾔结构体成员为空或零值时不⽣成该JSON对象（这⾥false为零值
 

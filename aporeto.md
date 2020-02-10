@@ -1,8 +1,8 @@
-容器云安全公司 aporeto：https://www.aporeto.com/
+容器云安全公司 t：https://www.aporeto.com/
 
 
 
-开源产品列表：https://github.com/aporeto-inc
+
 
 
 
@@ -12,7 +12,7 @@ Bahamut, http server 和 eleamtail， manipulate 交互
 
 elemental: 数据结构， 形成 model 对象， 根据 spec 文件（里面定义一些数据结构）
 
-Manipulate 存储 后端库 和 elemental 交互， 一切写程序的都和它作用。
+v 存储 后端库 和 elemental 交互， 一切写程序的都和它作用。
 
 
 
