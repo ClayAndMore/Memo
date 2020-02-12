@@ -47,3 +47,48 @@ Gitnode
 
 
 数据包 - 五元组 - 匹配PUContext - 策略 
+
+
+
+
+
+### maniputator_test
+
+``` go
+
+func TestHTTP_RetrieveMany(t *testing.T) {
+
+	Convey("Given I have a manipulator and a working server", t, func() {
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+		}))
+		defer ts.Close()
+
+		mm, _ := maniphttp.New(context.Background(), "http://127.0.0.1:12345")
+		//mmm := mm.(*(maniphttp.httpManipulator))
+
+		Convey("When I retrieve the objects", func() {
+
+			nslist := gaia.NamespacesList{}
+
+			mctx := manipulate.NewContext(
+				context.Background(),
+			)
+
+			err := mm.RetrieveMany(mctx, &nslist)
+
+			Convey("Then err should not be nil", func() {
+				So(err, ShouldBeNil)
+			})
+
+			for _, ns := range nslist {
+				fmt.Printf("%#v\n", ns)
+			}
+			
+		})
+
+	})
+}
+```
+
