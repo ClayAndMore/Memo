@@ -312,6 +312,12 @@ go mod edit --droprequire=golang.org/x/crypto
 
 
 
+#### unrecognized import path "golang.org/x/tools/go/packages"
+
+有时候设置了proxy 还是会有这样的问题，可以尝试go env -w GO111MODULE=on(笑哭)
+
+
+
 #### x509: certificate
 
 ```sh

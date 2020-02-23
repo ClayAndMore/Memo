@@ -71,7 +71,7 @@ ok      command-line-arguments  0.006s
 
 
 
-### -run
+### -run 测试某个函数
 
 参数`-run`对应一个正则表达式，只有测试函数名被它正确匹配的测试函数才会被`go test`测试命令运行：
 
@@ -85,6 +85,15 @@ ok      command-line-arguments  0.006s
 PASS
 ok      leetcode        0.006s
 ```
+
+其他写法：
+
+``` 
+测试单个函数：$ go test -v hello_test.go -test.run TestHello
+$ go test -v hello_test.go -run TestHello
+```
+
+
 
 
 

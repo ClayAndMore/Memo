@@ -135,7 +135,9 @@ for	{
 和map类似，channel也对应⼀个make创建的底层数据结构的引⽤。
 当我们复制⼀个channel或⽤于函数参数传递时， 我们只是拷⻉了⼀个channel引⽤，因此调⽤者和被调⽤者将引⽤同⼀个channel对象。
 
-和其它的引⽤类型⼀样， channel的零值也是nil。
+`var ch1 chan int // 信道只是 被声明，但没有被初始化，值为nil`
+
+**和其它的引⽤类型⼀样， channel的零值也是nil。**
 两个相同类型的channel可以使⽤==运算符⽐较。如果两个channel引⽤的是相同的对象，那么⽐较的结果为真。⼀个 channel也可以和nil进⾏⽐较。
 
 
@@ -352,6 +354,12 @@ func main()	{
 
 
 
+### 死锁
+
+这是使用channale
+
+
+
 ## select
 
 **elect就是用来监听和channel有关的IO操作，当 IO 操作发生时，触发相应的动作。**
@@ -373,11 +381,12 @@ case chan2 <- 1:
 default:
 ```
 
-1. 所有channel表达式都会被求值、所有被发送的表达式都会被求值。求值顺序：自上而下、从左到右.
-    结果是选择一个发送或接收的channel，无论选择哪一个case进行操作，表达式都会被执行。RecvStmt左侧短变量声明或赋值未被评估。
-2. 如果有一个或多个IO操作可以完成，**则Go运行时系统会随机的选择一个执行**，否则的话，如果有default分支，则执行default分支语句，如果连default都没有，则select语句会一直阻塞，直到至少有一个IO操作可以进行.
-3. 如果所选case是具有短变量声明或赋值的RecvStmt，则评估左侧表达式并分配接收值（或多个值）。
-4. 执行所选case中的语句
+1. 每个case都必须是一个通信。
+2. 在一个用于接收语句的case子句中，可以把接收语句的结果赋值给1个或2个变量，这里的赋值可以使用 简短变量声明的方式（:=），这里的接收表达式必须是一个接收操作（可以用圆括号括起来）。
+3. 所有channel表达式都会被求值、所有被发送的表达式都会被求值。求值顺序：自上而下、从左到右.
+    结果是选择一个发送或接收的channel，无论选择哪一个case进行操作，表达式都会被执行。
+4. 如果有一个或多个IO操作可以完成，**则Go运行时系统会随机的选择一个执行**，如果有default分支，则执行default分支语句。
+5. 没有case可以执行, 有default 执行default, 如果连default都没有，则select语句会一直阻塞，直到至少有一个IO操作可以进行.
 
 
 
@@ -453,7 +462,7 @@ Process finished with exit code 0
 **所有channel表达式都会被求值、所有被发送的表达式都会被求值。求值顺序：自上而下、从左到右.**
 
 ``` go
-var ch1 chan int
+var ch1 chan int // 信道只是 被声明，但没有被初始化，值为nil
 var ch2 chan int
 var chs = []chan int{ch1, ch2}
 var numbers = []int{1, 2, 3, 4, 5}
@@ -480,7 +489,7 @@ func getChan(i int) chan int {
 }
 ```
 
-此时，select语句走的是default操作(这里不太明白为什么会走default)。但是这时每个case的表达式都会被执行。以case1为例：
+此时，select语句走的是default操作(两个通道值为nil，没有走)。但是这时每个case的表达式都会被执行。以case1为例：
 
 ```bash
 case getChan(0) <- getNumber(2):
@@ -544,10 +553,3 @@ Process finished with exit code 0
 如此就显而易见，break关键字在select中的作用,  **都可以执行时，走有break的case**
 
 .
-
-
-
-作者：chaors
-链接：https://www.jianshu.com/p/2a1146dc42c3
-来源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
