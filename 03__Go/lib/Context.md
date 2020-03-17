@@ -107,3 +107,185 @@ func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
 func WithValue(parent Context, key, val interface{}) Context
 ```
 
+
+
+#### withCancel
+
+context.WithCancel生成了一个withCancel的实例以及一个cancelFuc，这个函数就是用来关闭ctxWithCancel中的 Done channel 函数。
+
+``` go
+// WithCancel returns a copy of parent whose Done channel is closed as soon as
+// parent.Done is closed or cancel is called.
+func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
+```
+
+WithCancel返回一个继承的Context,这个Context在父Context的Done被关闭时关闭自己的Done通道，或者在自己被Cancel的时候关闭自己的Done。
+ WithCancel同时还返回一个取消函数cancel，这个cancel用于取消当前的Context。
+
+Eg:
+
+``` go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func Handler(){
+	ctx, cancel := context.WithCancel(context.Background())
+	go work(ctx)
+
+	time.Sleep(5 * time.Second)
+	cancel()
+}
+
+func work(ctx context.Context){
+	for {
+		time.Sleep(1 * time.Second)
+		select {
+		case <-ctx.Done():
+			fmt.Println("done") // 这个怎么不会打印？
+			return
+		default:
+			fmt.Println("work")
+		}
+
+	}
+}
+
+func main() {
+	fmt.Println("start ...")
+	Handler()
+	fmt.Println("finish")
+}
+```
+
+执行结果：
+
+```
+start ...
+work
+work
+work
+work
+finish
+```
+
+
+
+#### WithTimeout 和 WithDeadline
+
+根据上方代码，添加一handler:
+
+``` go
+func timeoutHandler() {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	//ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(3*time.Second))
+	go work(ctx)
+	
+	time.Sleep(5 * time.Second)
+	cancel()
+}
+```
+
+在main中配置 timeoutHander, 执行，输出:
+
+```
+start ...
+work
+work
+done
+finish
+```
+
+这次的done为啥又输出了。。
+
+**WithTimeout 等价于 WithDeadline(parent, time.Now().Add(timeout)).**
+
+可以在子协程中判断当前context是否设置了时间，是否过期：
+
+``` go
+func doTimeOutWork(ctx context.Context) {
+	for {
+		time.Sleep(1 * time.Second)
+		
+		if deadline, ok := ctx.Deadline(); ok { //是否设置了deadline
+			fmt.Println("deadline set")
+			if time.Now().After(deadline) { // 是否过期
+				fmt.Println(ctx.Err().Error())
+				return
+			}
+
+		}
+
+		select {
+		case <-ctx.Done():
+			fmt.Println("done")
+			return
+		default:
+			fmt.Println("work")
+		}
+	}
+}
+```
+
+输出：
+
+```
+start ...
+deadline set
+work
+deadline set
+work
+deadline set
+context deadline exceeded
+finish
+```
+
+
+
+
+
+#### 使用 context.WithValue 传值
+
+``` go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func watch(ctx context.Context) {
+	for{
+		time.Sleep(1 * time.Second)
+		select {
+		case <-ctx.Done():
+			fmt.Println(ctx.Value("key"), "is cancel") // 没有输出
+		default:
+			fmt.Println(ctx.Value("key"))
+		}
+	}
+}
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	valueCtx := context.WithValue(ctx, "key", "add value")
+	go watch(valueCtx)
+	time.Sleep(5 * time.Second)
+	cancel()
+}
+```
+
+输出：
+
+```
+add value
+add value
+add value
+add value
+```
+

@@ -260,12 +260,15 @@ go mod edit --droprequire=golang.org/x/crypto
 这个环境变量主要是用于设置 Go 模块代理，主要如下：
 
 - 它的值是一个以英文逗号 “,” 分割的 Go module proxy 列表（稍后讲解）
-  - 作用：用于使 Go 在后续拉取模块版本时能够脱离传统的 VCS 方式从镜像站点快速拉取。它拥有一个默认：`https://proxy.golang.org,direct`，但很可惜 `proxy.golang.org` 在中国无法访问，故而建议使用 `goproxy.cn` 作为替代，可以执行语句：`go env -w GOPROXY=https://goproxy.cn,direct`。
+  - 作用：用于使 Go 在后续拉取模块版本时能够脱离传统的 VCS 方式从镜像站点快速拉取。它拥有一个默认：`https://proxy.golang.org,direct`，但很可惜 `proxy.golang.org` 在中国无法访问，故而建议使用 `goproxy.cn` 作为替代，
+  - **可以执行语句：`go env -w GOPROXY=https://goproxy.cn,direct`**。
   - 设置为 “off” ：禁止 Go 在后续操作中使用任 何 Go module proxy。
 
 刚刚在上面，我们可以发现值列表中有 “direct” ，它又有什么作用呢。其实值列表中的 “direct” 为特殊指示符，用于指示 Go 回源到模块版本的源地址去抓取(比如 GitHub 等)，当值列表中上一个 Go module proxy 返回 404 或 410 错误时，Go 自动尝试列表中的下一个，遇见 “direct” 时回源，遇见 EOF 时终止并抛出类似 “invalid version: unknown revision...” 的错误。
 
 代理网站：https://goproxy.io/
+
+如果还是timeout, 尝试单独访问代理网站，看是否通畅。
 
 
 

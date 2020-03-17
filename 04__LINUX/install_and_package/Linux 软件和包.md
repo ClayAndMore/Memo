@@ -509,6 +509,18 @@ Command line error: no such option: --downloadonly
 
 
 
+#### yum 源代理
+
+在/etc/yum.conf后面添加以下内容：
+
+```
+proxy=http://192.168.1.1:8080
+proxy_username=username # 可选
+proxy_password=123456   # 可选
+```
+
+
+
 
 
 ### lsmod

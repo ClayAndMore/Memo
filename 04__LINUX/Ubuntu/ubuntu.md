@@ -120,3 +120,21 @@ OK
 新装的ubuntu主机是没有root账户的，
 需要我们手动添加：`passwd root`
 sudo passwd root
+
+
+
+### 允许root登陆
+
+**sudo vim /etc/ssh/sshd_config**后进入配置文件中修改**PermitRootLogin**后的默认值为**yes**
+
+重启 sshd
+
+
+
+### 安装gcc
+
+sudo apt update
+
+sudo apt install build-essential
+
+gcc --version

@@ -50,3 +50,54 @@ init in main.go
 calling main
 ```
 
+
+
+
+
+### 可以多次定义
+
+``` go
+package main
+import "fmt"
+func init() {
+   fmt.Println("init 1")
+}
+func init() {
+   fmt.Println("init 2")
+}
+func main() {
+   fmt.Println("main")
+}
+```
+
+输出：
+
+init 1
+init 2
+main
+
+**init函数比较特殊，可以在包里被多次定义。**
+
+
+
+### 初始化不能使用初始化表达式初始化的变量
+
+``` go
+var intArg [20]int
+func init() {
+  initArg[0] = 10
+  for i := 1; i < len(initArg); i++ {
+       initArg[i] = initArg[i-1] * 2
+   }
+}
+```
+
+
+
+### 导入包时只执行init
+
+`import _ "net/http/pprof"`
+
+**golang对没有使用的导入包会编译报错，但是有时我们只想调用该包的init函数，不使用包导出的变量或者方法，这时就采用上面的导入方案。**
+
+执行上述导入后，init函数会启动一个异步协程采集该进程实例的资源占用情况，并以http服务接口方式提供给用户查询。

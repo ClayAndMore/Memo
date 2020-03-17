@@ -144,7 +144,7 @@ type Movie struct {
 
 * **json开头键名对应的值⽤于控制encoding/json包的编码和 解码的⾏为，**并且encoding/...下⾯其它的包也遵循这个约定。
 * 成员Tag中json对应值的第⼀部分⽤于指定JSON对象的 名字，Year -> released
-* Color成员的Tag还带了⼀个额外的 omitempty选项，表示当Go语⾔结构体成员为空或零值时不⽣成该JSON对象（这⾥false为零值
+* Color成员的Tag还带了⼀个**额外的 omitempty选项，表示当Go语⾔结构体成员为空或零值时不⽣成该JSON对象**（这⾥false为零值
 
 
 
@@ -159,3 +159,89 @@ err	!=	nil	{
     log.Fatalf("JSON	unmarshaling	failed:	%s",	err) } fmt.Println(titles)
 ```
 
+
+
+#### 解码未知结构的json数据
+
+实际开发过程中，有时候我们可能并不知道要解码的 JSON [数据结构]是什么样子的，这个时候应该怎么处理呢？
+
+
+
+``` go
+package jsonTest
+
+import (
+	"encoding/json"
+	"fmt"
+	"testing"
+)
+
+func TestJson(t *testing.T) {
+	testByte := []byte(`{"name": "王大锤", "website": "http://test.net/", "course": ["Golang", "PHP", "JAVA", "C"]}`)
+	//var test interface{}  // 用这个也可以解码成功，但是没有下面这样好理解
+	var test1 map[string]interface{}
+	err := json.Unmarshal(testByte, &test1)
+	if err != nil {
+		fmt.Printf("JSON 解码失败：%v\n", err)
+		return
+	}
+	fmt.Printf("JSON 解码结果: %#v\n", test1)
+}
+```
+
+输出：
+
+```
+JSON 解码结果: map[string]interface {}{"course":[]interface {}{"Golang", "PHP", "JAVA", "C"}, "name":"王大锤", "website":"http://test.net/"}
+```
+
+
+
+
+
+#### json的流式读写
+
+Go语言内置的 encoding/json 包还提供了 Decoder 和 Encoder 两个类型，用于支持 JSON 数据的流式读写，并提供了 NewDecoder() 和 NewEncoder() 两个函数用于具体实现：
+
+``` go
+func NewDecoder(r io.Reader) *Decoder
+func NewEncoder(w io.Writer) *Encoder
+```
+
+从标准输入流中读取 JSON 数据，然后将其解码，最后再写入到标准输出流中：
+
+```go
+package main
+import (    
+  "encoding/json"    
+  "log"    
+  "os")
+func main() {    
+  dec := json.NewDecoder(os.Stdin)    
+  enc := json.NewEncoder(os.Stdout)    
+  for {        
+    var v map[string]interface{}       
+    if err := dec.Decode(&v); err != nil {            
+      log.Println(err)            
+      return        
+    }        
+    if err := enc.Encode(&v); err != nil {            
+      log.Println(err)        
+    }    }}
+```
+
+执行上面的代码，我们需要先输入 JSON 结构数据供标准输入流 os.Stdin 读取，读取到数据后，会通过 json.NewDecoder 返回的解码器对其进行解码，最后再通过 json.NewEncoder 返回的编码器将数据编码后写入标准输出流 os.Stdout 并打印出来.
+
+使用 Decoder 和 Encoder 对数据流进行处理可以应用得更为广泛些，比如读写 HTTP 连接、WebSocket 或文件等，Go语言标准库中的 net/rpc/jsonrpc 就是一个应用了 Decoder 和 Encoder 的实际例子：
+
+```go
+// NewServerCodec returns a new rpc.ServerCodec using JSON-RPC on conn.
+func NewServerCodec(conn io.ReadWriteCloser) rpc.ServerCodec {    
+  return &serverCodec{        
+    dec:     json.NewDecoder(conn),        
+    enc:     json.NewEncoder(conn),        
+    c:       conn,        
+    pending: make(map[uint64]*json.RawMessage),  
+  }
+}
+```

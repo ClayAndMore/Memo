@@ -10,20 +10,6 @@ docker 搭建nginx的时候，如果内部使用容器的网关ip，即使不接
 
 
 
-### 配置镜像源
-
-/etc/docker/daemon.json(在centos7 中可能没有该文件，需要自己手动创建)
-
-```json
-{
-    "registry-mirrors": ["https://o9wm45c3.mirror.aliyuncs.com"],
-}
-```
-
-重启docker
-
-
-
 ### 更改 cgroup drive
 
 默认 的 是 cgroupfs， 而k8中 是 systemd, 所以在安装k8s过程中会出现：

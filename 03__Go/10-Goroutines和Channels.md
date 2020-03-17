@@ -356,7 +356,51 @@ func main()	{
 
 ### 死锁
 
-这是使用channale
+fatal error: all goroutines are asleep - deadlock!  这是使用channale容易遇到的问题。
+
+看一段代码：
+
+``` go
+func testDeadLock(c chan int){
+	for{
+		fmt.Println(<-c)
+	}
+}
+
+func main() {
+	c :=make(chan int)
+	c<-'A'
+	go testDeadLock(c)  // 这句和上面 c<-'A' 对换也可解决这个问题
+	time.Sleep(time.Millisecond)
+}
+```
+
+我们开辟了一个无缓冲隧道 c, 当我们向 c 中写时，**会阻塞当前协程**，main函数本身是一个协程的执行，所以这里main被阻塞.
+
+正确的写法时开另一个协程对其执行写操作：
+
+``` go
+func test(c chan int){
+	c<-'A'
+}
+
+func testDeadLock(c chan int){
+	for{
+		fmt.Println(<-c)
+	}
+}
+
+func main() {
+	//chanDemo()
+	c :=make(chan int)
+	go test(c)
+	go testDeadLock(c)
+	time.Sleep(time.Millisecond)
+
+}
+```
+
+
 
 
 
