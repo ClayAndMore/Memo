@@ -191,6 +191,28 @@ sudo groupdel docker
 sudo rm -rf /var/run/docker.sock
 ```
 
+1.13 后有专门的清理命令：
+
+```
+root@wy:~/images# docker system prune
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - all dangling build cache
+
+Are you sure you want to continue? [y/N] y
+Deleted Networks:
+docker_gwbridge
+x86_default
+webui_default
+docker-images_dsec_br
+
+Total reclaimed space: 0B
+```
+
+专门清理资源(container、image、网络)的命令
+
 
 
 #### centos:
