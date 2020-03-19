@@ -138,3 +138,67 @@ sudo apt update
 sudo apt install build-essential
 
 gcc --version
+
+
+
+### 配置ip, dns
+
+查看网关：netstat -rn` 或 `route -n
+
+```
+root@: netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         172.19.19.254   0.0.0.0         UG        0 0          0 ens160
+172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+172.19.19.0     0.0.0.0         255.255.255.0   U         0 0          0 ens160
+172.20.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-c9e6e96e0382
+root@: route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.19.19.254   0.0.0.0         UG    0      0        0 ens160
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+172.19.19.0     0.0.0.0         255.255.255.0   U     0      0        0 ens160
+172.20.0.0      0.0.0.0         255.255.0.0     U     0      0        0 br-c9e6e96e0382
+```
+
+
+
+
+
+#### 使用netplan
+
+`Netplan` 是 Ubuntu 17.10 中引入的一种新的命令行网络配置实用程序，用于在 Ubuntu 系统中轻松管理和配置网络设置。 它允许您使用 `YAML` 格式的描述文件来抽像化定义网络接口的相关信息。
+
+`Netplan` 可以使用 `NetworkManager` 或 `Systemd-networkd` 的网络守护程序来做为内核的接口。`Netplan` 的默认描述文件在 `/etc/netplan/*.yaml` 里，`Netplan` 描述文件采用了 `YAML` 语法。
+
+在 Ubuntu 18.04 中如果再通过原来的 `ifupdown` 工具包继续在 `/etc/network/interfaces` 文件里配置管理网络接口是无效的。
+
+改一下默认的配置文件：vim /etc/netplan/50-cloud-init.yaml
+
+```yaml
+network:
+    renderer: NetworkManager
+    ethernets:
+        enp0s31f6:
+            addresses:[210.72.92.28/24] # IP及掩码
+            gateway4: 210.72.92.254 # 网关
+            dhcp4: false
+            optional: true
+            nameservers:
+                addresses: [192.168.18.2, 114.114.114.114] #dns
+    version: 2
+```
+
+把DNS和ipv4地址配置在一个文件里了，不用再修改/etc/resolv.conf 文件。
+
+重启网络服务使配置生效
+
+```cpp
+sudo netplan apply
+```
+
+https://www.hi-linux.com/posts/49513.html
+
+
+
