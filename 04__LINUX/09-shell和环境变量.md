@@ -220,9 +220,23 @@ bash 用历史记录功能， 记录你输入过的命令在~/.bash_history中�
 alias untar='tar -zxvf'
 alias ping='ping -c 5' #一般我们ping五次即可。
 alias www='python -m SimpleHTTPServer 8000' #随时的启动一个web服务器
+alias de='docker exec -it'
 ```
 
+取消 alias
 
+```
+语法:``unalias``(选项)(参数)
+选项:-a：取消所有命令别名。
+参数:命令别名：指定要取消的命令别名。
+```
+
+Eg:
+
+```
+# alias ll
+alias ll='ls -l --color=auto'
+```
 
 #### type
 

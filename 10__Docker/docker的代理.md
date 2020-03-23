@@ -32,7 +32,7 @@ root@wy:/etc/systemd/system/docker.service.d# vim http-proxy.conf
 加入配置：
 [Service]
 Environment=http_proxy=http://IP:PORT/
-Environment=no_proxy=localhost,127.0.0.1
+Environment=no_proxy=localhost,127.0.0.0/8,172.16.0.0/12,192.168.0.vi m0/16
 Environment=https_proxy=http://IP:PORT/
 
 root@wy:/etc/systemd/system/docker.service.d# systemctl daemon-reload

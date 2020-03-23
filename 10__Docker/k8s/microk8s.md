@@ -1,4 +1,4 @@
-
+官网：https://microk8s.io/docs/
 
 ### 安装
 
@@ -156,7 +156,7 @@ Error response from daemon: Get https://registry-1.docker.io/v2/: net/http: requ
 HTTP_PROXY=http://192.168.59.241:8888/
 HTTPS_PROXY=http://192.168.59.241:8888/
 
-# vim /var/snap/microk8s/current/args/containerd-env，  有可能用的containerd
+# vim /var/snap/microk8s/current/args/containerd-env，  后续版本有可能用的containerd
 HTTP_PROXY=http://192.168.59.241:8888/
 HTTPS_PROXY=http://192.168.59.241:8888/
 ```
@@ -167,6 +167,8 @@ HTTPS_PROXY=http://192.168.59.241:8888/
 
 
 
+#### 镜像处理
+
 尝试：
 
 ``` sh
@@ -176,6 +178,8 @@ root@wy:~/images# microk8s.docker pull mirrorgooglecontainers/pause-amd64:3.1
 Digest: sha256:59eec8837a4d942cc19a52b8c09ea75121acc38114a2c68b98983ce9356b8610
 Status: Downloaded newer image for mirrorgooglecontainers/pause-amd64:3.1
 ```
+
+如果镜像还是拉取困难，可以去网络好的机器拉取save 然后这边 load 进去。
 
 可以了，接下来改tag:
 
@@ -191,9 +195,84 @@ k8s.gcr.io/pause                     3.1                 da86e6ba6ca1        2 y
 mirrorgooglecontainers/pause-amd64   3.1                 da86e6ba6ca1        2 years ago         742kB
 ```
 
+其他镜像：
+
+```
+microk8s.docker pull mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7
+microk8s.docker tag mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7 gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.7
+ 
+microk8s.docker pull mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7
+microk8s.docker tag mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.7
+ 
+microk8s.docker pull mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7
+microk8s.docker tag mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7 gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.7
+```
+
+删除改名前的无用镜像
+
+```
+root@wy:~/images# microk8s.docker images | grep mirrorgooglecontainers | awk '{print "microk8s.docker rmi "  $1":"$2}' | sh -x
++ microk8s.docker rmi mirrorgooglecontainers/pause-amd64:3.1
+Untagged: mirrorgooglecontainers/pause-amd64:3.1
+Untagged: mirrorgooglecontainers/pause-amd64@sha256:59eec8837a4d942cc19a52b8c09ea75121acc38114a2c68b98983ce9356b8610
++ microk8s.docker rmi mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7
+Untagged: mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7
++ microk8s.docker rmi mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7
+Untagged: mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7
+Untagged: mirrorgooglecontainers/k8s-dns-kube-dns-amd64@sha256:f5bddc71efe905f4e4b96f3ca346414be6d733610c1525b98fff808f93966680
++ microk8s.docker rmi mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7
+Untagged: mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7
+```
+
+当前镜像：
+
+```
+root@wy:~/images# microk8s.docker images
+REPOSITORY                                             TAG                 IMAGE ID            CREATED             SIZE
+k8s.gcr.io/pause                                       3.1                 da86e6ba6ca1        2 years ago         742kB
+gcr.io/google_containers/k8s-dns-sidecar-amd64         1.14.7              db76ee297b85        2 years ago         42MB
+gcr.io/google_containers/k8s-dns-kube-dns-amd64        1.14.7              5d049a8c4eec        2 years ago         50.3MB
+gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64   1.14.7              5feec37454f4        2 years ago         41MB
+```
 
 
 
+#### 重新配置pod
+
+删除之前的pod:
+
+```sh
+root@wy:~/images# kubectl get pods -n kube-system
+NAME                        READY   STATUS             RESTARTS   AGE
+kube-dns-67b548dcff-lj94b   2/3     CrashLoopBackOff   625        2d19h
+
+root@wy:~/images# kubectl delete po kube-dns-67b548dcff-lj94b -n kube-system
+pod "kube-dns-67b548dcff-lj94b" deleted
+```
+
+之后会重启一个新pod：
+
+```sh
+root@wy:~/images# kubectl get pods -n kube-system
+NAME                        READY   STATUS    RESTARTS   AGE
+kube-dns-67b548dcff-xpmzv   3/3     Running   0          68s
+root@wy:~/images# microk8s.status
+microk8s is running
+addons:
+gpu: disabled
+storage: disabled
+registry: disabled
+ingress: disabled
+dns: enabled
+metrics-server: disabled
+istio: disabled
+dashboard: disabled
+root@wy:~/images# microk8s.kubectl get pods --all-namespaces
+NAMESPACE     NAME                        READY   STATUS    RESTARTS   AGE
+kube-system   kube-dns-67b548dcff-xpmzv   3/3     Running   0          3m5
+```
+
+可以看到我们现在的服务是正常了。
 
 
 
