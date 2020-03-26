@@ -40,11 +40,37 @@ SYSLOG_FACILITY=[0-23] ：使用 syslog.h 规范的服务相对序号来调用�
 
 
 
-#### eg
+**指定错误等级：**
 
 找出讯息严重等级为错误 （error） 的讯息！
 
 `journalctl -p err`
+
+**.查看指定服务的日志**
+
+journalctl /usr/lib/systemd/systemd
+
+**.查看指定进程的日志**
+
+journalctl  _PID=1
+
+**.查看某个路径的脚本的日志**
+
+journalctl  /usr/bin/bash 
+
+**.查看某个Unit的日志**
+
+journalctl -u nginx.service
+
+journalctl -u nginx.service --since today
+
+实时滚动显示某个Unit的最新日志：
+
+journalctl -u nginx.service -f
+
+**.以JSON格式（多行）输出**，可读性更好，建议选择多行输出
+
+journalctl -b -u httpd.service -o json-pretty
 
 
 

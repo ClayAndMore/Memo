@@ -283,3 +283,56 @@ microk8s.reset
 snap remove microk8s
 ```
 
+
+
+### 尝试部署nginx
+
+```
+microk8s.docker pull nginx:1.7.9
+
+vim nginx-service.yaml
+```
+
+内容如下：
+
+``` yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-deployment
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+      nodePort: 30080
+  selector:
+    name: nginx
+```
+
+新建 rc 文件：vim nginx-rc.yaml：
+
+``` yaml
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      name: nginx
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        name: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+```
+

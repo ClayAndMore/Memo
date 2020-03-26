@@ -141,7 +141,7 @@ gcc --version
 
 
 
-### 配置ip, dns
+### 查看网关
 
 查看网关：netstat -rn` 或 `route -n
 
@@ -166,7 +166,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 
 
 
-#### 使用netplan
+#### 使用netplan 配置ip 和 dns
 
 `Netplan` 是 Ubuntu 17.10 中引入的一种新的命令行网络配置实用程序，用于在 Ubuntu 系统中轻松管理和配置网络设置。 它允许您使用 `YAML` 格式的描述文件来抽像化定义网络接口的相关信息。
 
@@ -199,6 +199,19 @@ sudo netplan apply
 ```
 
 https://www.hi-linux.com/posts/49513.html
+
+
+
+### 修改hostname
+
+```sh
+1. hostnamectl set-hostname newhostname
+2. /etc/hosts
+3. /etc/cloud/cloud.cfg # 如果有，将 preserve_hostname 改为 true
+4. bash
+
+使用 hostnamectl 查看当前的hostname
+```
 
 
 

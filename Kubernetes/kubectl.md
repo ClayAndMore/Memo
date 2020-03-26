@@ -2,9 +2,24 @@ Tags:[k8s]
 
 官方提供了 CLI 工具 `kubectl` 用于完成大多数集群管理相关的功能。当然凡是你可以通过 `kubectl`完成的与集群交互的功能，都可以直接通过 API 完成。
 
-一般的用法 `kubectl [flags] [options]` 
+ `kubectl  [command]  [TYPE] [NAME]  [flags]` 
 
-``` 
+```
+1 command：子命令，用于操作Kubernetes集群资源对象的命令，如create, delete, describe, get, apply等
+ 
+2 TYPE：资源对象的类型，如pod, service, rc, deployment, node等，可以单数、复数以及简写（pod, pods, po/service,
+services, svc）
+ 
+3 NAME：资源对象的名称，不指定则返回所有，如get pod 会返回所有pod， get pod  nginx， 只返回nginx这个pod
+ 
+4 flags：kubectl子命令的可选参数，例如-n 指定namespace，-s 指定apiserver的URL
+```
+
+
+
+help:
+
+``` sh
 [root@master131 ~]# kubectl --help
 kubectl controls the Kubernetes cluster manager.
 
@@ -150,7 +165,7 @@ minikube   Ready     master    2d        v1.11.3   10.0.2.15     <none>        B
 
 其他用法：
 
-``` 
+``` sh
   # List a single replication controller with specified NAME in ps output format.
   kubectl get replicationcontroller web
 
@@ -251,8 +266,104 @@ eg: `kubectl expose deploy/redis --port=6379 --protocol=TCP --target-port=6379 -
 
 
 
-待补充：
+### exec
 
-- **kubectl describe** - 显示资源的详细信息
-- **kubectl logs** - 打印pod中的容器日志
-- **kubectl exec** - pod中容器内部执行命令
+```
+root@node200:~# kubectl exec -it pod/trireme-enforcer-5qcks -n kube-system bash
+root@node201:/opt/trireme# 
+```
+
+
+
+
+### logs
+
+```
+kubectl logs <pod-name>
+# kubectl logs frontend-141477217-42863
+03-Nov-2018 05:44:29.442 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
+03-Nov-2018 05:44:29.446 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
+03-Nov-2018 05:44:29.448 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
+03-Nov-2018 05:44:29.448 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+03-Nov-2018 05:44:29.448 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            3.10.0-862.14.4.el7.x86_64
+03-Nov-2018 05:44:29.450 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd6
+```
+
+　
+
+可以动态查看，类似于tail -f
+
+```
+kubectl logs -f <pod-name> -c <container-name>
+```
+
+
+
+### describe
+
+显示node的详细信息
+
+```
+kubectl describe nodes <node-name>
+```
+
+　　
+
+显示pod的详细信息
+
+```
+kubectl describe pods/<pod-name>
+```
+
+　
+
+显示deployment管理的pod信息
+
+```
+kubectl describe pods <deployment-name>
+```
+
+
+
+### create
+
+根据yaml文件创建service和deployment
+
+```
+kubectl create -f my-service.yaml -f my-deploy.yaml
+```
+
+也可以指定一个目录，这样可以一次性根据该目录下所有yaml或json文件定义资源
+
+```
+kubectl create -f <directory>
+```
+
+
+
+### delete
+
+基于yaml文件删除
+
+```
+kubectl delete -f pod.yaml
+```
+
+删除所有包含某个label的pod和service
+
+```
+kubectl delete po,svc -l name=<lable-name>
+```
+
+删除指定pod:
+
+```
+kubectl delete pod/trireme-enforcer-lwxhr -n kube-system
+```
+
+删除所有pod
+
+```
+kubectl delete po --all
+```
+

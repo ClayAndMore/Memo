@@ -774,3 +774,10 @@ centos77.magedu.com
 
 
 改完host,可以执行bash更新 前缀。
+
+
+
+### arp
+
+apr -a
+
