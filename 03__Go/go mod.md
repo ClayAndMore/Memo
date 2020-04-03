@@ -17,17 +17,64 @@ Golang 1.11 版本引入的 go mod ，其思想类似maven：摒弃vendor和GOPA
 
 
 
-### 所有命令
+## go.mod 文件
 
-命令 说明  
+go.mod中记录了依赖包及其版本号。 默认的go.mod:
 
- download download modules to local cache(下载依赖包)  edit edit go.mod from tools or scripts（编辑go.mod  graph print module requirement graph (打印模块依赖图)  init initialize new module in current directory（在当前目录初始化mod）  tidy add missing and remove unused modules(拉取缺少的模块，移除不用的模块)  vendor make vendored copy of dependencies(将依赖复制到vendor下)  verify verify dependencies have expected content (验证依赖是否正确）  why explain why packages or modules are needed(解释为什么需要依赖)
+```
+module goEchoPractice
+
+go 1.13
+```
+
+首行为当前的模块名称，接下来是 go 的使用版本。
 
 
 
+go.mod 提供了`module`, `require`、`replace`和`exclude` 四个模块：
+
+- `module` 语句指定包的名字, 用于定义当前项目的模块路径。
+- `require` 语句指定的依赖项模块, 用于设置一个特定的模块版本。
+- `replace` 语句可以替换依赖项模块, 用于将一个模块版本替换为另外一个模块版本。
+- `exclude` 语句可以忽略依赖项模块, 用于从使用中排除一个特定的模块版本。
+
+```
+module example.com/foobar
+
+go 1.13
+
+require (
+    example.com/apple v0.1.2
+    example.com/banana v1.2.3
+    example.com/banana/v2 v2.3.4
+    example.com/pineapple v0.0.0-20190924185754-1b0db40df49a
+)
+
+exclude example.com/banana v1.2.4
+replace example.com/apple v0.1.2 => example.com/rda v0.1.0 
+replace example.com/banana => example.com/hugebanana
+```
+
+go module 安装 package 的原則是先拉最新的 release tag，若无tag则拉最新的commit，go 会自动生成一个 go.sum 文件来记录 dependency tree.
+
+使用 replace  替换无法直接获取的 package
+由于某些已知的原因，并不是所有的package都能成功下载，比如：`golang.org`下的包。
+modules 可以通过在 go.mod 文件中使用 replace 指令替换成github上对应的库，比如：
+
+```
+replace (
+	golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a => github.com/golang/crypto v0.0.0-20190313024323-a1f597ede03a
+)
+
+或：
+replace golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a => github.com/golang/crypto v0.0.0-20190313024323-a1f597ede03a
+```
 
 
-### init
+
+## go mod 命令
+
+### mode init
 
 使用go mod 管理项目，就不需要非得把项目放到GOPATH指定目录下，你可以在你磁盘的任何位置新建一个项目，比如：E:\gitCompany\goEchoPractice> （注意，该路径并不在GOPATH里），
 
@@ -77,91 +124,15 @@ go: finding golang.org/x/crypto latest
 
 
 
-### go.mod
-
-go.mod中记录了依赖包及其版本号。 默认的go.mod:
-
-```
-module goEchoPractice
-
-go 1.13
-```
-
-首行为当前的模块名称，接下来是 go 的使用版本。
-
-
-
-go.mod 提供了`module`, `require`、`replace`和`exclude` 四个命令
-
-- `module` 语句指定包的名字, 用于定义当前项目的模块路径。
-- `require` 语句指定的依赖项模块, 用于设置一个特定的模块版本。
-- `replace` 语句可以替换依赖项模块, 用于将一个模块版本替换为另外一个模块版本。
-- `exclude` 语句可以忽略依赖项模块, 用于从使用中排除一个特定的模块版本。
-
-```
-module example.com/foobar
-
-go 1.13
-
-require (
-    example.com/apple v0.1.2
-    example.com/banana v1.2.3
-    example.com/banana/v2 v2.3.4
-    example.com/pineapple v0.0.0-20190924185754-1b0db40df49a
-)
-
-exclude example.com/banana v1.2.4
-replace example.com/apple v0.1.2 => example.com/rda v0.1.0 
-replace example.com/banana => example.com/hugebanana
-```
-
-
-
-
-
-go module 安装 package 的原則是先拉最新的 release tag，若无tag则拉最新的commit，go 会自动生成一个 go.sum 文件来记录 dependency tree.
-
-使用 replace  替换无法直接获取的 package
-由于某些已知的原因，并不是所有的package都能成功下载，比如：`golang.org`下的包。
-modules 可以通过在 go.mod 文件中使用 replace 指令替换成github上对应的库，比如：
-
-```
-replace (
-	golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a => github.com/golang/crypto v0.0.0-20190313024323-a1f597ede03a
-)
-
-或：
-replace golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a => github.com/golang/crypto v0.0.0-20190313024323-a1f597ede03a
-```
-
-
-
-### GO111MODULE
-
-如果想更好的控制，可以修改 `GO111MODULE` 临时环境变量。
-
-`GO111MODULE` 有三个值：`off`, `on`和`auto（默认值）`。
-
-- `GO111MODULE=off`，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找。
-
-- `GO111MODULE=on`，go命令行会使用modules，而一点也不会去GOPATH目录下查找。
-
-- `GO111MODULE=auto`
-
-  ，默认值，go命令行将会根据当前目录来决定是否启用module功能，如果当前目录不在$GOPATH **并且** 当前目录（或者父目录）下有go.mod文件，则使用 `GO111MODULE`， 否则仍旧使用 GOPATH mode。
-
-
-> 当modules 功能启用时，依赖包的存放位置变更为`$GOPATH/pkg`，允许同一个package多个版本并存，且多个项目可以共享缓存的 module。
-
-
-
-### go get
+### get / mod download
 
 当然我们平常都不会直接先写代码，写上引入的依赖名称和路径，然后在 build 的时候再下载。
 
-**如果要想先下载依赖，那么可以直接像以前那样 `go get` 即可**
+**如果要想先下载依赖，那么可以直接像以前那样 `go get` 即可**, 使用go module之后，go get 拉取依赖的方式就发生了变化
 
-运行 go get -u 将会升级到最新的次要版本或者修订版本, 更新现有的依赖
+运行 go get -u 将会升级到最新的次要版本或者修订版本(只改bug的版本), 更新现有的依赖
+
+eg ：`go get -u=patch github.com/gogf/gf`
 
 运行 go get -u=patch 将会升级到最新的修订版本
 
@@ -177,13 +148,9 @@ replace golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a => github.com/gol
 
 **如果下载所有依赖可以使用 `go mod download` 命令。**
 
-其他命令：
+它是下载modules到本地cache， 目前所有模块版本数据均缓存在 `$GOPATH/pkg/mod`和 `$GOPATH/pkg/sum` 下
 
-- 用 `go mod tidy` 整理现有的依赖
-- 用 `go mod graph` 查看现有的依赖结构
-- 用 `go mod edit` 编辑 go.mod 文件
-- 用 `go mod vendor` 导出现有的所有依赖 (事实上 Go modules 正在淡化 Vendor 的概念)
-- 用 `go mod verify` 校验一个模块是否被篡改过
+清除 moudle 缓存： `go clean -modcache`
 
 
 
@@ -217,11 +184,13 @@ $ go list -m -json all # json 格式输出
 }
 ```
 
+查看可下载版本：
+
+`go list -m -versions github.com/gogf/gf`
 
 
 
-
-### 移除包
+### mod tidy 移除包
 
 当前代码中不需要了某些包，删除相关代码片段后并没有在 `go.mod` 文件中自动移出。
 
@@ -231,11 +200,60 @@ $ go list -m -json all # json 格式输出
 go mod tidy
 ```
 
+
+
+### mod edit 
+
 如果仅仅修改 `go.mod` 配置文件的内容，那么可以运行 `go mod edit --droprequire=path`，比如要移出 `golang.org/x/crypto` 包
 
 ```text
 go mod edit --droprequire=golang.org/x/crypto
 ```
+
+编辑go.mod文件 选项有`-json`、`-require`和`-exclude`，可以使用帮助go help mod edit
+
+
+
+### mod vendor
+
+生成vendor目录， 这个选项比较重要。
+
+其他：
+
+验证依赖是否正确
+
+```text
+go mod verify
+```
+
+查找依赖
+
+```text
+go mod why
+```
+
+
+
+## 环境变量
+
+
+
+### GO111MODULE
+
+如果想更好的控制，可以修改 `GO111MODULE` 临时环境变量。
+
+`GO111MODULE` 有三个值：`off`, `on`和`auto（默认值）`。
+
+- `GO111MODULE=off`，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找。
+
+- `GO111MODULE=on`，go命令行会使用modules，而一点也不会去GOPATH目录下查找。
+
+- `GO111MODULE=auto`
+
+  ，默认值，go命令行将会根据当前目录来决定是否启用module功能，如果当前目录不在$GOPATH **并且** 当前目录（或者父目录）下有go.mod文件，则使用 `GO111MODULE`， 否则仍旧使用 GOPATH mode。
+
+
+> 当modules 功能启用时，依赖包的存放位置变更为`$GOPATH/pkg`，允许同一个package多个版本并存，且多个项目可以共享缓存的 module。
 
 
 
@@ -358,3 +376,95 @@ go: extracting github.com/astaxie/beego v1.12.0
 
 
 参考链接： https://juejin.im/post/5d8ee2db6fb9a04e0b0d9c8b
+
+
+
+
+
+### 更新
+
+```
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ go  get -insecure git.cloud.top/DSec/gaia
+go: downloading git.cloud.top/DSec/gaia v0.0.0-20200223100719-3106fd0eba0c
+go: downloading gopkg.in/yaml.v2 v2.2.7
+go: downloading go.aporeto.io/elemental v1.100.1-0.20200131212138-0acbf2761bf0
+go: downloading github.com/mitchellh/reflectwalk v1.0.0
+go: extracting git.cloud.top/DSec/gaia v0.0.0-20200223100719-3106fd0eba0c
+go: extracting gopkg.in/yaml.v2 v2.2.7
+go: extracting github.com/mitchellh/reflectwalk v1.0.0
+go: extracting go.aporeto.io/elemental v1.100.1-0.20200131212138-0acbf2761bf0
+go: finding git.cloud.top/DSec/gaia v0.0.0-20200223100719-3106fd0eba0c
+go: finding go.aporeto.io/elemental v1.100.1-0.20200131212138-0acbf2761bf0
+go: finding github.com/mitchellh/reflectwalk v1.0.0
+go: finding gopkg.in/yaml.v2 v2.2.7
+
+
+```
+
+变化：
+
+```
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ git status
+On branch wy
+Your branch is ahead of 'origin/wy' by 29 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   go.mod
+        modified:   go.sum
+
+```
+
+变化：
+
+```
+
+$ git diff go.mod
+ require (
++       git.cloud.top/DSec/gaia v0.0.3 // indirect
+
+
+$ git diff go.sum
+
++git.cloud.top/DSec/gaia v0.0.3 h1:JEKaotDiQ5H7u6gwOz5nX34fAo12tA6ucoH+o5KkGGU=
++git.cloud.top/DSec/gaia v0.0.3/go.mod h1:5vfBVISmuJGAxVSSeUia4LOvK2khrYGrcKbPCimP6RM=
+
+```
+
+
+
+mod vendor:
+
+```sh
+$ go mod vendor
+go: downloading go.aporeto.io/manipulate v1.114.1-0.20200211161817-73d840c10110
+go: downloading go.aporeto.io/bahamut v1.112.1-0.20191212212221-6a099a60d19a
+go: downloading github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337
+go: downloading go.uber.org/zap v1.10.0
+
+# 卡主，尝试取消代理
+
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ echo $HTTP_PROXY
+http://192.168.59.241:8888/
+
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ unset HTTP_PROXY
+
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ echo $HTTP_PROXY
+
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ echo $HTTPS_PROXY
+http://192.168.59.241:8888/
+
+wy@DESKTOP-9OB8A7N MINGW64 /e/gitCompany/apiserver (wy)
+$ unset HTTPS_PROXY
+
+再次尝试即可。
+```
+

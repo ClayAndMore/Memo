@@ -118,6 +118,14 @@ v p s 打开 /etc/ssh/sshd_config，将GatewayPorts参数设为yes, 重启sshd
 
 
 
+### scp 走代理
+
+```shell
+scp -o "ProxyCommand=nc -X connect -x proxy_ip:proxy_host %h %p"  filename  username@target_ip:/target_path
+```
+
+
+
 ### 一些参数
 
 ```

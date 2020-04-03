@@ -92,6 +92,32 @@ git reflog master
 
 ### 一些问题
 
+#### warning: LF will be replaced by CRLF
+
+如果你是 Windows 程序员，且正在开发仅运行在 Windows 上的项目，可以设置 false 取消此功能，把回车保留在版本库中：
+
+```sh
+#提交检出均不转换
+$ git config --global core.autocrlf false
+```
+
+ **你也可以在文件提交时进行safecrlf检查**
+
+```sh
+#拒绝提交包含混合换行符的文件
+git config --global core.safecrlf true   
+
+#允许提交包含混合换行符的文件
+git config --global core.safecrlf false   
+
+#提交包含混合换行符的文件时给出警告
+git config --global core.safecrlf warn
+```
+
+https://www.jianshu.com/p/450cd21b36a4
+
+
+
 #### windows更改文件权限
 
 查看：`git  ls-files --stage`
