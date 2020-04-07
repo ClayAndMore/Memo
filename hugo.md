@@ -52,6 +52,7 @@ cd quickstart
 git init
 git submodule add https://github.com/alex-shpak/hugo-book themes/book
 cp -R themes/book/exampleSite/content .
+hugo server --minify --theme book
 ```
 
 去 https://themes.gohugo.io/ 里选一个主题。

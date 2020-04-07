@@ -128,7 +128,11 @@ go: finding golang.org/x/crypto latest
 
 当然我们平常都不会直接先写代码，写上引入的依赖名称和路径，然后在 build 的时候再下载。
 
-**如果要想先下载依赖，那么可以直接像以前那样 `go get` 即可**, 使用go module之后，go get 拉取依赖的方式就发生了变化
+**如果要想先下载依赖，那么可以直接像以前那样 `go get` 即可**, 使用go module之后，go get 拉取依赖的方式就发生了变化：
+
+- 老的`go get`取包过程类似：`git clone` + `go install` , 开启`Go Module`功能后`go get`就只有 `git clone` 或者 `download`过程了。
+- 新老实现还有一个不同是，两者存包的位置不同。前者，存放在`$GOPATH/src`目录下；后者，存放在`$GOPATH/pkg/mod`目录下。
+- 老的`go get`取完主包后，会对其`repo`下的`submodule`进行循环拉取。新的`go get`不再支持`submodule`子模块拉取。
 
 运行 go get -u 将会升级到最新的次要版本或者修订版本(只改bug的版本), 更新现有的依赖
 
@@ -319,9 +323,9 @@ go mod why
 
 
 
-### 坑
+## 坑
 
-#### 管理 GO 的环境变量
+### 管理 GO 的环境变量
 
 在 Go 1.13 中， 建议 将所有有关 Go 相关的环境变量都由新出的 go env -w 来管理。
 
@@ -333,13 +337,13 @@ go mod why
 
 
 
-#### unrecognized import path "golang.org/x/tools/go/packages"
+### unrecognized import path "golang.org/x/tools/go/packages"
 
 有时候设置了proxy 还是会有这样的问题，可以尝试go env -w GO111MODULE=on(笑哭)
 
 
 
-#### x509: certificate
+### x509: certificate
 
 ```sh
 $ go list
@@ -468,3 +472,8 @@ $ unset HTTPS_PROXY
 再次尝试即可。
 ```
 
+
+
+### 待参考
+
+https://www.gitdig.com/go-mod-enterprise-work-1/

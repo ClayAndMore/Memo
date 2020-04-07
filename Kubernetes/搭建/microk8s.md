@@ -1,5 +1,7 @@
 官网：https://microk8s.io/docs/
 
+GitHub: https://github.com/ubuntu/microk8s
+
 ### 安装
 
 ```
@@ -8,11 +10,12 @@ error: cannot install "microk8s": Post https://api.snapcraft.io/v2/snaps/refresh
        api.snapcraft.io: Temporary failure in name resolution
 ```
 
-为 snap 配置代理
+### 为 snap 配置代理
 
 ```sh
 # vim /etc/profile
-export SYSTEMD_EDITOR="/usr/bin/vim"
+# systemctl edit 使用的编辑器为 VIM, 如果不介意 Nano 可以跳过这一步
+export SYSTEMD_EDITOR="/usr/bin/vim" 
 
 # source /etc/profile
 
@@ -35,6 +38,8 @@ microk8s (1.12/stable) v1.12.9 from Canonical✓ installed
 注意，安装最新版本的命令是 ：`snap install microk8s --classic `, 当时最新版本是1.13， 1.13没有 microk8s.docker 命令。
 
 因为microk8s会自带一个docker, 如果你的系统里已经安装了docker的话， 它还是用自带的那个docker,也就是microk8s.docker。因此，在解决上面提到的镜像问题的时候， 一定要使用microk8s.docker命令来操作， 使用系统原有的docker是不起作用的。
+
+**microk8s 从1.14 开始, 使用containerd 代替原来自带的microk8s.docker, 据说是出于性能和与主机docker共存的考虑.**
 
 todo: 如何让 新版 microk8s 使用原有docker
 
@@ -336,3 +341,12 @@ spec:
         - containerPort: 80
 ```
 
+
+
+参考：
+
+http://py3study.com/Article/details/id/19731.html
+
+https://jiajunhuang.com/articles/2019_11_17-microk8s.md.html
+
+https://zhuanlan.zhihu.com/p/81648464

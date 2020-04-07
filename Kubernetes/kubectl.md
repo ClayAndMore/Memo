@@ -268,9 +268,20 @@ eg: `kubectl expose deploy/redis --port=6379 --protocol=TCP --target-port=6379 -
 
 ### exec
 
+``` sh
+# 执行pod的ls命令，默认是用pod中的第一个容器执行
+kubectl exec -it |pod-name| -- ls
+# 指定pod中某个容器执行ls命令
+kubectl exec |pod-name| -c |container-name| ls
+# 登录容器（容器中命令存在时）
+kubectl exec -it |pod-name| /bin/sh
+kubectl exec -it |pod-name| /bin/bash
+```
+
+eg:
+
 ```
 root@node200:~# kubectl exec -it pod/trireme-enforcer-5qcks -n kube-system bash
-root@node201:/opt/trireme# 
 ```
 
 
@@ -278,23 +289,20 @@ root@node201:/opt/trireme#
 
 ### logs
 
-```
+```sh
 kubectl logs <pod-name>
-# kubectl logs frontend-141477217-42863
-03-Nov-2018 05:44:29.442 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
-03-Nov-2018 05:44:29.446 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
-03-Nov-2018 05:44:29.448 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
-03-Nov-2018 05:44:29.448 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
-03-Nov-2018 05:44:29.448 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            3.10.0-862.14.4.el7.x86_64
-03-Nov-2018 05:44:29.450 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd6
+# 可以动态查看，类似于tail -f
+kubectl logs -f <pod-name> -c <container-name>
+# 查看pod中的某个容器， 若只有一个容器，可以不加 -c
+kubectl log <pod-name> -c <container_name> 
 ```
 
 　
 
-可以动态查看，类似于tail -f
+
 
 ```
-kubectl logs -f <pod-name> -c <container-name>
+
 ```
 
 
@@ -307,17 +315,13 @@ kubectl logs -f <pod-name> -c <container-name>
 kubectl describe nodes <node-name>
 ```
 
-　　
-
-显示pod的详细信息
+　　显示pod的详细信息
 
 ```
 kubectl describe pods/<pod-name>
 ```
 
-　
-
-显示deployment管理的pod信息
+　显示deployment管理的pod信息
 
 ```
 kubectl describe pods <deployment-name>
@@ -367,3 +371,11 @@ kubectl delete pod/trireme-enforcer-lwxhr -n kube-system
 kubectl delete po --all
 ```
 
+
+
+### cp
+
+```
+kubectl cp /local_path/filename {namespace}/{pod-name}:/container_path/
+kubectl cp {namespace}/{pod-name}:/container_path/ /local_path/filename
+```

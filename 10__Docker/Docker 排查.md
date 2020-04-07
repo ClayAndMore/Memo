@@ -10,3 +10,12 @@
 
 #### docker exec -it <container_id> /bin/bash
 
+
+
+### 删除docker0
+
+```
+ifconfig docker0 down
+brctl delbr docker0
+```
+
