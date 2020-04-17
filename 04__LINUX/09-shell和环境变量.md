@@ -238,6 +238,19 @@ Eg:
 alias ll='ls -l --color=auto'
 ```
 
+**携带参数：**
+
+`alias cd='func() { cd $1; ls;}; func'`
+
+eg
+
+```
+root@:~# cd /tmp
+go-build052349483  go-build461530498  go-build672423576 
+```
+
+
+
 #### type
 
 查询指令是否为 Bash shell 的内置命令： type

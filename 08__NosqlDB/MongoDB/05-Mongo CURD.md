@@ -363,8 +363,12 @@ $eq  --------  equal  =
 - 联合：`db.col.find({"likes": {$gt:50}, $or: [{"by": "菜鸟教程"},{"title": "MongoDB 教程"}]}).pretty()`
 
 - `$in`,  `db.raffle.find({"ticket_no": {"$in": [1,2,3]}})`,  中奖号码1，2，3
+
 - `$nin`,  不在某个范围。
+
 - `$not`, 元条件语句， 可以在任意条件之上， 
+
+- `$regex`, 正则 `db.posts.find({post_text:{$regex:"runoob"}})`,  也可以写为 `db.posts.find({post_text:/runoob/})`
 
 我们可以发现， $lt在内层文档， ￥inc在外层文档，
 

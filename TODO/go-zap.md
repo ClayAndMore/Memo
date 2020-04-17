@@ -314,6 +314,74 @@ func main() {
 
 
 
+### 动态调整日志级别
+
+通过 http 请求动态调整当前日志的级别。
+
+``` go
+package main
+
+import (
+    "fmt"
+    "go.uber.org/zap"
+    "net/http"
+    "time"
+)
+
+func main() {
+    alevel := zap.NewAtomicLevel()
+    http.HandleFunc("/handle/level", alevel.ServeHTTP)
+    go func() {
+        if err := http.ListenAndServe(":9090", nil); err != nil {
+            panic(err)
+        }
+    }()
+    // 默认是Info级别
+    logcfg := zap.NewProductionConfig()
+    logcfg.Level = alevel
+
+    logger, err := logcfg.Build()
+    if err != nil {
+        fmt.Println("err", err)
+    }
+
+    defer logger.Sync()
+    for i := 0; i < 1000; i++ {
+        time.Sleep(1 * time.Second)
+        logger.Debug("debug log", zap.String("level", alevel.String()))
+        logger.Info("Info log", zap.String("level", alevel.String()))
+    }
+}
+```
+
+查看日志级别
+
+```
+curl http://localhost:9090/handle/level
+```
+
+输出
+
+```
+{"level":"info"}
+```
+
+调整日志级别(可选值 “debug” “info” “warn” “error” 等)
+
+```
+curl -XPUT --data '{"level":"debug"}' http://localhost:9090/handle/level
+```
+
+输出
+
+```
+{"level":"debug"}
+```
+
+
+
+
+
 ## 日志归档和切割 lumberjack
 
 https://github.com/natefinch/lumberjack
@@ -366,61 +434,65 @@ log.go:
 package logger
 
 import (
-	"github.com/natefinch/lumberjack"
+	"git.cloud.top/DSec/apiserver/utils"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"github.com/natefinch/lumberjack"
 	"io"
+	"os"
 )
 
 var Logger *zap.Logger
 
-const (
-	LOG_SAVE_DIR = "./log/"  // 日志文件路径
-	LOG_MAX_SIZE = 1024      // 当日志文件达到多大时执行日志分割
-	LOG_BACKUPS  = 3         // 日志分割后保留的文件个数
-	LOG_MAX_AGE  = 7         // 最多保留天数
-	LOG_COMPRESS = false     // 是否压缩日志
-)
-
 func init() {
 
-	// 实现两个判断日志等级的interface (其实 zapcore.*Level 自身就是 interface)
-	infoLevel := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl < zapcore.WarnLevel
+	// 两种判断日志等级的interface
+	infoLevel := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
+		return level < zapcore.WarnLevel
 	})
 
-	warnLevel := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl >= zapcore.WarnLevel
+	warnLevel := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
+		return level >= zapcore.WarnLevel
 	})
 
+	allLevel := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
+		return lvl >= zapcore.DebugLevel
+	})
+
+	consoleDebugging := zapcore.Lock(os.Stdout)
 	encoder := getEncoder()
+	consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
 
 	infoHook := getLogWriter("debug.log")
 	warnHook := getLogWriter("err.log")
 
 	core := zapcore.NewTee(
+		// 打印到 调试输出文件
 		zapcore.NewCore(encoder, zapcore.AddSync(infoHook), infoLevel),
+		// 打印到 错误输出文件
 		zapcore.NewCore(encoder, zapcore.AddSync(warnHook), warnLevel),
+		// 打印到控制台
+		zapcore.NewCore(consoleEncoder, consoleDebugging, allLevel),
 	)
 	Logger = zap.New(core, zap.AddCaller())
 }
 
 func getEncoder() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
-	//  zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig()) // json 格式
+	//  zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder // 时间格式
 	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder // 大写级别
 	return zapcore.NewConsoleEncoder(encoderConfig)
 
 }
 
-func getLogWriter(filename string) io.Writer {
+func getLogWriter(filename string ) io.Writer {
 	hook := lumberjack.Logger{
-		Filename:   LOG_SAVE_DIR + filename, // 日志文件路径
-		MaxSize:    LOG_MAX_SIZE, // megabytes
-		MaxBackups: LOG_BACKUPS,    // 最多保留3个备份
-		MaxAge:     LOG_MAX_AGE,    //days
-		Compress:   LOG_COMPRESS, // 是否压缩 disabled by default
+		Filename:   utils.LOG_SAVE_DIR + filename, // 日志文件路径
+		MaxSize:    utils.LOG_MAX_SIZE, // megabytes
+		MaxBackups: utils.LOG_BACKUPS,    // 最多保留3个备份
+		MaxAge:     utils.LOG_MAX_AGE,    //days
+		Compress:   utils.LOG_COMPRESS, // 是否压缩 disabled by default
 	}
 	return &hook
 }
@@ -457,4 +529,6 @@ func main() {
 2020-04-16T16:15:28.779+0800    INFO    gotest/main.go:9        i'am info 
 2020-04-16T16:15:28.780+0800    DEBUG   gotest/main.go:10       i'am debug
 ```
+
+
 
