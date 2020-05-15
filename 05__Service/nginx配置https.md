@@ -31,7 +31,7 @@ $ openssl req -new -key server.key -out server.csr
  
 # 去除 key 的密码：
 cp server.key server.origin
-openssl rsa -in server.key.origin -out server.key # 输入之前的密码
+openssl rsa -in server.origin -out server.key # 输入之前的密码
 
 # 自己签发证书，
 $ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt

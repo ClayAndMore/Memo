@@ -15,6 +15,8 @@ services, svc）
 4 flags：kubectl子命令的可选参数，例如-n 指定namespace，-s 指定apiserver的URL
 ```
 
+github:https://github.com/kubernetes/kubelet
+
 
 
 help:
@@ -370,6 +372,14 @@ kubectl delete pod/trireme-enforcer-lwxhr -n kube-system
 ```
 kubectl delete po --all
 ```
+
+**删除所有 Evicted 的pod**
+
+``` sh
+kubectl get pods --all-namespaces -ojson --show-all | jq -r '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | .metadata.name + " " + .metadata.namespace' | xargs -n2 -l bash -c 'kubectl delete pods $0 --namespace=$1
+```
+
+
 
 
 

@@ -468,6 +468,29 @@ set 是值当前的shell 环境变量，sh + 脚本会启动一个信的shell环
 
 
 
+#### 自动输入密码 | EOF
+
+两种方式：
+
+1. 使用管道，上一个命令的 stdout 接到下一个命令的 stdin：
+
+   ```
+   echo password | sudo -S apt-get update
+   ```
+
+2. 使用文本重定向：
+
+   ``` sh
+   #!/bin/bash
+   sudo -S apt-get update << EOF 
+   你的密码
+   EOF
+   ```
+
+   在shell脚本中，通常将EOF与 << 结合使用，表示后续的输入作为子命令或子Shell的输入，直到遇到EOF为止，再返回到主Shell,即将‘你的密码’当做命令的输入
+
+
+
 
 #### 通过脚本学习到的linux命令
 

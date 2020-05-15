@@ -2,6 +2,10 @@ Tags:[linux, 监控]
 
 InfluxDB官方文档：https://docs.influxdata.com/influxdb/。
 
+中文文档： https://jasper-zhang1.gitbooks.io/influxdb/content/Introduction/getting_start.html
+
+docker images: https://hub.docker.com/_/influxdb
+
 InfluxDB 是一个时间序列数据库，用于处理海量写入与负载查询。InfluxDB旨在用作涉及大量时间戳数据的任何用例（包括DevOps监控，应用程序指标，物联网传感器数据和实时分析）的后端存储。
 
 特点：
@@ -52,54 +56,15 @@ docker run -d -p 8086:8086 -v "/root/influxdb:/var/lib/influxdb" --name=influxdb
 {"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["_internal"],["telegraf"]]}]}]}
 ```
 
-8083是influxdb的web管理工具端口:
+8083是influxdb的web管理工具端口（目前1.1版本后已经取消这个功能）:
 
-`docker run -d -p 8083:8083 -p8086:8086 --expose 8086 --expose 8086--name influxsrv tutum/influxdb`
+`docker run -d -p 8083:8083 -p8086:8086 --name influxsrv influxdb`
 
 用户名root，密码root    
 
 配置文件一般在/etc/influxdb/influxdb.conf
 
-### 数据格式
 
-#### Measurement
-
-描述了相关数据的存储结构，类似于 mysql 的 table，但是不需要创建，写入数据的时候自动创建。
-
-#### point
-
-Point相当于传统数据库里的一行数据，如下表所示：
-
-| Point属性 | 传统数据库中的概念                 |
-| ------- | ------------------------- |
-| time    | 每个数据记录时间，是数据库中的主索引(会自动生成) |
-| fields  | 各种记录值（没有索引的属性）            |
-| tags    | 各种有索引的属性                  |
-
-#### Line Protocol
-
-Line Protocol格式：写入数据库的Point的固定格式。想对此格式有详细的了解参见[官方文档](https://docs.influxdata.com/influxdb/v0.10/write_protocols/line/)
-
-我们可以粗略的将要存入的一条数据看作**一个虚拟的 key 和其对应的 value(field value)**。格式如下：
-
-```
-cpu_usage,host=server01,region=us-west value=0.64 1434055562000000000
-```
-
- 虚拟的 key 包括以下几个部分： 
-
-* measurement: 测量指标名（表名），例如 cpu_usage 表示 cpu 的使用率。
-
-* tag sets: tags 在 InfluxDB 中会按照字典序排序，不管是 tagk 还是 tagv，只要不一致就分别属于两个 key，例如 host=server01,region=us-west 和 host=server02,region=us-west 就是两个不同的 tag set。它可以被索引。tag 的类型只能是字符串。
-- retention policy: 存储策略，用于设置数据保留的时间，每个数据库刚开始会自动创建一个默认的存储策略 autogen，数据保留时间为永久，之后用户可以自己设置，例如保留最近2小时的数据。插入和查询数据时如果不指定存储策略，则使用默认存储策略，且默认存储策略可以修改。InfluxDB 会定期清除过期的数据。
-
-- tag--标签，在InfluxDB中，tag是一个非常重要的部分，表名+tag一起作为数据库的索引，是“key-value”的形式。
-
-- field name: 例如上面数据中的 value 就是 fieldName，InfluxDB 中支持一条数据中插入多个 fieldName，这其实是一个语法上的优化，在实际的底层存储中，是当作多条数据来存储。
-
-- timestamp: 每一条数据都需要指定一个时间戳，在 TSM 存储引擎中会特殊对待，以为了优化后续的查询操作。
-
-深层次：https://blog.csdn.net/gongpulin/article/details/81023085
 
 ### 命令行操作
 
@@ -206,3 +171,43 @@ influxDB是没有提供直接删除数据记录的方法，但是提供数据保
   ```
   drop retention policy "rp_name"
   ```
+### 数据格式
+
+#### Measurement
+
+描述了相关数据的存储结构，类似于 mysql 的 table，但是不需要创建，写入数据的时候自动创建。
+
+#### point
+
+Point相当于传统数据库里的一行数据，如下表所示：
+
+| Point属性 | 传统数据库中的概念                 |
+| ------- | ------------------------- |
+| time    | 每个数据记录时间，是数据库中的主索引(会自动生成) |
+| fields  | 各种记录值（没有索引的属性）            |
+| tags    | 各种有索引的属性                  |
+
+#### Line Protocol
+
+Line Protocol格式：写入数据库的Point的固定格式。想对此格式有详细的了解参见[官方文档](https://docs.influxdata.com/influxdb/v0.10/write_protocols/line/)
+
+我们可以粗略的将要存入的一条数据看作**一个虚拟的 key 和其对应的 value(field value)**。格式如下：
+
+```
+cpu_usage,host=server01,region=us-west value=0.64 1434055562000000000
+```
+
+ 虚拟的 key 包括以下几个部分： 
+
+* measurement: 测量指标名（表名），例如 cpu_usage 表示 cpu 的使用率。
+
+* tag sets: tags 在 InfluxDB 中会按照字典序排序，不管是 tagk 还是 tagv，只要不一致就分别属于两个 key，例如 host=server01,region=us-west 和 host=server02,region=us-west 就是两个不同的 tag set。它可以被索引。tag 的类型只能是字符串。
+- retention policy: 存储策略，用于设置数据保留的时间，每个数据库刚开始会自动创建一个默认的存储策略 autogen，数据保留时间为永久，之后用户可以自己设置，例如保留最近2小时的数据。插入和查询数据时如果不指定存储策略，则使用默认存储策略，且默认存储策略可以修改。InfluxDB 会定期清除过期的数据。
+
+- tag--标签，在InfluxDB中，tag是一个非常重要的部分，表名+tag一起作为数据库的索引，是“key-value”的形式。
+
+- field name: 例如上面数据中的 value 就是 fieldName，InfluxDB 中支持一条数据中插入多个 fieldName，这其实是一个语法上的优化，在实际的底层存储中，是当作多条数据来存储。
+
+- timestamp: 每一条数据都需要指定一个时间戳，在 TSM 存储引擎中会特殊对待，以为了优化后续的查询操作。
+
+深层次：https://blog.csdn.net/gongpulin/article/details/81023085

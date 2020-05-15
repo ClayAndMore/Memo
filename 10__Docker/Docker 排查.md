@@ -19,3 +19,6 @@ ifconfig docker0 down
 brctl delbr docker0
 ```
 
+```sh
+docker inspect $(docker ps  | awk '{print $2}' | grep -v ID) | jq .[].RepoTags
+```

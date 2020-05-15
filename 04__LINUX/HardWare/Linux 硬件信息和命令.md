@@ -111,6 +111,27 @@ t指格式化的类型type为ext3,后面为指定分区
 /dev/md[数字]  为软件磁盘阵列
 
 
+
+#### 修改machine-id
+
+``` sh
+# 原来的machine-id
+cat /etc/maichine-id
+# 删掉
+rm /etc/machine-id
+
+# 重新生成：
+systemd-machine-id-setup
+
+# 确认是否改变：
+cat /etc/machine-id
+```
+
+
+
+
+
+
 ### 内存
 
 ​      查看内存：`free `   
@@ -327,7 +348,7 @@ model name    : Intel(R) Core(TM) i5-2320 CPU @ 3.00GHz
    在开发板上/proc/net目录下，还有很多关于网络的信息的文件，我试了不少，觉得这个还算准确，但并非100%哦，如果启动开发板后，eth0中bytes、packets 不为0，那它一定插了网线，但此种方法只适合开机启动时判断，之后的话，就很麻烦了。
    ```
 
-   ​
+   
 
 确定某网卡的具体物理口， 用：
 

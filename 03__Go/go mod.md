@@ -74,7 +74,7 @@ replace golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a => github.com/gol
 
 ## go mod 命令
 
-### mode init
+### mod init
 
 使用go mod 管理项目，就不需要非得把项目放到GOPATH指定目录下，你可以在你磁盘的任何位置新建一个项目，比如：E:\gitCompany\goEchoPractice> （注意，该路径并不在GOPATH里），
 
