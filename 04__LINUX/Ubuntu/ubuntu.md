@@ -119,6 +119,46 @@ sudo netplan apply
 
 https://www.hi-linux.com/posts/49513.html
 
+netplan apply后，会自动重启systemd-resolved.service
+该服务会将DNS服务的IP写在/run/systemd/resolve/resolv.conf文件中。
+
+
+
+#### ubuntu 18.04+ 
+
+在Ubuntu18.04+版本中，DNS由`systemd`全面接管，接口监听在`127.0.0.53:53`，配置文件在`/etc/systemd/resolved.conf`中。
+
+有时候会导致无法解析域名的问题，可使用如下2种方式来解决：
+
+1.最简单的就是关闭systemd-resolvd服务
+
+```bash
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+```
+
+然后手动修改`/etc/resolv.conf`文件就可以了。
+
+2.更加推荐的做法是修改systemd-resolv的设置：
+
+```bash
+sudo vim /etc/systemd/resolved.conf
+
+# 修改为如下
+[Resolve]
+DNS=1.1.1.1 1.0.0.1
+#FallbackDNS=
+#Domains=
+LLMNR=no
+#MulticastDNS=no
+#DNSSEC=no
+#Cache=yes
+#DNSStubListener=yes
+```
+
+**DNS=**设置的是域名解析服务器的IP地址，这里分别设为1.1.1.1和1.0.0.1
+**LLMNR=**设置的是禁止运行LLMNR(Link-Local Multicast Name Resolution)，否则systemd-resolve会监听5535端口。
+
 
 
 ### 修改hostname

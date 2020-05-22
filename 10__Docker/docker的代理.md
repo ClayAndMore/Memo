@@ -107,3 +107,15 @@ docker run   -d   \
 ```
 
 此时注意把代理的地址调成 0.0.0.0:1080， 不然容器内部访问不到127.
+
+
+
+### k8s 使用代理
+
+k8s 使用的是容器的代理，可以进入pod里printenv, 看下是否用proxy变量
+
+https://stackoverflow.com/questions/53173487/how-to-set-proxy-settings-http-proxy-variables-for-kubernetes-v1-11-2-cluste
+
+或者在yaml里使用代理变量：
+
+https://stackoverflow.com/questions/52191439/kubernetes-docker-containers-behind-proxy
