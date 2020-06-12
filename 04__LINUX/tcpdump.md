@@ -59,6 +59,26 @@ tcpdump portrange 21-23 # 端口范围
 tcpdumo dst port ! 22 # 不抓取目标端口是22的数据包
 ```
 
+
+
+### 指定包类型
+
+```sh
+# 只捕获TCP SYN包：
+tcpdump -i <interface> "tcp[tcpflags] & (tcp-syn) != 0"
+ 
+# 只捕获TCP ACK包：
+tcpdump -i <interface> "tcp[tcpflags] & (tcp-ack) != 0"
+
+# 只捕获TCP FIN包：
+tcpdump -i <interface> "tcp[tcpflags] & (tcp-fin) != 0"
+
+# 只捕获TCP SYN或ACK包：
+tcpdump -r <interface> "tcp[tcpflags] & (tcp-syn|tcp-ack) != 0"
+```
+
+
+
 ### 保存到文件
 
 tcpdump默认会将输出写到缓冲区，只有缓冲区内容达到一定的大小，或者tcpdump退出时，才会将输出写到本地磁盘
@@ -149,7 +169,7 @@ IP (tos 0x0, ttl 64, id 59119, offset 0, flags [DF], proto TCP (6), length 40)
 上面的三条数据还是 tcp 协议的三次握手过程，第一条就是 `SYN` 报文，这个可以通过 `Flags [S]` 看出。下面是常见的 TCP 报文的 Flags:
 
 - `[S]`： SYN（开始连接）
-- `[.]`: 没有 Flag
+- `[.]`: 没有 Flag， 点 实际表示ACK,  比如[S.] 
 - `[P]`: PSH（推送数据）
 - `[F]`: FIN （结束连接）
 - `[R]`: RST（重置连接）

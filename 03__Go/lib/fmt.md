@@ -67,6 +67,8 @@ func main() {
 | %%     | 字面上的百分号，并非值的占位符 | Printf("%%")                                                 | %                    |
 | %p     | Printf("%p", &p)               | 十六进制表示，前缀 0x                                        | 0x4f57f0             |
 
+**常用%#v, 比起 %+v 有时更能输出结构体的字段和值**
+
 格式化整型：
 
 | 占位符 | 说明                                       | 举例                 | 输出   |
@@ -213,3 +215,35 @@ func percent(i ...int) error {
 
 
 待整理： https://www.cnblogs.com/golove/p/3286303.html
+
+
+
+
+
+### Sprintf
+
+接口类型转成字符串：
+
+``` go
+package main
+
+import "fmt"
+
+func main() {
+
+    mapInterface := make(map[interface{}]interface{})   
+    mapString := make(map[string]string)
+
+    mapInterface["k1"] = 1
+    mapInterface[3] = "hello"
+    mapInterface["world"] = 1.05
+
+    for key, value := range mapInterface {
+        strKey := fmt.Sprintf("%v", key)
+        strValue := fmt.Sprintf("%v", value)
+        mapString[strKey] = strValue
+    }
+
+    fmt.Printf("%#v", mapString)
+```
+

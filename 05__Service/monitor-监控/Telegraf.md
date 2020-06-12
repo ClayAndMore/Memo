@@ -17,6 +17,10 @@ Telegraf是一个用Go语言编写的代理程序，可采集系统和服务的�
 
 下载地址：[https://github.com/influxdata/telegraf/releases](https://github.com/influxdata/telegraf/releases)
 
+
+
+#### 容器
+
 推荐docker下载安装：
 
 ```bash
@@ -73,6 +77,40 @@ docker run -d --name=telegraf -v /root/telegraf/telegraf.conf:/etc/telegraf/tele
 
 通过-v参数，把本地的telegraf.conf放到容器中覆盖默认的配置，同时把/var/run也放入容器内，因为其中有docker.sock这个文件是与docker通信的接口。
 
+
+
+#### apt 源
+
+在Ubuntu 18.04上安装telegraf是从Influxdata存储库完成的，添加repo后，可以使用apt包管理器安装包，将InfluxData存储库添加到文件/etc/apt/sources.list.d/influxdata.list中：
+
+``` sh
+# cat /etc/apt/sources.list.d/influxdata.list
+deb https://repos.influxdata.com/ubuntu bionic stable
+
+# 导入apt key:
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+
+# 开始安装
+apt-get update
+apt-get install telegraf
+
+# 启动并启用服务以在启动时启动：
+
+$ sudo systemctl start telegraf
+$ sudo  systemctl enable telegraf
+$ sudo systemctl is-enabled telegraf
+enabled
+$ systemctl status telegraf
+```
+
+
+
+#### deb 文件安装
+
+`dpkg -i telegraf_1.14.3-1_amd64.deb`
+
+
+
 ### 配置NGINX
 
 小提示:需要nginx开启`--with-http_stub_status_module`模块
@@ -109,3 +147,15 @@ telegraf配置
 systemctl restart telegraf
 telegraf --config telegraf.conf --input-filter nginx --test
 ```
+
+
+
+
+
+### 构建体积较小的镜像
+
+只使用需要的插件：
+
+https://www.influxdata.com/blog/bring-your-own-telegraf/
+
+https://hub.docker.com/r/rawkode/telegraf
