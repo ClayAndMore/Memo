@@ -333,11 +333,11 @@ $ vim -r 1.txt
 
 
 
-#### 多行tab
+#### 多行tab 缩进
 
 多行tab在python编辑时非常有用， ctil+v选择，shift+> 向右tab， shift+<向左tab
 
-
+`~` 用于转换大小写
 
 
 

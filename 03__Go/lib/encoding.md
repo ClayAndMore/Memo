@@ -46,7 +46,11 @@ root@wy:~/go/workspace/src/ch1/jsonTest# go run main.go
 
 Marshal函数返还⼀个编码后的字节slice，包含很⻓的字符串，并且没有空⽩缩进；
 
-为了⽣成便于阅读的格式，另⼀个json.MarshalIndent函 数将产⽣整⻬缩进的输出。
+
+
+#### 美化输出-pretty
+
+**为了⽣成便于阅读的格式，另⼀个json.MarshalIndent函 数将产⽣整⻬缩进的输出。**
 
 该函数有两个额外的字符串参数⽤于表示每⼀⾏输出的前缀和每⼀个层级的缩进:
 
@@ -54,8 +58,6 @@ Marshal函数返还⼀个编码后的字节slice，包含很⻓的字符串，�
 data, err = json.MarshalIndent(movies, "", "    ")
 fmt.Printf("%s\n", data)
 ```
-
-
 
 输出：
 
@@ -68,28 +70,51 @@ fmt.Printf("%s\n", data)
         "Actors": [
             "aa",
             "bb"
-        ]
-    },
-    {
-        "Title": "B",
-        "Year": 1981,
-        "Color": true,
-        "Actors": [
-            "cc",
-            "dd",
-            "ee"
-        ]
-    },
-    {
-        "Title": "C",
-        "Year": 1999,
-        "Color": false,
-        "Actors": [
-            "ff"
+...
         ]
     }
 ]
 ```
+
+如果只有一个json 字符串，想要美化输出，难道我们还要 解码 再 MarshalIndent 么，显然这很繁琐，这个时候就需要用到Indent：
+
+``` go
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+)
+
+var ex4 = `
+{
+    "timestamp":"2020-05-30T00:01:46.900195+0800",
+    "flow_id":151151474019711,
+    "event_type":"http",
+    "dest_port":80,
+    "proto":"TCP",
+    "tx_id":0,
+    "http":{
+        "hostname":"172.19.19.200",
+        "url":"/WSSmCommUpper/WSSmCommUpper",
+        "http_user_agent":"Python-urllib/2.7",
+        "http_content_type":"text/xml",
+        "protocol":"HTTP/1.1",
+        "status":200
+    }
+}
+`
+
+var prettyJSON bytes.Buffer
+error := json.Indent(&prettyJSON, []byte(ex4), "", "\t")
+if error != nil {
+    fmt.Println("JSON parse error: ", error)
+    return
+}
+
+fmt.Println("json pretty byte:", string(prettyJSON.Bytes()))
+```
+
+
 
 
 

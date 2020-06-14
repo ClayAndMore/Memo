@@ -108,6 +108,31 @@ docker run   -d   \
 
 此时注意把代理的地址调成 0.0.0.0:1080， 不然容器内部访问不到127.
 
+在内部设置变量：
+
+```sh
+/ # export http_proxy=http://192.168.59.241:8888/
+/ # export https_proxy=http://192.168.59.241:8888/
+/ # printenv
+HOSTNAME=de8b50a18d94
+SHLVL=1
+HOME=/root
+PKG_RELEASE=1
+https_proxy=http://192.168.59.241:8888/
+http_proxy=http://192.168.59.241:8888/
+TERM=xterm
+NGINX_VERSION=1.17.10
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+NJS_VERSION=0.3.9
+PWD=/
+/ # wget www.baidu.com
+Connecting to 192.168.59.241:8888 (192.168.59.241:8888)
+saving to 'index.html'
+
+```
+
+
+
 
 
 ### k8s 使用代理

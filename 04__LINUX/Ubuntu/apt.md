@@ -6,6 +6,18 @@
 
 
 
+update 和 upgrade 
+
+update的作用是从/etc/apt/source.list文件中定义的源中去同步包的索引文件，即运行这个命令其实并没有更新软件，而是相当于windows下面的检查更新，获取的是软件的状态。
+
+而upgrade则是更据update命令同步好了的包的索引文件，去真正地更新软件。
+
+而dist-upgrade则是更聪明的upgrade，man文档中说它以更聪明的方式来解决更新过程中出现的软件依赖问题，它也是从/etc/apt/source.list文件中获得地址，然后从这些地址中检索需要更新的包。
+
+每回更新之前，我们需要先运行update，然后才能运行upgrade和dist-upgrade，因为相当于update命令获取了包的一些信息，比如大小和版本号，然后再来运行upgrade去下载包
+
+
+
 ### apt-chache
 
 列举版本列表：
@@ -129,6 +141,18 @@ OK
 
 
 
+### 安装 deb 文件
+
+使用  `dpkg -i <deb file>` 来安装 deb 文件,  如果失败它会说需要依赖。
+
+之后可以尝试 `apt-get update`  然后会提示  "dependencies are ready to install"  再使用 `apt-get install -f`.
+
+在这之后,  再用 `dpkg -i` 
+
+ps:  `gdebi` 工具可以更好的做这件事  `gdebi [deb file]`.
+
+
+
 ### apt 使用代理
 
 vim /etc/apt/apt.conf.d/proxy.conf（没有可以建立）
@@ -142,3 +166,136 @@ Acquire::https::proxy "http://192.168.59.241:8888/";
 
 这里我也是将s去掉，坑。
 
+
+
+### 查看 apt 安装的软件路径
+
+dpkg -L 软件名
+
+例如：dpkg -L gedit
+
+```undefined
+dpkg -L gedit  
+/.  
+/usr  
+/usr/bin  
+/usr/bin/gedit  
+/usr/share  
+/usr/share/applications  
+/usr/share/applications/gedit.desktop  
+```
+
+
+
+### 其他问题
+
+####  配置镜像源  && update 时 的 404 问题
+
+``` sh
+root@node201:~/ids/suricata-5.0.3# apt-get update
+Hit:1 https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu disco InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu disco-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu disco-backports InRelease
+Ign:5 http://archive.ubuntu.com/ubuntu disco-security InRelease
+Err:6 http://archive.ubuntu.com/ubuntu disco Release
+  404  Not Found [IP: 192.168.59.241 8888]
+Err:7 http://archive.ubuntu.com/ubuntu disco-updates Release
+  404  Not Found [IP: 192.168.59.241 8888]
+Err:8 http://archive.ubuntu.com/ubuntu disco-backports Release
+  404  Not Found [IP: 192.168.59.241 8888]
+Err:9 http://archive.ubuntu.com/ubuntu disco-security Release
+  404  Not Found [IP: 192.168.59.241 8888]
+Reading package lists... Done
+E: The repository 'http://archive.ubuntu.com/ubuntu disco Release' no longer has a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+E: The repository 'http://archive.ubuntu.com/ubuntu disco-updates Release' no longer has a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+E: The repository 'http://archive.ubuntu.com/ubuntu disco-backports Release' no longer has a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+E: The repository 'http://archive.ubuntu.com/ubuntu disco-security Release' no longer has a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+
+```
+
+软件源服务器地址可以在/etc/apt/sources.list里面看到。
+
+一般上面这样是连接到 http://archive.ubuntu.com/ubuntu 404， 我们可以把源换成阿里云的：
+
+``` sh
+mv sources.list sources.list.origin
+vim sources.list
+
+deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+
+
+apt-get update -y
+apt-get upgrade -y # 看需要
+```
+
+
+
+**如果系统版本比较新，推荐其他方式：**
+
+其他解决方式：
+
+You need to update your repository targets to the Eoan Ermine (19.10) release of Ubuntu. This can be done like so:
+
+```sh
+sudo sed -i -e 's|disco|eoan|g' /etc/apt/sources.list
+rm -r /var/lib/apt/lists/*
+sudo apt update
+```
+
+我们使用的是ubuntu 18 版本， 这里大致是换到了19的源。
+
+参考：
+
+https://stackoverflow.com/questions/53800051/repository-does-not-have-a-release-file-error
+
+https://stackoverflow.com/questions/53800051/repository-does-not-have-a-release-file-error
+
+
+
+#### 包依赖 && aptitude
+
+比如18.04 替换阿里云的镜像源后后，安装有的软件，由于阿里云版本老， 会出现这种情况：
+
+```
+The following packages have unmet dependencies:
+ libcap-ng-dev : Depends: libcap-ng0 (= 0.7.7-3.1) but 0.7.9-2 is to be installed
+ libmagic-dev : Depends: libmagic1 (= 1:5.32-2ubuntu0.4) but 1:5.35-4ubuntu0.1 is to be installed
+ libpcap-dev : Depends: libpcap0.8-dev but it is not going to be installed
+ libpcre3-dbg : Depends: libpcre3 (= 2:8.39-9) but 2:8.39-12 is to be installed
+ libpcre3-dev : Depends: libpcre3 (= 2:8.39-9) but 2:8.39-12 is to be installed
+```
+
+如果安装几个包出现这种，我们可以使用 aptitude 来修复， 它代替 apt-get 命令，先安装它：
+
+```sh
+apt-get install aptitude
+
+# 使用 aptitude 代替 apt-get 去安装：
+aptitude install PACKAGENAME
+
+# 如果还不行，尝试 删除：
+rm /var/lib/apt/lists/lock
+rm /var/cache/apt/archives/lock
+```
+
+参考：https://askubuntu.com/questions/1032126/upgraded-to-18-04-and-now-have-many-broken-packages-and-unmet-dependencies
+
+如果安装的包太多，还是放弃这种修复方式，放弃阿里源
