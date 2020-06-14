@@ -98,6 +98,42 @@ git pull 的 第二步：  `git merge origin/HEAD`
 
 
 
+### git pull --rebase
+
+git pull = git fetch + git merge
+git pull --rebase = git fetch + git rebase
+
+使用场景如下图：
+
+``` 
+A  <--+  B  <---+  C <---+ D
+                    \
+                      E
+```
+
+Origin 上有三次提交， 在C的时候我们切出来一个分支做了修改，并提交，此时是E, 而在提交之前，其他人也提交过，此时分支状态是D，（其实就是上文中的fast-forward状态），如果这个时候E提交到origin会有冲突， 此时有两种解决办法：
+
+1. 用git pull命令把"origin"分支上的修改pull下来与本地提交合并（merge）成版本M，但这样会形成图中的菱形，让人很困惑。
+
+   ``` 
+   A  <--+  B  <---+  C <---+ D
+                       \        \
+                         E <----- M 
+   ```
+
+2. git rebase ，创建一个新的提交R，R的文件内容和上面M的一样，但我们将E提交废除
+
+   ``` 
+   A  <--+  B  <---+  C <---+ D
+                               \
+                                 R
+   ```
+
+   在rebase的过程中，有时也会有conflict，这时Git会停止rebase并让用户去解决冲突，解决完冲突后，**用git add命令去更新这些内容，然后不用执行git-commit,直接执行git rebase --continue,这样git会继续apply余下的补丁。**
+   在任何时候，**都可以用git rebase --abort参数来终止rebase的行动**，并分支会回到rebase开始前的状态。
+
+
+
 ### Feture Branching 工作流
 
  Feature Branching 这种工作流。它的概念很简单：

@@ -124,3 +124,13 @@ new site 后会得到一个包含以下文件的目录：
 - **themes**: 储存主题
 
 - **public**: 执行`hugo`命令后，储存生成的静态文件
+
+
+
+### Netlify
+
+本身是个具备 CI/CD 功能的 CDN 网站托管平台，同类还有 [`ZEIT Now`](https://zeit.co/)
+
+来源：https://www.bmpi.dev/dev/guide-to-setup-blog-site-with-zero-cost-1/
+
+https://app.netlify.com/
