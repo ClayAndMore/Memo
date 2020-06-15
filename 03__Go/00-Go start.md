@@ -1,3 +1,14 @@
+
+---
+title: "00-Go start.md"
+date: 2019-10-10 17:44:20 +0800
+lastmod: 2020-02-08 12:28:55 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[Go]
 
 ## Go

@@ -1,3 +1,14 @@
+
+---
+title: "04-锁和version.md"
+date: 2019-10-29 16:53:35 +0800
+lastmod: 2019-10-29 16:53:35 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 版本控制，并发情况下，对有限资源的锁，防止多进程/线程同时操作产生脏数据。
 
 ### 悲观锁

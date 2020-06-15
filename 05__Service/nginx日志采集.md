@@ -1,3 +1,14 @@
+
+---
+title: "nginx日志采集.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-10-16 18:06:24 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[nginx, linux_software]
 
 ### 获取远端真实ip

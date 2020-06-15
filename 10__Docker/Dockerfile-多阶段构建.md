@@ -1,3 +1,14 @@
+
+---
+title: "Dockerfile-多阶段构建.md"
+date: 2019-12-13 17:48:06 +0800
+lastmod: 2020-04-07 08:49:48 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Docker在17.05之后就能支持多阶构建了，为了使镜像更加小巧，我们采用多阶构建的方式来打包镜像。在多阶构建出现之前我们通常使用一个Dockerfile或多个Dockerfile来构建镜像。
 
 ## 多阶段构建

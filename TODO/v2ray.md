@@ -1,3 +1,14 @@
+
+---
+title: "v2ray.md"
+date: 2020-02-23 18:22:30 +0800
+lastmod: 2020-03-23 22:54:01 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 下载：
 
 `wget https://install.direct/go.sh`

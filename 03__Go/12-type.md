@@ -1,3 +1,14 @@
+
+---
+title: "12-type.md"
+date: 2020-03-17 15:10:43 +0800
+lastmod: 2020-03-17 15:10:43 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## type 
 
 ### 类型定义

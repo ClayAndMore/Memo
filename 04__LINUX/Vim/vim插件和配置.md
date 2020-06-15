@@ -1,3 +1,14 @@
+
+---
+title: "vim插件和配置.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[linux, vim] date: 2017-04-30
 
 ### Tmux

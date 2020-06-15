@@ -1,3 +1,13 @@
+---
+title: "02-ReplicaSet.md"
+date: 2020-03-28 18:45:29 +0800
+lastmod: 2020-03-28 18:45:29 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 ## ReplicaSet
 
 说到ReplicaSet对象，得先说说ReplicationController（简称为RC）。

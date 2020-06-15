@@ -1,4 +1,15 @@
 
+---
+title: "Beego.md"
+date: 2019-10-10 17:44:20 +0800
+lastmod: 2019-10-10 17:44:20 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
 
 中文文档：https://beego.me/docs/intro/
 

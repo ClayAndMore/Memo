@@ -1,3 +1,14 @@
+
+---
+title: "07-mongo 存储引擎.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 MongoDB 从 3.0 版本 开始，引入了存储引擎的概念，并开放了 StorageEngine 的API 接口，为了方便KV存储引擎接入作为 MongoDB 的存储引擎，MongoDB 又封装出一个 KVEngine 的API接口，比如官方的 wiredtiger 存储引擎就是实现了 `KVEngine` 的接口，本文介绍的 mongorocks 也是实现了KVEngine的接口
 
 

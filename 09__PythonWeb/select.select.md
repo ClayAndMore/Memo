@@ -1,3 +1,14 @@
+
+---
+title: "select.select.md"
+date: 2019-11-18 17:54:22 +0800
+lastmod: 2019-11-18 17:54:22 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[python, bottle]
 
 所有的socket方法都会阻塞， 例如， 当程序从一个socket里读或写它的时候程序本身阻塞，一种可行解决方案是让客户端分离线程，但交换两个线程的信息是开销高的操作。

@@ -1,3 +1,14 @@
+
+---
+title: "SSE.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[web]
 
 服务器向浏览器推送信息，除了WebSocket, 还有种方式： Server-Sent Events(SSE)

@@ -1,3 +1,14 @@
+
+---
+title: "07-git多账户管理.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[Git] date: 2017-08-31 
 
 在工作时，我们的个人git和公司git要合理的区分。

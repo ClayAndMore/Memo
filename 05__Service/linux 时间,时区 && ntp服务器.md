@@ -1,3 +1,14 @@
+
+---
+title: "linux 时间,时区 && ntp服务器.md"
+date: 2020-06-12 19:01:02 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[linux, linux_software]
 
 ## 时间

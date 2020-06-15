@@ -1,3 +1,14 @@
+
+---
+title: "js 数据类型及转换.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## Js中的数据类型
 
 Js中的数据类型一共有六种，即number，string，boolean，underfine，null，object。

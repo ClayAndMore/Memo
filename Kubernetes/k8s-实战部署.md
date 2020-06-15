@@ -1,3 +1,13 @@
+---
+title: "k8s-实战部署.md"
+date: 2020-03-24 09:58:51 +0800
+lastmod: 2020-03-24 09:58:51 +0800
+draft: true
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 
 
 ### 问题

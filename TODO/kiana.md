@@ -1,3 +1,14 @@
+
+---
+title: "kiana.md"
+date: 2019-10-25 17:50:12 +0800
+lastmod: 2019-10-25 17:50:12 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 根据官方样例：
 
  https://www.elastic.co/guide/cn/kibana/current/tutorial-load-dataset.html 

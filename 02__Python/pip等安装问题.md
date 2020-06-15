@@ -1,3 +1,14 @@
+
+---
+title: "pip等安装问题.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### python 系统自带2.7升级到最新2.7.x
 
 下载python2.7.x:

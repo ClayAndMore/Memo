@@ -1,3 +1,14 @@
+
+---
+title: "10-Goroutines和Channels.md"
+date: 2020-02-08 12:27:11 +0800
+lastmod: 2020-03-17 15:10:43 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## Goroutines
 
 在Go语⾔中，每⼀个并发的执⾏单元叫作⼀个goroutine。

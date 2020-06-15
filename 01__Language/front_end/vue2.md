@@ -1,3 +1,14 @@
+
+---
+title: "vue2.md"
+date: 2019-10-29 16:53:35 +0800
+lastmod: 2019-10-29 16:53:35 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## 模板
 
 `<span>Message: {{ msg }}</span>`

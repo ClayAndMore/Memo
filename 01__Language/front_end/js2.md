@@ -1,3 +1,14 @@
+
+---
+title: "js2.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-11-06 14:04:15 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 require 函数:
 
 https://www.cnblogs.com/carterzhang/articles/7680689.html

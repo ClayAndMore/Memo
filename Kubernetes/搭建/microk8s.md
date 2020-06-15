@@ -1,3 +1,16 @@
+---
+
+title: "microk8s.md"
+date: 2020-04-07 08:49:48 +0800
+lastmod: 2020-04-07 08:49:48 +0800
+draft: false
+tags: ["k8s部署"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
+
+
 官网：https://microk8s.io/docs/
 
 GitHub: https://github.com/ubuntu/microk8s

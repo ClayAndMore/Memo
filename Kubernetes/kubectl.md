@@ -1,3 +1,13 @@
+---
+title: "kubectl.md"
+date: 2020-03-24 09:58:51 +0800
+lastmod: 2020-05-15 18:43:09 +0800
+draft: false
+tags: [""]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 Tags:[k8s]
 
 官方提供了 CLI 工具 `kubectl` 用于完成大多数集群管理相关的功能。当然凡是你可以通过 `kubectl`完成的与集群交互的功能，都可以直接通过 API 完成。

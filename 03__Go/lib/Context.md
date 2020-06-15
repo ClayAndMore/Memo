@@ -1,3 +1,14 @@
+
+---
+title: "Context.md"
+date: 2020-02-10 14:02:16 +0800
+lastmod: 2020-03-17 15:10:43 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 golang在1.6.2的时候还没有自己的context，在1.7的版本中就把golang.org/x/net/context包被加入到了官方的库中。**golang 的 Context包，是专门用来简化对于处理单个请求的多个goroutine之间与请求域的数据、取消信号、截止时间等相关操作，这些操作可能涉及多个 API 调用。**
 
 比如有一个网络请求Request，每个Request都需要开启一个goroutine做一些事情，这些goroutine又可能会开启其他的goroutine。这样的话， 我们就可以通过Context，来跟踪这些goroutine，并且通过Context来控制他们的目的，这就是Go语言为我们提供的Context，**中文可以称之为“上下文”**

@@ -1,3 +1,16 @@
+---
+
+title: "k8s部署问题.md"
+date: 2020-05-15 18:43:09 +0800
+lastmod: 2020-05-15 18:43:09 +0800
+draft: false
+tags: ["k8s部署"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
+
+
 
 
 #### not ready

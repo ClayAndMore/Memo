@@ -1,3 +1,14 @@
+
+---
+title: "passwdManger.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### 手势解锁
 
 使用canvas的锁：

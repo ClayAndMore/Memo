@@ -1,3 +1,14 @@
+
+---
+title: "vue4.md"
+date: 2019-10-29 16:53:35 +0800
+lastmod: 2019-10-29 16:53:35 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## class 与 style 绑定
 
 在将 `v-bind` 用于 `class` 和 `style` 时，Vue.js 做了专门的增强。表达式结果的类型除了字符串之外，还可以是对象或数组。

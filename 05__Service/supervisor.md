@@ -1,3 +1,14 @@
+
+---
+title: "supervisor.md"
+date: 2020-06-12 19:01:02 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## Supervisor
 
 一个管理进程的工具，有一个进程需要每时每刻不断的跑，但是这个进程又有可能由于各种原因有可能中断。当进程中断的时候，希望能自动重新启动它。此时，我就需要使用到了Supervisor。

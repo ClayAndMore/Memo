@@ -1,3 +1,14 @@
+
+---
+title: "Tornado比较其他py_web.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## 谈Tornado相比于其他 python web 的差异
 
 我们要从一个简单的http server 说起：

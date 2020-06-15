@@ -1,3 +1,14 @@
+
+---
+title: "suricat 日志到influxdb.md"
+date: 2020-06-12 19:01:02 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## suricat 日志到 influxdb.
 
 参考：https://www.influxdata.com/blog/network-security-monitoring-with-suricata-and-telegraf/

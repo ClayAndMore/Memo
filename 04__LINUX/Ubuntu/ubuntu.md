@@ -1,3 +1,14 @@
+
+---
+title: "ubuntu.md"
+date: 2020-02-08 12:28:36 +0800
+lastmod: 2020-05-22 18:23:54 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[linux]
 
 ### uwf

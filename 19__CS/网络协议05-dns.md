@@ -1,3 +1,14 @@
+
+---
+title: "网络协议05-dns.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[网络协议]
 
 <http://www.ruanyifeng.com/blog/2016/06/dns.html>

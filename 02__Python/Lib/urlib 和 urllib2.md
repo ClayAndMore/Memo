@@ -1,3 +1,14 @@
+
+---
+title: "urlib 和 urllib2.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 #### urllib
 
 在3.x的版本中，urllib与urllib2已经合并为一个urllib库。

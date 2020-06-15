@@ -1,3 +1,14 @@
+
+---
+title: "条件渲染v-if.md"
+date: 2019-10-29 16:53:35 +0800
+lastmod: 2019-10-29 16:53:35 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### v-if
 
 `v-if` 指令用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。

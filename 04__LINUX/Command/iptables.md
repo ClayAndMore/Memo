@@ -1,3 +1,14 @@
+
+---
+title: "iptables.md"
+date: 2019-12-13 17:48:06 +0800
+lastmod: 2020-05-15 18:43:09 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 - `iptables`：用来管理 Linux 防火墙的命令程序，位于`/sbin/iptables`目录下，属于`用户空间`的防火墙管理体系。
 - `netfilter：Linux` 内核中实现包过滤防火墙的内部结构，一般`不以程序`或`文件`的形式存在，属于`内核空间`的防火墙管理体系。
 

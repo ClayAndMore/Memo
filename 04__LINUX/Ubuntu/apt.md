@@ -1,3 +1,14 @@
+
+---
+title: "apt.md"
+date: 2020-04-07 08:49:48 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### apt-get
 
 通过apt-get安装制定版本：

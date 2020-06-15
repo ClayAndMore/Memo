@@ -1,3 +1,14 @@
+---
+
+title: "06-Label.md"
+date: 2020-04-03 19:50:52 +0800
+lastmod: 2020-04-03 19:50:52 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 ## label
 
 Label是Kubernetes系统中的一个核心概念。**Label以key/value键值对的形式附加到任何对象上，如Pod，Service，Node，RC（ReplicationController）/RS（ReplicaSet）等**。Label可以在创建对象时就附加到对象上，也可以在对象创建后通过API进行额外添加或修改。

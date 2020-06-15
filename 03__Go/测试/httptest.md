@@ -1,4 +1,15 @@
 
+---
+title: "httptest.md"
+date: 2020-02-10 14:02:16 +0800
+lastmod: 2020-02-10 14:02:16 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
 
 可以很容易的进行 Web 开发。为此，Go 标准库专门提供了 httptest 包专门用于进行 http Web 开发测试。
 

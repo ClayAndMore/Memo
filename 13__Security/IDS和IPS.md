@@ -1,4 +1,15 @@
 
+---
+title: "IDS和IPS.md"
+date: 2019-09-29 19:29:06 +0800
+lastmod: 2019-09-29 19:29:06 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
 
 ![](http://claymore.wang:5000/uploads/big/01633ada878ee0d632ef401d1c29ceb6.png)
 

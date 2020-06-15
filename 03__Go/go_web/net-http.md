@@ -1,3 +1,14 @@
+
+---
+title: "net-http.md"
+date: 2019-10-12 17:45:41 +0800
+lastmod: 2020-02-08 12:27:11 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Golang自带的http包已经实现了htpp客户端和服务端，我们可以利用它更为快速的开发http服务。
 
 

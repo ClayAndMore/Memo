@@ -1,3 +1,14 @@
+
+---
+title: "事件处理v-on.md"
+date: 2019-10-29 16:53:35 +0800
+lastmod: 2019-10-29 16:53:35 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 可以用 `v-on` 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码。
 
 示例：

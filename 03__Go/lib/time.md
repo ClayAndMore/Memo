@@ -1,3 +1,14 @@
+
+---
+title: "time.md"
+date: 2020-03-17 15:10:43 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## time
 
 go中时间的操作是在`time`包中

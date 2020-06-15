@@ -1,3 +1,14 @@
+
+---
+title: "03-Redis数据类型和命令.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 tags:[消息队列, nosql, database, Redis]
 
 ### 数据类型

@@ -1,3 +1,14 @@
+
+---
+title: "socket.md"
+date: 2019-10-21 09:53:02 +0800
+lastmod: 2019-10-21 09:53:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[python, socket]
 
 ### 写在前面

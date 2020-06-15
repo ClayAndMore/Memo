@@ -1,3 +1,14 @@
+
+---
+title: "14_HBase.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### HBase 简介
 
 它就是一个nosql数据库，Hadoop Database,  高可靠性，高性能， 面向列，可伸缩，实时读写的分布式数据库。

@@ -1,3 +1,14 @@
+
+---
+title: "11-pymongo2.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[nosql, database, mongodb, python]
 
 ### db.command

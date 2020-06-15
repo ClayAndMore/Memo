@@ -1,3 +1,14 @@
+
+---
+title: "sync.md"
+date: 2020-02-23 18:22:30 +0800
+lastmod: 2020-02-23 18:22:30 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### WaitGroup
 
 先看下面一段代码：

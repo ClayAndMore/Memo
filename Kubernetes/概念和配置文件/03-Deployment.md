@@ -1,3 +1,13 @@
+---
+title: "03-Deployment.md"
+date: 2020-03-28 18:45:29 +0800
+lastmod: 2020-03-28 18:45:29 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 ## Deployment
 
 Deployment对象，顾名思义，是用于部署应用的对象。它使Kubernetes中最常用的一个对象，它为ReplicaSet和Pod的创建提供了一种声明式的定义方法，从而无需手动创建ReplicaSet和Pod对象（使用Deployment而不直接创建ReplicaSet是因为Deployment对象拥有许多ReplicaSet没有的特性，例如滚动升级和回滚）。

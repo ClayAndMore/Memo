@@ -1,3 +1,14 @@
+
+---
+title: "部署KVM虚拟机.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 环境： [CentOS] 版本：64位 7.2  1511 
 
 ### 安装KVM

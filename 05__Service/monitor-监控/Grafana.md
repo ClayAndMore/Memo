@@ -1,3 +1,14 @@
+
+---
+title: "Grafana.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[linux, 监控]
 
 Grafana是一个纯html/js的web应用，是一个开源仪表盘工具，访问InfluxDB时不会存在跨域访问的限制，只要配置好数据源后，即可展示监控数据。

@@ -1,4 +1,15 @@
 
+---
+title: "os.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-01-16 18:29:52 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
 
 os	包以跨平台的⽅式，提供了⼀些与操作系统交互的函数和变量。程序的命令⾏参数可从os包的Args变量获取；os包 外部使⽤os.Args访问该变量。
 

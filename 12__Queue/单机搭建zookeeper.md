@@ -1,3 +1,14 @@
+
+---
+title: "单机搭建zookeeper.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 #### zookeeper
 
 ZooKeeper 是一个开源的分布式协调服务，由雅虎创建。

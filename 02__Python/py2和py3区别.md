@@ -1,3 +1,14 @@
+
+---
+title: "py2和py3区别.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-01-12 16:41:12 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags: [python, pip] date: 2017-03-18
 
 

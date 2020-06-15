@@ -1,3 +1,14 @@
+
+---
+title: "01-linux.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[linux] date: 2017-02-15
 
 ### linux启动流程

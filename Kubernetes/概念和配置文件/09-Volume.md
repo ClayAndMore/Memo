@@ -1,3 +1,14 @@
+---
+
+title: "挂载.md"
+date: 2020-03-26 18:40:49 +0800
+lastmod: 2020-03-26 18:40:49 +0800
+draft: false
+tags: [""]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 ## Volume
 
 volume是Pod中能够被多个容器共享的磁盘目录，可以称之为挂载卷。

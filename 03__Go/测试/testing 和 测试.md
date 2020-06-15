@@ -1,3 +1,14 @@
+
+---
+title: "testing 和 测试.md"
+date: 2020-02-10 14:02:16 +0800
+lastmod: 2020-02-10 14:02:16 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ## Testing
 
 Go 语言中的 testing 系统包。

@@ -1,3 +1,14 @@
+
+---
+title: "用socket实现http服务器_.md"
+date: 2019-11-18 17:54:22 +0800
+lastmod: 2019-11-18 17:54:22 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[python, bottle] date: 2017-02-22 
 
 

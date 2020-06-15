@@ -1,3 +1,14 @@
+
+---
+title: "12_Hive.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### hive 简介
 
 非java编程者对hdfs的数据做mapreduce操作。

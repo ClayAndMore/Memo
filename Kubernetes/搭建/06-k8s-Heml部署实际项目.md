@@ -1,4 +1,16 @@
-Tags:[k8s]
+---
+
+title: "06-k8s-Heml部署实际项目.md"
+date: 2020-04-07 08:49:48 +0800
+lastmod: 2020-04-07 08:49:48 +0800
+draft: false
+tags: ["k8s部署"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
+
+
 
 ### Heml Chart
 

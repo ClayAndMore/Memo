@@ -1,3 +1,14 @@
+
+---
+title: "docker的代理.md"
+date: 2020-03-17 15:10:43 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### 配置镜像源
 
 /etc/docker/daemon.json(在centos7 中可能没有该文件，需要自己手动创建)

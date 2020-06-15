@@ -1,3 +1,14 @@
+
+---
+title: "Dockerfile.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-12-13 17:48:06 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[Docker]
 
 ## 使用Dockerfile创建镜像

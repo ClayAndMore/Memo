@@ -1,3 +1,14 @@
+
+---
+title: "influxDB.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-05-15 18:43:09 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags:[linux, 监控]
 
 InfluxDB官方文档：https://docs.influxdata.com/influxdb/。

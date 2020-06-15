@@ -1,3 +1,14 @@
+
+---
+title: "win10优盘重装系统.md"
+date: 2019-09-29 19:29:06 +0800
+lastmod: 2020-03-23 22:54:01 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 tags: [命令与快捷键] date: 2017-01-29 
 
 ### 写在前面

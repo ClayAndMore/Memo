@@ -1,3 +1,14 @@
+
+---
+title: "flag.md"
+date: 2020-05-15 18:43:09 +0800
+lastmod: 2020-05-15 18:43:09 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 在 go 标准库中提供了一个包：flag，方便进行命令行解析
 
 

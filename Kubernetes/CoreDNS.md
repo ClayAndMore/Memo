@@ -1,4 +1,14 @@
-Tags:[k8s]
+---
+title: "CoreDNS.md"
+date: 2020-03-24 09:58:51 +0800
+lastmod: 2020-03-24 09:58:51 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
 
 在 K8S 中有一套默认[集群内 DNS 服务，我们通常把它叫做 `kube-dns`，它基于 SkyDNS，为我们在服务注册发现方面提供了很大的便利。
 

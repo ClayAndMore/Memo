@@ -1,3 +1,17 @@
+---
+
+title: "08-ConfigMap.md"
+date: 2020-03-28 18:45:29 +0800
+lastmod: 2020-03-28 18:45:29 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
+
+
+
 ### ConfigMap
 
 许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。这些**配置信息需要与docker image解耦**，你总不能每修改一个配置就重做一个image吧？ConfigMap API给我们提供了向容器中注入配置信息的机制，ConfigMap可以被用来保存单个属性，也可以用来保存整个配置文件或者JSON二进制大对象。

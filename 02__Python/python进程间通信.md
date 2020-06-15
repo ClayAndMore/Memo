@@ -1,3 +1,14 @@
+
+---
+title: "python进程间通信.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### 写在前面
 
 `os.fork()`，它将产生一个子进程。fork调用同时在父进程和主进程同时返回，在父进程中返回子进程的pid，在子进程中返回0。

@@ -1,3 +1,13 @@
+---
+title: "pod指定在master上运行.md"
+date: 2020-04-07 08:49:48 +0800
+lastmod: 2020-04-07 08:49:48 +0800
+draft: false
+tags: [""]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 
 
 在某些场景，例如资源有限或特殊的拓扑结构下，需要将某些服务可以或者指定到k8s的master节点进行运行。
@@ -66,7 +76,7 @@ kubectl taint node k8s-master node-role.kubernetes.io/master-
 ```
 
 其中k8s-master是主机节点hostname如果要恢复Master Only状态，执行如下命令：
- 
+
 
 ```
 kubectl taint node k8s-master node-role.kubernetes.io/master=""

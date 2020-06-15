@@ -1,3 +1,13 @@
+---
+title: "01-Pod.md"
+date: 2020-03-28 18:45:29 +0800
+lastmod: 2020-03-28 18:45:29 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 
 
 ### 理解pod

@@ -1,3 +1,14 @@
+
+---
+title: "trap.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### 场景
 
 在一次docker 容器环境退出操作时，因为entrypoint的执行脚本的最后命令是一条 类似于sleep的持续执行命令，容器退出前想要执行一些环境清理工作，而不是直接docker stop container就把entrypoint的命令直接干掉。

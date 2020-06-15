@@ -1,3 +1,17 @@
+---
+
+title: "04-Job.md"
+date: 2020-03-28 18:45:29 +0800
+lastmod: 2020-03-28 18:45:29 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
+
+
+
 ## Job
 
 **Job对象通常用于运行那些仅需要执行一次的任务（例如数据库迁移，批处理脚本等等）**。

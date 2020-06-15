@@ -1,3 +1,14 @@
+
+---
+title: "encoding.md"
+date: 2020-01-16 18:29:52 +0800
+lastmod: 2020-06-12 19:01:02 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Go语⾔对于这些标准格式的编码和解码都有良好的⽀持，由标准库中的encoding/json、encoding/xml、encoding/asn1 等包提供⽀持（译注：Protocol	Buffers的⽀持由	github.com/golang/protobuf	包提供），并且这类包都有着相似的API 接⼝
 
 ### json

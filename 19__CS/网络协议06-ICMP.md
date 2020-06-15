@@ -1,3 +1,14 @@
+
+---
+title: "网络协议06-ICMP.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ICMP是（Internet Control Message Protocol）Internet控制报文协议。 它是TCP/IP协议族的一个子协议，用于在IP主机、路由器之间传递控制消息。
 
 网络环境是非常复杂的，那么当网络包在网络环境中传输的时候，总会遇到各式各样的问题。当遇到问题的时候，我们需要知道所遇到的问题具体是什么，这样才能够去针对问题去更换不同的策略。那么ICMP就是应用于采集传输过程中问题的。

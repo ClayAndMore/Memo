@@ -1,3 +1,14 @@
+
+---
+title: "init函数.md"
+date: 2020-02-23 18:22:30 +0800
+lastmod: 2020-03-17 15:10:43 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 **init函数的主要作用：**
 
 - 初始化不能采用初始化表达式初始化的变量。

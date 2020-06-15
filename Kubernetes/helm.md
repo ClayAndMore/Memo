@@ -1,3 +1,13 @@
+---
+title: "helm.md"
+date: 2020-03-24 09:58:51 +0800
+lastmod: 2020-03-24 09:58:51 +0800
+draft: true
+tags: [""]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 Tags:[k8s]
 
 helm list -a

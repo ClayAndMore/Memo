@@ -1,3 +1,14 @@
+---
+
+title: "05-DaemonSet.md"
+date: 2020-03-28 18:45:29 +0800
+lastmod: 2020-03-28 18:45:29 +0800
+draft: false
+tags: ["k8s配置文件"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 **一个DaemonSet对象能确保其创建的Pod在集群中的每一台（或指定）Node上都运行一个副本**。如果集群中动态加入了新的Node，DaemonSet中的Pod也会被添加在新加入Node上运行。删除一个DaemonSet也会级联删除所有其创建的Pod。下面是一些典型的DaemonSet的使用场景：
 
 - 在每台节点上运行一个集群存储服务，例如运行glusterd，ceph。

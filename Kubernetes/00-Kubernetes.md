@@ -1,3 +1,13 @@
+---
+title: "00-Kubernetes.md"
+date: 2020-03-24 09:58:51 +0800
+lastmod: 2020-03-24 09:58:51 +0800
+draft: false
+tags: [""]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 Tags:[k8s]
 
 ### 写在前面

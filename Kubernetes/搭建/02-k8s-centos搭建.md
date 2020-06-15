@@ -1,3 +1,13 @@
+---
+title: "02-k8s-centos搭建.md"
+date: 2020-04-07 08:49:48 +0800
+lastmod: 2020-04-07 08:49:48 +0800
+draft: false
+tags: ["k8s部署"]
+categories: ["k8s"]
+author: "Claymore"
+
+---
 # Centos 部署k8s集群
 
 ## 准备条件
@@ -84,7 +94,7 @@ vim /etc/fstab
               total        used        free      shared  buff/cache   available
 Mem:           1.8G        158M        1.3G        8.7M        295M        1.5G
 Swap:            0B          0B          0B
-```  
+```
 
 ### 修改时区
 - 安装ntp  
@@ -109,7 +119,7 @@ Swap:            0B          0B          0B
 - docker-ce.repo  
 ```linux
 wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-```  
+```
 
 - kubernetes.repo  
 ```linux
@@ -122,7 +132,7 @@ enabled=1
 repo-gpgcheck=0
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
   https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-```  
+```
 
 - 仓库检查：`yum repolist`  
 - 拷贝至另外两台机器  
@@ -152,7 +162,7 @@ systemctl daemon-reload
 
 # 重启docker
 systemctl restart docker
-```  
+```
 
 - 配置源(可换阿里源或者网易源)  
 
@@ -161,7 +171,7 @@ systemctl restart docker
 {
     "registry-mirrors": ["https://o9wm45c3.mirror.aliyuncs.com"],
 }
-```  
+```
 
 - 配置`cgroup driver:systemd`  
 
@@ -328,7 +338,7 @@ For more examples and ideas, visit:
     "timeout":600
 }
 
-```  
+```
 
 - 编写开机自启服务  
 
@@ -379,7 +389,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 /etc/privoxy/config
         - listen-address 127.0.0.1:8118 # 8118 是默认端口，不用改
         - forward-socks5t / 127.0.0.1:1080 . #转发到本地端口，注意最后有个点
-```  
+```
 
 - 设置启动、开机自启：可参考前些个服务来设置
 
@@ -393,7 +403,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 # 取消注释就代表你机子一开机就可以翻墙，但是走国内网就好慢。所以我喜欢设置临时代理，那样每次开机或重启就失效
 export http_proxy=127.0.0.1:8118
-```  
+```
 
 - 验证  
 
@@ -432,7 +442,7 @@ v1.14.2
 
 [root@master01 ~]# kubelet --version
 Kubernetes v1.14.2
-```  
+```
 
 #### 自启动
 - `systemctl enable kubelet`  
@@ -499,7 +509,7 @@ docker load  < pause_3.1.tar
 docker load < k8s1.tar.gz
 # all-2
 docker load < k8s2.tar.gz
-```  
+```
 
 ### ls
 每台机器查看所有镜像
@@ -513,7 +523,7 @@ k8s.gcr.io/kube-scheduler            v1.14.3             953364a3ae7a        11 
 k8s.gcr.io/coredns                   1.3.1               eb516548c180        5 months ago        40.3MB
 k8s.gcr.io/etcd                      3.3.10              2c4adeb21b4f        6 months ago        258MB
 k8s.gcr.io/pause                     3.1                 da86e6ba6ca1        18 months ago       742kB
-```  
+```
 
 ### init
 ```linux
@@ -535,7 +545,7 @@ Then you can join any number of worker nodes by running the following on each as
 
 kubeadm join 172.19.19.119:6443 --token s1u4f4.mj75xtzp7tkei3ki \
     --discovery-token-ca-cert-hash sha256:85e93562222e113e3dae772f030e5aad09dd129a8bf202877a90e970f9a867a6 
-```  
+```
 
 ### calico 
 初始化之后按照上面提示操作，这个时候集群还没完全准备好，需要安装网络插件。这里安装calico网络插件为例。
@@ -557,7 +567,7 @@ kubectl get nodes
 
 # 查看主节点各个系统pod的运行状态
 kubectl get pods -n kube-system
-```  
+```
 
 ### join
 其他两个节点分别执行此命令加入master01主节点
@@ -570,7 +580,7 @@ kubeadm join 172.19.19.119:6443 --token s1u4f4.mj75xtzp7tkei3ki \
 ```linux
 scp /etc/kubernetes/admin.conf node01:/root/.kube/config
 scp /etc/kubernetes/admin.conf node02:/root/.kube/config
-```  
+```
 
 ### ready
 稍等片刻，查看各个节点的运行状态以及pod运行状态

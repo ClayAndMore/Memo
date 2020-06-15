@@ -1,3 +1,14 @@
+
+---
+title: "go get和 govendor.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-01-16 18:29:52 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Tags: [Go]
 
 ### 包管理工具go get

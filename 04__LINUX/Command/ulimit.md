@@ -1,3 +1,14 @@
+
+---
+title: "ulimit.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ulimit 用于限制 shell 启动进程所占用的资源，支持以下各种类型的限制：
 
 * 所创建的内核文件的大小

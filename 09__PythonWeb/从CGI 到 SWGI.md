@@ -1,3 +1,14 @@
+
+---
+title: "从CGI 到 SWGI.md"
+date: 2019-11-18 17:54:22 +0800
+lastmod: 2019-11-18 17:54:22 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 tags:[web]
 
 ### web（http） 服务器

@@ -1,3 +1,14 @@
+
+---
+title: "go-zap.md"
+date: 2020-04-17 08:38:29 +0800
+lastmod: 2020-04-17 19:54:27 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 Uber 推出的go 日志记录库
 
 Github: https://github.com/uber-go/zap
