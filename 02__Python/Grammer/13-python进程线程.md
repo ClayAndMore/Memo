@@ -1,11 +1,10 @@
-
 ---
 title: "13-python进程线程.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["python语法"]
+categories: ["python语法"]
 author: "Claymore"
 
 ---
