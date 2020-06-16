@@ -1,11 +1,10 @@
-
 ---
 title: "go test.md"
 date: 2020-02-10 14:02:16 +0800
 lastmod: 2020-06-12 19:01:02 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go test"]
+categories: ["go"]
 author: "Claymore"
 
 ---

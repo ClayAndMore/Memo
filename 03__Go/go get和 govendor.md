@@ -1,11 +1,10 @@
-
 ---
 title: "go get和 govendor.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-01-16 18:29:52 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go 语法"]
+categories: ["go"]
 author: "Claymore"
 
 ---

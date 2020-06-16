@@ -1,11 +1,10 @@
-
 ---
 title: "10-Goroutines和Channels.md"
 date: 2020-02-08 12:27:11 +0800
 lastmod: 2020-03-17 15:10:43 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go 语法"]
+categories: ["go"]
 author: "Claymore"
 
 ---

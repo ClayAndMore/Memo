@@ -1,11 +1,10 @@
-
 ---
 title: "testing 和 测试.md"
 date: 2020-02-10 14:02:16 +0800
 lastmod: 2020-02-10 14:02:16 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go test"]
+categories: ["go"]
 author: "Claymore"
 
 ---
