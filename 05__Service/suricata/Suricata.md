@@ -1,4 +1,3 @@
-
 ---
 title: "Suricata.md"
 date: 2019-11-25 18:00:43 +0800
@@ -161,3 +160,11 @@ suricata: error while loading shared libraries: libhtp.so.2: cannot open shared 
 安装完后忘记运行：
 
 ldconfig
+
+
+
+待整理： 
+
+内核优化：https://paper.seebug.org/1054/#_9
+
+suricat under kvm: https://lists.openinfosecfoundation.org/pipermail/oisf-users/2016-June/006132.html

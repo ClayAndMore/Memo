@@ -1,4 +1,3 @@
-
 ---
 title: "iptables.md"
 date: 2019-12-13 17:48:06 +0800
@@ -53,7 +52,7 @@ author: "Claymore"
 
   本机上运行的程序也可以发送数据包，这些数据包经过OUTPUT链，然后到达POSTROTING链输出(注意，这个时候数据包的SrcIP有可能已经被我们修改过了)
 
-- **FORWARDING:通过路由表后，目的地不为本机.**
+- **FORWARD:通过路由表后，目的地不为本机.**
 
   如果数据包是要转发出去的(即目的IP地址不再当前子网中)，且内核允许转发，数据包就会向右移动，经过FORWARD链，然后到达POSTROUTING链输出(选择对应子网的网口发送出去)
 
@@ -99,6 +98,8 @@ author: "Claymore"
 * **MASQUERADE**：是SNAT的一种特殊形式，适用于动态的、临时会变的ip上。
 * **DNAT**：目标地址转换。
 * **REDIRECT**：在本机做端口映射。
+* **RETURN：** 停止执行当前链中的后续规则，并返回到调用链(The Calling Chain)中
+* **QUEUE：** 将数据包移交到用户空间
 * **LOG**：在/var/log/messages文件中记录日志信息，然后将数据包传递给下一条规则，也就是说除了记录以外不对数据包做任何其他操作，仍然让下一条规则去匹配。
 
 
@@ -107,3 +108,192 @@ author: "Claymore"
 
 https://blog.csdn.net/wuruixn/article/details/8103374
 
+
+
+
+
+## 命令
+
+如一条简单的开启端口命令：
+
+``` sh
+iptables -I INPUT -p tcp --dport 8000 -j ACCEPT #开启8000端口
+```
+
+说明：
+
+``` sh
+# 命令顺序：
+`iptables -t 表名 <-A/I/D/R> 规则链名 [规则号] <-i/o 网卡名> -p 协议名 <-s 源IP/源子网> --sport 源端口 <-d 目标IP/目标子网> --dport 目标端口 -j 动作`
+
+# 表名：raw，mangle，net, filter
+# 链名：INPUT OUTPUT PORWARD PREROUTING OSTOUTING
+
+# 选项：
+-t<表>：指定要操纵的表, 默认操作 fiLter 表。
+-A：向规则链中添加条目， 会出现在表中的末尾.
+-D：从规则链中删除条目,  
+-i：向规则链中插入条目, 插入在表的开头，这样优先匹配。
+-R：替换规则链中的条目；
+-L：显示规则链中已有的条目；
+-F：清除规则链中已有的条目；
+
+-N：创建新的用户自定义规则链；
+
+-s：把指定的一个／一组地址作为源地址，按此规则进行过滤
+-d: 把指定的一个／一组地址作为目的地址，按此规则进行过滤
+--sport num：匹配源端口号
+--dport num：匹配目的端口号
+
+
+-j<目标>：指定要跳转的目标；，如 eth0, eth1.
+-i<网络接口>：指定数据包进入本机的网络接口；
+# -i 只对 INPUT，FORWARD，PREROUTING 这三个链起作用。如果没有指定此选项， 说明可以来自任何一个网络接口
+-o<网络接口>：指定数据包要离开本机所使用的网络接口。
+# -o OUTPUT，FORWARD，POSTROUTING 三个链起作用。
+
+# -j 动作, 可以是内置的目标，比如 ACCEPT，也可以是用户自定义的链。
+参照上方的“处理动作”
+```
+
+
+
+### eg
+
+指定端口：
+
+``` sh
+iptables -A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT               #允许本地回环接口(即运行本机访问本机)
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT    #允许已建立的或相关连的通行
+iptables -A OUTPUT -j ACCEPT         #允许所有本机向外的访问
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT    #允许访问22端口
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT    #允许访问80端口
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT    #允许ftp服务的21端口
+iptables -A INPUT -p tcp --dport 20 -j ACCEPT    #允许FTP服务的20端口
+iptables -A INPUT -j reject       #禁止其他未允许的规则访问
+iptables -A FORWARD -j REJECT     #禁止其他未允许的规则访问
+```
+
+屏蔽ip:
+
+``` sh
+iptables -I INPUT -s 123.45.6.7 -j DROP       #屏蔽单个IP的命令
+iptables -I INPUT -s 123.0.0.0/8 -j DROP      #封整个段即从123.0.0.1到123.255.255.254的命令
+iptables -I INPUT -s 124.45.0.0/16 -j DROP    #封IP段即从123.45.0.1到123.45.255.254的命令
+iptables -I INPUT -s 123.45.6.0/24 -j DROP    #封IP段即从123.45.6.1到123.45.6.254的命令是
+```
+
+网络转发：
+
+公网`210.14.67.7`让内网`192.168.188.0/24`上网
+
+```shell
+iptables -t nat -A POSTROUTING -s 192.168.188.0/24 -j SNAT --to-source 210.14.67.127
+```
+
+端口映射：
+
+本机的 2222 端口映射到内网 虚拟机的22 端口
+
+```shell
+iptables -t nat -A PREROUTING -d 210.14.67.127 -p tcp --dport 2222  -j DNAT --to-dest 192.168.188.115:22
+```
+
+
+
+### 地址转换
+
+目的地址转换，首先需要在开启中开启转发功能（源地址转换也需要开启）：
+
+`echo 1 > /proc/sys/net/ipv4/ip_forward`
+
+```sh
+# 把从 eth0 进来要访问 TCP/80 的数据包的目的地址转换到 192.168.1.18
+iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 80 -j DNAT --to 192.168.1.18
+
+# 把从 123.57.172.149 进来要访问 TCP/80 的数据包的目的地址转换到 192.168.1.118:8000
+iptables -t nat -A PREROUTING -p tcp -d 123.57.172.149 --dport 80 -j DNAT --to 192.168.1.118:8000
+```
+
+源地址转换：
+
+```sh
+# 最典型的应用是让内网机器可以访问外网：
+# 将内网 192.168.0.0/24 的源地址修改为 1.1.1.1 (可以访问互联网的机器的 IP)
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1
+
+# 将内网机器的源地址修改为一个 IP 地址池
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1-1.1.1.10
+```
+
+
+
+### 设置链的默认规则
+
+ -P --policy  设置指定链的默认策略 
+
+```sh
+iptables -P INPUT DROP     # 配置默认丢弃访问的数据表
+iptables -P FORWARD DROP   # 配置默认禁止转发
+iptables -P OUTPUT ACCEPT  # 配置默认允许向外的请求
+```
+
+
+
+### 删除
+
+将所有iptables以序号标记显示，执行：
+
+```undefined
+iptables -L --line-numbers
+```
+
+比如要删除INPUT里序号为8的规则，执行：
+
+```undefined
+iptables -D INPUT 8
+```
+
+
+
+
+
+### iptables 清空
+
+```sh
+iptables -F  # 清空表中所有的规则
+iptables -X  # 删除表中用户自定义的链
+```
+
+
+
+### iptables 规则备份和还原
+
+``` sh
+service iptables save       # 默认会把规则保存到/etc/sysconfig/iptables
+iptables-save>iptbs.rule    # 把iptables规则备份到iptbs.txt文件中
+iptables-restore<iptbs.rule # 恢复刚才备份的规则
+```
+
+
+
+
+
+## 服务
+
+`/etc/sysconfig/iptables`
+
+```sh
+# 查看防火墙状态
+service iptables status 
+# 停止防火墙
+service iptables stop
+# 启动防火墙
+service iptables start
+# 重启防火墙
+service iptables restart
+# 永久关闭防火墙
+chkconfig iptables off
+# 永久关闭后重启
+chkconfig iptables on
+```

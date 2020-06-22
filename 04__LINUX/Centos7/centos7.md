@@ -1,4 +1,3 @@
-
 ---
 title: "centos7.md"
 date: 2019-09-29 17:53:13 +0800
@@ -12,6 +11,15 @@ author: "Claymore"
 Tags:[linux]
 
 ### firwalld
+
+在centos7里使用firewalld代替了iptables。在启动firewalld之后，iptables还会被使用，属于引用的关系。
+
+1. FirewallD 使用区域和服务而不是链式规则。
+2. FirewallD可以动态修改单条规则，而不需要像iptables那样，在修改了规则后必须得全部刷新才可以生效。
+
+在RHEL7里有几种防火墙共存：FirewallD、iptables、ebtables，默认是使用FirewallD来管理netfilter子系统，不过底层调用的命令仍然是iptables等。
+
+
 
 #### firewalld的基本使用
 

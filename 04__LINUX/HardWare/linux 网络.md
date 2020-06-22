@@ -1,4 +1,3 @@
-
 ---
 title: "linux 网络.md"
 date: 2019-09-29 17:53:13 +0800
@@ -45,35 +44,6 @@ hosts文件的格式如下：
 
 
 
-### iptables
-
-`/etc/sysconfig/iptables`
-
-```sh
-# 查看防火墙状态
-service iptables status 
-# 停止防火墙
-service iptables stop
-# 启动防火墙
-service iptables start
-# 重启防火墙
-service iptables restart
-# 永久关闭防火墙
-chkconfig iptables off
-# 永久关闭后重启
-chkconfig iptables on
-```
-
-开启某端口并保存：
-
-``` sh
-iptables -I INPUT -p tcp --dport 8000 -j ACCEPT #开启8000端口
-iptables save #保存配置
-iptables restart #重启服务
-```
-
-
-
 ### 查看端口
 
 查看80端口的占用情况：
@@ -88,7 +58,15 @@ netstat -apn | grep 80
 
 ps -aux | grep <进程号>
 
-### 
+或者使用 nmap , 需要安装 ` yum install nmap`
+
+``` sh
+nmap localhost    #查看主机当前开放的端口
+nmap -p 1024-65535 localhost    #查看主机端口（1024-65535）中开放的端口
+nmap -PS 192.168.21.163        #探测目标主机开放的端口
+```
+
+
 
 
 
@@ -389,6 +367,10 @@ $nc -l 1567
 ```
 
 netcat 命令在1567端口启动了一个tcp 服务器，所有的标准输出和输入会输出到该端口。输出和输入都在此shell中展示。
+
+**如果再两个容器间或者是虚拟机间需要使用-p参数， nc -lp port**
+
+
 
 Client
 

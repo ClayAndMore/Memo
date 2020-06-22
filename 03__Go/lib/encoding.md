@@ -1,4 +1,3 @@
-
 ---
 title: "encoding.md"
 date: 2020-01-16 18:29:52 +0800
@@ -193,6 +192,40 @@ var	titles []struct{ Title string }
 if	err	:=	json.Unmarshal(data, &titles);
 err	!=	nil	{				
     log.Fatalf("JSON	unmarshaling	failed:	%s",	err) } fmt.Println(titles)
+```
+
+
+
+#### 转换一个结构体到map
+
+From `struct` to `map[string]interface{}`
+
+```go
+package main
+
+import (
+    "fmt"
+    "encoding/json"
+)
+
+type MyData struct {
+    One   int
+    Two   string
+    Three int
+}
+
+func main() {   
+    in := &MyData{One: 1, Two: "second"}
+
+    var inInterface map[string]interface{}
+    inrec, _ := json.Marshal(in)
+    json.Unmarshal(inrec, &inInterface)
+
+    // iterate through inrecs
+    for field, val := range inInterface {
+            fmt.Println("KV Pair: ", field, val)
+    }
+}
 ```
 
 

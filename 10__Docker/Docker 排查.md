@@ -1,4 +1,3 @@
-
 ---
 title: "Docker 排查.md"
 date: 2019-09-29 17:53:13 +0800
@@ -20,6 +19,19 @@ author: "Claymore"
 
 
 #### docker exec -it <container_id> /bin/bash
+
+
+
+### debug docker
+
+``` sh
+[root@localhost ~]# cat /etc/docker/daemon.json
+{
+    "debug": true
+}
+```
+
+可以在 journalctl 里看到一些docker 启动时的调试输出。
 
 
 

@@ -1,4 +1,3 @@
-
 ---
 title: "apt.md"
 date: 2020-04-07 08:49:48 +0800
@@ -17,7 +16,17 @@ author: "Claymore"
 
 
 
-update 和 upgrade 
+**--no-install-recommends 参数**
+
+默认情况下，Ubuntu安装推荐而不是建议的软件包。使用——no-install- recommendations，只安装主要的依赖项(Depends字段中的包)。
+
+ps: `apt-get -y install --no-install-recommends suricata supervisor`
+
+这样做在docker中可以减少镜像体积。
+
+
+
+### update 和 upgrade 
 
 update的作用是从/etc/apt/source.list文件中定义的源中去同步包的索引文件，即运行这个命令其实并没有更新软件，而是相当于windows下面的检查更新，获取的是软件的状态。
 
@@ -26,6 +35,28 @@ update的作用是从/etc/apt/source.list文件中定义的源中去同步包的
 而dist-upgrade则是更聪明的upgrade，man文档中说它以更聪明的方式来解决更新过程中出现的软件依赖问题，它也是从/etc/apt/source.list文件中获得地址，然后从这些地址中检索需要更新的包。
 
 每回更新之前，我们需要先运行update，然后才能运行upgrade和dist-upgrade，因为相当于update命令获取了包的一些信息，比如大小和版本号，然后再来运行upgrade去下载包
+
+
+
+### apt list 
+
+```text
+apt list --installed
+```
+
+**这个会显示使用 `apt` 命令安装的所有的软件包**。
+
+同时也会包含由于依赖而被安装的软件包。也就是说不仅会包含你曾经安装的程序，而且会包含大量库文件和间接安装的软件包。
+
+可以结合 grep 找我们需要的包：`apt list --installed | grep program_name`
+
+或者 我们可以使用 dpkg:
+
+可以列出 Debian 系统的所有已经安装的软件包。
+
+```text
+dpkg-query -l
+```
 
 
 
@@ -176,6 +207,10 @@ Acquire::https::proxy "http://192.168.59.241:8888/";
 及时配置上方的bashrc 中的代理也要单独配置apt的代理，不然在apt update会提示：` Cannot initiate the connection to archive.ubuntu.com:80`
 
 这里我也是将s去掉，坑。
+
+取消代理，很多时候把文件注释或者改名都没有停止掉代理，我们可以直接在配置文件里明确停止掉：
+
+`Acquire::http::Proxy "false";`
 
 
 

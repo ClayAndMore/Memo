@@ -1,4 +1,3 @@
-
 ---
 title: "Registry私有仓库.md"
 date: 2020-05-15 18:43:09 +0800
@@ -210,4 +209,17 @@ API: https://editor.swagger.io/?url=https://raw.githubusercontent.com/goharbor/h
 创建 ~/.kube 文件夹 和 创建 ~/.kube/config 文件，在rancher的页面可以找到config文件的内容。
 
 
+
+## 问题
+
+### x509: certificate signed by unknown authority
+
+需要配置忽略证书：
+
+```  sh
+# vim /etc/docker/daemon.json
+{ 
+  "insecure-registries": ["registry.svc.xxx.cn"]
+}
+```
 

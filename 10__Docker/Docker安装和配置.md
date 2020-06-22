@@ -1,4 +1,3 @@
-
 ---
 title: "Docker安装和配置.md"
 date: 2019-09-29 17:53:13 +0800
@@ -171,6 +170,14 @@ $ sudo systemctl enable docker
 确保服务正常运行：`docker version`
 
 服务停止和重起等，都和服务命令一样： `docker  start | relstart | stop`
+
+
+
+### debian
+
+到 https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/
+
+下载 containerd.io, docker-ce-cli, docker-ce 三个deb包。然后在服务器上 `dpkg -i *.deb`
 
 
 

@@ -1,4 +1,3 @@
-
 ---
 title: "kvm.md"
 date: 2019-09-29 17:53:13 +0800
@@ -9,6 +8,7 @@ categories: [""]
 author: "Claymore"
 
 ---
+
 ### 安装
 
 
@@ -79,7 +79,7 @@ virt-install \
 
 <https://www.ichiayi.com/wiki/tech/centos6_kvm_console>
 
-
+https://www.cnblogs.com/xieshengsen/p/6215168.html
 
 
 
@@ -233,3 +233,116 @@ Domain CentOS7_102 started
 ```
 
 进入 CentOS7_102修改网卡信息。
+
+
+
+## Derbian 10 install KVM
+
+### 安装
+
+验证是否开启虚拟化：
+
+` grep --color --perl-regexp 'vmx|svm' /proc/cpuinfo`
+
+如果什么没抓到证明没有开启。
+
+安装 KVM and QEMU：
+
+```
+apt update
+apt install qemu qemu-kvm qemu-system qemu-utils
+```
+
+安装libvirt:
+
+为了方便地创建和管理虚拟机，使用了libvirt。它是KVM和QEMU虚拟化的必备工具。libvirt和所有必需的工具都可以在Debian 10 Buster的官方包库中找到。要安装libvirt和所有必要的工具，运行以下命令:
+
+`apt install libvirt-clients libvirt-daemon-system virtinst`
+
+安装完后看下状态：
+
+`systemctl status libvirtd`
+
+如果没有运行，尝试`systemctl start libvirtd`
+
+
+
+### 虚拟机的默认网络
+
+``` sh
+# virsh net-list --all
+ Name      State      Autostart   Persistent
+----------------------------------------------
+ default   active     no         yes
+```
+
+为了创建虚拟机，默认网络必须被激活
+
+```sh
+virsh net-start default
+virsh net-autostart default
+```
+
+
+
+### 创建虚拟机
+
+创建目录：
+
+```
+mkdir -pv /kvm/{disk,iso}
+/kvm
+-- disk/
+--Iso/
+```
+
+下载镜像：
+
+```sh
+cd /kvm/iso
+sudo wget http://releases.ubuntu.com/16.04.6/ubuntu-16.04.6-server-amd64.iso
+```
+
+安装：
+
+```sh
+$ sudo virt-install --name server01 \
+--os-type linux \
+--os-variant ubuntu16.04 \
+--ram 1024\
+--disk /kvm/disk/server01.img,device=disk,bus=virtio,size=10,format=qcow2 \
+--graphics vnc,listen=0.0.0.0 \
+--noautoconsole \
+--hvm \
+--cdrom /kvm/iso/ubuntu-16.04.6-server-amd64.iso \
+--boot cdrom,hd
+```
+
+还可以使用 virt-manager 图形界面来创建虚拟机
+
+
+
+## 问题
+
+### qemu-kvm: could not open disk image ' ': Permission denied
+
+vim  /etc/libvirt/qemu.conf :
+
+打开 user 和 group 的注释：
+
+```sh
+#       user = "100"    # A user named "100" or a user with uid=100
+#
+user = "root"
+
+# The group for QEMU processes run by the system instance. It can be
+# specified in a similar way to user.
+group = "root"
+
+# Whether libvirt should dynamically change file ownership
+# to match the configured user/group above. Defaults to 1.
+```
+
+重启： service libvirtd restart
+
+https://github.com/jedi4ever/veewee/issues/996
