@@ -1,11 +1,10 @@
-
 ---
 title: "09_MapReduce.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["hadoop"]
+categories: ["大数据"]
 author: "Claymore"
 
 ---

@@ -1,11 +1,10 @@
-
 ---
 title: "unity之shader.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["unity"]
 author: "Claymore"
 
 ---
@@ -77,10 +76,10 @@ Tags:[Unity]  date: 2016-06-27
 ​    			//我们之后就可以在surf程序中直接通过访问uv_MainTex来取得这张贴图当前需要计算的点的坐标值了。
 ​    		};
 ​    
-    		half _Glossiness;   //这里的half和我们常见float与double类似，都表示浮点数，只不过精度不一样。也许你很熟悉单精度浮点数（float或者single）和双精度浮点数（double），这里的half指的是半精度浮点数，精度最低，运算性能相对比高精度浮点数高一些，因此被大量使用。
-    		half _Metallic;
-    		fixed4 _Color;
-    
+​    		half _Glossiness;   //这里的half和我们常见float与double类似，都表示浮点数，只不过精度不一样。也许你很熟悉单精度浮点数（float或者single）和双精度浮点数（double），这里的half指的是半精度浮点数，精度最低，运算性能相对比高精度浮点数高一些，因此被大量使用。
+​    		half _Metallic;
+​    		fixed4 _Color;
+​    
     		void surf (Input IN, inout SurfaceOutputStandard o) {   //这段代码是我们的着色器的工作核心。我们已经说过不止一次，着色器就是给定了输入，然后给出输出进行着色的代码。
     		//CG规定了声明为表面着色器的方法（就是我们这里的surf）的参数类型和名字，因此我们没有权利决定surf的输入输出参数的类型，只能按照规定写。
     		//这个规定就是第一个参数是一个Input结构，第二个参数是一个inout的SurfaceOutputStandard结构。后补。

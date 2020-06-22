@@ -1,11 +1,10 @@
-
 ---
 title: "Tornado比较其他py_web.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["Tornado"]
+categories: ["python web"]
 author: "Claymore"
 
 ---
@@ -67,7 +66,7 @@ author: "Claymore"
        client_connection.close()
    ```
 
-   ​
+   
 
 ### wsgi server
 

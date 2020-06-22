@@ -1,11 +1,10 @@
-
 ---
 title: "oauth认证.md"
 date: 2020-03-17 18:47:27 +0800
 lastmod: 2020-03-17 18:47:27 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["安全"]
 author: "Claymore"
 
 ---

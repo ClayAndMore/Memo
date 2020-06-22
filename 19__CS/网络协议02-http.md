@@ -1,11 +1,10 @@
-
 ---
 title: "网络协议02-http.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-12-13 17:48:06 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["网络协议"]
+categories: ["网络原理"]
 author: "Claymore"
 
 ---

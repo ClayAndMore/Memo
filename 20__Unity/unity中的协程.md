@@ -1,11 +1,10 @@
-
 ---
 title: "unity中的协程.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["unity"]
 author: "Claymore"
 
 ---
@@ -19,7 +18,7 @@ Tags:[Unity]  date: 2016-06-10
 ![](http://ojynuthay.bkt.clouddn.com/unity%E5%8D%8F%E7%A8%8B.png)
 代码：
 
-​<!-- more -->    
+<!-- more -->    
 
         using UnityEngine;
         using System.Collections;
