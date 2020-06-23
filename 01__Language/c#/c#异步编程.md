@@ -1,16 +1,15 @@
 
+
 ---
 title: "c#异步编程.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2016-05-10 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
-categories: [""]
+categories: ["c#"]
 author: "Claymore"
 
 ---
-tags: [c#,异步] date: 2016-05-10
-
 
 
 ### 写在前面
@@ -478,15 +477,15 @@ C#5.0引入的一个用来构建异步方法的新特性
         ​    int TimesCalled = 0;
 
       ​      
-            void Display(object state)
-            {
-                Console.WriteLine("{0} {1}", (string)state, ++TimesCalled);
-            }
-            
-            static void Main()
-            {
-                Program p = new Program();
-            
+      ​      void Display(object state)
+      ​      {
+      ​          Console.WriteLine("{0} {1}", (string)state, ++TimesCalled);
+      ​      }
+      ​      
+      ​      static void Main()
+      ​      {
+      ​          Program p = new Program();
+      ​      
                 Timer myTimer = new Timer(p.Display, "Processing timer event", 2000, 1000);
             
                 Console.WriteLine("timer start");

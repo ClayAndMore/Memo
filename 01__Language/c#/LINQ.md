@@ -1,15 +1,16 @@
 
+
 ---
 title: "LINQ.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2016-04-25  17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"
 
 ---
-tags: [c#] date: 2016-04-25 
+
 
 ### 什么是LINQ
 在数据库系统中，数据可以放在规划很好的表中，用SQL查询。但是在程序中，保存在类对象或结构中的数据差异很大。这时，使用LINQ可以轻松的查询对象集合。

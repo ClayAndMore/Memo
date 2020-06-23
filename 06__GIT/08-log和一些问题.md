@@ -2,6 +2,17 @@
 ---
 title: "08-log和一些问题.md"
 date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-06-15 09:12:32 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
+---
+title: "08-log和一些问题.md"
+date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-04-03 19:50:52 +0800
 draft: false
 tags: [""]

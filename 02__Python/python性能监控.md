@@ -8,8 +8,6 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-Tags: [python, 监控]
-
 ## 性能监控
 
 随着功能的增多， 代码越来越多， 我们需要找出代码慢的坑位。

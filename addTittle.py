@@ -1,6 +1,6 @@
 # coding:utf-8
 # python3
-import os
+import os, sys
 import time, datetime
 import subprocess, pipes
 
@@ -47,6 +47,8 @@ def createTittle(filename):
 
 
     old_filename = old_filename.split("/")[-1]
+    
+    print(old_filename, first_commit_time, last_commit_time)
     return title % (old_filename, first_commit_time, last_commit_time)
 
 
@@ -69,5 +71,8 @@ def forf():
 
 
 if __name__ == "__main__":
-    forf()
+    if len(sys.argv) > 1 :
+        print(sys.argv[1])
+        createTittle(sys.argv[1])
+    #forf()
     # createTittle("README.md")

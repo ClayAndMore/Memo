@@ -1,9 +1,8 @@
-
 ---
 title: "vue.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-10-29 16:53:35 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"

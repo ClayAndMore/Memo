@@ -1,3 +1,14 @@
+
+---
+title: "go build.md"
+date: 2020-06-12 19:01:02 +0800
+lastmod: 2020-06-16 23:21:51 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ---
 title: "go build.md"
 date: 2020-06-12 19:01:02 +0800

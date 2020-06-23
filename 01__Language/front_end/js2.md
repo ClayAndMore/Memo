@@ -1,9 +1,8 @@
-
 ---
 title: "js2.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-11-06 14:04:15 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"

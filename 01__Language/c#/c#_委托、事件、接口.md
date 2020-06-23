@@ -1,15 +1,14 @@
-
 ---
 title: "c#_委托、事件、接口.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2016-04-20 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
-categories: [""]
+categories: ["c#"]
 author: "Claymore"
 
 ---
-tags: [c#] date: 2016-04-20
+
 
 
 ### 委托
@@ -17,8 +16,6 @@ tags: [c#] date: 2016-04-20
 ![](http://7xs1eq.com1.z0.glb.clouddn.com/%E5%A7%94%E6%89%98.png)
 
 委托可以理解为为当事人辩护的律师。
-
-<!-- more -->
 
 * 委托格式上比方法多了个delegate,但是它可以理解成类，本质就是个类。
 * 可以认为委托是持有一个或多个**方法**的对象

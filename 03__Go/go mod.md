@@ -1,3 +1,14 @@
+
+---
+title: "go mod.md"
+date: 2020-01-16 18:29:52 +0800
+lastmod: 2020-06-16 23:21:51 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ---
 title: "go mod.md"
 date: 2020-01-16 18:29:52 +0800

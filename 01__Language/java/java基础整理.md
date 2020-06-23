@@ -1,15 +1,14 @@
-
 ---
 title: "java基础整理.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2016-07-10 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"
 
 ---
-tags: [java] date: 2016-07-10
+
 
 
 ## jvm
@@ -86,7 +85,7 @@ s1,是编译期就放在常量池里，而s2是运行期才确定位置。
           System.out.println(ss3 == ss1 + ss2); //false ，变量
           System.out.println(ss3 == "hello"+"world");//true，常量
   ```
-  ​
+  
 
 ### intern()方法
 String的intern()方法就是扩充常量池的一个 方法；当一个String实例str调用intern()方法时，Java查找常量池中是否有相同Unicode的字符串常量，如果有，则返回其的引用， 如果没有，则在常量池中增加一个Unicode等于str的字符串并返回它的引用；看例3就清楚了 
@@ -122,21 +121,21 @@ System.out.println( s0==s2 ); //true
 
 * 获取API
 
-  ​int length()  获取字符串长度
+  int length()  获取字符串长度
 
-  ​char charAt(int index) 获取字符串在指定索引出的字符,可用来遍历字符串
+  char charAt(int index) 获取字符串在指定索引出的字符,可用来遍历字符串
 
-  ​int indexOf(int ch) 获取ch这个字符在该字符串中第一次出项的索引
+  int indexOf(int ch) 获取ch这个字符在该字符串中第一次出项的索引
 
-  ​int indexOf(String str) 获取str 这个字符串在该字符串中第一次出现的索引
+  int indexOf(String str) 获取str 这个字符串在该字符串中第一次出现的索引
 
-  ​int indexOf(int ch,int fromIndex) 获取ch这个字符在该字符串中从自定索引开始后第一次出现的索引。
+  int indexOf(int ch,int fromIndex) 获取ch这个字符在该字符串中从自定索引开始后第一次出现的索引。
 
-  ​iint indexOf(String str,int fromIndex) 获取str这个字符在该字符串中从自定索引开始后第一次出现的索引。
+  iint indexOf(String str,int fromIndex) 获取str这个字符在该字符串中从自定索引开始后第一次出现的索引。
 
-  ​String substring(int start)  获取字串，截取，从start到末尾
+  String substring(int start)  获取字串，截取，从start到末尾
 
-  ​String substring(int start,int end) 获取字串，截取，从start到end
+  String substring(int start,int end) 获取字串，截取，从start到end
 
 * 遍历字符串 
 
@@ -186,9 +185,9 @@ String result = line.substring(0,1).toUpperCase().concat(line.substring(1).toLow
 
 * 比较两个字符串（依次比较，字符相减，所以相同的字符串函数值为零）
 
-  ​int compareTo(String str)
+  int compareTo(String str)
 
-  ​int compareToIgnoreCase(String str) //忽略大小写
+  int compareToIgnoreCase(String str) //忽略大小写
 
 ## Java map和list
 在学Java以前，一说到存放东西，第一个想到的就是使用数组，使用数组，在数据的存取方面的却也挺方便，其存储效率高访问快，但是它也受到了一些限制，比如说数组的长度以及数组的类型，当我需要一组string类型数据的同时还需要Integer类型的话，就需要定义两次，同时，数组长度也受到限制，即使是动态定义数组长度，但是长度依然需要固定在某一个范围内，不方便也不灵活。

@@ -1,15 +1,14 @@
-
 ---
 title: "css.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2016-07-27  17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"
 
 ---
-tags: [FrontEnd] date: 2016-07-27 
+
 
 
 ### CSS 概述
@@ -123,3 +122,14 @@ position用来设定元素的定位类型，有absolute（绝对定位）、rela
 * relative：位置被设置为 relative 的元素，可将其移至相对于其正常位置的地方，因此 "left:20" 会将元素移至元素正常位置左边 20 个像素的位置。
 * absolute：位置设置为 absolute 的元素，可定位于相对于包含它的元素的指定坐标。此元素的位置可通过 "left"、"top"、"right" 以及 "bottom" 属性来规定。
 * fixed：位置被设置为 fixed 的元素，可定位于相对于浏览器窗口的指定坐标。此元素的位置可通过 "left"、"top"、"right" 以及"bottom" 属性来规定。不论窗口滚动与否，元素都会留在那个位置。工作于 IE7（strict 模式）。
+
+
+
+### 其他
+
+圆角：
+`border-radius:5px}`
+设置DIV对象盒子四个角5像素圆角效果
+
+`border-radius:3px 4px 5px 6px`
+代表设置对象左上角3px圆角、右上角4px圆角、右下角5px圆角、左下角6px圆角。

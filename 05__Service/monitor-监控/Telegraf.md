@@ -2,6 +2,17 @@
 ---
 title: "Telegraf.md"
 date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-06-15 09:12:32 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
+
+---
+title: "Telegraf.md"
+date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-06-12 19:01:02 +0800
 draft: false
 tags: [""]

@@ -1,6 +1,6 @@
 ---
 title: "使用anaconda.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-04-09 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
@@ -9,7 +9,7 @@ author: "Claymore"
 
 ---
 
-tags: [python] date: 2017-04-09
+
 
 
 ### 概述

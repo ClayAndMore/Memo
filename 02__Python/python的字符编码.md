@@ -1,6 +1,6 @@
 ---
 title: "python的字符编码.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-02-22 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
@@ -8,7 +8,7 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-Tags:[python] date: 2017-02-22 
+
 
 
 ### 搞清字符编码问题：

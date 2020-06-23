@@ -8,7 +8,7 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-tags:[python, spider, py_lib]
+
 
 ## requests
 

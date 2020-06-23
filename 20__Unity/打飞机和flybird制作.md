@@ -1,3 +1,14 @@
+
+---
+title: "打飞机和flybird制作.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2020-06-22 14:47:41 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ---
 title: "打飞机和flybird制作.md"
 date: 2019-09-29 17:53:13 +0800
@@ -21,8 +32,6 @@ Tags:[Unity] date: 2016-06-30
 
          transform.Translate(Input.GetAxis("Horizontal") * speed * Time.deltaTime, 0f, 0f);
          transform.Translate(0f, 0f, Input.GetAxis("Vertical") * speed * Time.deltaTime);
-
-<!-- more -->
 
 Horizontal:水平的 Vertical：垂直的，这两个是自带方向浮点型数据，通过方向键或w、a、s、d增加或减少相应方向的量，
 

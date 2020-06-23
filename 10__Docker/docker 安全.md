@@ -1,3 +1,14 @@
+
+---
+title: "docker 安全.md"
+date: 2020-06-22 14:45:42 +0800
+lastmod: 2020-06-22 14:45:42 +0800
+draft: false
+tags: [""]
+categories: [""]
+author: "Claymore"
+
+---
 ### gosu
 
 gosu是个工具，用来提升指定账号的权限，作用与sudo命令类似，而docker中使用gosu的起源来自安全问题；

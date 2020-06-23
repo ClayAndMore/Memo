@@ -1,6 +1,6 @@
 ---
 title: "01-python.md"
-date: 2019-09-29 17:53:13 +0800
+date: 22017-01-30  17:53:13 +0800
 lastmod: 2019-10-11 14:17:56 +0800
 draft: false
 tags: ["python语法"]
@@ -8,10 +8,13 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-tags: [python] date: 2017-01-30 
 
 
 python的哲学：`用一种方法，最好是只有一种方法来做一件事。`
+
+
+
+### 一些说明
 
 python命令行将以>>>开始 如：`>>>print 'Hello World!'`
 
@@ -31,12 +34,11 @@ if （xxxx is None and
 
 在Python中，等号`=`是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量，例如：
 
-  ```
+  ```python
   a = 123 # a是整数
   print(a)
   a = 'ABC' # a变为字符串
   print(a)
-
   ```
 
   这种变量本身类型不固定的语言称之为动态语言，与之对应的是静态语言。

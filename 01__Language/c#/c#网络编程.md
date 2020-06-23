@@ -1,15 +1,14 @@
-
 ---
 title: "c#网络编程.md"
-date: 2019-09-29 17:53:13 +0800
+date:  2016-05-30 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
-categories: [""]
+categories: ["c#"]
 author: "Claymore"
 
 ---
-tags: [c#,Socket] date: 2016-05-30
+
 
 
 ### Socket编程

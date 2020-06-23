@@ -1,6 +1,6 @@
 ---
 title: "python内置库.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-08-31 17:53:13 +0800
 lastmod: 2019-11-09 17:48:25 +0800
 draft: false
 tags: ["python库"]
@@ -8,8 +8,6 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-tags:[python, py_lib], date: 2017-08-31 
-
 
 
 ## 内置

@@ -12,8 +12,6 @@ author: "Claymore"
 
 pip install  pandas
 
-
-
 ```python 
 >>> import pandas as pd
 >>> df = pd.DataFrame()

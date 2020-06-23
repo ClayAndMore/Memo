@@ -8,8 +8,6 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-Tags:[python]
-
 ## PyPy
 
 ### 安装

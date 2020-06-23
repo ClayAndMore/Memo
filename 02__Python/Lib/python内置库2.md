@@ -8,7 +8,7 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-Tags:[python,py_lib]
+
 
 ### random
 

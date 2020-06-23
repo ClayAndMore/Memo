@@ -8,7 +8,7 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-Tags:[python, spider]
+
 
 ### Appium的安装
 

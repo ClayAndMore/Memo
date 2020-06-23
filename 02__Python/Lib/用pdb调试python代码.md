@@ -1,6 +1,6 @@
 ---
 title: "用pdb调试python代码.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-02-20 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["python库"]
@@ -8,7 +8,7 @@ categories: ["python"]
 author: "Claymore"
 
 ---
-tags: [python, py_lib] date: 2017-02-20 
+
 
 
 ### 写在前面

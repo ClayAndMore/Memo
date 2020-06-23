@@ -1,25 +1,19 @@
-
 ---
 title: "c#反射和特性.md"
-date: 2019-09-29 17:53:13 +0800
+date:  2016-05-02 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
-categories: [""]
+categories: ["c#"]
 author: "Claymore"
 
 ---
-tags: [c#,反射] date: 2016-05-02 14:30:44
-
 
 
 ## 先看概念：
 
 * 元数据：有关程序和程序类型的数据，它们保存在程序的程序 集中。不是数字，文本，图形。
 * 反射：查看本身或其他程序的元数据这样的行为称为反射。要用反射，必须使用System.Reflection命名空间。
-
-
-<!-- more -->
 
 
 ## Type类

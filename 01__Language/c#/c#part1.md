@@ -1,15 +1,14 @@
-
 ---
 title: "c#part1.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2016-04-08 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"
 
 ---
-tags: [c#] date: 2016-04-08
+
 
 
 ## 写在前面
