@@ -1,24 +1,5 @@
 
----
-title: "unity之shader.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-22 14:47:41 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
 
----
----
-title: "unity之shader.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2019-09-29 17:53:13 +0800
-draft: false
-tags: [""]
-categories: ["unity"]
-author: "Claymore"
-
----
 Tags:[Unity]  date: 2016-06-27 
 
 ### 基本概念
@@ -91,21 +72,21 @@ Tags:[Unity]  date: 2016-06-27
 ​    		half _Metallic;
 ​    		fixed4 _Color;
 ​    
-    		void surf (Input IN, inout SurfaceOutputStandard o) {   //这段代码是我们的着色器的工作核心。我们已经说过不止一次，着色器就是给定了输入，然后给出输出进行着色的代码。
-    		//CG规定了声明为表面着色器的方法（就是我们这里的surf）的参数类型和名字，因此我们没有权利决定surf的输入输出参数的类型，只能按照规定写。
-    		//这个规定就是第一个参数是一个Input结构，第二个参数是一个inout的SurfaceOutputStandard结构。后补。
-    			// Albedo comes from a texture tinted by color
-    			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;  //这里用到了一个tex2d函数，这是CG程序中用来在一张贴图中对一个点进行采样的方法，返回一个float4。
-    			o.Albedo = c.rgb;
-    			// Metallic and smoothness come from slider variables
-    			o.Metallic = _Metallic;
-    			o.Smoothness = _Glossiness;
-    			o.Alpha = c.a;
-    		}
-    		ENDCG
-    	} 
-    	FallBack "Diffuse"
-    }
+​    		void surf (Input IN, inout SurfaceOutputStandard o) {   //这段代码是我们的着色器的工作核心。我们已经说过不止一次，着色器就是给定了输入，然后给出输出进行着色的代码。
+​    		//CG规定了声明为表面着色器的方法（就是我们这里的surf）的参数类型和名字，因此我们没有权利决定surf的输入输出参数的类型，只能按照规定写。
+​    		//这个规定就是第一个参数是一个Input结构，第二个参数是一个inout的SurfaceOutputStandard结构。后补。
+​    			// Albedo comes from a texture tinted by color
+​    			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;  //这里用到了一个tex2d函数，这是CG程序中用来在一张贴图中对一个点进行采样的方法，返回一个float4。
+​    			o.Albedo = c.rgb;
+​    			// Metallic and smoothness come from slider variables
+​    			o.Metallic = _Metallic;
+​    			o.Smoothness = _Glossiness;
+​    			o.Alpha = c.a;
+​    		}
+​    		ENDCG
+​    	} 
+​    	FallBack "Diffuse"
+​    }
 ###对上面代码的补充
 
 *   在材质中找到shader的实例，custom有定制的意思，我的弱渣英语。

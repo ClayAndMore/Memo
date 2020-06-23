@@ -1,25 +1,5 @@
 
----
-title: "README.md"
-date: 2017-07-26 17:48:58 +0800
-lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
 
----
-
----
-title: "README.md"
-date: 2017-07-26 17:48:58 +0800
-lastmod: 2019-09-29 19:24:41 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
 ## 个人笔记
 
 **该笔记用于记录个人学习记录，不用于知识分享**
@@ -80,9 +60,9 @@ author: "Claymore"
 调整目录结构。
 
 
-### TODO
-* 左侧目录树每次点击还要刷新一边，应该只是右侧刷新。
-* mark解析图床的图片，当图片过大时没有显示限制。
-* 加一个缓存数据库Redis或者Memcached。把解析过的文章放入，并把归档也放入。
-* 归档没做
-* js解析时，开始的date，tag等解析不合理。
+
+### 2020年
+
+6 月
+
+整理文章结构，使用hugo打算搭建静态博客。

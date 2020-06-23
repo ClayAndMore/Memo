@@ -1,9 +1,8 @@
-
 ---
 title: "python 图像识别.md"
 date: 2019-10-12 17:45:41 +0800
 lastmod: 2020-06-15 09:12:32 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"
@@ -14,7 +13,7 @@ author: "Claymore"
 title: "python 图像识别.md"
 date: 2019-10-12 17:45:41 +0800
 lastmod: 2019-10-21 09:53:02 +0800
-draft: false
+draft: true
 tags: [""]
 categories: [""]
 author: "Claymore"

@@ -1,22 +1,10 @@
-
 ---
-title: "07-git多账户管理.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-
----
-title: "07-git多账户管理.md"
-date: 2019-09-29 17:53:13 +0800
+title: "01-git多账户管理.md"
+date: 2017-09-06 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["git"]
 author: "Claymore"
 
 ---

@@ -1,26 +1,14 @@
-
 ---
 title: "10-gitlab_ci.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-06-15 09:12:32 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["git"]
 author: "Claymore"
 
 ---
 
----
-title: "10-gitlab_ci.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2019-11-09 17:48:25 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-Tags:[Git]
 
 ## gitlab-ci
 
