@@ -1,4 +1,3 @@
-
 ---
 title: "libvirt 命令.md"
 date: 2020-06-22 14:45:42 +0800
@@ -14,8 +13,38 @@ author: "Claymore"
 
 
 
-
 ## virsh 
+
+一些常用的虚拟机命令：
+
+``` sh
+# KVM虚拟机开机
+virsh start oeltest01
+# virsh关机
+virsh shutdown oeltest01 
+# 强制关闭电源
+virsh destroy wintest01
+ 
+# 通过配置文件启动虚拟机
+virsh create /etc/libvirt/qemu/wintest01.xml
+# 配置开机自启动虚拟机
+virsh autostart oeltest01
+ 
+# 导出KVM虚拟机配置文件
+virsh dumpxml wintest01 > /etc/libvirt/qemu/wintest02.xml
+ 
+# 编辑KVM虚拟机配置文件
+virsh edit wintest01
+# virsh edit将调用vi命令编辑/etc/libvirt/qemu/wintest01.xml配置文件。也可以直接通过vi命令进行编辑，修改，保存。
+
+ 
+# virsh console 控制台管理linux虚拟机
+virsh console oeltest01 
+```
+
+
+
+所有：
 
 ``` sh
 autostart      #自动加载指定的一个虚拟机
