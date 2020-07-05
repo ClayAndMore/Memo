@@ -4,7 +4,7 @@ date: 2020-05-15 18:43:09 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: true
 tags: [""]
-categories: ["linux]
+categories: ["linux"]
 author: "Claymore"
 
 ---
