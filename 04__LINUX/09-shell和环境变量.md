@@ -1,4 +1,3 @@
-
 ---
 title: "09-shell和环境变量.md"
 date: 2019-09-29 17:53:13 +0800
@@ -9,7 +8,7 @@ categories: [""]
 author: "Claymore"
 
 ---
-Tags:[linux, shell]
+
 
 ### shell
 

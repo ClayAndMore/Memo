@@ -1,15 +1,14 @@
-
 ---
 title: "升级ssl ssh nginx.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["ssh, nginx"]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux, linux_software]
+
 
 ### 前提
 

@@ -1,4 +1,3 @@
-
 ---
 title: "02-linux目录和文件.md"
 date: 2019-09-29 17:53:13 +0800
@@ -265,16 +264,22 @@ nl 添加行号并打印
 
 
 
-#### basename, dirname
+#### basename, dirname，readlink
 
+```sh
+basename /etc/sysconfig/network
+network # 很简单！就取得最后的文件名～
+dirname /etc/sysconfig/network
+/etc/sysconfig # 获取目录名
 ```
-[root@study ~]# basename /etc/sysconfig/network
-network &lt;== 很简单！就取得最后的文件名～
-[root@study ~]# dirname /etc/sysconfig/network
-/etc/sysconfig &lt;== 取得的变成目录名了！
-```
 
+##### 
 
+readlink -f 找到文件的真正链接文件，**是不是链接文件都会返回一个真正能执行的目录：**
+
+`readlink -f docker/build_image.sh`   
+
+输出：/home/wy/docker /build_image.sh
 
 
 

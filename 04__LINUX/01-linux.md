@@ -1,15 +1,13 @@
 ---
 title: "01-linux.md"
-date:  2018-02-15 17:53:13 +0800
+date:  2017-02-15 17:53:13 +0800
 lastmod: 2020-06-12 19:01:02 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux] date: 2017-02-15
-
 ### linux启动流程
 
 通电一个默认的物理地址->bios->找到磁盘第一个扇区->引导程序->内核->挂载文件系统->系统服务->应用程序
@@ -22,19 +20,18 @@ linux 发行版来分类：
 
 RedHat 系列 
 
-centos 社区旗舰版
+* centos 社区旗舰版
 
-RHEL (Redhat Enterprise linux)  商业版，大型企业核心服务器首选
+* RHEL (Redhat Enterprise linux)  商业版，大型企业核心服务器首选
+* Fedora,  在 2003 年的时候，Red Hat Linux 停止了发布，它的项目由 Fedora Project 这个项目所取代，并以 Fedora Core 这个名字发行并提供给普通用户免费使用。**这个 Fedora Core 试验的韵味比较浓厚，每次发行都有新的功能被加入到其中，得到的成功结果将被采用 RHEL 的发布中。**
 
-* 常见的安装包格式 rpm包,安装rpm包的命令是“rpm -参数” 
-* 包管理工具  yum 
+Debian系列['dɛbɪrn]
 
-Debian系列（ubuntu基于此系列）['dɛbɪrn]
+* Debian是GNU开源社区版本，自1996年以来就存在了，是市场上最古老的GNU/Linux发行版之一, Debian提倡软件自由不鼓励使用专有软件，所以Debian的默认只提供开源免费软件
 
-Ubuntu 基于 Debian 的 unstable 或者 testing 分支，同时对来自 Debian 的部分软件包进行了一定的修改，以使其更加适合桌面使用。 同时，优化了安装过程，使 Ubuntu 安装起来更加容易。
+* Ubuntu 基于 Debian 的 unstable 或者 testing 分支，同时对来自 Debian 的部分软件包进行了一定的修改，以使其更加适合桌面使用。 同时，优化了安装过程，使 Ubuntu 安装起来更加容易。
 
-* 常见的安装包格式 deb包,安装deb包的命令是“dpkg -参数”
-* 包管理工具 apt-get
+debian 比 ubuntu 的包更稳定，但是相对也更古老。
 
 
 
@@ -142,19 +139,6 @@ man 手册的内容很多，涉及了 Linux 使用过程中的方方面面，为
 `ls --help`
 
 
-
-#### sleep
-
-`sleep [--help] [--version] number[smhd]`
-
-- --help : 显示辅助讯息
-- --version : 显示版本编号
-- number : 时间长度，后面可接 s、m、h 或 d
-- 其中 s 为秒，m 为 分钟，h 为小时，d 为日数
-
-eg: 休眠5分钟：
-
-`sleep 5m`
 
 
 

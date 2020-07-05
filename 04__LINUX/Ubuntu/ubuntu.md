@@ -1,4 +1,3 @@
-
 ---
 title: "ubuntu.md"
 date: 2020-02-08 12:28:36 +0800
@@ -9,7 +8,7 @@ categories: [""]
 author: "Claymore"
 
 ---
-Tags:[linux]
+
 
 ### uwf
 

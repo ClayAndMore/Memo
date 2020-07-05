@@ -4,11 +4,11 @@ date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-04-07 08:49:48 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux]
+
 
 ## linux 网络
 
@@ -24,11 +24,51 @@ Tags:[linux]
 
 如果不兼容，要么重新编译内核，要么重新编译网卡的内核模块，当然，大家都不愿意这么干。
 
+**网卡配置文件**：`/etc/sysconfig/network-scripts` (centos)
+
+
+
+#### 查看某网卡的口是否有线连接：
+
+1. `ethtool eth1`
+
+   最后一行： Link detected: yes为正常no为失败
+
+2. 或 `mii-tool` 用的少，有的驱动不支持。
+
+3. ```
+   /mnt/wifi$ cat /proc/net/dev
+   
+   Inter-|  Receive                                                | Transmit
+   
+   face |bytes  packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carriercompressed
+   
+   lo:      0      0    0  0    0    0        0        0        0      0    0    0  0    0      0        0
+   
+   eth0:    3439    15  0  0    0    0        0        0        0      0    0    0  0    0      0          0
+   
+   在开发板上/proc/net目录下，还有很多关于网络的信息的文件，我试了不少，觉得这个还算准确，但并非100%哦，如果启动开发板后，eth0中bytes、packets 不为0，那它一定插了网线，但此种方法只适合开机启动时判断，之后的话，就很麻烦了。
+   ```
+
+   
+
+确定某网卡的具体物理口， 用：
+
+`ethtool -p eth2`  时，对应网卡会闪烁， 注意此时是未插网线。
+
+关闭 / 开启 / 重启 某块网卡：
+
+`ifdown eth0 && ifup eth0       # 一定要连在一起使用！！切记啊  `
+
+重启所有网卡服务：
+
+`/etc/init.d/network restart`
+
 
 
 ### hosts
 
-osts文件是Linux系统中一个负责IP地址与域名快速解析的文件，以ASCII格式保存在“/etc”目录下，文件名为“hosts”（不同的linux版本，这个配置文件也可能不同。比如Debian的对应文件是/etc/hostname
+hosts文件是Linux系统中一个负责IP地址与域名快速解析的文件，以ASCII格式保存在“/etc”目录下，文件名为“hosts”（不同的linux版本，这个配置文件也可能不同。比如Debian的对应文件是/etc/hostname
 
 一般情况下hosts文件的每行为一个主机，每行由三部份组成，每个部份由空格隔开。其中#号开头的行做说明，不被系统解释。
 
@@ -41,6 +81,42 @@ hosts文件的格式如下：
 微解释一下主机名(hostname)和域名(Domain）的区别：主机名通常在局域网内使用，通过hosts文件，主机名就被解析到对应ip；域名通常在internet上使用，但如果本机不想使用internet上的域名解析，这时就可以更改hosts文件，加入自己的域名解析。
 
 一个IP地址可以指向多个主机名和域名，比如配置`localhost localdomain wangdachui`这三个主机名都是可以解析到本地主机的.
+
+
+
+### 修改hostname
+
+#### centos 6
+
+```shell
+[root@centos6 ~]$ hostname                                              # 查看当前的hostnmae
+centos6.magedu.com
+[root@centos6 ~]$ vim /etc/sysconfig/network                            # 编辑network文件修改hostname行（重启生效）
+[root@centos6 ~]$ cat /etc/sysconfig/network                            # 检查修改
+NETWORKING=yes
+HOSTNAME=centos66.magedu.com
+[root@centos6 ~]$ hostname centos66.magedu.com                          # 设置当前的hostname(立即生效）
+[root@centos6 ~]$ vim /etc/hosts                                        # 编辑hosts文件，给127.0.0.1添加hostname
+[root@centos6 ~]$ cat /etc/hosts                                        # 检查
+127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4 centos66.magedu.com
+::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+```
+
+
+
+#### centos 7 && ubuntu
+
+```shell
+[root@centos7 ~]$ hostnamectl set-hostname centos77.magedu.com             # 使用这个命令会立即生效且重启也生效
+[root@centos7 ~]$ hostname                                                 # 查看下
+centos77.magedu.com
+[root@centos7 ~]$ vim /etc/hosts                                           # 编辑下hosts文件， 给127.0.0.1添加hostname
+[root@centos7 ~]$ cat /etc/hosts                                           # 检查
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 centos77.magedu.com
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+```
+
+改完host,可以执行bash更新 前缀。
 
 
 
@@ -677,46 +753,6 @@ ip [ OPTIONS ] OBJECT { COMMAND | help }
       TX errors: aborted  fifo   window heartbeat transns
                  0        0       0       0       2 
   ```
-
-
-
-
-
-### 修改hostname
-
-#### centos 6
-
-```shell
-[root@centos6 ~]$ hostname                                              # 查看当前的hostnmae
-centos6.magedu.com
-[root@centos6 ~]$ vim /etc/sysconfig/network                            # 编辑network文件修改hostname行（重启生效）
-[root@centos6 ~]$ cat /etc/sysconfig/network                            # 检查修改
-NETWORKING=yes
-HOSTNAME=centos66.magedu.com
-[root@centos6 ~]$ hostname centos66.magedu.com                          # 设置当前的hostname(立即生效）
-[root@centos6 ~]$ vim /etc/hosts                                        # 编辑hosts文件，给127.0.0.1添加hostname
-[root@centos6 ~]$ cat /etc/hosts                                        # 检查
-127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4 centos66.magedu.com
-::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
-```
-
-
-
-#### centos 7
-
-```shell
-[root@centos7 ~]$ hostnamectl set-hostname centos77.magedu.com             # 使用这个命令会立即生效且重启也生效
-[root@centos7 ~]$ hostname                                                 # 查看下
-centos77.magedu.com
-[root@centos7 ~]$ vim /etc/hosts                                           # 编辑下hosts文件， 给127.0.0.1添加hostname
-[root@centos7 ~]$ cat /etc/hosts                                           # 检查
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 centos77.magedu.com
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-```
-
-
-
-改完host,可以执行bash更新 前缀。
 
 
 

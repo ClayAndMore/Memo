@@ -1,10 +1,10 @@
 ---
-title: "iptables.md"
+title: "iptables 四表五链 && 命令"
 date: 2019-12-13 17:48:06 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---

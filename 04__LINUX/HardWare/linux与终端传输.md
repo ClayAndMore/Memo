@@ -1,15 +1,14 @@
-
 ---
-title: "linux与终端传输.md"
-date: 2019-09-29 17:53:13 +0800
+title: "linux虚拟机连接方式与终端传输.md"
+date: 2017-06-22 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux] date: 2017-06-22
+
 
 ### virtual box虚拟机连接网络的方式
 

@@ -1,18 +1,133 @@
 ---
-title: "apt.md"
+title: "dpkg 和 apt.md"
 date: 2020-04-07 08:49:48 +0800
 lastmod: 2020-06-12 19:01:02 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
+
+
+## dpkg
+
+dpkg 是用于管理 deb 包的包管理工具, 类似于rpm
+
+**dpkg的缺陷**
+
+- 不能主动从镜像站点获取软件包
+- 安装软件包的时候不能自动安装相关依赖包
+
+
+
+### 安装 deb 文件
+
+使用  `dpkg -i <deb file>` 来安装 deb 文件,  如果失败它会说需要依赖。
+
+之后可以尝试 `apt-get update`  然后会提示  "dependencies are ready to install"  再使用 `apt-get install -f`.
+
+在这之后,  再用 `dpkg -i` 
+
+ps:  `gdebi` 工具可以更好的做这件事  `gdebi [deb file]`.
+
+
+
+### 查看 apt 安装的软件路径
+
+dpkg -L 软件名
+
+例如：dpkg -L gedit
+
+```undefined
+dpkg -L gedit  
+/.  
+/usr  
+/usr/bin  
+/usr/bin/gedit  
+/usr/share  
+/usr/share/applications  
+/usr/share/applications/gedit.desktop  
+```
+
+dpkg -l 查看所有安装的软件
+
+dpkg -L package  列出安装包清单
+
+dpkg --contents 包的具体文件
+
+
+
+### 移除包
+
+dpkg -r package 移除包
+
+dpkg -P package 移除包和配置文件
+
+
+
+
+
+### apt
+
+
+
+- apt-get 用于管理软件包，包括安装、卸载、升级
+
+  apt-get install package （搜索本地一个数据库，详情看软件源）
+
+  apt-get update   从软件镜像服务器上下载/更新用于本地软件源的软件包列表
+
+  apt-get upgrade 自动升级软件包到最新版本
+
+  apt-get check 检查当前apt管理里面的依赖包情况
+
+  apt-get -f install 修复依赖包关系
+
+  apt-get remove 卸载（但是卸载不干净，不包括软件包的配置文件）
+
+  apt-get remove --purge package (完全卸载)
+
+  apt-get --reinstall install package  重新安装
+
+
+
+
+- 一些位置：
+
+  apt source 镜像站点地址存在哪儿
+
+  /etc/apt/sources.list
+
+  apt的本地索引存在哪儿
+
+  /var/lib/apt/lists/*
+
+  apt的下载deb包存在哪里
+
+  /var/cache/apt/archives
+
+
+
+
+
+
+
+
+
+## apt
+
+apt 是ubuntu系统的软件包管理工具
+
+
+
 ### apt-get
 
 通过apt-get安装制定版本：
 
 `apt-get install <<package name>>=<<version>>`
+
+apt-get 可以缩写成apt 
 
 
 
@@ -60,33 +175,41 @@ dpkg-query -l
 
 
 
-### apt-chache
+### apt-chache 
+
+apt-cache :用于查询软件包信息，一般用于在安装某个包之前。
+
+apt-cache show package 显示软件包信息
+
+apt-cache policy package 显示软件包安装状态
+
+apt-cache depends package 显示软件包依赖关系
+
+apt-cache search package 在source某个名称的软件
 
 列举版本列表：
 
 0、通过网站搜索：https://packages.[ubuntu](https://www.centos.bz/tag/ubuntu/).com/
 
-1、
-
-```
-apt-cache madison <<package name>>
-```
+1、`apt-cache madison <<package name>>`
 
 将列出所有来源的版本。如下输出所示：
 
-[apt-cache](https://www.centos.bz/tag/apt-cache/) madison vim
-vim | 2:7.3.547-1 | http://[debian](https://www.centos.bz/tag/debian/).mirrors.tds.net/debian/ unstable/main amd64 Packages
+```sh
+# apt-cache madison vim
+vim | 2:7.3.547-1 | http://debian.mirrors.tds.net/debian/ unstable/main amd64 Packages
 vim | 2:7.3.429-2 | http://debian.mirrors.tds.net/debian/ testing/main amd64 Packages
 vim | 2:7.3.429-2 | http://http.us.debian.org/debian/ testing/main amd64 Packages
 vim | 2:7.3.429-2 | http://debian.mirrors.tds.net/debian/ testing/main Sources
 vim | 2:7.3.547-1 | http://debian.mirrors.tds.net/debian/ unstable/main Sources
+```
+
+
 madison是一个apt-cache子命令，可以通过man apt-cache查询更多用法。
 
-2、
 
-```
-apt-cache policy <<package name>>
-```
+
+2、`apt-cache policy <<package name>>`
 
 将列出所有来源的版本。信息会比上面详细一点，如下输出所示：
 
@@ -103,6 +226,10 @@ gdb:
         500 http://fr.archive.ubuntu.com/ubuntu/ trusty/main amd64 Packages
         500 http://archive.ubuntu.com/ubuntu/ trusty/main amd64 Packages
 ```
+
+
+
+## apt 源
 
 
 
@@ -183,18 +310,6 @@ OK
 
 
 
-### 安装 deb 文件
-
-使用  `dpkg -i <deb file>` 来安装 deb 文件,  如果失败它会说需要依赖。
-
-之后可以尝试 `apt-get update`  然后会提示  "dependencies are ready to install"  再使用 `apt-get install -f`.
-
-在这之后,  再用 `dpkg -i` 
-
-ps:  `gdebi` 工具可以更好的做这件事  `gdebi [deb file]`.
-
-
-
 ### apt 使用代理
 
 vim /etc/apt/apt.conf.d/proxy.conf（没有可以建立）
@@ -208,28 +323,9 @@ Acquire::https::proxy "http://192.168.59.241:8888/";
 
 这里我也是将s去掉，坑。
 
-取消代理，很多时候把文件注释或者改名都没有停止掉代理，我们可以直接在配置文件里明确停止掉：
+**取消代理，很多时候把文件注释或者改名都没有停止掉代理，我们可以直接在配置文件里明确停止掉**：
 
 `Acquire::http::Proxy "false";`
-
-
-
-### 查看 apt 安装的软件路径
-
-dpkg -L 软件名
-
-例如：dpkg -L gedit
-
-```undefined
-dpkg -L gedit  
-/.  
-/usr  
-/usr/bin  
-/usr/bin/gedit  
-/usr/share  
-/usr/share/applications  
-/usr/share/applications/gedit.desktop  
-```
 
 
 

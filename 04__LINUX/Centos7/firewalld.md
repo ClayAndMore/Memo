@@ -1,14 +1,14 @@
 ---
-title: "centos7.md"
+title: "centos7 firwalld"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-02-08 12:28:55 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux]
+
 
 ### firwalld
 
@@ -17,7 +17,7 @@ Tags:[linux]
 1. FirewallD 使用区域和服务而不是链式规则。
 2. FirewallD可以动态修改单条规则，而不需要像iptables那样，在修改了规则后必须得全部刷新才可以生效。
 
-在RHEL7里有几种防火墙共存：FirewallD、iptables、ebtables，默认是使用FirewallD来管理netfilter子系统，不过底层调用的命令仍然是iptables等。
+**在RHEL7里有几种防火墙共存：FirewallD、iptables、ebtables，默认是使用FirewallD来管理netfilter子系统，不过底层调用的命令仍然是iptables等。**
 
 
 
@@ -96,44 +96,6 @@ firewall-cmd --zone=public --query-port=80/tcp
 删除
 
 firewall-cmd --zone= public --remove-port=80/tcp --permanent
-
-
-
-### 关闭SELinux
-
-```shell
-# 查看状态：sestatus
-[root@rdo ~]# sestatus  
-SELinux status:                 enabled  
-SELinuxfs mount:                /sys/fs/selinux  
-SELinux root directory:         /etc/selinux  
-Loaded policy name:             targeted  
-Current mode:                   enforcing  
-Mode from config file:          enforcing  
-Policy MLS status:              enabled  
-Policy deny_unknown status:     allowed  
-Max kernel policy version:      28  
-
-```
-
-
-
-临时关闭： `setenforce 0`
-
-永久关闭：
-
-```
-vi  /etc/selinux/config
-#SELINUX=enforcing  
-SELINUX=disabled 
-```
-
-重启后：
-
-```
-[root@rdo ~]# sestatus  
-SELinux status:                 disabled  
-```
 
 
 

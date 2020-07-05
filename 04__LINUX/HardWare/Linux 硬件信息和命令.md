@@ -1,15 +1,14 @@
-
 ---
 title: "Linux 硬件信息和命令.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux]
+
 
 ## Linux 硬件信息和命令
 
@@ -318,75 +317,6 @@ model name    : Intel(R) Core(TM) i5-2320 CPU @ 3.00GHz
 ```
 
 更多看进程信息的top命令。
-
-### 网卡
-
-网卡配置文件：`/etc/sysconfig/network-scripts`
-
-
-
-#### ifconfig
-
-查看所有网卡： ifconfig -a .
-
-查看某个网卡： ifconfig eth1
-
-
-
-#### ip link show
-
-
-
-#### 查看某网卡的口是否有线连接：
-
-1. `ethtool eth1`
-
-   最后一行： Link detected: yes为正常no为失败
-
-2. 或 `mii-tool` 用的少，有的驱动不支持。
-
-3. ```
-   /mnt/wifi$ cat /proc/net/dev
-
-   Inter-|  Receive                                                | Transmit
-
-   face |bytes  packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carriercompressed
-
-   lo:      0      0    0  0    0    0        0        0        0      0    0    0  0    0      0        0
-
-   eth0:    3439    15  0  0    0    0        0        0        0      0    0    0  0    0      0          0
-
-   在开发板上/proc/net目录下，还有很多关于网络的信息的文件，我试了不少，觉得这个还算准确，但并非100%哦，如果启动开发板后，eth0中bytes、packets 不为0，那它一定插了网线，但此种方法只适合开机启动时判断，之后的话，就很麻烦了。
-   ```
-
-   
-
-确定某网卡的具体物理口， 用：
-
-`ethtool -p eth2`  时，对应网卡会闪烁， 注意此时是未插网线。
-
-
-
-关闭 / 开启 / 重启 某块网卡：
-
-`ifdown eth0 && ifup eth0       # 一定要连在一起使用！！切记啊  `
-
-重启所有网卡服务：
-
-`/etc/init.d/network restart`
-
-
-
-
-
-#### 创建虚拟网卡
-
-```
-cd /etc/sysconfig/network-scripts
-mv
-```
-
-
 
 
 

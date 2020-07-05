@@ -1,31 +1,13 @@
-
 ---
-title: "journal.md"
+title: "centos7 journal.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-03-26 18:40:49 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux]
-
-
-
-```sh
-[root@10.250.123.10 centos7]#ls /run/log
-journal
-[root@10.250.123.10 centos7]#ls /run/log/journal/
-13f96ca8cf154bc9ae48fc698a0b2436
-[root@10.250.123.10 centos7]#ls /run/log/journal/13f96ca8cf154bc9ae48fc698a0b2436/
-system@71fc63abe0964300a6b770aa02470b29-00000000003b88cc-0005abf727bd11e5.journal
-system@71fc63abe0964300a6b770aa02470b29-00000000003dcc14-0005ac02effcaf76.journal
-.....
-system@71fc63abe0964300a6b770aa02470b29-000000000082769b-000590ba340775a8.journal
-system.journal
-```
-
 
 
 ### 命令格式
@@ -110,4 +92,21 @@ journalctl --since yesterday --until today
 `systemctl restart systemd-journald`
 
 有时新加的服务没有详细的日志输出，你可能需要重启一下
+
+
+
+### 日志位置
+
+``` sh
+[root@10.250.123.10 centos7]#ls /run/log
+journal
+[root@10.250.123.10 centos7]#ls /run/log/journal/
+13f96ca8cf154bc9ae48fc698a0b2436
+[root@10.250.123.10 centos7]#ls /run/log/journal/13f96ca8cf154bc9ae48fc698a0b2436/
+system@71fc63abe0964300a6b770aa02470b29-00000000003b88cc-0005abf727bd11e5.journal
+system@71fc63abe0964300a6b770aa02470b29-00000000003dcc14-0005ac02effcaf76.journal
+.....
+system@71fc63abe0964300a6b770aa02470b29-000000000082769b-000590ba340775a8.journal
+system.journal
+```
 

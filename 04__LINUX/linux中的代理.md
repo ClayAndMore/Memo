@@ -1,13 +1,25 @@
 ---
-title: "代理爬墙.md"
+title: "linux的代理.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: false
+draft: true
 tags: [""]
 categories: ["linux"]
 author: "Claymore"
 
 ---
+## proxy 
+
+``` sh
+export http_proxy=http://192.168.1.1:8082
+export https_proxy=http://192.168.1.1:8082
+export no_proxy='localhost,a.test.com,127.0.0.1,2.2.2.2' # 不需要代理的目的地址
+```
+
+在 ～/.bashrc 中可以配置 全局的代理变量，他会影响 curl , wget 等软件。
+
+
+
 ## proxychains
 
 <http://pawelli.com/archives/527>
@@ -16,9 +28,7 @@ author: "Claymore"
 
 <https://www.hi-linux.com/posts/48321.html#proxychains-ng-%E8%AF%AD%E6%B3%95>
 
-
-
-<https://guangchuangyu.github.io/cn/2018/09/proxychains/>
+https://guangchuangyu.github.io/cn/2018/09/proxychains/>
 
 
 

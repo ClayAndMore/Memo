@@ -1,15 +1,14 @@
-
 ---
 title: "Linux 问题排查.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux]
+
 
 ## Linux 问题排查 
 
@@ -96,54 +95,38 @@ rt_sigaction(SIGALRM, {SIG_DFL}, {0x809a270, [], 0}, 8) ...
 
 
 
-#### lsmod
+### 关闭SELinux
 
-显示已经加载到内核中模块的状态信息， 会列出已经载入系统中的模块。
+```shell
+# 查看状态：sestatus
+[root@rdo ~]# sestatus  
+SELinux status:                 enabled  
+SELinuxfs mount:                /sys/fs/selinux  
+SELinux root directory:         /etc/selinux  
+Loaded policy name:             targeted  
+Current mode:                   enforcing  
+Mode from config file:          enforcing  
+Policy MLS status:              enabled  
+Policy deny_unknown status:     allowed  
+Max kernel policy version:      28  
 
 ```
-Module                  Size  Used by
-ipt_MASQUERADE         16384  3 
-nf_nat_masquerade_ipv4    16384  1 ipt_MASQUERADE
-iptable_mangle         16384  1 
-iptable_nat            16384  1 
-nf_nat_ipv4            16384  1 iptable_nat
-nf_nat                 28672  2 nf_nat_masquerade_ipv4,nf_nat_ipv4
-nf_conntrack_ipv4      16384  12 
-nf_defrag_ipv4         16384  1 nf_conntrack_ipv4
+
+临时关闭： `setenforce 0`
+
+永久关闭：
+
+```
+vi  /etc/selinux/config
+#SELINUX=enforcing  
+SELINUX=disabled 
 ```
 
-- 第1列：表示模块的名称。
-- 第2列：表示模块的大小。
-- 第3列：表示依赖模块的个数。
-- 第4列：表示依赖模块的内容。
+重启后：
 
-
-
-#### 关闭selinux
-
-`/etc/selinux/conf`
-
-
-
-python:
-
-```python
-selinux_conf="""
-# This file controls the state of SELinux on the system.
-# SELINUX= can take one of these three values:
-#     enforcing - SELinux security policy is enforced.
-#     permissive - SELinux prints warnings instead of enforcing.
-#     disabled - No SELinux policy is loaded.
-SELINUX=disabled
-# SELINUXTYPE= can take one of these two values:
-#     targeted - Targeted processes are protected,
-#     mls - Multi Level Security protection.
-SELINUXTYPE=targeted
-"""
-k=open('/etc/selinux/config','w')
-k.write(selinux_conf)
-k.close()
-subprocess.call(['setenforce','0'])
+```
+[root@rdo ~]# sestatus  
+SELinux status:                 disabled  
 ```
 
 

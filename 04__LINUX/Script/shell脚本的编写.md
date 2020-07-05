@@ -1,15 +1,14 @@
-
 ---
 title: "bash脚本的编写.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux, shell]
+
 
 #### 开始
 
@@ -499,65 +498,6 @@ set 是值当前的shell 环境变量，sh + 脚本会启动一个信的shell环
    ```
 
    在shell脚本中，通常将EOF与 << 结合使用，表示后续的输入作为子命令或子Shell的输入，直到遇到EOF为止，再返回到主Shell,即将‘你的密码’当做命令的输入
-
-
-
-
-#### 通过脚本学习到的linux命令
-
-
-
-##### shift
-
-通常用于参数左移，比如第一个参数左移，原本位于第二个位置的参数就变成了第一个参数
-
-
-
-##### shopt——set
-
-set命令可以设置shell可以使用的命令，
-
-set -o 看当前的设置。
-
-set -o 选项， 打开当前选项
-
-set +0 选项，关闭当前选项
-
-shopt 是set的升级版，可以使用更多的命令
-
-shopt  看当前的设置。
-
-shopt -s 选项， 打开当前选项
-
-shopt -u 选项，关闭当前选项
-
-
-
-##### extglob  模糊匹配
-
-
-
-##### readlink
-
-readlink -f 找到文件的真正链接文件，是不是链接文件都会返回一个真正能执行的目录：
-
-`readlink -f docker/build_image.sh`   
-
-输出：/home/wy/docker /build_image.sh
-
-
-
-##### dirname ： 会获得文件的目录路径：
-
-`dirname /home/wy/docker /build_image.sh`
-
-会输出：/home/wy/docker
-
-
-
-##### exec
-
-
 
 
 
