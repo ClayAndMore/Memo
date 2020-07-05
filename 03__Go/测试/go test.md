@@ -1,14 +1,3 @@
-
----
-title: "go test.md"
-date: 2020-02-10 14:02:16 +0800
-lastmod: 2020-06-16 23:21:51 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
 ---
 title: "go test.md"
 date: 2020-02-10 14:02:16 +0800
@@ -56,6 +45,12 @@ go test 是 go 语言自带的测试工具,
 
 ```
 
+规则：
+
+**测试代码文件要命名为： xx_test.go**
+
+**测试函数要以 TestXxx 的形式命名**
+
 
 
 ### 运行
@@ -89,6 +84,10 @@ $ go test -v two_sum_test.go two_sum.go
 PASS
 ok      command-line-arguments  0.006s
 ```
+
+
+
+**注意，如果使用vendor，记得加上-mod=vendor ,因为test也是需要编译的**
 
 
 

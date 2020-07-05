@@ -154,6 +154,14 @@ iptables -I INPUT -p tcp --dport 8000 -j ACCEPT #开启8000端口
 
 # -j 动作, 可以是内置的目标，比如 ACCEPT，也可以是用户自定义的链。
 参照上方的“处理动作”
+
+# 创建新链
+-N: 在某个表中创建新链
+iptables -t filter -N newchain # 创建
+iptables -t filter -I INPUT -j newchain # 引用
+iptables -t filter -I newchain -p tcp -j REJECT # 添加规则
+iptables -X newchain # 删除自定义链
+iptables -E newchain newchain2 # 重命名
 ```
 
 
