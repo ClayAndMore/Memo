@@ -35,39 +35,25 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 ![](http://ojynuthay.bkt.clouddn.com/linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png)
 
+``` 
 /bin: 存放系统可执行文件
-
 /sbin: super bin 存放管理员可用的执行文件
-
 /etc: 系统配置文件
-
 /lib: 共享的类库
-
 /dev: 外设，设备
-
 /tmp: 临时文件
-
 /boot:  启动文件
-
 /root: root用户目录
-
 /home :  相当与win的users ，比如你的用户a,会有home/a
-
 /mnt: 设备挂载
-
 /opt: 优化目录，临时装一下的东西
-
 /usr: 用户程序目录，
-
 --/bin
-
 --/sbin
-
 /var: 系统变量
-
 /proc: 虚拟文件系统，vfs
-
 /lost and found 找回文件
+```
 
 
 
@@ -108,7 +94,9 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 * --time={atime,ctime} ：输出 access 时间或改变权限属性时间 （ctime）, 而非内容变更时间 （modification time）, 具体看下面文件变动时间
 
-#### 文件变动时间
+
+
+#### 文件变动时间(stat)
 
 是有三个主要的变动时间，那么三个时间的意义是什么呢？
 
@@ -134,6 +122,8 @@ ls -l --time=ctime /etc/man_db.conf
 ```
 
 如果从其他地方复制一个文件过来， ctime时间回变成当前，但是atime和mtime 还是原来旧文件的，这样来说对新文件不合理，那么如何更改atime和mtime呢， 请看touch.
+
+Stat查看文件状态，eg: `stat filename`
 
 
 
@@ -161,8 +151,6 @@ Tue Jun 16 00:54:07 CST 2015
 -rw-r--r--. 1 dmtsai dmtsai 231 Jun 16 00:54 bashrc
 # 注意看看，日期在 atime 与 mtime 都改变了，但是 ctime 则是记录目前的时间！
 ```
-
-
 
 
 
@@ -207,6 +195,10 @@ alias rm='rm -i'
 
 我们输入的cp命令，其实是“cp -i”命令。
 
+```
+-i：覆盖既有文件之前先询问用户；
+```
+
 解决办法：
 
 ```
@@ -216,6 +208,14 @@ alias rm='rm -i'
 编辑文件，注释掉别名。
 # vi ~/.bashrc
 在alias cp='cp -i'前加上“#”注释掉这行，wq!保存推出，然后重新登陆就可以了。
+```
+
+其他：
+
+```
+-d：当复制符号连接时，把目标文件或目录也建立为符号连接，并指向与源文件或目录连接的原始文件或目录；
+-p：保留源文件或目录的属性；
+-v：详细显示命令执行的操作。
 ```
 
 
@@ -256,11 +256,6 @@ nl 添加行号并打印
 
 * 用head和tail命令查看文件，一个只看头10行（默认）,一个只看尾10行
 * 使用file查看文件类型
-
-
-#### stat
-
-查看文件状态，eg: `state filename`
 
 
 
@@ -505,42 +500,6 @@ rm: cannot remove `attrtest': Operation not permitted
 #### whereis, which
 
 `whereis name`可看name文件所在的位置
-
-
-### /proc
-Linux 下的/proc文件系统是由内核提供的，它不是一个真正的文件系统，只是一些系统运行时的信息，
-
-只在内存中，不占用外存空间。
-
-以文件系统的形式，为访问内核数据提供接口。
-
-```
-# ls /proc
-1      2      262    32212  733        execdomains  locks         stat
-10     221    27     32370  8          fb           mdstat        swaps
-113    224    2799   330    8820       filesystems  meminfo       sys
-12     226    27990  37     9          fs           misc          ...
-```
-
-会看到有很多数字的文件夹，这个数字代表pid, 里面内容：
-
-```
-/proc/N
-/proc/N/cmdline        进程启动时的命令
-/proc/N/cwd            链接到当前进程的工作目录
-/proc/N/environ        进程环境变量列表
-/proc/N/exe            链接到进程的执行命令文件
-/proc/N/fd             进程相关的所有文件描述符
-/proc/N/maps           与进程相关的内存映射信息
-/proc/N/mem            代指进程持有的内存，不可读
-/proc/N/root           链接到进程的根目录
-/proc/N/stat           进程的状态
-/proc/N/statm          进程使用的内存状态
-/proc/N/status         进程状态信息，比stat更具可读性
-/proc/self/            链接到当前正在运行的进程
-```
-
-
 
 
 
