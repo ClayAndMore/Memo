@@ -1,14 +1,14 @@
 ---
 title: "02-linux目录和文件.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-02-20 17:53:13 +0800
 lastmod: 2019-11-22 17:53:31 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["linux"]
 author: "Claymore"
 
 ---
-Tags:[linux]
+
 
 ### 文件系统
 
