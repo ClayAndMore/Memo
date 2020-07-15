@@ -141,6 +141,22 @@ ps: `apt-get -y install --no-install-recommends suricata supervisor`
 
 
 
+### 只下载不安装
+
+apt-get 只下载不安装:
+
+apt-get install -d PachageName
+
+如果软件包已经安装:
+
+apt-get install -d --reinstall PackageName
+
+文件下载目录:
+
+/var/cache/apt/archives
+
+
+
 ### update 和 upgrade 
 
 update的作用是从/etc/apt/source.list文件中定义的源中去同步包的索引文件，即运行这个命令其实并没有更新软件，而是相当于windows下面的检查更新，获取的是软件的状态。
