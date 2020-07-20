@@ -1,6 +1,5 @@
-
 ---
-title: "dlv远程调试.md"
+title: "dlv调试.md"
 date: 2020-03-17 15:10:43 +0800
 lastmod: 2020-06-15 09:12:32 +0800
 draft: false
@@ -10,27 +9,14 @@ author: "Claymore"
 
 ---
 
----
-title: "dlv远程调试.md"
-date: 2020-03-17 15:10:43 +0800
-lastmod: 2020-03-17 15:10:43 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
 
----
-
-
-## go dlv 远程调试
-
-
-
-## dlv
+## go dlv 调试
 
 Dlv 是 delve 的简称
 
 Gitlab: https://github.com/go-delve/delve
+
+### 安装
 
 在 linux 上的安装：
 
@@ -83,6 +69,40 @@ Available Commands:
 
 
 
+### 使用
+
+一个简单的demo:
+
+``` go
+// cat dlvTest.go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "os"
+)
+
+const port  = "8000"
+
+func main() {
+    http.HandleFunc("/hi", hi)
+
+    fmt.Println("runing on port: " + port)
+    log.Fatal(http.ListenAndServe(":" + port, nil))
+}
+
+func hi(w http.ResponseWriter, r *http.Request) {
+    hostName, _ := os.Hostname()
+    fmt.Fprintf(w, "HostName: %s", hostName)
+}
+```
+
+
+
+
+
 ### 编译待调试程序
 
 在服务器上编译你的程序, 必须添加 `-gcflags` 参数, 其他随意.
@@ -104,13 +124,17 @@ go build -gcflags "-N -l" github.com/app/demo
 开始编译：
 
 ``` bash 
-root@wy:~/go/workspace/src/trireme-dsec# go version
+# go version
 go version go1.13.6 linux/amd64
 
-root@wy:~/go/workspace/src/trireme-dsec# go build -gcflags "all=-N -l" -mod=vendor
+go build -gcflags "all=-N -l" -mod=vendor
 ```
 
 
+
+
+
+## 远程调试
 
 ### 启动待调试程序
 
@@ -168,3 +192,9 @@ kill -9 ps -ef | grep "dlv|mytest" -E | awk '{print $2}'
 mytest是程序名。
 
 在ide点停止调试也可以让远端的dle停止。
+
+
+
+### d
+
+https://juejin.im/entry/5aa1f98d6fb9a028c522c84b
