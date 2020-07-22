@@ -38,7 +38,7 @@ Ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效�
 
 ### 三次握手
 
-![](http://claymore.wang:5000/uploads/big/9dd2b0167ed15c71281678d21c70c95b.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/cs/protocol/tcp_3times_build.png)
 
 三次握手指的是建立连接过程：
 

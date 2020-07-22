@@ -1,6 +1,6 @@
 ---
 title: "从web服务方式到nginx.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-03-16 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
@@ -8,7 +8,7 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[web] date: 2017-03-16
+
 
 ### 常见web服务方式
 
