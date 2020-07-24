@@ -1,4 +1,3 @@
-
 ---
 title: "go mod.md"
 date: 2020-01-16 18:29:52 +0800
@@ -324,6 +323,10 @@ go mod why
 - 拥有默认值：`sum.golang.org` (之所以没有按照上面的格式是因为 Go 对默认值做了特殊处理)。
 - 可被 Go module proxy 代理 (详见：Proxying a Checksum Database)。
 - `sum.golang.org` 在中国无法访问，故而更加建议将 GOPROXY 设置为 `goproxy.cn`，因为 `goproxy.cn` 支持代理 `sum.golang.org`。
+
+如有 Get https://sum.golang.org  的下载错误，是因为：1.13之后设置了默认的GOSUMDB=sum.golang.org，由于墙的原因无法访问，执行以下命令关闭即可：
+
+`go env -w GOSUMDB=off`
 
 
 

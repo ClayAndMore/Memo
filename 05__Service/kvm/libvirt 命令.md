@@ -36,7 +36,6 @@ virsh dumpxml wintest01 > /etc/libvirt/qemu/wintest02.xml
 # 编辑KVM虚拟机配置文件
 virsh edit wintest01
 # virsh edit将调用vi命令编辑/etc/libvirt/qemu/wintest01.xml配置文件。也可以直接通过vi命令进行编辑，修改，保存。
-
  
 # virsh console 控制台管理linux虚拟机
 virsh console oeltest01 

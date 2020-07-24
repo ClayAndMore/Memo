@@ -68,12 +68,35 @@ Could this be a zero-length partition?
 
 
 
+#### 转换 windos newline(CRLF) to Unix newline(LF)
+
+对于单个文件，
+
+Dos to Unix:
+
+```sh
+vim file.txt -c "set ff=unix" -c ":wq"
+```
+
+Unix to dos:
+
+```sh
+vim file.txt -c "set ff=dos" -c ":wq"
+```
+
+
+
+对于目录，可以使用zip压缩再解压：
+
+``` sh
+zip -r -ll zipfile.zip somedir/
+unzip zipfile.zip
+```
+
+
+
+
+
 ### 待补充
-
-```
-/proc/pid/cmdline
-```
-
-
 
 rsync

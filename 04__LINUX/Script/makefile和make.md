@@ -443,6 +443,16 @@ patsubst 函数用于模式匹配的替换，格式如下。
 
 上面代码的意思是，将变量OUTPUT中的后缀名 .js 全部替换成 .min.js 。
 
+**（6）日志调试函数**
+
+```sh
+$(warning, "here add the debug info")
+$(error "error: this will stop the compile") # 会停止当前的编译
+$(info, $(TARGET_DEVICE) ) # 打印变量的值
+```
+
+
+
 
 
 ## 例子
@@ -484,3 +494,7 @@ patsubst 函数用于模式匹配的替换，格式如下。
  
  .PHONY: edit clean
 ```
+
+**（3）指定makfile内部变量的值，并开启调试**
+
+make -f ./Makefile  prog/scope BUILD_IN_CONTAINER=False SHELL=/bin/bash --trace --debug

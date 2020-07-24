@@ -192,6 +192,14 @@ url = https://github.com/username/repo.git
 
 
 
+#### 克隆时：RPC failed; curl 18 transfer closed with outstanding read data remaining
+
+增大缓存区
+
+Git config --global http.postBuffer 524288000 
+
+
+
 ### 注意
 
 文件名在使用中文名时容易提交不上。

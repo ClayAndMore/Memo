@@ -231,7 +231,7 @@ gdb:
 
 ## apt 源
 
-
+可以手动替换为 清华源： https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
 
 ### 添加源
 

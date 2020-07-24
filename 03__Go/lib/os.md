@@ -1,4 +1,3 @@
-
 ---
 title: "os.md"
 date: 2019-09-29 17:53:13 +0800
@@ -57,3 +56,26 @@ root@wy:~/go/workspace/src/ch1/osEcho# go run main.go de 111 你好
 de 111 你好
 ```
 
+
+
+#### 获取系统变量
+
+导入”os”包通过os包中的Getenv方法来获取
+
+`func Getenv（key string） string {}`
+
+
+示例代码：
+
+```go
+package main
+
+import "fmt"
+import "os"
+
+func main(){
+    var JAVAHOME string
+    JAVAHOME = os.Getenv("JAVA_HOME")
+    fmt.Println(JAVAHOME)
+}
+```

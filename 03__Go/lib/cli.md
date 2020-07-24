@@ -1,4 +1,3 @@
-
 ---
 title: "cli.md"
 date: 2019-09-29 17:53:13 +0800
@@ -50,7 +49,7 @@ func main() {
 }
 ```
 
-`go build -> cli -> ./cli:`
+原本自带的默认格式， `go build -> cli -> ./cli:`
 
 ```
 NAME:
@@ -70,7 +69,7 @@ GLOBAL OPTIONS:
    --version, -v  print the version
 ```
 
-补冲说明：
+我们可以自定义， 补冲说明：
 
 ```go
 app := cli.NewApp()
@@ -83,7 +82,7 @@ app.Version = "1.2.3"
 
 ### Action
 
-所有动作的触发在这里：
+所有动作的触发在Action, ：
 
 ```go
   app.Action = func(c *cli.Context) error {
@@ -115,7 +114,7 @@ Hello "ss"
 Hello "123" 
 ```
 
-注意这里c.Args()拿到的是所有传入的参数
+注意这里**c.Args()拿到的是所有传入的参数**
 
 
 
@@ -129,15 +128,15 @@ Hello "123"
   app.Flags = []cli.Flag {
     cli.StringFlag{
       Name: "lang",
-      Value: "english",
+      Value: "english",  // value 默认值
       Usage: "language for the greeting",
     },
   }
 
   app.Action = func(c *cli.Context) error {
     name := "Nefertiti"
-    if c.NArg() > 0 {
-      name = c.Args().Get(0)
+    if c.NArg() > 0 {   // NArg 是参数个数
+      name = c.Args().Get(0)  // 这里还是拿的 0， --lang 后面才算第一个参数
     }
     if c.String("lang") == "spanish" {
       fmt.Println("Hola", name)
