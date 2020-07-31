@@ -1,4 +1,3 @@
-
 ---
 title: "Dockerfile.md"
 date: 2019-09-29 17:53:13 +0800
@@ -193,7 +192,7 @@ EXPOSE 80
 为容器添加文件
 限制：你添加的文件或者目录,只能在docker build运行的目录下, 因为,这是docker在调起container的时候,只将该目录放进了daemon。
 
-```
+```sh
   # 现假设,docker build运行的目录为: /data
   // 只能添加指定目录下
   // 将/data/sam.js 添加到image中的/opt/node/sam.js
@@ -238,16 +237,86 @@ EXPOSE 80
 
 
 
+#### ARG  (--build-arg)
+
+在Dockerfile中使用，**仅仅在build docker image的过程中（包括CMD和ENTRYPOINT）有效，在image被创建和container启动之后，无效。**
+
+ 如果你在Dockerfile中使用了ARG但并未给定初始值，则在运行docker build的时候未指定该ARG变量，则会失败。也就是说，ARG 是用于构建镜像时从命令行传值的
+
+虽然其在container启动后不再生效，但是使用‘docker history’可以查看到。所以，敏感数据不建议使用ARG.
+
+``` dockerfile
+ARG some_variable
+RUN echo "Oh dang look at that $some_variable"
+# 构建时使用：
+docker build --build-arg some_variable=a_value
+
+# 给定默认值：
+ARG  VAR_NAME 5
+# 构建后修改：--build-arg  VAR_NAME=6修改ARG值。
+```
+
+如果使用传递多个参数，为每个添加 --build-arg:
+
+``` 
+docker build \
+-t essearch/ess-elasticsearch:1.7.6 \
+--build-arg number_of_shards=5 \
+--build-arg number_of_replicas=2 \
+```
+
+
+
+
+
+#### ENV
+
+在Dockerfile中使用，**在build docker imag的过程中有效，在image被创建后和container启动后作为环境变量依旧也有效**，**并且可以重写覆盖，但是不能在构建时覆盖，只能在docker run 运行时覆盖**。printenv可查看其值。
+
+``` dockerfile
+# no default value
+ENV hey 
+# a default value
+ENV foo /bar
+# or ENV foo=/bar 
+
+# ENV values can be used during the build
+ADD . $foo  # or ADD . ${foo}
+# 构建时指定
+docker run -e "env_var_name=another_value" alpine env
+```
+
+
+
 #### ARG 和 ENV
 
-命令相似，ARG只能用在docker build的阶段, 并且不会被保存在image中,这就是和ENV的区别.
+命令相似，ARG只能用在docker build的阶段, 并且不会被保存在image中,这就是和ENV的区别. env 在 build时不能被重写，ARG 可以, 所以有一个小技巧：使用ARG动态为ENV设置默认值：
 
+```dockerfile
+ARG VAR_A 5
+ENV VAR_B $VAR_A
 ```
-  # 在dockerfile定义了默认变量
-  ARG user=jimy
-  # 在运行时,进行手动替换
-  docker build --build-arg user=sam -t jimmy/demo   
+
+eg,一个用于docker compose构建的容器的环境变量,dockercompose:
+
+```dockerfile
+ARG INTERFACE 
+ARG TOPSEC_INFLUX 
+# ps: ARG参数在dockerfile中只能每行声明一个，而不能像env那样一行声明多个
+ENV INTERFACE=${INTERFACE} TOPSEC_INFLUX=${TOPSEC_INFLUX} 
 ```
+
+ARG的值通过docker-compose中转入：
+
+``` yaml
+environment:
+  - INTERFACE=ens160    # 这里或者从 .env 中读取
+  - TOPSEC_INFLUX=172.19.19.16 # 这里或者从 .env 中读取
+```
+
+
+
+
 
 #### ONBUILD
 

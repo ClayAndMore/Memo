@@ -530,3 +530,16 @@ $ perror 2
 OS error code   2:  No such file or directory
 ```
 
+
+
+一般脚本有这种 `(shell command) || exit 1`, 意味着如果执行失败就退出程序，用的就是command 的返回值做 || 运算，因为 A || B , A 为1则B就不用执行判断。
+
+ps, exit 0 表示成功，其他则代表相应的错误。
+
+
+
+##### 获取命令的返回值
+
+check_results=`iscsiadmm --version 2>&1`
+
+使用这种方式一定会获得命令的返回值。

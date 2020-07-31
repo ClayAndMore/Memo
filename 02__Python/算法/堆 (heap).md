@@ -30,7 +30,9 @@ author: "Claymore"
 
 这里，兄弟之间并没有大小关系，只跟父节点有大小关系。
 
-![](http://claymore.wang:5000/uploads/big/21fa4f140a9f138288ce77d7ae761935.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/algorithm/deap_type.png)
+
+
 
 #### 实现一个堆
 
@@ -44,7 +46,7 @@ author: "Claymore"
 
 3.右孩子索引：2**i*+2
 
-![](http://claymore.wang:5000/uploads/big/15f8543219dbcf07c63fc576a0e53cec.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/algorithm/deap_arrs.png)
 
 ### 堆的操作
 

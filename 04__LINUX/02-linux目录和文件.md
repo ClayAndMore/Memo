@@ -33,7 +33,7 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 以往的 Windows 一直是以存储介质为主的，主要以盘符（C 盘，D 盘...）及分区的来实现文件管理，然后之下才是目录，目录就显得不是那么重要，除系统文件之外的用户文件放在任何地方任何目录也是没有多大关系。所以通常 Windows 在使用一段时间后，磁盘上面的文件目录会显得杂乱无章（少数善于整理的用户除外吧）。然而 UNIX/Linux 恰好相反，UNIX 是以目录为主的，Linux 也继承了这一优良特性。 Linux 是以树形目录结构的形式来构建整个系统的，可以理解为一个用户可操作系统的骨架。虽然本质上无论是目录结构还是操作系统内核都是存储在磁盘上的，但从逻辑上来说 Linux 的磁盘是“挂在”（挂载在）目录上的，每一个目录不仅能使用本地磁盘分区的文件系统，也可以使用网络上的文件系统。举例来说，可以利用网络文件系统（Network File System，NFS）服务器载入某特定目录等。
 
-![](http://ojynuthay.bkt.clouddn.com/linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/linux/linux目录结构.png)
 
 ``` 
 /bin: 存放系统可执行文件
@@ -59,7 +59,7 @@ swap概念同window的虚拟内存，在物理内存不够用时可用虚拟内�
 
 ### 目录颜色
 
-![](http://claymore.wang:5000/uploads/big/7d6d6bd207b5286069e2329ffbcafd34.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/linux/linuxColor.png)
 
 
 
@@ -286,9 +286,9 @@ readlink -f 找到文件的真正链接文件，**是不是链接文件都会返
 
 会看到一些排列
 
-解释：![](http://ojynuthay.bkt.clouddn.com/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png)
+解释：![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/linux/文件权限.png)
 
-![](http://ojynuthay.bkt.clouddn.com/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%902.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/linux/文件权限2.png)
 
 * linux的文件类型：
 

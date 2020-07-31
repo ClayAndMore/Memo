@@ -8,8 +8,6 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[网络协议]
-
 
 
 HTTP最初的目的是为了让研究者共享知识信息，所以它的主要作用就是文档传输，它是一种用于传输文档的协议。
@@ -26,7 +24,7 @@ HTTP是不保存状态的协议，既无状态协议，协议本身对于请求�
 
 **请求行request line，请求头部header，空行blank，请求数据body**
 
-![](http://claymore.wang:5000/uploads/big/318d24be137b3a90e55fe010aa634c83.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/cs/protocol/httprequest.png)
 
 eg:
 
@@ -73,7 +71,7 @@ name=Professional%20Ajax&publisher=Wiley
 
 **状态行response line, header,空行，body**
 
-![](http://claymore.wang:5000/uploads/big/4acdeb618d8c1814e5aa3bce8487db26.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/cs/protocol/httpresponse.png)
 
 eg:
 

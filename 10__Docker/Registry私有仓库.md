@@ -1,4 +1,3 @@
-
 ---
 title: "Registry私有仓库.md"
 date: 2020-05-15 18:43:09 +0800
@@ -233,4 +232,19 @@ API: https://editor.swagger.io/?url=https://raw.githubusercontent.com/goharbor/h
   "insecure-registries": ["registry.svc.xxx.cn"]
 }
 ```
+
+
+
+### net/http: HTTP/1.x transport connection broken: malformed HTTP response
+
+``` sh
+# docker  pull 172.19.19.16:5000/nginx:alpine
+Error response from daemon: Get http://172.19.19.16:5000/v2/: net/http: HTTP/1.x transport connection broken: malformed HTTP response "\x15\x03\x01\x00\x02\x02"
+```
+
+需要登录后再拉取
+
+
+
+远程仓库的拉取： https://blog.csdn.net/alinyua/article/details/81086124
 

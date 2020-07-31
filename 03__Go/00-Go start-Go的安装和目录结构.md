@@ -1,16 +1,5 @@
-
 ---
-title: "00-Go start.md"
-date: 2019-10-10 17:44:20 +0800
-lastmod: 2020-06-16 23:21:51 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
----
-title: "00-Go start.md"
+title: "00-Go start-Go的安装和目录结构"
 date: 2019-10-10 17:44:20 +0800
 lastmod: 2020-02-08 12:28:55 +0800
 draft: false
@@ -19,7 +8,7 @@ categories: ["go"]
 author: "Claymore"
 
 ---
-Tags:[Go]
+
 
 ## Go
 

@@ -33,6 +33,10 @@ Tags:[linux]
 
 ` mount -o remount rw /disk`
 
+如果是根目录：
+
+ mount -o remount rw /    (这一步是关键的一步，让“/”根文件系统重新挂载并有可读写模式)
+
 
 
 文件系统扫描工具有fsck、fsck.ext2、fsck.ext3、fsck.ext4、fsck.msdos、fsck.cramfs、fsck.ext4dev、fsck.vfat。最好是根据不同的文件系统来调用不同的扫描工具，比如ext3的文件系统使用fsck.ext3，ext4文件系统使用fsck.ext4等。

@@ -30,6 +30,8 @@ author: "Claymore"
 
 `du -h --max-depth=0 ./log`  看某个文件夹的大小
 
+**可以简写成：du -d1 -h**
+
 
 
 #### 分区

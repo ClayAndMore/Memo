@@ -8,9 +8,14 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[网络协议]
+#### DNS 解析
 
-<http://www.ruanyifeng.com/blog/2016/06/dns.html>
+DNS存在着多级缓存，从离浏览器的距离排序的话，有以下几种: 浏览器缓存，系统缓存，路由器缓存，IPS服务器缓存，根域名服务器缓存，顶级域名服务器缓存，主域名服务器缓存。
+
+- 在你的chrome浏览器中输入:chrome://dns/，你可以看到chrome浏览器的DNS缓存。
+- 系统缓存主要存在/etc/hosts(Linux系统)中:
+
+如果本地没有相关缓存，会到服务器上查找，通过.->.com->google.com->www.google.com 这样从顶级域名递归查找。
 
 
 
@@ -241,6 +246,8 @@ stackexchange.com.      172800  IN      NS      ns-cloud-d2.googledomains.com.
 `whois`命令用来查看域名的注册情况。
 
 `$ whois github.com`
+
+、参考：<http://www.ruanyifeng.com/blog/2016/06/dns.html>
 
 
 

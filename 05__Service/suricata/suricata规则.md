@@ -1,4 +1,3 @@
-
 ---
 title: "suricata规则.md"
 date: 2020-06-22 14:45:42 +0800
@@ -457,8 +456,20 @@ flowbits: noalert # 此规则不会生成警报
 
 
 
-
-
 ### 参考
 
 https://www.cnblogs.com/linagcheng/p/12559922.html
+
+
+
+## 遇到的问题。
+
+### 相同规则不同动作
+
+suricata 的规则转换如果有相同的规则不同的动作则会在suricata启动的时候转换失败，如果有两个规则：web-server.rules, web-server-drop.rules. 如果都引用的话会冲突，这两个规则明显是一个用于alert, 一个drop掉。
+
+
+
+### 变量的缺失
+
+在suricata.yaml中配置的变量，比如HOME_NET,或者其他比如HTTP_SERVERS等变量为空也会导致规则转换失败的问题，因为规则中要引用这部分内容。

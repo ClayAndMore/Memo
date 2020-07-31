@@ -1,4 +1,3 @@
-
 ---
 title: "linux 时间,时区 && ntp服务器.md"
 date: 2020-06-12 19:01:02 +0800
@@ -116,6 +115,8 @@ hwclock
 
 ```
  ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ // cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ echo "Asia/Shanghai" > /etc/timezone 
 ```
 
 

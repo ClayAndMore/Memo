@@ -21,7 +21,7 @@ author: "Claymore"
 ---
 
 
-![](http://claymore.wang:5000/uploads/big/89d13391ad3e0c5f0dbfd9d5b2a64144.png)
+![](https://cdn.jsdelivr.net/gh/ClayAndMore/image/git/git_work_mode.png)
 
 
 
