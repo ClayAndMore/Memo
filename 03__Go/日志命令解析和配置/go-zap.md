@@ -3,8 +3,8 @@ title: "go-zap.md"
 date: 2020-04-17 08:38:29 +0800
 lastmod: 2020-04-17 19:54:27 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go lib", "go 日志命令解析和配置"]
+categories: ["go"]
 author: "Claymore"
 
 ---

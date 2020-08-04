@@ -1,22 +1,10 @@
-
----
-title: "sync.md"
-date: 2020-02-23 18:22:30 +0800
-lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-
 ---
 title: "sync.md"
 date: 2020-02-23 18:22:30 +0800
 lastmod: 2020-02-23 18:22:30 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go lib"]
+categories: ["go"]
 author: "Claymore"
 
 ---

@@ -1,21 +1,10 @@
-
----
-title: "encoding.md"
-date: 2020-01-16 18:29:52 +0800
-lastmod: 2020-06-22 14:45:42 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
 ---
 title: "encoding.md"
 date: 2020-01-16 18:29:52 +0800
 lastmod: 2020-06-12 19:01:02 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go lib"]
+categories: ["go"]
 author: "Claymore"
 
 ---
