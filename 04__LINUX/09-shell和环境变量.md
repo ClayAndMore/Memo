@@ -330,3 +330,68 @@ hostname aaa  # 更新hostname
 
 
 
+### sh
+
+#### sh -c
+
+```
+-c        If the -c option is present, then commands are read from the first non-option argument command_string.  If there are arguments after the command_string, they are
+           assigned to the positional parameters, starting with $0.
+```
+
+如果用-c 那么bash 会从第一个非选项参数后面的字符串中读取命令，如果字符串有多个空格，**第一个空格前面的字符串是要执行的命令**，也就是$0, 后面的是参数，即$1, $2....
+ 我们看个例子
+Eg:
+
+```bash
+# cat test.sh
+echo $0
+echo $1
+echo $2
+# sh -c './test hello world'
+./test
+hello
+world
+```
+
+注意：
+
+1. -c 第一个字符串一定要是命令路径，不能是文件名，如果把./test.sh前面的./去掉，那么就会报找不到命令
+2. 命令文件必须要有可执行权限，即./test.sh 的必须就有x属性
+
+
+
+sh -c 还可以解决权限问题：
+
+``` sh
+sudo echo "test" >> test.txt
+-bash: test.asc: Permission denied
+```
+
+sudo 只是让echo命令有了权限，但是没有让  >> (>等)拥有权限，
+
+利用 “sh -c” 命令，它可以让 bash 将一个字串作为完整的命令来执行，这样就可以将 sudo 的影响范围扩展到整条命令：
+
+`sudo sh - c 'echo "test" >> test.txt' `
+
+
+
+#### sh -s
+
+sh -s 用于从标准输入中读取命令,命令在子shell中执行
+
+``` sh
+# eg1:
+echo 'ls $2' | sh -s '占位，没什么用' '-l'
+total 8
+drwxr-xr-x   4 Claymore  staff  128  2 14 16:12 bin
+drwxr-xr-x   3 Claymore  staff   96  7 20 23:39 bin:
+drwxr-xr-x   6 Claymore  staff  192  7 20 23:51 pkg
+drwxr-xr-x  12 Claymore  staff  384  7 20 22:50 src
+-rwxr-xr-x   1 Claymore  staff   15  8  4 21:17 test.sh
+
+# eg2:
+echo 'echo hello $1' | sh -s 'world'
+hello world
+```
+

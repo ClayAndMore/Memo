@@ -1,21 +1,10 @@
-
----
-title: "flag.md"
-date: 2020-05-15 18:43:09 +0800
-lastmod: 2020-06-16 23:21:51 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
 ---
 title: "flag.md"
 date: 2020-05-15 18:43:09 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: false
 tags: ["go lib"]
-categories: ["go"]
+categories: ["go","go 日志命令解析和配置"]
 author: "Claymore"
 
 ---
