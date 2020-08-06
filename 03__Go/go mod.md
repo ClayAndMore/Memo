@@ -1,16 +1,3 @@
-<<<<<<< HEAD
----
-title: "go mod.md"
-date: 2020-01-16 18:29:52 +0800
-lastmod: 2020-06-16 23:21:51 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-=======
->>>>>>> 224bce977637d4ac1eb8f5069e487605f17fe028
 ---
 title: "go mod.md"
 date: 2020-01-16 18:29:52 +0800
