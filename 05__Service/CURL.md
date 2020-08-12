@@ -140,6 +140,16 @@ curl --cookie "name=xxx" www.javaranger.com
 
 
 
+### 传输文件
+
+`-F "file=@__FILE_PATH__"` 的请示，传输文件即可。命令如下：
+
+```shell
+curl localhost:8000/api/v1/updateImage -F "file=@/Users/Downloads/404.png" -H "token: DDDDDD" -v
+```
+
+
+
 ### 显示通讯过程
 
 包括头信息等。
