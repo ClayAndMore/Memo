@@ -1,6 +1,6 @@
 ---
-title: "Django(一).md"
-date: 2019-09-29 17:53:13 +0800
+title: "01-Django.md"
+date: 2017-04-27 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["Django"]
@@ -8,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-Tags:[Django, python]  date: 2017-04-27
+
 
 ### 概述
 

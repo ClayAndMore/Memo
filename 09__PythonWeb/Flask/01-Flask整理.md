@@ -1,17 +1,6 @@
-
 ---
-title: "Flask整理(一).md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-22 14:47:41 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
----
-title: "Flask整理(一).md"
-date: 2019-09-29 17:53:13 +0800
+title: "01-Flask整理.md"
+date: 2017-01-30 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["Flask"]
@@ -19,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-Tags:[flask,python]  date: 2017-01-30
+
 
 ### 使用FlaskScipt
 `pip install flask-script`

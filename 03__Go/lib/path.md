@@ -2,7 +2,7 @@
 title: "path.md"
 date: 2020-04-03 19:50:52 +0800
 lastmod: 2020-04-03 19:50:52 +0800
-draft: false
+draft: true
 tags: ["go lib"]
 categories: ["go"]
 author: "Claymore"

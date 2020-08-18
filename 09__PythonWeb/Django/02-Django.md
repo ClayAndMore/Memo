@@ -1,6 +1,6 @@
 ---
-title: "Django（二）.md"
-date: 2019-09-29 17:53:13 +0800
+title: "02-Django.md"
+date: 2017-05-10 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["Django"]
@@ -8,10 +8,6 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-tags:[Django, python] date: 2017-05-10
-
-
-
 ### Request 和 Response
 
 HttpRequest是django自动创建的，表示客户端一个单独的http请求，是将请求request数据的一个封装，

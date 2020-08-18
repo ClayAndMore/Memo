@@ -2,7 +2,7 @@
 title: "linux的代理.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
-draft: true
+draft: false
 tags: [""]
 categories: ["linux"]
 author: "Claymore"

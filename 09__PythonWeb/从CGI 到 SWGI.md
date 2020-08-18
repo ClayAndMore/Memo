@@ -1,14 +1,3 @@
-
----
-title: "从CGI 到 SWGI.md"
-date: 2019-11-18 17:54:22 +0800
-lastmod: 2020-06-22 14:47:41 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
 ---
 title: "从CGI 到 SWGI.md"
 date: 2019-11-18 17:54:22 +0800
@@ -19,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-tags:[web]
+
 
 ### web（http） 服务器
 

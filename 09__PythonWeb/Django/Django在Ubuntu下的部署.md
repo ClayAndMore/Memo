@@ -1,6 +1,6 @@
 ---
 title: "Django在Ubuntu下的部署.md"
-date: 2019-09-29 17:53:13 +0800
+date: 2017-05-05 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["Django"]
@@ -8,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-tags:[Django, python]  date: 2017-05-05
+
 
 ### Nginx
 

@@ -1,11 +1,10 @@
-
 ---
 title: "kafka-python.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["队列"]
 author: "Claymore"
 
 ---
@@ -183,7 +182,7 @@ ConsumerRecord(topic=u'test', partition=1, offset=19, timestamp=1563442029736, t
 不仅value可以json，key也可以，**只需指定 key_deserializer**
 
 
-  
+
 
 ### KafkaProducer
 

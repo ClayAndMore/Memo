@@ -1,27 +1,13 @@
-
----
-title: "05-Mongo CURD.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-
 ---
 title: "05-Mongo CURD.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-04-17 19:54:27 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["Mongodb"]
+categories: ["Nosql"]
 author: "Claymore"
 
 ---
-Tags:[nosql, database, mongodb]
-
 
 
 db（这是个命令，不是说它就是数据库）为默认数据库，默认数据库是test，存储在data目录中。

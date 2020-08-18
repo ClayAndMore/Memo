@@ -1,22 +1,10 @@
-
----
-title: "Dockerfile-多阶段构建.md"
-date: 2019-12-13 17:48:06 +0800
-lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-
 ---
 title: "Dockerfile-多阶段构建.md"
 date: 2019-12-13 17:48:06 +0800
 lastmod: 2020-04-07 08:49:48 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["Docker"]
 author: "Claymore"
 
 ---

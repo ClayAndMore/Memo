@@ -1,3 +1,14 @@
+---
+title: "linux 中的 proc目录.md"
+date: 2019-09-29 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: [""]
+categories: ["linux"]
+author: "Claymore"
+
+---
+
 ## /proc
 
 Linux 下的/proc文件系统是由内核提供的，它不是一个真正的文件系统，只是一些系统运行时的信息，

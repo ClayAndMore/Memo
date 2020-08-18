@@ -8,8 +8,6 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[web]
-
 最常用的 Web 服务器呢？
 
 这些包括 Apache、ligHTTPD、Microsoft IIS、LiteSpeed Technologies LiteSpeed 和 ACME

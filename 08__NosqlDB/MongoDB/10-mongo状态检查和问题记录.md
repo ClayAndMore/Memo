@@ -1,26 +1,14 @@
-
 ---
-title: "09-mongo状态检查和问题记录.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-
----
-title: "09-mongo状态检查和问题记录.md"
+title: "10-mongo状态检查和问题记录.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["Mongodb"]
+categories: ["Nosql"]
 author: "Claymore"
 
 ---
-Tags:[nosql, database, mongodb]
+
 
 ## Mongo 检查和问题记录
 

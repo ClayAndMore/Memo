@@ -1,5 +1,5 @@
 ---
-title: "10-gitlab_ci.md"
+title: "13-gitlab_ci.md"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-06-15 09:12:32 +0800
 draft: false

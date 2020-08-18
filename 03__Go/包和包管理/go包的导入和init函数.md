@@ -3,8 +3,8 @@ title: "go包的导入和init函数"
 date: 2019-09-29 17:53:13 +0800
 lastmod: 2020-06-16 23:21:51 +0800
 draft: false
-tags: [""]
-categories: [""]
+tags: ["go 语法"]
+categories: ["go"]
 author: "Claymore"
 
 ---

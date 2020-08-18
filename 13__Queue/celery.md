@@ -1,11 +1,10 @@
-
 ---
 title: "celery.md"
 date: 2019-11-09 17:48:25 +0800
 lastmod: 2019-11-09 17:48:25 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["队列"]
 author: "Claymore"
 
 ---

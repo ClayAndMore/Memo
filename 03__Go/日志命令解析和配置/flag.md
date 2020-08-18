@@ -3,8 +3,8 @@ title: "flag.md"
 date: 2020-05-15 18:43:09 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: false
-tags: ["go lib"]
-categories: ["go","go 日志命令解析和配置"]
+tags: ["go lib", "go 日志命令解析和配置"]
+categories: ["go"]
 author: "Claymore"
 
 ---

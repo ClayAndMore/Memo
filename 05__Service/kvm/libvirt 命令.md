@@ -4,7 +4,7 @@ date: 2020-06-22 14:45:42 +0800
 lastmod: 2020-06-22 14:45:42 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["虚拟化"]
 author: "Claymore"
 
 ---

@@ -8,8 +8,6 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[网络协议]
-
 ## tcp
 
 ### 报文格式

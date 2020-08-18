@@ -2,7 +2,7 @@
 title: "go.md"
 date: 2020-01-10 19:03:39 +0800
 lastmod: 2020-02-08 12:28:55 +0800
-draft: false
+draft: true
 tags: ["go 语法"]
 categories: ["go"]
 author: "Claymore"

@@ -8,8 +8,6 @@ categories: ["大数据"]
 author: "Claymore"
 
 ---
-Tags:[大数据] 
-
 
 
 hadoop的化整为零-存储方式HDFS

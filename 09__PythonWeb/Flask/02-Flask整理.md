@@ -1,17 +1,6 @@
-
 ---
-title: "Flask整理（二）.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-22 14:47:41 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
----
-title: "Flask整理（二）.md"
-date: 2019-09-29 17:53:13 +0800
+title: "02-Flask整理.md"
+date: 2017-01-31 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["Flask"]
@@ -19,8 +8,6 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-Tags:[flask,python]  date: 2017-01-31
-
 
 
 ### 使用BootStrap

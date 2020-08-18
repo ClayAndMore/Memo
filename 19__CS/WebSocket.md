@@ -8,6 +8,4 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[web]
-
 https://www.ruanyifeng.com/blog/2017/05/websocket.html

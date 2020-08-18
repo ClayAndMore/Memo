@@ -1,17 +1,6 @@
-
 ---
-title: "flask+gunicorn+supervisorn+nginx项目部署.md"
-date: 2019-09-29 17:53:13 +0800
-lastmod: 2020-06-22 14:47:41 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
----
-title: "flask+gunicorn+supervisorn+nginx项目部署.md"
-date: 2019-09-29 17:53:13 +0800
+title: "04-flask+gunicorn+supervisorn+nginx项目部署.md"
+date: 2017-03-19 17:53:13 +0800
 lastmod: 2019-09-29 17:53:13 +0800
 draft: false
 tags: ["Flask"]
@@ -19,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-Tags:[flask,python] date: 2017-03-19
+
 
 在腾讯云上申请了一个服务器，这里记录一下初次部署flask项目的经历：
 

@@ -8,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-Tags:[python,  Tornado]
+
 
 ### 基本结构
 

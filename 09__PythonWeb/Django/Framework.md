@@ -8,7 +8,7 @@ categories: ["python web"]
 author: "Claymore"
 
 ---
-tags:[Django, python] 
+
 
 ### RestFramework
 

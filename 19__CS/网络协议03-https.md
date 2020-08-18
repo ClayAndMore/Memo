@@ -8,8 +8,6 @@ categories: ["网络原理"]
 author: "Claymore"
 
 ---
-Tags:[网络协议]
-
 ## https
 
 HTTP本身没有任何保密性，所以HTTP传输的数据相当于都是在网上在以明文的方式裸奔。为了解决这个问题，出现了各种加密技术：

@@ -1,3 +1,14 @@
+---
+title: "05-使用 Protobuf 和 twirp.md"
+date: 2020-08-14 19:03:39 +0800
+lastmod: 2020-08-14 12:28:55 +0800
+draft: true
+tags: ["go roc"]
+categories: ["go"]
+author: "Claymore"
+
+---
+
 ## Twirp
 
 twirp 是一个基于 Google Protobuf 的 RPC 框架。`twirp`通过在`.proto`文件中定义服务，然后自动生产服务器和客户端的代码。让我们可以将更多的精力放在业务逻辑上。

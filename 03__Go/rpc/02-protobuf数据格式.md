@@ -1,3 +1,14 @@
+---
+title: "02-Protobuf 数据格式和语法.md"
+date: 2020-08-15 19:03:39 +0800
+lastmod: 2020-08-15 12:28:55 +0800
+draft: true
+tags: ["go roc"]
+categories: ["go"]
+author: "Claymore"
+
+---
+
 ## 数据格式
 
 ProtoBuf的数据结构都是通过`.proto`文件进行定义的，然后再通过ProtoBuf工具生成相应平台语言的类库，这样就可以被我们使用了。

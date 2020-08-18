@@ -1,5 +1,5 @@
 ---
-title: "git基本验证和操作.md"
+title: "00-git基本验证和操作.md"
 date: 2017-08-03 17:53:13 +0800
 lastmod: 2020-06-15 09:12:32 +0800
 draft: false
