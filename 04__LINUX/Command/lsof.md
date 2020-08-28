@@ -96,5 +96,8 @@ apiserver 23425 root   10w   REG    8,2    74727 2372573 log/err.log
 # losf +D  log/ 和上方一样，但是会遍历目录下的目录
 ```
 
+lsof abc.txt         显示开启文件abc.txt的进程
+lsof -c abc         显示abc进程现在打开的文件
+
 
 

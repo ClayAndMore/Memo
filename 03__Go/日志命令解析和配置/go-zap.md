@@ -54,6 +54,26 @@ logger.Info("failed to fetch URL",
 
 
 
+### filed
+
+由于 fmt.Printf 之类的方法大量使用 interface{} 和反射，会有性能损失。zap为了提高性能，减少内存的分配次数，没有使用反射，默认的logger只支持强类型的，结构化的日志。
+
+zap.Type, Type 为 `bool/int/uint/float64/complex64/time.Time/time.Duration/error` 等。
+
+zap.Typep 以p结尾的表示指针字段，以s结尾表示该类型的切片字段：
+
+``` go
+zap.Bool(key string, val bool) Field: bool 
+zap.BoolP(key string, val bool) Field: bool 指针字段
+zap.Bools(key string, val []bool) Field: bool 切片字段
+
+// 一些特殊类型的字段：
+zap.Any(key string, value interface{}) Field  任意类型的字段
+zap.Binary(key string, val []byte) Field  二进制串的字段
+```
+
+
+
 
 
 ### logger 
@@ -255,6 +275,32 @@ logger := zap.New(core, zap.AddCaller()) // 调用者
 ```
 2020-04-16T12:23:53.519+0800    INFO    zapTest/CustomLogger.go:37      无法获取网址    {"url": "http://www.google.com", "attempt": 3, "backoff": 1}
 ```
+
+
+
+#### AddCallerSkip
+
+有时我们稍微封装了一下记录日志的方法，但是我们希望输出的文件名和行号是调用封装函数的位置。这时可以使用`zap.AddCallerSkip(skip int)`向上跳 1 层：
+
+``` go
+func Output(msg string, fields ...zap.Field) {
+  zap.L().Info(msg, fields...)
+}
+
+func main() {
+  logger, _ := zap.NewProduction(zap.AddCaller(), zap.AddCallerSkip(1))
+  defer logger.Sync()
+
+  zap.ReplaceGlobals(logger)
+
+  Output("hello world")
+}
+// out:
+
+{"level":"info","ts":1587740501.5592482,"caller":"skip/main.go:15","msg":"hello world"}
+```
+
+输出在`main`函数中调用`Output()`的位置。如果不指定`zap.AddCallerSkip(1)`，将输出`"caller":"skip/main.go:6"`，这是在`Output()`函数中调用`zap.Info()`的位置。因为这个`Output()`函数可能在很多地方被调用，所以这个位置参考意义并不大
 
 
 
@@ -541,4 +587,30 @@ func main() {
 ```
 
 
+
+## 使用zap提供的全局配置
+
+为了方便使用，`zap`提供了两个全局的`Logger`，一个是`*zap.Logger`，可调用`zap.L()`获得；另一个是`*zap.SugaredLogger`，可调用`zap.S()`获得。需要注意的是，全局的`Logger`默认并不会记录日志
+
+可以使用`ReplaceGlobals(logger *Logger) func()`将`logger`设置为全局的`Logger`，该函数返回一个无参函数，用于恢复全局`Logger`设置：
+
+``` go
+func main() {
+  zap.L().Info("global Logger before")
+  zap.S().Info("global SugaredLogger before")
+
+  logger := zap.NewExample()
+  defer logger.Sync()
+
+  zap.ReplaceGlobals(logger)
+  zap.L().Info("global Logger after")
+  zap.S().Info("global SugaredLogger after")
+}
+
+// out:
+{"level":"info","msg":"global Logger after"}
+{"level":"info","msg":"global SugaredLogger after"}
+
+// 在调用 ReplaceGlobals 之前记录的日志并没有输出。
+```
 

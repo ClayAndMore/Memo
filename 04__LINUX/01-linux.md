@@ -91,6 +91,40 @@ shell常用通配符
 | `{string1,string2,...}` | 匹配 sring1 或 string2 (或更多)其一字符串  |
 | `{c1..c2}`              | 匹配 c1-c2 中全部字符 如{1..10}         |
 
+
+
+#### 一句话执行命令
+
+比如可能进行以下部分操作：
+
+```
+sudo apt-get update
+sudo apt-get install some-tool
+some-tool
+```
+
+这几个命令之间有等待。我们可以一次性输入完：
+
+```
+sudo apt-get update;sudo apt-get install some-tool;some-tool
+```
+
+然后就可以让它一次性运行了
+
+但是前面的命令没成功怎么办？用which来查找是否安装了某个命令
+
+```
+which cowsay>/dev/null && cowsay -f head-in ohch~
+```
+
+没有安装cowsay，什么也不会发生，如果安装了cowsay则会发生。
+
+ &&表示前面的命令执行状态（不是输出结果）为0，则执行后面的
+
+||表示前面的命令执行状态不为0，则执行后面的
+
+
+
 #### man命令
 
 是Manual page的缩写，可以获得某个命令的说明和使用方式的详细介绍
@@ -155,133 +189,7 @@ Linux 自带了一个 watchdog 的实现，用于监视系统的运行，包括�
 
 
 
-### 计划任务crontab
-
-我们会有写定期定时的任务。
-
-该命令从输入设备读取指令，并将其放在crontab中，供之后读取和执行。
-
-通常，crontab储存的指令被守护进程激活，crond为其守护进程，常常在后台执行，每一分钟会检查一次是否有预定的作业要执行。
-
-* 启动日志rsyslog
-
-  启动日志来看我们的任务是否真的被执行
-
-  `sudo service rsyslog start`
-
-* 启动crontab
-
-  `sudo cron -f &`
-
-* 添加一个计划任务
-
-  `crontab -e`
-
-  第一次启动会让你选择一个编辑器，我们选择vim
-
-* 后续会进入到一个编辑界面，这边是添加计划的地方，与一般的配置文档相同，以#开头的是注释
-
-  ![](http://ojynuthay.bkt.clouddn.com/crontab11.png)
-
-  最后一句便是我们添加的任务了，这个任务每分钟会在home/claymore/创建一个年月日时分秒为名字的空白文件
-
-  前面五颗星：minute hour day month week (美好日月星辰)
-
-  ` 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/`, 每周五点执行
-
-* 查看添加了那些任务
-
-  `crontab -l`
-
-  虽然我们添加了任务，但是cron的守护进程没有启动不会检测到有任务，我们可以通过下面两种方式来确定我们的cron是否在后台启动：
-
-  `pa aux | grep cron`
-
-  `pgrep cron`
-
-* 看执行任务命令在日志的信息
-
-  `sudo tail -f /var/log/syslog`
-
-* 删除任务
-
-  `crontab -r`
-
-  
-
-#### 深入
-
-每次用`crontab -e`都会添加计划任务，都会在/var/spool/cron/crontabs中添加一个该用户自己的任务文档。这样是为了隔离
-
-所以，系统级别的任务需要sudo权限编辑/etc/crontab文件就可以。
-
-cron 服务监测时间最小单位是分钟，所以 cron 会每分钟去读取一次 /etc/crontab 与 /var/spool/cron/crontabs 里面的內容。
-
-在 /etc 目录下，cron 相关的目录有下面几个：
-
-![](http://ojynuthay.bkt.clouddn.com/cron.png)
-
-每个目录的作用：
-
-1. /etc/cron.daily，目录下的脚本会每天执行一次，在每天的6点25分时运行；
-2. /etc/cron.hourly，目录下的脚本会每个小时执行一次，在每小时的17分钟时运行；
-3. /etc/cron.mouthly，目录下的脚本会每月执行一次，在每月1号的6点52分时运行；
-4. /etc/cron.weekly，目录下的脚本会每周执行一次，在每周第七天的6点47分时运行；
-
-系统默认执行时间可以根据需求进行修改。
-
-
-
-### 一句话执行命令
-
-比如可能进行以下部分操作：
-
-```
-sudo apt-get update
-sudo apt-get install some-tool
-some-tool
-```
-
-这几个命令之间有等待。我们可以一次性输入完：
-
-`sudo apt-get update;sudo apt-get install some-tool;some-tool`
-
-然后就可以让它一次性运行了
-
-但是前面的命令没成功怎么办？用which来查找是否安装了某个命令
-
-`which cowsay>/dev/null && cowsay -f head-in ohch~`
-
-没有安装cowsay，什么也不会发生，如果安装了cowsay则会发生。
-
- &&表示前面的命令执行状态（不是输出结果）为0，则执行后面的
-
-||表示前面的命令执行状态不为0，则执行后面的
-
-
-
-
-### 日志系统
-
-在 Linux 中大部分的发行版都内置使用 syslog 系统日志，那么通过前期的课程我们了解到常见的日志一般存放在 `/var/log`中：
-
-`$ ll /var/log`
-
-
-
-### 神器 lsof
-
-list openfiles,  列出打开文件，因为unix中一切都是文件，所以将它称之为神器。
-
-lsof有着实在是令人惊讶的选项数量。你可以使用它来获得你系统上设备的信息，你能通过它了解到指定的用户在指定的地点正在碰什么东西，或者甚至是一个进程正在使用什么文件或网络连接。
-
-lsof -p 813   进程为813的进程打开的文件
-
-lsof abc.txt         显示开启文件abc.txt的进程
-lsof -c abc         显示abc进程现在打开的文件
-
-lsof +d /usr/local/     显示目录下被进程开启的文件
-lsof +D /usr/local/    同上，但是会搜索目录下的目录，时间较长
+ 
 
 
 

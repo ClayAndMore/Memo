@@ -1,27 +1,7 @@
 clearLog.sh
 
 ``` sh
-#!/bin/bash
 
-echo "run clear script"
-date
-
-checkDir="/var/log/"
-if [ $1 ];then
-    checkDir=$1
-fi
-
-ls -l $checkDir |grep "^-" | awk '{print $NF, $5}' > /tmp/clearFileAndSize
-
-
-while read -r file size ; do
-  # echo "file: $file,  size: $size " # 大于 1M则clear
-  if [ ${size} -gt 1000000 ];then
-      clearFile=${checkDir}${file}
-      echo "clear file: " $clearFile "size: " $size
-      echo "" > ${clearFile} # 清空该文件
-  fi
-done < /tmp/clearFileAndSize
 ```
 
 clearC.sh

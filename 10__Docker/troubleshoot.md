@@ -12,6 +12,14 @@ docker 搭建nginx的时候，如果内部使用容器的网关ip，即使不接
 
 
 
+### Docker  exec printf gives No such file or directory error
+
+有时候通过 docker exec 执行一条命令时，比如` docker exec cat /tmp/test.txt`, 
+
+但是会提示 没有 /tmp/test.txt这样的文件，但是进入 docker 容器内部 是有这样的文件的。
+
+我们可以用 `docker exec my_docker bash -c 'cat /tmp/test.txt' 来使用。
+
 
 
 ### dockers exec user process caused "exec format error"
