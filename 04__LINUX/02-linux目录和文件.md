@@ -382,12 +382,13 @@ mode 参数：
 
 ```shell
 [root@study ~]# umask
-0022 &lt;==与一般权限有关的是后面三个数字！
+0022 # 与一般权限有关的是后面三个数字！
+#root用户默认是0022，普通用户默认是 0002
 [root@study ~]# umask -S
 u=rwx,g=rx,o=rx
 ```
 
-
+ umask 默认权限确实由 4 个八进制数组成，但第 1 个数代表的是文件所具有的特殊权限（SetUID、SetGID、Sticky BIT）， "022" 才是真正要用到的 umask 权限值，将其转变为字母形式为 ----w--w-。
 
 若使用者创建为“文件”则默认“没有可执行（ x ）权限”，亦即只有 rw 这两个项目，也就
 是最大为 666 分，默认权限如下： -rw-rw-rw
@@ -405,6 +406,39 @@ umask 数值指的是**需要减掉的权限**:
 
 所以创建目录时 ， 用户自己不用减，其他-2， 777 - 022 = 755 = drwxr-xr-x
 ```
+
+接下来，我们利用字母权限的方式计算文件或目录的初始权限。以 umask 值为 022 为例，分别计算新建文件和目录的初始权限：
+
+- 文件的最大默认权限是 666，换算成字母就是 "-rw-rw-rw-"，umask 的值是 022，换算成字母为 "-----w--w-"。把两个字母权限相减，得到 (-rw-rw-rw-) - (-----w--w-) = (-rw-r--r--)，这就是新建文件的初始权限。我们测试一下：
+
+  ``` sh
+  [root@localhost ~]# umask
+  0022
+  \#默认umask的值是0022
+  [root@localhost ~]# touch file <--新建file空文件
+  [root@localhost ~]# ll -d file
+  -rw-r--r--. 1 root root 0 Apr 18 02:36 file
+  ```
+
+- 目录的默认权限最大可以是 777，换算成字母就是 "drwxrwxrwx"，umask 的值是 022，也就是 "-----w--w-"。把两个字母权限相减，得到的就是新建目录的默认权限，即 (drwxrwxrwx) - (-----w--w-) = (drwxr-xr-x)。我们再来测试一下：
+
+  ``` sh
+  - [root@localhost ~]# umask
+    0022
+    [root@localhost ~]# mkdir catalog <--新建catalog目录
+    [root@localhost ~]# ll -d catalog
+    drwxr-xr-x. 2 root root 4096 Apr 18 02:36 catalog
+  ```
+
+修改权限：
+
+``` sh
+[root@localhost ~]# umask 033
+[root@localhost ~]# umask
+0033
+```
+
+这只是临时生效，如果永久生效可以去/etc/profile
 
 
 
@@ -648,6 +682,10 @@ find . -name \*.pyc -delete
 `find / -name a -not -path "/sss"`
 
 排除在/sss目录中找a
+
+#### 指定目录深度
+
+find ./ -maxdepth 3 -type f
 
 
 

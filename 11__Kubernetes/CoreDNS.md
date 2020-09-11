@@ -98,3 +98,42 @@ metadata:
   uid: 7d8d714c-64de-11e9-8400-801844f349cc
 ```
 
+
+
+
+
+### 一些问题
+
+#### ContainerCreating, Error from server (BadRequest)
+
+``` sh
+# kubectl get pods -A
+NAMESPACE     NAME                              READY   STATUS              RESTARTS   AGE
+kube-system   coredns-6955765f44-m2fqx          0/1     ContainerCreating   0          7m18s
+kube-system   coredns-6955765f44-vd647          0/1     ContainerCreating   0          7m17s
+kube-system   etcd-node200                      1/1     Running             0          7m46s
+kube-system   kube-apiserver-node200            1/1     Running             1          7m46s
+kube-system   kube-controller-manager-node200   1/1     Running             0          7m46s
+kube-system   kube-proxy-5rvrq                  1/1     Running             0          7m18s
+kube-system   kube-proxy-kmmhs                  1/1     Running             0          3m11s
+kube-system   kube-scheduler-node200            1/1     Running             1          8m8s
+```
+
+查看日志：
+
+```
+kubectl logs coredns-6955765f44-m2fqx -n kube-system
+Error from server (BadRequest): container "coredns" in pod "coredns-6955765f44-m2fqx" is waiting to start: ContainerCreating
+```
+
+添加网络插件后变为正常状态：
+
+``` sh
+kubectl apply -f /home/rambo/flannel1.yml
+
+# kubectl get pods -A
+NAMESPACE     NAME                              READY   STATUS    RESTARTS   AGE
+kube-system   coredns-6955765f44-m2fqx          1/1     Running   0          15m
+kube-system   coredns-6955765f44-vd647          1/1     Running   0          15m
+```
+

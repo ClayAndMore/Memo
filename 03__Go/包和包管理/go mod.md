@@ -331,6 +331,22 @@ go mod why
 
 
 
+#### GOINSECURE 
+
+在Go 1.14中增加了新的环境变量，用于指定哪些域名下的仓库不去校验CA证书。
+
+使用方式同 GOPRIVATE 类似 `go env -w GOINSECURE=private.repo.com `
+
+如果在Go 1.14以下 可以使用 go get -insecure
+
+这种方式不推荐，原因如下
+
+1. 添加 -insecure 参数即表示更新依赖时可以不去校验CA证书，但是这会带来一个问题：范围无法界定(overkill)，所有与要更新依赖相关联的依赖，均不会去做校验，可能会意外更新到不安全的依赖。
+
+2. -insecure 仅支持 go get 命令，不支持 go mod 命令，因此使用 go mod 命令时是无法更新不支持https协议的私有库的
+
+
+
 ### 交叉编译
 
 待补充：https://juejin.im/post/5cac9b73e51d456e8c1d3bfc#heading-8

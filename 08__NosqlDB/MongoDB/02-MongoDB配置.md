@@ -118,3 +118,56 @@ db.dropDatabase = DB.prototype.dropDatabase = no;
 
 
 
+### 添加账户
+
+MongoDB 默认安装完成以后，只允许本地连接，同时不需要使用任何账号密码就可以直接连接MongoDB，所以需要给Mongo设置一个账号密码：
+
+` ./mongod --auth` ， 启用认证。
+
+创建管理员用户：
+
+``` sh
+> use admin
+switched to db admin
+> db.createUser({user:"admin",pwd:"password",roles:["root"]})
+Successfully added user: { "user" : "admin", "roles" : [ "root" ] }
+# 认证登录
+> db.auth("admin", "password")
+```
+
+数据库用户
+
+``` sh
+> use flowpp
+switched to db flowpp
+> db.createUser({user: "flowpp", pwd: "flopww", roles: [{ role: "dbOwner", db: "flowpp" }]})   # 创建用户flowpp,设置密码flopww，设置角色dbOwner
+```
+
+数据库角色：
+
+ dbAdmin：在当前dB中执行管理操作
+ dbOwner：在当前DB中执行任意操作
+ userAdmin：在当前DB中管理User
+
+
+
+查看系统用户： show users
+
+
+
+### 删除账户
+
+```sh
+# 1.切换admin ，删除用户flowpp ，删除失败
+> use admin
+switched to db admin
+> db.dropUser("flowpp")
+false
+# 2.切换flowpp ，删除用户flowpp，删除成功
+> use flowpp
+switched to db flowpp
+> db.dropUser("flowpp")
+true
+```
+
+删除用户的时候需要切换到用户管理的数据库才可以删除；

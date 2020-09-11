@@ -44,6 +44,55 @@ origin只相当于一个别名，运行git remote –v或者查看.git/config可
 
 `git clone -b opencv-2.4 --single-branch https://github.com/Itseez/opencv.git`
 
+克隆部分文件，稀疏克隆：
+
+``` sh
+# 如果本地还没有建版本库，要用这个功能，先进入要放版本库的目录，在命令行执行几条命令：
+$ git init <project>
+$ cd <project>
+$ git remote add origin ssh://<user>@<repository's url>
+$ git config core.sparsecheckout true # 打开sparse checkout功能。
+# 加路径到checkout的列表。路径是版本库下的相对路径
+$ echo "path1/" >> .git/info/sparse-checkout
+$ echo "path2/www/app" >> .git/info/sparse-checkout
+$ git pull origin master
+```
+
+如果只拉取最近一次的变更，忽略以前的变更记录，在拉取时可以加参数depth，
+
+如`git pull --depth=1 origin master` （浅克隆）
+
+
+
+#### sparse-checkout
+
+子目录的匹配
+在 sparse-checkout 文件中，如果目录名称前带斜杠，如`/docs/`，将只匹配项目根目录下的docs目录，如果目录名称前不带斜杠，如`docs/`，其他目录下如果也有这个名称的目录，如`test/docs/`也能被匹配。
+而如果写了多级目录，如`docs/05/`，则不管前面是否带有斜杠，都只匹配项目根目录下的目录，如`test/docs/05/`不能被匹配。
+
+通配符 “*“ (星号)
+在 sparse-checkout 文件中，支持通配符 “*“，如可以写成以下格式：
+
+```
+*docs/
+index.*
+*.gif
+```
+
+
+
+排除项 “!” (感叹号)
+在 sparse-checkout 文件中，也支持排除项 “!”，如只想排除排除项目下的 “docs” 目录，可以按如下格式写：
+
+```
+/*
+!/docs/
+```
+
+
+
+要注意一点：如果要关闭sparsecheckout功能，全取整个项目库，可以写一个”*“号，但如果有排除项，必须写”/*“，同时排除项要写在通配符后面。
+
 
 
 
