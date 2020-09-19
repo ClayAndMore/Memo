@@ -29,6 +29,24 @@ eg:
 
 
 
+### -gcflags 
+
+如下命令将 Go 语言的源代码编译成汇编语言，然后通过汇编语言分析程序具体的执行过程：
+
+``` go 
+go build -gcflags -S main.go
+	rel 22+4 t=8 os.(*file).close+0
+"".main STEXT size=137 args=0x0 locals=0x58
+	0x0000 00000 (main.go:5)	TEXT	"".main(SB), ABIInternal, $88-0
+	0x0000 00000 (main.go:5)	MOVQ	(TLS), CX
+	0x0009 00009 (main.go:5)	CMPQ	SP, 16(CX)
+	..
+```
+
+
+
+
+
 **禁止gc优化和内联**
 
 `go build -gcflags '-N -l'`
