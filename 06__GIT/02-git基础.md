@@ -66,6 +66,20 @@ branch有树枝的意思，但是不要进入两个误区，
 
 
 
+#### push -u
+
+`git push origin `, 表示将当前分支推送到origin主机的对应分支。
+
+如果当前分支只有一个追踪分支，那么主机名可以省略, `git push `.
+
+如果当前分支与多个主机存在追踪关系，那么这个时候-u选项会指定一个默认主机，这样后面就可以不加仍和参数使用git push.
+
+`git push -u origin master`
+
+上面的命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。
+
+
+
 ### pull 的本质
 
 git fetch + git merge

@@ -1,5 +1,5 @@
 ---
-title: "go mod.md"
+title: "go mod（一）.md"
 date: 2020-01-16 18:29:52 +0800
 lastmod: 2020-05-15 18:43:09 +0800
 draft: false

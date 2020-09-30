@@ -208,5 +208,8 @@ WARNING! This will remove:
         - all dangling images
         - all dangling build cache
 Are you sure you want to continue? [y/N]
+
+# 删除为none的镜像
+docker rmi $(docker images | grep '<none>' | awk '{print $3}') 
 ```
 

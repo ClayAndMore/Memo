@@ -234,10 +234,12 @@ Command line error: no such option: --downloadonly
 
 在/etc/yum.conf后面添加以下内容：
 
-```
+```sh
 proxy=http://192.168.1.1:8080
 proxy_username=username # 可选
 proxy_password=123456   # 可选
+# 改超时时间防止出现 Operation too slow. Less than 1 bytes/sec transfered the last 30 seconds
+timeout=120  # 默认30s
 ```
 
 
