@@ -1,5 +1,5 @@
 ---
-title: "select.select.md"
+title: "select.md"
 date: 2019-11-18 17:54:22 +0800
 lastmod: 2019-11-18 17:54:22 +0800
 draft: false
