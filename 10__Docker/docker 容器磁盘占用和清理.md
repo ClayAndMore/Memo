@@ -1,10 +1,9 @@
----
 title: "docker 容器磁盘占用和清理.md"
 date: 2020-08-13 17:53:13 +0800
 lastmod: 2020-08-13 14:45:42 +0800
 draft: false
 tags: [""]
-categories: [""]
+categories: ["Docker"]
 author: "Claymore"
 
 ---
@@ -186,8 +185,6 @@ nginx:
 
 
 
-
-
 ### 清理
 
 ``` sh
@@ -208,8 +205,5 @@ WARNING! This will remove:
         - all dangling images
         - all dangling build cache
 Are you sure you want to continue? [y/N]
-
-# 删除为none的镜像
-docker rmi $(docker images | grep '<none>' | awk '{print $3}') 
 ```
 
