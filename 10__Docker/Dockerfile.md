@@ -179,7 +179,7 @@ EXPOSE 80
 #### COPY 和 ADD 
 
 为容器添加文件
-限制：你添加的文件或者目录,只能在docker build运行的目录下, 因为,这是docker在调起container的时候,只将该目录放进了daemon。
+限制：**你添加的文件或者目录,只能在docker build运行的目录下,** 因为,这是docker在调起container的时候,只将该目录放进了daemon。
 
 ```sh
   # 现假设,docker build运行的目录为: /data

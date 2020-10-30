@@ -59,6 +59,19 @@ reboot , init 6
 
 正确的重启方式是：`sync`  -> `reboot`
 
+有时重启会失败：
+
+``` sh
+[root@localhost ~]# reboot now
+Failed to start reboot.target: 连接超时
+
+Broadcast message from root@localhost on pts/2 (二 2020-10-13 14:45:42 CST):
+
+The system is going down for reboot NOW!
+```
+
+可以用 systemctl --force --force reboot 强制重启
+
 
 
 ### 一些技巧

@@ -45,6 +45,8 @@ https://www.continuum.io/downloads
 
 可以通过`which conda`或`conda --version`命令检查是否正确。假如安装的是Python 2.7对应的版本，运行`python --version`或`python -V`可以得到Python 2.7.12 :: Anaconda 4.1.1 (64-bit)，也说明该发行版默认的环境是Python 2.7。
 
+**如果安装程序没有添加环境变量，添加系统的环境变量，windows: path 添加 E:\Anaconda3\Scripts （conda 安装目录的Sripts路径， 这里有我们使用conda所有的所需命令）**
+
 
 
 #### MiniConda
@@ -204,3 +206,11 @@ pandas
 scikit-learn
 
 可在Anaconda\Lib\site-packages里查看
+
+
+
+### 问题
+
+HTTP 000 CONNETION FAILED for url..
+
+尝试： conda config --set ssl_verify False 

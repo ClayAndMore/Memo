@@ -265,7 +265,7 @@ checkout的作用就是将本地远程代码版本替换你工作区里的版本
 所以用它有两种所用：
 
 * 撤销你的更改，还未提交。
-* 切换分支
+* 切换分支 和 切换到某次提交
 
 将远端代码检出到本地：
 
@@ -281,6 +281,14 @@ $ git branch
 ```
 
 将其命名： `git checkout -b new_branch `
+
+切换到某个提交：
+
+git checkout 2d1e23qr..
+
+某个文件切换到指定版本：
+
+git checkout 2d1ed0 main.js
 
 
 
