@@ -46,7 +46,7 @@ spec:
         - containerPort: 80
 ```
 
-* spec.selector字段指定为你需要管理的Pod的label（label的意义体现在此处）。这儿将spec.selector设置为app: nginx，意味着所有包含label：app: nginx的Pod都将被这个RC管理
+* **spec.selector字段指定为你需要管理的Pod的label（label的意义体现在此处）。这儿将spec.selector设置为app: nginx，意味着所有包含label：app: nginx的Pod都将被这个RC管理**
 * spec.replicas字段代表了受此RC管理的Pod，需要运行的副本数。
 * template模块用于定义Pod，包括Pod的名字，Pod拥有的label以及Pod中运行的应用。
 
@@ -76,5 +76,38 @@ spec:
   minReplicas: 3
   maxReplicas: 10
   targetCPUUtilizationPercentage: 50
+```
+
+
+
+### 其他值
+
+#### minReadySeconds 
+
+这个值意味着从容器启动到应用正常提供服务所需要的时间 s（秒），这个值默认是 `0`
+
+新创建的Pod状态为Ready持续的时间至少为`.spec.minReadySeconds`才认为Pod Available(Ready)。
+
+- Kubernetes在等待设置的时间后才进行升级
+- 如果没有设置该值，Kubernetes会假设该容器启动起来后就提供服务了
+- 如果没有设置该值，在某些极端情况下可能会造成服务服务不正常正常运行
+
+eg:
+
+``` yaml
+apiVersion: apps/v1beta1
+kind: DaemonSet
+metadata:
+  name: relationship-c-ds
+  labels:
+    name: relationship-c-agent-ds
+    app: relationship-c-app-ds
+  namespace: topsec
+spec:
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: relationship-c-app
+  template:
 ```
 

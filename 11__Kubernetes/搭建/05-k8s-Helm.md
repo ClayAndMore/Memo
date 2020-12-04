@@ -12,6 +12,8 @@ author: "Claymore"
 
 
 
+## helm 2
+
 
 在实际生产环境中，项目所包含组件可能不止 3 个，并且可能项目数会很多，如果每个项目的发布，更新等都通过手动去编写配置文件的方式，实在不利于管理。
 
@@ -27,7 +29,7 @@ author: "Claymore"
 
 ### 安装和配置
 
-**Helm 是 C/S 架构，主要分为客户端 `helm` 和服务端 `Tiller`**
+**Helm2 是 C/S 架构，主要分为客户端 `helm` 和服务端 `Tiller`**
 
 下载：  https://github.com/helm/helm/releases， 下载所需二进制文件或者源码包。
 
@@ -323,3 +325,6 @@ tiller-deploy   ClusterIP   10.107.204.164   <none>        44134/TCP       33m
 `helm` 通过 `socat` 的端口转发（或者说 K8S 的代理），进而实现了本地与 `Tiller` 的通信。
 
 当然，以上内容均以当前最新版本 `2.11.0` 为例。当下一个大版本 Helm v3 出现时， `Tiller` 将不复存在，通信机制和工作原理也将发生变化。
+
+
+

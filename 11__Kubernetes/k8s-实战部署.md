@@ -32,4 +32,20 @@ kubectl -n work delete  pod/saythx-work-5c7975c9d7-lbxhc
 
 
 
+### 删除节点
+
+``` sh
+kubectl get nodes
+kubectl drain <node-name>
+# 忽略 ds 和 删除本地的数据
+kubectl drain <node-name> --ignore-daemonsets --delete-local-data
+kubectl delete node <node-name>
+# 如果删除的节点可达的话，将它 reset
+kubeadm reset
+```
+
+
+
+
+
 

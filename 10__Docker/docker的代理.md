@@ -58,6 +58,19 @@ root@wy:/etc/systemd/system/docker.service.d# docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 hello-world         latest              fce289e99eb9        11 months ago       1.84kB
 
+# 重启后使用如下命令看配置的环境变量
+# systemctl show --property=Environment docker
+Environment=http_proxy=http://10.61.72.66:8080/ https_proxy=http://10.61.72.66:8080/ no_proxy=localhost,127.0.0.0/8,172.16.0.0/12,192.168.0.0/16,19.244.0.0/16,172.19.0.0/16
+
+
+```
+
+
+
+#### docker build 使用代理
+
+``` sh
+docker build -t"xxx" . --build-arg HTTP_PROXY=http://10.61.72.70:2080 --build-arg HTTPS_PROXY=http://10.61.72.70:2080
 ```
 
 
