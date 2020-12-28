@@ -12,6 +12,8 @@ Linux node100 4.4.131-20190726.kylin.server-generic #kylin SMP Tue Jul 30 16:44:
 
 kubectl kubeadm kubelet
 
+设置 k8s 的源：https://www.latelee.org/kubernetes/k8s-deploy-issue.html
+
 
 
 ### 镜像
@@ -144,7 +146,7 @@ cp etcd.yaml /etc/kubernetes/manifests/etcd.yaml
 sudo kubeadm init --v=1 --skip-phases=etcd --ignore-preflight-errors=all --kubernetes-version=1.19.0 --image-repository=kubesphere
 ```
 
-这里的 kubernetes init etcd 会在 /etc/kubernetes/manifest/下生成一个etcd.yaml，因为它只能使用默认的版本，我们需要在这里做一些修改，改镜像名和添加环境变量，放到当下目录，然后替换以后生成的：
+这里的 kubernetes init etcd 会在 /etc/kubernetes/manifest/下生成一个etcd.yaml，因为它只能使用默认的版本，我们需要在这里做一些修改，**改镜像名和添加环境变量**，放到当下目录，然后替换以后生成的：
 
 ``` yaml
     image: kubesphere/etcd:3.4.13-0
@@ -179,4 +181,12 @@ To start using your cluster, you need to run the following as a regular user:
 https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml， 这里的yaml内容拷贝下来，把镜像名字换掉，使用 apply -f 启动。 
 
 
+
+### 问题
+
+重新开机后发现启动不了，观察 /etc/resolv.conf 文件，被 NetworkManager接管，我们把 NetworkManager关掉：
+
+systemctl stop NetworkManager
+
+systemctl disable NetworkManager
 

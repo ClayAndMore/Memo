@@ -45,3 +45,16 @@ brctl delbr docker0
 ```sh
 docker inspect $(docker ps  | awk '{print $2}' | grep -v ID) | jq .[].RepoTags
 ```
+
+
+
+### attach
+
+有时候我们可以在容器内执行命令，不退出命令而退出容器，这样可以方便调试，或者命令行过长，命令执行失败时比较好用
+
+``` sh
+docker run -dit ubuntu bash
+docker attach CONTAINER_NAME/id
+# 退出容器  ^P^Q （ctrl+P ctrl+Q）
+```
+

@@ -114,6 +114,8 @@ sudo mkdir -p certs && sudo openssl req \
 -x509 -days 365 -out certs/domain.crt
 ```
 
+这里可以都不填写，或者可以填写一个域名：mydockerhub.com
+
 启用带有认证的registry:
 
 ``` sh
@@ -377,6 +379,14 @@ e38518751a839d370a116df0b702b7fd6fa33b44e7bb7dc7d6c05f978ec8f6b2  manifest.json
 
 
 
+### x509: certificate has expired or is not yet valid
+
+证书过期，使用时间同步，或者更改时间，有可能是你的机器比registry的机器时间落后。
+
+
+
+
+
 ### net/http: HTTP/1.x transport connection broken: malformed HTTP response
 
 ``` sh
@@ -389,4 +399,56 @@ Error response from daemon: Get http://172.19.19.16:5000/v2/: net/http: HTTP/1.x
 
 
 远程仓库的拉取： https://blog.csdn.net/alinyua/article/details/81086124
+
+
+
+## 配置不需要忽略证书的私有仓库
+
+### 生成证书
+
+有两种方式来生成：
+
+``` sh
+# 编辑：
+/etc/ssl/openssl.cnf 
+# 在[v3_ca] section 添加： 
+subjectAltName = IP:192.168.1.102
+
+# 然后重生成证书
+openssl req \
+-newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key \
+-x509 -days 365 -out certs/domain.crt
+```
+
+或者：
+
+``` sh
+cd certs
+echo subjectAltName = IP:192.168.1.102 > extfile.cnf
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key \
+-x509 -days 365 -out domain.crt -extfile extfile.cnf
+```
+
+生成证书的时候要填写仓库地址：
+
+``` sh
+Common Name (e.g. server FQDN or YOUR name) []:192.168.1.102:5000
+```
+
+
+
+### 将证书发送给节点
+
+在非registry所在主机创建证书目录：
+
+``` sh
+mkdir -p /etc/docker/certs.d/192.168.1.102:5000
+chmod -R 700 /etc/docker/certs.d/192.168.1.102:5000
+```
+
+拷贝：
+
+``` sh
+cp domain.crt /etc/docker/certs.d/192.168.1.102:5000/ca.crt
+```
 
