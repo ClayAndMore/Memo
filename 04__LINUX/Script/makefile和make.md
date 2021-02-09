@@ -498,3 +498,13 @@ $(info, $(TARGET_DEVICE) ) # 打印变量的值
 **（3）指定makfile内部变量的值，并开启调试**
 
 make -f ./Makefile  prog/scope BUILD_IN_CONTAINER=False SHELL=/bin/bash --trace --debug
+
+
+
+## 问题
+
+### make: 警告：检测到时钟错误。您的构建版本可能是不完整的。
+
+很可能是你修改了Makefile文件，再次make的时候会提示，我们可以用touch Makefile 重新改下Makefile文件的时间，touch除了新建文件还有个功能： **用于把已存在文件的时间标签更新为系统当前的时间（默认方式），它们的数据将原封不动地保留下来**
+
+如果不是Makefile 文件的问题，可能是其文件的问题，可以用：`find ./ -type f | xargs  touch` 来更新当下目录的所有时间

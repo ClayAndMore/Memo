@@ -1,0 +1,1 @@
+https://ts.xcatliu.com/basics/primitive-data-types.html

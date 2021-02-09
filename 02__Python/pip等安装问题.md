@@ -334,6 +334,14 @@ How to solve ReadTimeoutError: HTTPSConnectionPool(host='pypi.python.org', port=
 
 `http://mirrors.sohu.com/python/ `
 
+简写：
+
+``` 
+pip install numpy -i https://pypi.doubanio.com/simple/
+```
+
+
+
 
 
 ### 问题
