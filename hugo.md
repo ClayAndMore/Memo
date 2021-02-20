@@ -1,19 +1,7 @@
-
 ---
 title: "hugo.md"
 date: 2020-03-17 15:10:43 +0800
 lastmod: 2020-06-15 09:12:32 +0800
-draft: false
-tags: [""]
-categories: [""]
-author: "Claymore"
-
----
-
----
-title: "hugo.md"
-date: 2020-03-17 15:10:43 +0800
-lastmod: 2020-06-14 15:42:19 +0800
 draft: false
 tags: [""]
 categories: [""]
@@ -32,6 +20,12 @@ author: "Claymore"
 
 
 https://gohugo.io/getting-started/quick-start/
+
+
+
+参数说明：
+
+https://www.gohugo.org/doc/commands/hugo/
 
 
 
@@ -104,6 +98,8 @@ hugo server --buildExpired       启动服务器并包括已过期的文章
 
 *PS: hugo server 会自动监听你的原始文稿，你在编辑原始`.md`文件时的变化都会实时的反映在网站上。如果你不希望启用这个功能你可以使用`hugo server --watch=false`命令。*
 
+**使用 Hugo 命令本身 直接生成 public 下的内容，不包含草稿，不用加参数 -D**
+
 
 
 ### 目录结构
@@ -156,3 +152,12 @@ new site 后会得到一个包含以下文件的目录：
 来源：https://www.bmpi.dev/dev/guide-to-setup-blog-site-with-zero-cost-1/
 
 https://app.netlify.com/
+
+
+
+### 使用问题
+
+跳转某些文章404， 查看它的URL，看下public 下的post名是否和其对上，有时候在post下生成的文件夹名为大写的时候会有这样的问题，一般是如下原因造成的：
+
+* 包含了空文件
+* 包含了非md文件
