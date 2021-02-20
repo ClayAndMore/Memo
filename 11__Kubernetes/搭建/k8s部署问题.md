@@ -160,6 +160,14 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 
 
+#### Kubernetes ingress “an error on the server (”“) has prevented the request from succeeding”
+
+Kubectl命令有时候 会报这个问题，可以加 -v=5 看详细输出，大概是向 master 的 6443端口被拒绝导致的。
+
+
+
+
+
 ### 网络插件-flannel
 
 #### open /run/flannel/subnet.env: no such file or directory

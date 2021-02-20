@@ -102,3 +102,10 @@ func f(i int, wg *sync.WaitGroup) {
 ```
 
 WaitGroup对象不是一个引用类型，在通过函数传值的时候需要使用地址
+
+
+
+### Once
+
+
+

@@ -56,6 +56,13 @@ dpkg -L package  列出安装包清单
 
 dpkg --contents 包的具体文件
 
+**通过文件查看所属的包：**
+
+``` sh
+# dpkg -S /usr/include/linux/bpf.h
+linux-libc-dev:amd64: /usr/include/linux/bpf.h
+```
+
 
 
 ### 移除包

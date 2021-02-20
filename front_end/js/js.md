@@ -17,6 +17,8 @@ JavaScript语句是发送给浏览器的命令，这些命令的作用是告诉�
 使用`<script>`标签在网页中插入JavaScript，一般放入head或者body中
 `<script type = "text/javascript">`表示在`<script></script>`之间的是文本类型text，javascript是为了告诉浏览器里面的文本是属于JavaScript语言。
 
+
+
 ### 引用js外部文件
 文件后缀通常为.js。
 在html中：
@@ -29,21 +31,56 @@ JavaScript语句是发送给浏览器的命令，这些命令的作用是告诉�
 ```
 行的结束就意味着语句的结束，通常在结尾加上一个分号来表示语句的结束。可以不写，但是养成良好的编码习惯。
 
+
+
 ### 注释：
+
 单行注释//
 多行注释/**/
 
+使用/**/做单行注释：
+
+``` js
+console.log(/*IGNORED!*/ 5);  // Still just prints 5 
+```
+
+
+
 ### 变量
 用关键字var
+
+var myVar;
+
+当 JavaScript 中的变量被声明的时候，程序内部会给它一个初始值`undefined`。当你对一个值为`undefined`的变量进行运算操作的时候，算出来的结果将会是`NaN`，`NaN`的意思是"Not a Number"。当你用一个值是`undefined`的变量来做字符串拼接操作的时候，它会输出字符串`"undefined"`。
+
+可以把 Number 对象设置为该值，来指示其不是数字值。
+你可以使用 isNaN() 全局函数来判断一个值是否是 NaN 值。
+
+```
+var x = 1000 / "Apple";
+isNaN(x); // 返回 true
+var y = 100 / "1000";
+isNaN(y); // 返回 false
+```
+
+
+
+声明：
+
 var aima = 8;
 可以重复赋值：
 var aima = "aima";
+
+`变量`名称可以由数字、字母、美元符号`$`或者 下划线`_`组成，但是不能包含空格或者以数字为开头。
+
+
 
 ### 函数
 语法：
 function 函数名（）{
 ​    函数代码；
 }
+
 ### 输出内容
 document.write() ,用于直接先html输出流写内容。
 
@@ -109,24 +146,184 @@ html:`<div id = "aima" class = "aimastyle"> Hello aimaonline!</div>`
 js: `var aimaChar = document.getElementById("aima");`
 ​    `aimaChar.className = "newstyle"`
 
-### js对象
-对象拥有属性和方法：
-属性是和对象相关的值，访问方式：
-`对象名.属性名` 如：`str.length`
-方法是对象的相关动作，访问方式：
-`对象名.方法名（）`
 
-### 创建对象实例
-这个例子创建了对象的一个新实例，并向其添加了四个属性：
+
+### if
+
+if(*条件为真*){
+*语句被执行*
+}
+
+#### 严格相等运算符
+
+严格相等运算符（`===`）是相对相等操作符（`==`）的另一种比较操作符。与相等操作符不同的是，它会同时比较元素的值和`数据类型`。
+
+**示例**
+
+> 3 == '3' // true
+> 3 === '3' // false
+
+`3`是一个`数字`类型的，而`'3'`是一个`字符串`类型的，所以 3 不全等于 '3'。
+
+相同的还有严格不相等运算符：
+
 ```
-person=new Object();
-person.firstname="John";
-person.lastname="Doe";
-person.age=50;
-person.eyecolor="blue";
+3 !== '3' // true
 ```
-上面的话可代替之：
-`person={firstname:"John",lastname:"Doe",age:50,eyecolor:"blue"};`
+
+#### 逻辑运算符
+
+当且仅当运算符的左边和右边都是`true`，逻辑与 运算符（`&&`）才会返回`true`。
+
+只要逻辑或运算符`||`两边任何一个为`true`，那么它就返回`true`；否则返回`false`。
+
+#### else
+
+``` js
+if (num > 10) {
+  return "Bigger than 10";
+} else {
+  return "10 or Less";
+}
+
+// else if
+if (num > 15) {
+return "Bigger than 15";
+} else if (num < 5) {
+return "Smaller than 5";
+} else {
+return "Between 5 and 15";
+}
+```
+
+
+
+#### 三元运算符
+
+条件运算符（也称为三元运算符）的用处就像写成一行的 if-else 表达式
+
+语法如下所示：
+
+```
+condition ? statement-if-true : statement-if-false;
+```
+
+以下函数使用 if-else 语句来检查条件：
+
+``` js
+function findGreater(a, b) {
+  if(a > b) {
+    return "a is greater";
+  }
+  else {
+    return "b is greater";
+  }
+}
+```
+
+上面的函数使用条件运算符写法如下：
+
+``` js
+function findGreater(a, b) {
+ return a > b ? "a is greater" : "b is greater";
+}
+```
+
+多个三元运算符：
+
+``` js
+function findGreaterOrEqual(a, b) {
+ if(a === b) {
+  return "a and b are equal";
+ }
+ else if(a > b) {
+  return "a is greater";
+ }
+ else {
+  return "b is greater";
+ }
+}
+```
+
+上面的函数使用条件运算符写法如下：
+
+``` js
+function findGreaterOrEqual(a, b) {
+ return (a === b) ? "a and b are equal" : (a > b) ? "a is greater" : "b is greater";
+}
+```
+
+
+
+
+
+### swith
+
+如果你有非常多的选项需要选择，可以使用 switch 语句。根据不同的参数值会匹配上不同的 case 分支，语句会从第一个匹配的 case 分支开始执行，直到碰到 break 就结束。
+
+这是一个伪代码案例：
+
+``` js
+switch(num) {
+  case value1:
+    statement1;
+    break;
+  case value2:
+  statement2;
+    break;
+...
+  case valueN:
+    statementN;
+    break;
+}
+```
+
+相同的选项：
+
+``` js
+switch(val) {
+  case 1:
+  case 2:
+  case 3:
+    result = "1, 2, or 3";
+    break;
+  case 4:
+    result = "4 alone";
+}
+```
+
+123 都会有相同的结果；
+
+default 默认选项，可以结合起来代替 if else:
+
+``` js
+if (val === 1) {
+  answer = "a";
+} else if (val === 2) {
+  answer = "b";
+} else {
+  answer = "c";
+}
+```
+
+可以被下面替代：
+
+``` js
+switch(val) {
+  case 1:
+    answer = "a";
+    break;
+  case 2:
+    answer = "b";
+    break;
+  default:
+    answer = "c";
+}
+```
+
+
+
+
 
 ### in循环
 in语句循环便利对象的属性
@@ -139,43 +336,20 @@ for (x in person)
 ```
 输出：JohnDoe25
 
-### 数字对象
-* 数字不分为整数类型和浮点型类型，所有的数字都是由浮点型类型。
 
-* 整数（不使用小数点或指数计数法）最多为 15 位。
-  小数的最大位数是 17，但是浮点运算并不总是 100% 准确：
-  `var x = 0.2+0.1;`// 输出结果为 0.30000000000000004
 
-#### 无穷大（Infinity）
-当数字运算结果超过了JavaScript所能表示的数字上限（溢出），结果为一个特殊的无穷大（infinity）值，在JavaScript中以Infinity表示。同样地，当负数的值超过了JavaScript所能表示的负数范围，结果为负无穷大，在JavaScript中以-Infinity表示。无穷大值的行为特性和我们所期望的是一致的：基于它们的加、减、乘和除运算结果还是无穷大（当然还保留它们的正负号）。
-```
-myNumber=2;
-while (myNumber!=Infinity)
-{
-    myNumber=myNumber*myNumber; // 重复计算直到 myNumber 等于 Infinity
+### 函数
+
+定义：
+
+``` js
+function functionName() {
+  console.log("Hello World");
 }
 ```
 
-#### NaN非数字值
-NaN 属性是代表非数字值的特殊值。该属性用于指示某个值不是数字。可以把 Number 对象设置为该值，来指示其不是数字值。
-你可以使用 isNaN() 全局函数来判断一个值是否是 NaN 值。
-```
-var x = 1000 / "Apple";
-isNaN(x); // 返回 true
-var y = 100 / "1000";
-isNaN(y); // 返回 false
-```
+调用：functionName()
 
-#### 数字可以是数字或者对象
-数字可以进行初始化 ，还可以对数字对象初始化
-```
-var x = 123;
-var y = new Number(123);
-typeof(x) // 返回 Number
-typeof(y) // 返回 Object
-```
-
-### 函数
 * 函数表达式
   `var x = function(a,b) {return a*b};`
   以上函数是一个匿名函数（函数没有名称）。
@@ -199,12 +373,21 @@ typeof(y) // 返回 Object
   函数如果用于创建新的对象，称之为对象的构造函数。
 
 #### 函数参数
-Arguments对象
-如果函数调用时设置了过多的参数，参数将无法被引用，因为无法找到对应的参数名。 只能使用 arguments 对象来调用。
-JavaScript 函数有个内置的对象 arguments 对象。
-argument 对象包含了函数调用的参数数组。
-通过这种方式你可以很方便的找到最后一个参数的值：
+
+这是带有两个参数的函数，`param1`和`param2`：
+
+``` js
+function testFun(param1, param2) {
+  console.log(param1, param2);
+}
+// 调用： testFun("Hello", "World");
 ```
+
+如果函数调用时设置了过多的参数，参数将无法被引用，因为无法找到对应的参数名。 只能使用 arguments 对象来调用。
+**JavaScript 函数有个内置的对象 arguments 对象,argument 对象包含了函数调用的参数数组。**
+通过这种方式你可以很方便的找到最后一个参数的值：
+
+```js
 x = findMax(1, 123, 500, 115, 44, 88);
 function findMax() {
     var i, max = 0;
@@ -217,7 +400,26 @@ function findMax() {
 }
 ```
 
+#### 函数返回
+
+函数一般用`return`语句来返回值，但这不是必须的。在函数没有`return`语句的情况下，当你调用它时，该函数会执行内部代码，返回的值是`undefined`。
+
+**示例**
+
+``` js
+var sum = 0;
+function addSum(num) {
+ sum = sum + num;
+}
+var returnedValue = addSum(3); // sum 会改变，但函数的返回值仍为 undefined
+```
+
+
+
+
+
 #### 函数闭包
+
 函数闭包可以实现对一个变量进行封装，比如一个计数变量，如果声明成全局变量当然谁都可以访问，如果让制定的函数来做，函数内的私有变量在调用函数时初始，在函数执行后会被销毁，那么无法完成基数，所以让函数只执行一次，通过函数内的函数来访问，便可以实现：
 ```
 var add = (function () {

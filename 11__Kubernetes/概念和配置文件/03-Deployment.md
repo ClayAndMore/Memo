@@ -173,6 +173,34 @@ deployment "nginx-deployment" rolled back
 
 `rollout`命令的更多用法：
 
+``` sh
+kubectl rollout -h
+Manage the rollout of a resource.
+
+ Valid resource types include:
+
+  *  deployments
+  *  daemonsets
+  *  statefulsets
+
+Examples:
+  # Rollback to the previous deployment
+  kubectl rollout undo deployment/abc
+
+  # Check the rollout status of a daemonset
+  kubectl rollout status daemonset/foo
+
+Available Commands:
+  history     显示 rollout 历史
+  pause       标记提供的 resource 为中止状态
+  restart     Restart a resource
+  resume      继续一个停止的 resource
+  status      显示 rollout 的状态
+  undo        撤销上一次的 rollout
+```
+
+
+
 history （查看历史版本）
 
 ```sh
@@ -197,9 +225,22 @@ kubectl rollout resume deployment/nginx
 status查看资源状态
 
 ``` sh
-c# kubectl rollout status deployment/nginx-deployment -n kube-system
+# kubectl rollout status deployment/nginx-deployment -n kube-system
 deployment "nginx-deployment" successfully rolled out
 ```
 
+重启一个资源，**常用于更新镜像后（比如新的lastest镜像需要pod重新载入）的操作，或者关联资源的重启**
 
+``` sh
+# kubectl get deployment -A
+NAMESPACE          NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+default            newnginx-test                         0/2     0            0           15m
+default            nginx-test-1                          1/1     1            1           22h
+default            nginx-test-2                          1/1     1            1           22h
+elastic-system     elasticsearch                         1/1     1            1           17h
+kube-system        coredns                               2/2     2            2           2d2
+topsec             topsec-ui                             1/1     1            1           23m
 
+# kubectl rollout restart deployment/topsec-ui -n topsec
+deployment.apps/topsec-ui restarted
+```

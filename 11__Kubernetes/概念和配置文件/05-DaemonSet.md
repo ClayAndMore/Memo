@@ -31,7 +31,7 @@ metadata:
     k8s-app: fluentd-logging
 spec:
   selector:
-    matchLabels:
+    matchLabels: # matchLabels用于定义一组Label，与直接写在Selector中作用相同；
       name: fluentd-elasticsearch
   template:    # .spec.template是.spec的必填字段。.spec.template用来定义Pod模板。
     metadata:

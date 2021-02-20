@@ -97,7 +97,7 @@ git checkout -b branch1
 `reflog` 默认查看 `HEAD` 的移动历史，除此之外，也可以手动加上名称来查看其他引用的移动历史，例如某个 `branch`：
 
 ```
-git reflog master
+git reflog master 
 ```
 
 

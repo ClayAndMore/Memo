@@ -399,3 +399,34 @@ kubectl get pods --all-namespaces -ojson --show-all | jq -r '.items[] | select(.
 kubectl cp /local_path/filename {namespace}/{pod-name}:/container_path/
 kubectl cp {namespace}/{pod-name}:/container_path/ /local_path/filename
 ```
+
+
+
+### version
+
+一般用 kubectl version 查看  k8s 的版本：
+
+```yaml
+$ kubectl version
+Client Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.17.4", GitCommit:"8d8aa39598534325ad77120c120a22b3a990b5ea", GitTreeState:"clean", BuildDate:"2020-03-12T21:03:42Z", GoVersion:"go1.13.8", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.17.4", GitCommit:"8d8aa39598534325ad77120c120a22b3a990b5ea", GitTreeState:"clean", BuildDate:"2020-03-12T20:55:23Z", GoVersion:"go1.13.8", Compiler:"gc", Platform:"linux/amd64"}
+
+# kubectl version --short
+Client Version: v1.18.1
+Server Version: v1.18.1
+```
+
+
+
+### 自动补全
+
+```sh
+yum install -y bash-completion
+
+locate bash_completion # 找 bash_completion的位置
+/usr/share/bash-completion/bash_completion
+
+source /usr/share/bash-completion/bash_completion
+source <(kubectl completion bash)
+```
+

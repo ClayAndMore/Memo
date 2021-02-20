@@ -157,3 +157,27 @@ Pod的生命周期是Replication Controller进行管理的。一个Pod的生命�
 - Job。通常用于管理一定会结束的Pod。如果希望Pod被Job controller管理，那么restartPolicy必须指定为OnFailure或Never。
 - ReplicationController，ReplicaSet和Deployment。用于管理永远处于运行状态的Pod。如果希望Pod被此类controller管理，那么restartPolicy必须指定为Always。
 - DaemonSet。它能够保证你的Pod在每一台Node都运行一个副本。
+
+
+
+### 一 pod 多容器
+
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-c-run
+  name: nginx-containers
+spec:
+  containers:
+  - image: nginx:alpine
+    name: nginx1
+    command: ["sleep"]
+    args: ["100000"]
+  - image: nginx:alpine
+    name: nginx2
+    command: ["sleep"]
+    args: ["100000"]
+```
+

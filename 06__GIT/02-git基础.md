@@ -173,3 +173,21 @@ Origin 上有三次提交， 在C的时候我们切出来一个分支做了修�
 3. 基于刚才的分支新建开发分支
 4. 更改开发分支并`git push origin 远程分支的名`
 5. 请求merge
+
+
+
+### 更改git 编辑器
+
+git 默认使用emacs作为编辑器，我们可以如下任何一种方式来使用VIM
+
+1. 在git config中设置`core.editor`:
+   `git config --global core.editor "vim"`
+2. 在环境变量中设置`GIT_EDITOR`:
+   `export GIT_EDITOR=vim`
+3. 如果不仅希望git使用vim, 还想其他的程序也使用则可以如下设置：
+   注意：如下两个标准的环境变量其实不是必须的，但有些程序不会使用比较流行的VISUAL，而是使用EDITOR，所以最好两个都添加。
+
+```
+export VISUAL=vim
+export EDITOR="$VISUAL"
+```
