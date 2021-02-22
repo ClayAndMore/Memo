@@ -68,7 +68,7 @@ eg:
 
 
 
-#### 标签元素类型分类
+### 标签元素类型分类
 
 * 块级元素 ：可以简单的理解为在新行开始的元素，就是内容会显示在下一行
     `<div>标签`：是块级元素，浏览器会在其前后显式折行。
@@ -79,8 +79,6 @@ eg:
 
 * `<div>` 可定义文档中的分区或节（division/section）。
   `<div>` 标签可以把文档分割为独立的、不同的部分。它可以用作严格的组织工具，并且不使用任何格式与其关联。
-* 图像是通过img定义的 语法：
-  `<img src = "图片地址" alt = "下载失败时替换文本" title = "提示文本">` 
 * `<hr />` 标签在 HTML 页面中创建水平线。
 * 注释：开始括号之后（左边的括号）需要紧跟一个叹号，结束括号之前（右边的括号）不需要。
   `<!-- This is a comment -->`
@@ -107,63 +105,8 @@ HTML 标签可以拥有属性。属性提供了有关 HTML 元素的更多的信
 属性值应该始终被包括在引号内。双引号是最常用的，不过使用单引号也没有问题。
 在某些个别的情况下，比如属性值本身就含有双引号，那么您必须使用单引号
 
-
-#### style属性
-提供了一种改变所有 HTML 元素的样式的通用方法。
+style属性提供了一种改变所有 HTML 元素的样式的通用方法。
 样式是 HTML 4 引入的，它是一种新的首选的改变 HTML 元素样式的方式。通过 HTML 样式，能够通过使用 style 属性直接将样式添加到 HTML 元素，或者间接地在独立的样式表中（CSS 文件）进行定义。
-
-
-#### 背景颜色
-background-color 属性为元素定义了背景颜色：
-```html
-<html>
-<body style="background-color:yellow">
-<h2 style="background-color:red">This is a heading</h2>
-<p style="background-color:green">This is a paragraph.</p>
-</body>
-</html>
-```
-font-family、color 以及 font-size 属性分别定义元素中文本的字体系列、颜色和字体尺寸：
-```html
-<body>
-<h1 style="font-family:verdana">A heading</h1>
-<p style="font-family:arial;color:red;font-size:20px;">A paragraph.</p>
-</body>
-</html>
-```
-text-align 属性规定了元素中文本的水平对齐方式：
-```html
-<html>
-<body>
-<h1 style="text-align:center">This is a heading</h1>
-<p>The heading above is aligned to the center of this page.</p>
-</body>
-</html>
-```
-
-
-#### textarea 文本域
-当用户输入较多内容的大段文本时
-语法：
-`<textarea rows = "行数" cols= "列数">文本</textarea>`
-列数：每行显示多少字
-行数：共有多少行
-<br>
-```
-#### radio，checkbox单选框、复选框
-语法：
-`<input type = "radio/checkbox" value = "值”  name ="名称" checked = "checked"`
-checke默认选中
-
-#### select下拉列表框
-​```xml
-<select name ="" id = "">
-    <option value = "1">第一项(默认显示）</option>
-    <option value = "2">第二项</option>
-</select>
-```
-
-
 
 
 
@@ -182,11 +125,27 @@ HTML5引入了更多的描述性HTML标签。这些包括主页，页眉，页�
 
 
 
+### 文本
+
+h p 等。
+
+
+
+### textarea 文本域
+
+当用户输入较多内容的大段文本时
+语法：
+`<textarea rows = "行数" cols= "列数">文本</textarea>`
+列数：每行显示多少字
+行数：共有多少行
+
+
+
 ### img
 
 可以使用img元素加src属性来展示图片：
 
-`<img src="https://www.freecatphotoapp.com/your-image.jpg">`
+`<img src = "图片地址" alt = "下载失败时替换文本" title = "提示文本">` 
 
 注意，img 元素是自封闭的。
 
@@ -400,8 +359,6 @@ for 属性的值和输入元素的id属性值一致，这样就创建了一种�
 
 
 
-
-
 ### checkbox
 
 复选框为多选按钮，通过设置 input 的 type=“checkbox” 来声明
@@ -434,3 +391,12 @@ for 属性的值和输入元素的id属性值一致，这样就创建了一种�
 </label>
 ```
 
+
+
+### select下拉列表框
+```xml
+<select name ="" id = "">
+    <option value = "1">第一项(默认显示）</option>
+    <option value = "2">第二项</option>
+</select>
+```

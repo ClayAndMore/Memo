@@ -10,6 +10,13 @@
 
 And `text-align: left;` (默认值) 左侧对齐
 
+eg:
+
+``` html
+<h1 style="text-align:center">This is a heading</h1>
+<p>The heading above is aligned to the center of this page.</p>
+```
+
 
 
 ### hr
