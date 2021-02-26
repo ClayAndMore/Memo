@@ -244,6 +244,12 @@ const _ = require('lodash')
 npm list
 ```
 
+安装时显示进度 
+
+npm i -d
+npm i -dd
+npm i -ddd
+
 
 
 #### 全局包
@@ -315,16 +321,40 @@ npm uninstall --save lodash
 如果要卸载全局包：
 
 ``` sh
-npm install -g <package_name>
+npm uninstall -g <package_name>
 ```
+
+
+
+### 查看包
+
+``` sh
+# 远程包
+npm info <packageName>
+
+# 查看本地安装的包版本号
+npm ls <pacakgeName> //本地包
+npm ls <packageName> -g // 全局安装包
+```
+
+
 
 
 
 ### 源
 
- npm config set registry https://registry.npm.taobao.org
+``` sh
+npm config set registry https://registry.npm.taobao.org
+# 使用 git bash 配置后 会出现一个 ~/.npmrc 文件
+ 
+# 查看npm源地址
+npm config get registry
 
-使用 git bash 配置后 会出现一个 ~/.npmrc 文件
+# 临时使用
+npm --registry https://registry.npm.taobao.org install express
+```
+
+
 
 
 
