@@ -1,3 +1,9 @@
+React，由 FaceBook 普及，是一个用于构建用户界面的开源 JavaScript 库。
+
+React 混合了 HTML 和 JavaScript 的函数性创建了一个新的标签语言，JSX。
+
+通过 JSX 创建组件，处理 state 和 props，利用事件监听和指定的生命周期钩子动态更新数据。
+
 
 
 ### 安装
@@ -35,7 +41,7 @@ React 可以在浏览器运行，也可以在服务器运行，但是本教程�
 </html>
 ```
 
-注意`<script> `标签的 type 属性为 text/babel 。这是因为 React 独有的 JSX 语法，跟 JavaScript 不兼容。凡是使用 JSX 的地方，都要加上 type="text/babel" 。
+注意`<script> `标签的 type 属性为 text/babel 。这是因为 React 独有的 JSX 语法，跟 JavaScript 不兼容。凡是使用 JSX 的地方，都要加上 type="text/babel" ， 由于浏览器不能解析 JSX，因此必须将 JSX 代码编译为 JavaScript。在这个过程中，转换器 Babel 是一个很受欢迎的工具。
 
 上面代码一共用了三个库： `react.js` 、`react-dom.js` 和 `Browser.js` ，它们必须首先加载
 
@@ -71,6 +77,8 @@ ReactDOM.render 是 React 的最基本方法，用于将模板转为 HTML 语言
 
 上面代码将一个 `h1` 标题，插入 `example` 节点.
 
+`ReactDOM.render(componentToRender, targetNode)`，其中第一个参数是要渲染的 React 元素或组件，第二个参数是要将组件渲染到的 DOM 节点。
+
 
 
 ### JSX 语法
@@ -97,7 +105,7 @@ ReactDOM.render 是 React 的最基本方法，用于将模板转为 HTML 语言
   </body>
 ```
 
-上面代码体现了 JSX 的基本语法规则：遇到 HTML 标签（以 `<` 开头），就用 HTML 规则解析；遇到代码块（以 `{` 开头），就用 JavaScript 规则解析。上面代码的运行结果如下。
+**上面代码体现了 JSX 的基本语法规则：遇到 HTML 标签（以 `<` 开头），就用 HTML 规则解析；遇到代码块（以 `{` 开头），就用 JavaScript 规则解析。**
 
 JSX 允许直接在模板插入 JavaScript 变量。如果这个变量是一个数组，则会展开这个数组的所有成员
 
@@ -114,11 +122,71 @@ JSX 允许直接在模板插入 JavaScript 变量。如果这个变量是一个�
 
 上面代码的`arr`变量是一个数组，结果 JSX 会把它的所有成员，添加到模板
 
+注释放在 JSX 中，可以使用`{/* */}`语法来包裹注释文本。
+
+
+
+### jsx和html 区别
+
+JSX 的一个关键区别是你不能再使用`class`这个单词来定义 HTML 的 class 名。这是因为`class`是 JavaScript 中的关键字。JSX 使用`className`代替。
+
+事实上，JSX 中所有 HTML 属性和事件引用的命名约定都变成了驼峰式。例如，JSX 中的单击事件是 `onClick`，而不是 `onclick`。同样，`onchange`变成了`onChange`。虽然这是一个微妙的差异，但请你一定要记住。
+
+
+
+在HTML中，几乎所有的标签都有一个开始和结束标签：`<div></div>`，结束标签在你要关闭的标签名之前始终具有正斜杠。但是，HTML 中有一些称为“自闭合标签”的特殊实例，它们在另一个标签开始之前，不需要开始和结束标签都存在。
+
+例如，换行标签可以写成`<br>`或者`<br />`，但是不应该写成`<br></br>`，因为它不包含任何内容。
+
+在 JSX 中，规则略有不同。任何 JSX 元素都可以使用自闭合标签编写，并且每个元素都必须关闭。例如，换行标签必须始终编写为`<br />`。另一方面`<div>`可以写成`<div />`或者`<div></div>`。不同之处在于，在第一个语法版本中，无法在`<div />`中包含任何内容。
+
 
 
 ### 组件
 
 React 允许将代码封装成组件（component），然后像插入普通 HTML 标签一样，在网页中插入这个组件。
+
+有两种方法可以创建 React 组件。第一种方法是使用 JavaScript 函数。以这种方式定义组件会创建*无状态功能组件*.
+
+只需编写一个返回 JSX 或`null`的 JavaScript 函数。需要注意的一点是，React 要求你的函数名以大写字母开头。下面是一个无状态功能组件的示例，该组件在 JSX 中分配一个 HTML 的 class：
+
+``` html
+const DemoComponent = function() {
+  return (
+    <div className='customClass' />
+  );
+};
+```
+
+编译后，会有一个class='customClass'的div.
+
+
+
+#### React.Component
+
+定义 React 组件的另一种方法是使用 ES6 的`class`语法。在以下示例中，`Kitten`扩展了`React.Component`：
+
+``` jsx
+class Kitten extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <h1>Hi</h1>
+    );
+  }
+}
+```
+
+
+
+这将创建一个 ES6 类`Kitten`，它扩展了`React.Component`类
+
+
+
+#### createClass
 
 React.createClass 方法就用于生成一个组件类：
 
@@ -141,7 +209,7 @@ ReactDOM.render(
 
 注意，组件类的第一个字母必须大写，否则会报错，比如`HelloMessage`不能写成`helloMessage`。
 
-组件类只能包含一个顶层标签，否则也会报错。
+**组件类只能包含一个顶层标签，否则也会报错。**
 
 > ```javascript
 > var HelloMessage = React.createClass({
@@ -415,3 +483,6 @@ ReactDOM.render(
 > ```
 
 这是因为 [React 组件样式](https://facebook.github.io/react/tips/inline-styles.html)是一个对象，所以第一重大括号表示这是 JavaScript 语法，第二重大括号表示样式对象。
+
+
+

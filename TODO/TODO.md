@@ -79,3 +79,15 @@ docker 待整理：
  https://segmentfault.com/a/1190000009491002 
 
  https://segmentfault.com/a/1190000009251098 
+
+
+
+prometheus + K8s 监控
+
+
+
+
+
+验证 aws s3 的信用卡账户：
+
+https://portal.aws.amazon.com/billing/signup?type=resubscribe#/paymentinformation

@@ -161,6 +161,24 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/f
 conda config --set show_channel_urls yes
 ```
 
+2021-02-23 改，因为 清华源更改了路径：**https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main**， 我们观察 该页面，有很多操作系统，比如在windows我们要加上 wn64 还要去掉https:
+
+```
+conda config --add channels - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/win-64/
+conda config --add channels - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/win-64/
+```
+
+最终.condarc 为：
+
+``` yaml
+ssl_verify: true
+show_channel_urls: true
+
+channels:
+  - http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/win-64/
+  - http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/win-64/
+```
+
 
 
 显示当前镜像源：`conda config --show channels`
