@@ -91,3 +91,19 @@ prometheus + K8s 监控
 验证 aws s3 的信用卡账户：
 
 https://portal.aws.amazon.com/billing/signup?type=resubscribe#/paymentinformation
+
+
+
+
+
+事件驱动 EventMachine 
+
+https://draveness.me/rack-thin/
+
+
+
+
+
+#### 社保和医保自缴
+
+支付宝-市直社保服务-灵活就业人员自助缴费

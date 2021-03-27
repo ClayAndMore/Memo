@@ -19,9 +19,7 @@ author: "Claymore"
 
 **表是按照对数据包的操作区分的，链是按照不同的Hook点来区分的，**表和链实际上是netfilter的两个维度
 
-
-
-![](https://images2015.cnblogs.com/blog/1124877/201703/1124877-20170313192222073-1011363533.png)
+![img](https://gitee.com/ClayAndMore/image/raw/master/iptables%E5%9B%9B%E8%A1%A8%E4%BA%94%E9%93%BE1.png)
 
 不同的表包含的链不同。
 
@@ -67,6 +65,10 @@ author: "Claymore"
 **由本机转发的报文：PREROUTING --> FORWARD --> POSTROUTING**
 
 **由本机的某进程发出报文（通常为响应报文）：OUTPUT --> POSTROUTING**
+
+
+
+![img](https://gitee.com/ClayAndMore/image/raw/master/iptables%E5%9B%9B%E8%A1%A8%E4%BA%94%E9%93%BE2.png)
 
 
 

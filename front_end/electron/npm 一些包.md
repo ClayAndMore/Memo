@@ -57,3 +57,47 @@ npm run postinstall
 
 
 一个node的orm: https://github.com/demopark/sequelize-docs-Zh-CN
+
+
+
+
+
+### selet2
+
+
+
+```  js
+window.$ = window.jQuery = require('jquery');
+require('select2')();
+$(document).ready(function() {
+
+    // Initialize select2
+    initailizeSelect2();
+});
+
+// Initialize select2
+function initailizeSelect2() {
+
+    $(".select2_el").select2({
+        ajax: {
+            url: "ajaxfile.php",
+            type: "post",
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                console.log("ttt", params)
+                return {
+                    searchTerm: params.term // search term
+                };
+            },
+            processResults: function(response) {
+                return {
+                    results: response
+                };
+            },
+            cache: true
+        }
+    });
+}
+```
+

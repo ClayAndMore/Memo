@@ -137,3 +137,281 @@ kube-system   coredns-6955765f44-m2fqx          1/1     Running   0          15m
 kube-system   coredns-6955765f44-vd647          1/1     Running   0          15m
 ```
 
+
+
+
+
+## 调试k8s的DNS
+
+起一个可用dns命令的pod:
+
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dnsutils
+  namespace: default
+spec:
+  containers:
+  - name: dnsutils
+    image: gcr.io/kubernetes-e2e-test-images/dnsutils:1.3
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+```
+
+或者使用：kubectl apply -f https://k8s.io/examples/admin/dns/dnsutils.yaml
+
+状态：
+
+``` sh
+kubectl get pods dnsutils
+NAME      READY     STATUS    RESTARTS   AGE
+dnsutils   1/1       Running   0          <some-time>
+```
+
+运行nslookup命令：
+
+``` sh
+kubectl exec -ti dnsutils -- nslookup kubernetes.default
+Server:    10.0.0.10
+Address 1: 10.0.0.10
+
+Name:      kubernetes.default
+Address 1: 10.0.0.1
+```
+
+
+
+### nslookup 运行出错
+
+可能会出现：
+
+```sh
+/ # nslookup kubernetes.default
+;; connection timed out; no servers could be reached
+
+# 或
+kubectl exec -ti dnsutils -- nslookup kubernetes.default
+Server:    10.0.0.10
+Address 1: 10.0.0.10 kube-dns.kube-system.svc.cluster.local
+
+nslookup: can't resolve 'kubernetes.default'
+
+# 或
+kubectl exec -ti dnsutils -- nslookup kubernetes.default
+Server:    10.0.0.10
+Address 1: 10.0.0.10 kube-dns.kube-system.svc.cluster.local
+
+nslookup: can't resolve 'kubernetes.default'
+```
+
+看一下 resolv.conf 文件：
+
+```shell
+kubectl exec -ti dnsutils -- cat /etc/resolv.conf
+search default.svc.cluster.local svc.cluster.local cluster.local 
+nameserver 10.0.0.10
+options ndots:5
+```
+
+确认搜索路径和服务名，不同的云服务商可能不一样
+
+确认DNS pod 运行状态是running:
+
+也可能会出现  can't resolve：
+
+``` sh
+# nslookup google.com
+nslookup: can't resolve '(null)': Name does not resolve
+
+Name:      google.com
+Address 1: 172.217.164.110 sfo03s18-in-f14.1e100.net
+Address 2: 2607:f8b0:4005:80b::200e sfo03s18-in-x0e.1e100.net
+
+# 指定 dns 
+nslookup google.com 8.8.8.8
+Server:    8.8.8.8
+Address 1: 8.8.8.8 dns.google
+
+Name:      google.com
+Address 1: 172.217.164.110 sfo03s18-in-f14.1e100.net
+Address 2: 2607:f8b0:4005:80b::200e sfo03s18-in-x0e.1e100.net
+```
+
+这是个bug,新版本应该已经修复。
+
+
+
+### DNS Pod 运行状态
+
+CoreDNS:
+
+``` sh
+kubectl get pods --namespace=kube-system -l k8s-app=kube-dns
+NAME                       READY     STATUS    RESTARTS   AGE
+...
+coredns-7b96bf9f76-5hsxb   1/1       Running   0           1h
+coredns-7b96bf9f76-mvmmt   1/1       Running   0           1h
+...
+```
+
+Kube-dns:
+
+```sh
+kubectl get pods --namespace=kube-system -l k8s-app=kube-dns
+NAME                    READY     STATUS    RESTARTS   AGE
+...
+kube-dns-v19-ezo1y      3/3       Running   0           1h
+...
+```
+
+
+
+### DNS log
+
+``` sh
+ for p in $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name); do kubectl logs --namespace=kube-system $p; done
+.:53
+[INFO] plugin/reload: Running configuration MD5 = 4e235fcc3696966e76816bcd9034ebc7
+CoreDNS-1.6.5
+linux/amd64, go1.13.4, c2fd1b2
+[ERROR] plugin/errors: 2 6936741458835321801.4609081455828696090. HINFO: read udp 10.244.0.3:54867->192.168.59.241:53: i/o timeout
+[ERROR] plugin/errors: 2 6936741458835321801.4609081455828696090. HINFO: read udp 10.244.0.3:48954->192.168.59.241:53: i/o timeout
+...: read udp 10.244.0.3:36185->192.168.59.241:53: i/o timeout
+[ERROR] plugin/errors: 2 6936741458835321801.4609081455828696090. HINFO: read udp 10.244.0.3:38958->192.168.59.241:53: i/o timeout
+.:53
+[INFO] plugin/reload: Running configuration MD5 = 4e235fcc3696966e76816bcd9034ebc7
+CoreDNS-1.6.5
+linux/amd64, go1.13.4, c2fd1b2
+[ERROR] plugin/errors: 2 6074140797085019225.7868176384750749927. HINFO: read udp 10.244.0.2:34279->192.168.59.241:53: i/o timeout
+[ERROR] plugin/errors: 2 6074140797085019225.7868176384750749927. HINFO: read udp 10.244.0.2:57237->192.168.59.241:53: i/o timeout
+[ERROR] plugin/errors: 2 6074140797085019225.7868176384750749927. HINFO: ...
+[ERROR] plugin/errors: 2 6074140797085019225.7868176384750749927. HINFO: read udp 10.244.0.2:58751->192.168.59.241:53: i/o timeout
+```
+
+这里为什么会使用主机的dns设置, 因为coredns默认会读取主机的dns配置：
+
+/etc/systemd/resolved.conf:
+
+```sh
+[Resolve]
+DNS=192.168.59.241
+#Domains=
+#LLMNR=no
+#MulticastDNS=no
+#DNSSEC=no
+#Cache=yes
+#DNSStubListener=yes
+```
+
+可以参考：
+
+https://segmentfault.com/a/1190000015639327
+
+https://github.com/easzlab/kubeasz/issues/423 
+
+https://github.com/coredns/coredns/issues/2087
+
+https://segmentfault.com/a/1190000015639327 这里说是可以把dns换成 kube-dns 的 ip
+
+https://kubernetes.io/zh/docs/tasks/administer-cluster/dns-debugging-resolution/ 官方也说明了 ubuntu 16 或 18 可能会有这种dns问题
+
+
+
+去掉 loop 后又出现新的问题：
+
+###  dial tcp 10.96.0.1:443: i/o timeout
+
+可能是之前的cni0和现在用的子网范围不一致导致的：
+
+```sh
+root@node200:~# ip r
+10.244.0.0/24 dev cni0 proto kernel scope link src 10.244.0.1 linkdown
+
+# kubeadm init --pod-network-cidr=10.244.0.0/16
+```
+
+删除 cn0,重新reset 即可：
+
+``` sh
+ip link delete cni0
+```
+
+
+
+
+
+### DNS service 
+
+```shell
+kubectl get svc --namespace=kube-system
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)             AGE
+...
+kube-dns     ClusterIP   10.0.0.10      <none>        53/UDP,53/TCP        1h
+...
+```
+
+endpoints暴露了么？
+
+ `kubectl get endpoints` command：
+
+```shell
+kubectl get ep kube-dns --namespace=kube-system
+NAME       ENDPOINTS                       AGE
+kube-dns   10.180.3.17:53,10.180.3.17:53    1h
+```
+
+
+
+
+
+### 添加log输出
+
+在coredns添加log插件：
+
+``` sh 
+kubectl -n kube-system edit configmap coredns
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        log   # ！
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+          pods insecure
+          upstream
+          fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        proxy . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
+
+```
+
+
+
+### 编辑 coredns 的configmap
+
+kubectl edit cm coredns -n kube-system
+
+编辑后保存，删掉原来的coredns pod:
+
+``` sh
+kubectl get pods -n kube-system -oname |grep coredns |xargs kubectl delete -n kube-system
+```
+
+
+
