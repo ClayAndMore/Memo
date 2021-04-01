@@ -84,12 +84,28 @@ configmap "special-config" created
 
 
 
-### 查看
+### 查看 、删除、编辑
 
 ```bash
  kubectl get configmaps game-config -o yaml
  #如果找不到 记得指定命名空间试下:
  kubectl get configmap/trireme-config -n kube-system -o yaml
+
+# 可以简写成cm， data是值里面的数据个数
+kubectl get cm -A
+
+NAMESPACE        NAME                                  DATA   AGE
+elastic-system   es                                    1      21d
+kube-public      cluster-info                          1      132d
+kube-system      coredns                               1      132d
+kube-system      extension-apiserver-authentication    6      132d
+kube-system      kube-flannel-cfg                      2      132d
+kube-system      kube-proxy                            2      132d
+kube-system      kubeadm-config                        2      132d
+kube-system      kubelet-config-1.17                   1      132d
+
+# 编辑 
+kubectl edit cm coredns -n kube-system
 ```
 
 
@@ -255,5 +271,76 @@ root@dapi-test-pod:/# ls /etc/nginx/
 conf.d    fastcgi_params    koi-utf  koi-win  mime.types  modules  nginx.conf  scgi_params    special.how  uwsgi_params  win-utf
 root@dapi-test-pod:/# cat /etc/nginx/special.how
 very
+```
+
+
+
+### 实例
+
+``` sh
+#!/bin/bash
+if [ ! -x "$(command -v openssl)" ]; then
+    echo "openssl not found"
+    exit 1
+fi
+
+tmpdir=$(mktemp -d)
+echo "creating certs in tmpdir ${tmpdir} "
+
+# 1. generate rsa publid and private key
+mkdir -p "${tmpdir}/rsa"
+openssl genrsa -out "${tmpdir}/rsa/TcPrivate.pem" 2048
+openssl rsa -in "${tmpdir}/rsa/TcPrivate.pem" -pubout -out "${tmpdir}/rsa/TcPublicKey.pem"
+kubectl -n tc delete configmap tc-agent-certs-rsa
+kubectl -n tc create configmap tc-agent-certs-rsa --from-file="${tmpdir}/rsa/"
+rm -rf "${tmpdir}"
+```
+
+这里我们生成公钥和私钥，配置到cm里，然后挂载上，创建后删掉临时目录，这样数据就仅仅存储在cm里了。
+
+yaml:
+
+``` yaml
+        volumeMounts:
+         - name: docker-sock
+           mountPath: /var/run/docker.sock
+         - name: tc-agent-certs-rsa
+           mountPath: /opt/bin/tc-cfg/rsa
+
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+
+        - name: tc-agent-certs-rsa
+          configMap:
+            name: tc-agent-certs-rsa            
+```
+
+kubectl edit cm topsec-agent-certs-rsa -n tc:
+
+``` yaml
+apiVersion: v1
+data:
+  TcPrivate.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpQIBAAKCAQEAr60C+dURdI/Ok+m2PKvcYuJ3prXgrjISGyJ63BkEEP1lDxzZ
+	....
+    AIWQVHz+UdJBtxEUtJwgf3YTUGv/bbcKOtdHb4/YVZIH+JwRbEH/ylI=
+    -----END RSA PRIVATE KEY-----
+  TcPublicKey.pem: |
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr60C+dURdI/Ok+m2PKvc
+    ....
+    oQIDAQAB
+    -----END PUBLIC KEY-----
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2021-03-08T15:42:32Z"
+  name: tc-agent-certs-rsa
+  namespace: tc
+  resourceVersion: "14890401"
+  selfLink: /api/v1/namespaces/tc/configmaps/tc-agent-certs-rsa
+  uid: 8c8afe2f-0801-4257-a8d6-de4e957a7375
 ```
 

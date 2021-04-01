@@ -1,10 +1,10 @@
 ---
 
-title: "挂载.md"
+title: "09-volume挂载.md"
 date: 2020-03-26 18:40:49 +0800
 lastmod: 2020-03-26 18:40:49 +0800
 draft: false
-tags: [""]
+tags: ["k8s配置文件"]
 categories: ["k8s"]
 author: "Claymore"
 

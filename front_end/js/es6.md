@@ -1,3 +1,16 @@
+---
+title: "es及es6.md"
+date: 2016-08-04 17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: ["js"]
+categories: ["前端"]
+author: "Claymore"
+
+---
+
+
+
 ### js vs es
 
 ![](https://pic3.zhimg.com/80/v2-7e9c591eb2fad6e1738ca0227e217592_720w.png)
