@@ -156,7 +156,7 @@ ip  mydockerhub.com
 
 ``` sh
 $ mkdir auth
-$ docker run --entrypoint htpasswd registry:2 -Bbn foo foo123  > auth/htpasswd
+$ docker run --entrypoint htpasswd registry:2.7.0 -Bbn foo foo123  > auth/htpasswd
 $ ls auth
 htpasswd
 ```
@@ -173,7 +173,7 @@ $ docker run -d -p 5000:5000 --restart=always --name registry \
    -v `pwd`/certs:/certs \
    -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
    -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
-   registry:2
+   registry:2.7.0
 ```
 
 登录：
