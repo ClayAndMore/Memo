@@ -37,6 +37,29 @@ author: "Claymore"
 
 
 
+### 升级node
+
+``` sh
+# npm install -g n
+/usr/local/bin/n -> /usr/local/lib/node_modules/n/bin/n
++ n@7.0.2
+added 1 package from 4 contributors in 1.18s
+# sudo n stable   # 级到稳定版本
+Password:
+  installing : node-v14.16.0
+       mkdir : /usr/local/n/versions/node/14.16.0
+       fetch : https://nodejs.org/dist/v14.16.0/node-v14.16.0-darwin-x64.tar.xz
+   installed : v14.16.0 (with npm 6.14.11)
+```
+
+最后升级npm到最新版本：
+
+```
+sudo npm install npm@latest -g
+```
+
+Mdzz@wanglu
+
 ### hello world
 
 `vi helloworld.js`
