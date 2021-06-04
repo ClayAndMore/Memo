@@ -1,3 +1,16 @@
+---
+title: "04-css动画.md"
+date: 2016-07-27  17:53:13 +0800
+lastmod: 2019-09-29 17:53:13 +0800
+draft: false
+tags: ["css"]
+categories: ["前端"]
+author: "Claymore"
+
+---
+
+
+
 ## 使用动画
 
 如果要给元素添加动画，你需要了解`animation`属性以及`@keyframes`规则。

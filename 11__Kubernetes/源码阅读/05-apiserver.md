@@ -47,6 +47,8 @@ https://cloud.tencent.com/developer/article/1717413
 
 通常情况下，Kind 和 resources 之间有一个一对一的映射。 例如，pods 资源对应于 Pod 种类。但是有时，同一类型可能由多个资源返回。例如，Scale Kind 是由所有 scale 子资源返回的，如 deployments/scale 或 replicasets/scale。这就是允许 Kubernetes HorizontalPodAutoscaler(HPA) 与不同资源交互的原因。然而，使用 CRD，每个 Kind 都将对应一个 resources。
 
+可以通过 api-resources 来看所有的group.
+
 
 
 ### 工作原理

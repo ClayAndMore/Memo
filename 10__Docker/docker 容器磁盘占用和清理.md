@@ -205,5 +205,8 @@ WARNING! This will remove:
         - all dangling images
         - all dangling build cache
 Are you sure you want to continue? [y/N]
+
+# 删除所有镜像
+docker rmi $(docker images -a -q)
 ```
 
